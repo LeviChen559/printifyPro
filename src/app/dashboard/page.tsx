@@ -1,11 +1,11 @@
 "use client";
 import useSWR from "swr";
 import React, { useEffect } from "react";
-import PieChart from "@/components/pieChart"
 import { useSession } from "next-auth/react";
 import { Container } from "./style";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useRouter } from "next/navigation";
+import { Typography } from "@mui/material";
 
 const fetcher = (url: string) =>
   fetch(url).then((res) => {
@@ -45,7 +45,7 @@ const AdminDashboard = () => {
 
   return (
     <Container>
-      {!data ? <CircularProgress /> : <PieChart/>}
+      {!data ? <CircularProgress /> : <Typography variant="h2">Welcome to Dashboard</Typography>}
     </Container>
   );
 };

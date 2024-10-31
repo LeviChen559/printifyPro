@@ -83,7 +83,7 @@ console.log("session", session);
       <UserCard
         role={session.user.role}
         name={session.user.name}
-        email={session.user.email}
+        email={session.user.email as string}
       />
       <UserUpdeForm
         formData={formData}

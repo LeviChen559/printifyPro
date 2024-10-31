@@ -34,7 +34,7 @@ const UserUpdeForm: FC<iProps> = (prop) => {
       <FormPropsTextFields
           id="name"
           required={false}
-          defaultValue=""
+          value=""
           label="name"
           placeholder=""
           type="text"
@@ -46,7 +46,7 @@ const UserUpdeForm: FC<iProps> = (prop) => {
         <FormPropsTextFields
           id="email"
           required={false}
-          defaultValue=""
+          value=""
           label="email"
           placeholder="123@gmail.com"
           type="email"
@@ -58,7 +58,7 @@ const UserUpdeForm: FC<iProps> = (prop) => {
         <FormPropsTextFields
           id="password"
           required={false}
-          defaultValue=""
+          value=""
           label="password"
           placeholder="12345678"
           type={showPassword ? "text" : "password"}

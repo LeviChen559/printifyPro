@@ -37,7 +37,7 @@ const SignupCard:FC<iProps> = () => {
         <FormPropsTextFields
           id="email"
           required
-          defaultValue=""
+          value={formData.email}
           label="require"
           placeholder="123@gmail.com"
           type="email"
@@ -47,7 +47,7 @@ const SignupCard:FC<iProps> = () => {
         <FormPropsTextFields
           id="password"
           required
-          defaultValue=""
+          value={formData.password}
           label="require"
           placeholder="12345678"
           type={showPassword?"text":"password"}
