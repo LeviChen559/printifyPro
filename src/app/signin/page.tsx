@@ -25,7 +25,7 @@ export default function SignIn() {
       setError(res.error);
     } else {
      
-      window.location.href = "http://localhost:3000/dashboard/mylabels";
+      window.location.href = "https://pritify-pro.vercel.app/dashboard/mylabels";
     }
   };
  
