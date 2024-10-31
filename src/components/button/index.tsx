@@ -9,6 +9,7 @@ interface iProps {
   onClick?: () => void;
   formAction?: () => void;
   type?: "submit" | "reset" | "button" ;
+  backgroundColor?: string;
 }
 
 const index: FC<iProps> = (props) => {
@@ -16,7 +17,7 @@ const index: FC<iProps> = (props) => {
     <Button
       variant="contained"
       endIcon={props.endIcon}
-      sx={{ width: props.width, padding: 2, borderRadius: 2 }}
+      sx={{ width: props.width, padding: 2, borderRadius: 2,backgroundColor: props.backgroundColor}}
       formAction={props.formAction}
       onClick={props.onClick}
       type={props.type}
