@@ -60,7 +60,7 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
   if(!labelData) return <Container><SkeletonTable /></Container>
 
   return (
-    <TableContainer component={Paper} sx={{ borderRadius: 2,height:"auto" }}>
+    <TableContainer component={Paper} sx={{ borderRadius: 2,height:"auto",width:"1200px" }}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow sx={{ background: "#bcbcbc80" }}>

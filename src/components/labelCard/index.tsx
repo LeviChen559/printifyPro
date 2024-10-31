@@ -6,7 +6,7 @@ import {
   InfomationColumn,
   Ingredients,
 } from "./style";
-import { iLabelInfo } from "../table";
+import { iLabelInfo } from "../labelTable";
 import { Typography } from "@mui/material";
 import RamenDiningIcon from "@mui/icons-material/RamenDining";
 import Barcode from "react-barcode";

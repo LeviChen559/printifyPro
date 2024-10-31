@@ -10,7 +10,10 @@ import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 const SideBar = () => {
-  const links = useMemo(() => ["", "add-new", "mylabels", "setting"], []);
+  const links = useMemo(
+    () => ["", "add-new", "mylabels", "roles", "setting"],
+    []
+  );
   const pathname = usePathname();
   const { data: userData } = useSession();
 
@@ -66,7 +69,7 @@ const SideBar = () => {
         ))}
         <Button
           onClick={() =>
-            signOut({ callbackUrl: "https://pritify-pro.vercel.app/signin" })
+            signOut({ callbackUrl: "https://pritify-pro.vercel.appsignin" })
           }
         >
           Sign Out

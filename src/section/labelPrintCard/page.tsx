@@ -2,7 +2,7 @@ import React, { FC, useState, useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import { Container, View, Print, Options } from "./style";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
-import { iLabelInfo } from "@/components/table";
+import { iLabelInfo } from "@/components/labelTable";
 import LabelCard from "@/components/labelCard";
 import Button from "@/components/button";
 import { TextField } from "@mui/material";

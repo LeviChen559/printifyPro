@@ -1,16 +1,23 @@
 "use client";
-
+import useSWR from "swr";
 import React, { useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { Container } from "./style";
+import { Container } from "../style";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useRouter } from "next/navigation";
-import { Typography } from "@mui/material";
 
+import UserTable from "@/components/userTable";
 
+const fetcher = (url: string) =>
+  fetch(url).then((res) => {
+    if (!res.ok) {
+      throw new Error("Network response was not ok");
+    }
+    return res.json();
+  });
 
 const AdminDashboard = () => {
- 
+  const { data, error } = useSWR("/api/prisma/getUsers", fetcher);
 
   // Log the data to check its structure
   const { status } = useSession();
@@ -35,13 +42,9 @@ const AdminDashboard = () => {
     return <Container>No access - You need to sign in first!</Container>;
   }
 
+  if (error) return <Container>Failed to load: {error.message}</Container>;
 
-
-  return (
-    <Container>
-      { <Typography variant="h2">Welcome to Dashboard</Typography>}
-    </Container>
-  );
+  return <Container>{!data ? <CircularProgress /> : <UserTable />}</Container>;
 };
 
 export default AdminDashboard;

@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState, Suspense, useCallback } from "react";
-import { iLabelInfo } from "@/components/table";
+import { iLabelInfo } from "@/components/labelTable";
 import { useSession } from "next-auth/react";
 import { Container, SearchContainer } from "../style";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -18,7 +18,7 @@ import Skeleton from "@mui/material/Skeleton";
 import SkeletonCard from "./skeletonCard";
 
 
-const BarCodeInfoTable = dynamic(() => import("@/components/table"), {
+const BarCodeInfoTable = dynamic(() => import("@/components/labelTable"), {
   suspense: true,
 });
 

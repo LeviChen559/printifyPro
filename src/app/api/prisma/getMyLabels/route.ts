@@ -15,6 +15,8 @@ export async function GET(req: Request) {
       "product_name_en",
       "product_name_zh",
       "item_code",
+      "case_gtin",
+      "ingredient_info"
     ];
     // If a valid column and search value are provided, add a WHERE clause
     if (searchableFields.includes(searchType) && searchValue) {

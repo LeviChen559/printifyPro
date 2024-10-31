@@ -18,7 +18,7 @@ import Button from "@/components/button";
 import axios from "axios";
 import SendAnimation from "@/components/lottie/send";
 import AnimationJson from "@/components/lottie/send.json";
-import { iLabelInfo } from "@/components/table";
+import { iLabelInfo } from "@/components/labelTable";
 import DropdownMenu from "@/components/dropdownMenu";
 
 const AddNew = () => {
