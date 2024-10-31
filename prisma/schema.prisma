@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model barcode_info {
+  id                   Int                       @id @default(autoincrement())
+  item_code            String?                   @unique(map: "item_code") @db.VarChar(50)
+  product_name_en      String                    @db.VarChar(100)
+  product_name_zh      String?                   @db.VarChar(100)
+  weight               Decimal?                  @db.Decimal(10, 0)
+  weight_unit          barcode_info_weight_unit? @default(g_tray)
+  case_quantity        Int?                      @db.UnsignedInt
+  case_unit            barcode_info_case_unit?   @default(tray)
+  storage_requirements String?                   @db.VarChar(150)
+  shelf_life           String?                   @db.VarChar(50)
+  case_gtin            String?                   @unique(map: "case_gtin") @db.Char(14)
+  ingredient_info      String?                   @db.Text
+}
+
+model users {
+  id         Int        @id @default(autoincrement())
+  email      String     @unique(map: "email") @db.VarChar(255)
+  name       String     @db.VarChar(100)
+  password   String     @db.VarChar(255)
+  role       users_role
+  createDate DateTime?  @default(now()) @db.Timestamp(0)
+}
+
+enum users_role {
+  admin
+  user
+  guest
+}
+
+enum barcode_info_weight_unit {
+  g_tray    @map("g/tray")
+  g_bag     @map("g/bag")
+  pcs_tray  @map("pcs/tray")
+  container
+  g_piece   @map("g/piece")
+  ml_bottle @map("ml/bottle")
+}
+
+enum barcode_info_case_unit {
+  tray
+  bag
+  piece
+  container
+  bottle
+}
