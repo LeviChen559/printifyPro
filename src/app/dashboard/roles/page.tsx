@@ -17,10 +17,10 @@ const fetcher = (url: string) =>
   });
 
 const AdminDashboard = () => {
-  const { data:userData, error } = useSWR("/api/prisma/getUsers", fetcher);
+  const {  error } = useSWR("/api/prisma/getUsers", fetcher);
 
   // Log the data to check its structure
-  const { status } = useSession();
+  const { data:userData,status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
@@ -52,7 +52,9 @@ const AdminDashboard = () => {
       </Container>
     );
   }
-  if (userData?.user.role !== "admin") {
+  
+  console.log("userData", userData);
+  if (userData.user?.role !== "admin") {
     setTimeout(() => {
       router.push("/dashboard/mylabels");
     }, 1000);
@@ -64,7 +66,12 @@ const AdminDashboard = () => {
       </Container>
     );
   }
-  return <Container>{!userData ? <CircularProgress /> : <UserTable />}</Container>;
+  
+  return (
+    <Container>
+      <UserTable />
+    </Container>
+  );
 };
 
 export default AdminDashboard;
