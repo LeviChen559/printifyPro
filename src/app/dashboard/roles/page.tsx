@@ -37,6 +37,13 @@ const AdminDashboard = () => {
       </Container>
     );
   }
+  
+  if (status === "unauthenticated") {
+    return <Container>No access - You need to sign in first!</Container>;
+  }
+  
+  if (error) return <Container>Failed to load: {error.message}</Container>;
+  
   if (userData?.user.role !== "admin") {
     setTimeout(() => {
       router.push("/dashboard/mylabels");
@@ -49,13 +56,6 @@ const AdminDashboard = () => {
       </Container>
     );
   }
-
-  if (status === "unauthenticated") {
-    return <Container>No access - You need to sign in first!</Container>;
-  }
-
-  if (error) return <Container>Failed to load: {error.message}</Container>;
-
   return <Container>{!userData ? <CircularProgress /> : <UserTable />}</Container>;
 };
 

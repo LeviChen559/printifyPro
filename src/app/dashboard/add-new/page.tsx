@@ -108,6 +108,14 @@ const AddNew = () => {
   if (labelError) {
     return <Container>Failed to load: {labelError.message}</Container>;
   }
+  if (!userData) {
+    return (
+      <Container>
+        <CircularProgress />
+        <Typography>No access - You need to sign in first!</Typography>
+      </Container>
+    );
+  }
   if (userData?.user.role !== "admin") {
     setTimeout(() => {
       router.push("/dashboard/mylabels");
@@ -117,14 +125,6 @@ const AddNew = () => {
         <Typography>
           No access - You need to be an admin to create labels!
         </Typography>
-      </Container>
-    );
-  }
-  if (!userData) {
-    return (
-      <Container>
-        <CircularProgress />
-        <Typography>No access - You need to sign in first!</Typography>
       </Container>
     );
   }
