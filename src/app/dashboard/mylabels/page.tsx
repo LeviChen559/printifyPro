@@ -6,7 +6,7 @@ import { Container, SearchContainer } from "../style";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useRouter } from "next/navigation";
 import FormPropsTextFields from "@/components/FormPropsTextFields";
-import SelectMenu from "@/components/selectMenu";
+// import SelectMenu from "@/components/selectMenu";
 import { iCustomerSearchProps } from "@/app/type";
 import LabelActionCard from "@/section/labelActionCard/page";
 import LabelPrintCard from "@/section/labelPrintCard/page";
@@ -44,36 +44,44 @@ const MyLabels = () => {
     "/api/prisma/getMyLabels"
   );
 
-  const getColumnFromSearchType = (searchType: string) => {
-    switch (searchType) {
-      case "Product_EN":
-        return "product_name_en";
-      case "Product_ZH":
-        return "product_name_zh";
-      case "Ingredient_info":
-        return "Ingredient_info";
-      case "Case_Gtin":
-        return "case_gtin";
-      case "Item_Code":
-        return "item_code";
-      default:
-        return ""; // Return empty string if searchType is invalid
-    }
-  };
+  // const getColumnFromSearchType = (searchType: string) => {
+  //   switch (searchType) {
+  //     case "Product_EN":
+  //       return "product_name_en";
+  //     case "Product_ZH":
+  //       return "product_name_zh";
+  //     case "Ingredient_info":
+  //       return "Ingredient_info";
+  //     case "Case_Gtin":
+  //       return "case_gtin";
+  //     case "Item_Code":
+  //       return "item_code";
+  //     default:
+  //       return ""; // Return empty string if searchType is invalid
+  //   }
+  // };
 
-  const column = getColumnFromSearchType(search.searchType);
+  // const column = getColumnFromSearchType(search.searchType);
+  const resetSearch = useCallback(() => {
+    setSearch({ ...search, searchValue: "" });
+    setApiMyLabelUrl("/api/prisma/getMyLabels");
+    setClickResetSearch(true);
+  },[search]);
 
   const handleKeyPress = useCallback(
     (event: KeyboardEvent) => {
       if (event.key === "Enter") {
-        column &&
+        // column &&
           setApiMyLabelUrl(
-            `/api/prisma/getMyLabels?searchType=${column}&searchValue=${search.searchValue}`
+            `/api/prisma/getMyLabels?searchValue=${search.searchValue}`
           );
         setClickResetSearch(false); // Reset the flag after updating the URL
       }
+      if (event.key === "Backspace") {
+        search.searchValue===""&&resetSearch();
+      }
     },
-    [column, search.searchValue]
+    [ search.searchValue,resetSearch]
   );
 
   useEffect(() => {
@@ -82,7 +90,7 @@ const MyLabels = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [column, search.searchValue, handleKeyPress]); // Ensures useEffect runs when these values change
+  }, [ search.searchValue, handleKeyPress]); // Ensures useEffect runs when these values change
 
   // Log the data to check its structure
   const { status, data: userData } = useSession();
@@ -104,11 +112,7 @@ const MyLabels = () => {
     });
   };
 
-  const resetSearch = () => {
-    setSearch({ ...search, searchType: "", searchValue: "" });
-    setApiMyLabelUrl("/api/prisma/getMyLabels");
-    setClickResetSearch(true);
-  };
+
 
   if (status === "loading") {
     return (
@@ -152,15 +156,15 @@ const MyLabels = () => {
         }}
       >
         <SearchContainer>
-          <SelectMenu
+          {/* <SelectMenu
             setSearch={setSearch}
             search={search}
             clickResetSearch={clickResetSearch}
-          />
+          /> */}
           <FormPropsTextFields
             id="searchField"
             label=""
-            placeholder="Search"
+            placeholder="Search Item Code, Product Name(English), Product Name(Chinese), Case GTIN, Ingredient Info"
             value={search.searchValue}
             type="text"
             onChange={(e) =>

@@ -88,7 +88,7 @@ const AddNew = () => {
         setTimeout(() => {
           setSendAnewLabel(false);
           router.push("/dashboard/mylabels");
-        }, 500);
+        }, 3000);
       } else {
         console.error("Error creating label:", response.data.message);
       }
