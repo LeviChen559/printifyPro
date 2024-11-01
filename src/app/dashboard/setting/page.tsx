@@ -59,7 +59,6 @@ const Setting = () => {
     }
   };
 
-  console.log("sessionName", session?.user.name);
   if (!session) {
     return (
       <Container>
@@ -77,7 +76,6 @@ const Setting = () => {
     );
   }
 
-console.log("session", session);
   return (
     <Container>
       <UserCard

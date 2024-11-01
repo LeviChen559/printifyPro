@@ -44,6 +44,14 @@ const AdminDashboard = () => {
   
   if (error) return <Container>Failed to load: {error.message}</Container>;
   
+  if (!userData) {
+    return (
+      <Container>
+        <CircularProgress />
+        <Typography>No access - You need to sign in first!</Typography>
+      </Container>
+    );
+  }
   if (userData?.user.role !== "admin") {
     setTimeout(() => {
       router.push("/dashboard/mylabels");
