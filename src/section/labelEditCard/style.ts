@@ -50,7 +50,17 @@ export const Options = styled.div({
     alignItems:"flex-start",
     gap:8,
     flex:.8,
-    padding:16,
+    padding:"8px 0 0 0",
     boxSizing:"border-box",
    
+})
+export const Column = styled.div({
+    display: "flex",
+    flexDirection: "column",
+    gap: 16,
+    padding: 0,
+    width: "100%",
+    height: "100%",
+    boxSizing: "border-box",
+    flex: .75,
 })

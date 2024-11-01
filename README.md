@@ -14,7 +14,7 @@ pnpm dev
 bun dev
 ```
 
-Open [https://pritify-pro.vercel.app](https://pritify-pro.vercel.app) with your browser to see the result.
+Open [process.env.NEXT_PUBLIC_SITE_URL](process.env.NEXT_PUBLIC_SITE_URL) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 

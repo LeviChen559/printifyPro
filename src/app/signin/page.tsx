@@ -25,7 +25,7 @@ export default function SignIn() {
       setError(res.error);
     } else {
      
-      window.location.href = "https://pritify-pro.vercel.appdashboard/mylabels";
+      window.location.href = `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard/mylabels`;
     }
   };
  

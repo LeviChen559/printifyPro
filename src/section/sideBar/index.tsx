@@ -69,7 +69,7 @@ const SideBar = () => {
         ))}
         <Button
           onClick={() =>
-            signOut({ callbackUrl: "https://pritify-pro.vercel.appsignin" })
+            signOut({ callbackUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/signin` })
           }
         >
           Sign Out

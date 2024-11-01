@@ -15,8 +15,6 @@ interface iProp {
   labelInfo: iLabelInfo ;
   showProductNameZH?: boolean;
   showProductNameEN?: boolean;
-  productNameZH?: string;
-  productNameEN?: string;
   isEditedMode?: boolean;
   ref: React.RefObject<HTMLDivElement> | undefined;
 }
@@ -61,7 +59,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
         <InfomationColumn flex={1.75}>
           <Typography variant="body2">Contains :&quot;&quot;&quot;&quot;</Typography>
           <Typography variant="body2">
-            Net Weight : {prop.labelInfo.weight}
+            Net Weight : {prop.labelInfo.weight+ " "}  
             {prop.labelInfo.weight_unit}
           </Typography>
           <Typography variant="body2">
