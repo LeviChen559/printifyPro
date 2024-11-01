@@ -108,13 +108,15 @@ const AddNew = () => {
   if (labelError) {
     return <Container>Failed to load: {labelError.message}</Container>;
   }
-  if (userData?.user.role!=="admin") {
+  if (userData?.user.role !== "admin") {
     setTimeout(() => {
       router.push("/dashboard/mylabels");
-    },1000)
+    }, 1000);
     return (
       <Container>
-        <Typography>No access - You need to be an admin to create labels!</Typography>
+        <Typography>
+          No access - You need to be an admin to create labels!
+        </Typography>
       </Container>
     );
   }

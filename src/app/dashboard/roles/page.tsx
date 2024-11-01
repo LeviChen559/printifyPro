@@ -5,8 +5,8 @@ import { useSession } from "next-auth/react";
 import { Container } from "../style";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useRouter } from "next/navigation";
-
 import UserTable from "@/components/userTable";
+import Typography from "@mui/material/Typography";
 
 const fetcher = (url: string) =>
   fetch(url).then((res) => {
@@ -17,7 +17,7 @@ const fetcher = (url: string) =>
   });
 
 const AdminDashboard = () => {
-  const { data, error } = useSWR("/api/prisma/getUsers", fetcher);
+  const { data:userData, error } = useSWR("/api/prisma/getUsers", fetcher);
 
   // Log the data to check its structure
   const { status } = useSession();
@@ -37,6 +37,18 @@ const AdminDashboard = () => {
       </Container>
     );
   }
+  if (userData?.user.role !== "admin") {
+    setTimeout(() => {
+      router.push("/dashboard/mylabels");
+    }, 1000);
+    return (
+      <Container>
+        <Typography>
+          No access - You need to be an admin to create labels!
+        </Typography>
+      </Container>
+    );
+  }
 
   if (status === "unauthenticated") {
     return <Container>No access - You need to sign in first!</Container>;
@@ -44,7 +56,7 @@ const AdminDashboard = () => {
 
   if (error) return <Container>Failed to load: {error.message}</Container>;
 
-  return <Container>{!data ? <CircularProgress /> : <UserTable />}</Container>;
+  return <Container>{!userData ? <CircularProgress /> : <UserTable />}</Container>;
 };
 
 export default AdminDashboard;
