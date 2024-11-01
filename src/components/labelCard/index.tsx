@@ -77,8 +77,10 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           <Typography variant="body2">BEST BY : 00000222</Typography>
           <Barcode
             value={prop.labelInfo.case_gtin ??"code-128"}
-            width={1}
+            width={2}
             height={50}
+            fontSize={14}
+            format="CODE128"
           />
         </InfomationColumn>
       </InfomationWrapper>

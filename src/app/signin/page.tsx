@@ -2,9 +2,9 @@
 import { useState, FormEvent } from "react";
 import styles from "../page.module.css";
 import SigninCard from "../../section/signinCard/";
-// import { Typography } from "@mui/material";
 import { signIn } from "next-auth/react";
 import { iFormData } from "@/app/type";
+import { useRouter } from "next/navigation";
 
 export default function SignIn() {
   const [formData, setFormData] = useState<iFormData>({
@@ -12,6 +12,7 @@ export default function SignIn() {
     password: "",
   });
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,7 +26,7 @@ export default function SignIn() {
       setError(res.error);
     } else {
      
-      window.location.href = `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard/mylabels`;
+      router.push (`${process.env.NEXT_PUBLIC_SITE_URL}/dashboard/mylabels`)
     }
   };
  

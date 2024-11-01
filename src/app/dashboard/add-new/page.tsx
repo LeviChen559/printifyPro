@@ -108,7 +108,7 @@ const AddNew = () => {
   if (labelError) {
     return <Container>Failed to load: {labelError.message}</Container>;
   }
-  if (userData?.user.role!=="Admin") {
+  if (userData?.user.role!=="admin") {
     setTimeout(() => {
       router.push("/dashboard/mylabels");
     },1000)
