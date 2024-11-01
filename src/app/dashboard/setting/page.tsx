@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useSession } from "next-auth/react";
+import { useSession,signOut } from "next-auth/react";
 import { Container } from "../style";
 import UserCard from "@/components/userCard";
 import UserUpdeForm from "@/section/updateUserForm";
@@ -10,10 +10,12 @@ import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Typography } from "@mui/material";
 import bcrypt  from'bcryptjs';
+import { useRouter } from "next/navigation";
+
 const Setting = () => {
   // Log the data to check its structure
   const { data: session, update } = useSession();
-
+  const router = useRouter();
   const [formData, setFormData] = useState<iUpdateFormData>({
     email: "",
     password: "",
@@ -23,14 +25,19 @@ const Setting = () => {
 
 
   const updateUserData = async (formData: iUpdateFormData) => {
-    const hashPassword = await bcrypt.hash(formData.password, 10);
+    let hashedPassword;
+  // Only hash the password if it is provided
+  if (formData.password) {
+    hashedPassword = await bcrypt.hash(formData.password, 10);
+  }
     try {
+      
       // Send API request to update the user data
-      const res = await axios.patch("/api/updateUser", {
+      const res = await axios.patch("/api/prisma/updateUser", {
         id: session?.user.id,
         name: formData.name,
         email: formData.email,
-        password: formData.password&&hashPassword,
+        password: hashedPassword,
       });
   
       if (res.status === 200) {
@@ -48,9 +55,8 @@ const Setting = () => {
             }
         // Set data update status to true and reset it after 2 seconds
         setDataUpdate(true);
-        setTimeout(() => {
-          setDataUpdate(false);
-        }, 300);
+        await signOut();
+        router.push("/signin")
       } else {
         console.error("Update failed:", res.statusText);
       }
@@ -59,19 +65,19 @@ const Setting = () => {
     }
   };
 
+  if (dataUpdate) {
+    return (
+      <Container>
+        <CircularProgress />
+        <Typography>User data updated successfully!</Typography>
+      </Container>
+    );
+  }
   if (!session) {
     return (
       <Container>
         <CircularProgress />
         <Typography>No access - You need to sign in first!</Typography>
-      </Container>
-    );
-  }
-  if (dataUpdate) {
-    return (
-      <Container>
-        <CircularProgress />
-        <Typography>Updating...</Typography>
       </Container>
     );
   }
