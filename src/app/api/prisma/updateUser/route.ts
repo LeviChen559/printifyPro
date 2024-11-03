@@ -5,7 +5,6 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 export async function PATCH(req: NextRequest) {
     
-    
     // Parse the request body
     const { id, name, password, email } = await req.json();
     

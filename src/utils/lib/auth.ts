@@ -38,9 +38,6 @@ export const authOptions: NextAuthOptions = {
           if (!res.data.length) {
             throw new Error("No user found with the entered email");
           }
-
-        
-
           const matchedUser = (res.data as iUser[]).find(
             (user) => user.email === credentials.email
           );

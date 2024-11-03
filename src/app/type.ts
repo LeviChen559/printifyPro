@@ -9,11 +9,14 @@ export interface iFormData {
     password: string;
   }
   export interface iUser {
-    id: string;
-    role: string;
-    name: string;
-    email: string;
-    password: string;
+  
+      id: string;
+      role: string;
+      name: string;
+      email: string;
+      password: string;
+
+  
   }
 
   export interface iCustomer {

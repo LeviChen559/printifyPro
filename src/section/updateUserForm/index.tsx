@@ -35,6 +35,7 @@ const UserUpdeForm: FC<iProps> = (prop) => {
           id="name"
           required={false}
           value={prop.formData.name}
+          autoComplete="username"
           label="name"
           placeholder=""
           type="text"
@@ -50,6 +51,8 @@ const UserUpdeForm: FC<iProps> = (prop) => {
           label="email"
           placeholder="123@gmail.com"
           type="email"
+          autoComplete="email"
+
           onChange={(e) =>
             prop.setFormData({ ...prop.formData, email: e.target.value })
           }
@@ -60,6 +63,7 @@ const UserUpdeForm: FC<iProps> = (prop) => {
           required={false}
           value={prop.formData.password}
           label="password"
+          autoComplete="password"
           placeholder="12345678"
           type={showPassword ? "text" : "password"}
           startIcon={<KeyIcon />}

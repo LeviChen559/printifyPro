@@ -16,6 +16,7 @@ interface iProps {
   error?: boolean;
   rows?: number; // Optional: for multi-line text fields
   readOnly?: boolean;
+  autoComplete?: string;
 }
 
 const FormPropsTextFields: FC<iProps> = (prop) => {
@@ -28,6 +29,7 @@ const FormPropsTextFields: FC<iProps> = (prop) => {
       value={prop.value}
       rows={prop.rows}
       multiline={prop.rows ? true : false}
+      autoComplete={prop.autoComplete}
       sx={{
         ...prop.sx,
         ".MuiInputBase-root": {
