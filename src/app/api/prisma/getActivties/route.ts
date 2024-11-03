@@ -1,5 +1,15 @@
 import { NextResponse } from "next/server";
-import { PrismaClient, mylabels } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
+
+interface iActivities{
+  id: number;
+  event: string;
+  label_code: string;
+  username: string;
+  role: string;
+  created_at: Date;
+}
+
 
 const prisma = new PrismaClient();
 export async function GET(req: Request) {
@@ -28,13 +38,11 @@ export async function GET(req: Request) {
       }
     : {};
 
-    console.log("filter", filter);
-
     // Fetch data from the mylabels table using Prisma
-    const labels: mylabels[] = await prisma.mylabels.findMany({
+    const allActivities: iActivities[] = await prisma.activities.findMany({
       where: filter, // Apply filter to the query
     });
-    const sortLabels = labels.sort((a, b) => b.id - a.id);
+    const sortLabels = allActivities.sort((a, b) => b.id - a.id);
 
     return NextResponse.json(sortLabels);
   } catch (error) {

@@ -16,7 +16,7 @@ export async function PATCH(req: NextRequest) {
         );
     }
     const labelId = parseInt(id, 10);
-    const existingLabel = await prisma.barcode_info.findUnique({
+    const existingLabel = await prisma.mylabels.findUnique({
         where: { id: labelId },
       });
       if (!existingLabel) {
@@ -44,7 +44,7 @@ export async function PATCH(req: NextRequest) {
         );
     }
     try {
-        const updatedLabel = await prisma.barcode_info.update({
+        const updatedLabel = await prisma.mylabels.update({
             where: { id:labelId },
             data: fieldsToUpdate,
           });

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { PrismaClient, barcode_info } from "@prisma/client";
+import { PrismaClient, mylabels } from "@prisma/client";
 import { NextRequest } from "next/server";
 
 const prisma = new PrismaClient();
@@ -8,8 +8,8 @@ export async function POST(req: NextRequest) {
     // Parse JSON data from the request body
     const data = await req.json();
 
-    // Fetch data from the barcode_info table using Prisma
-    const newLabel: barcode_info = await prisma.barcode_info.create({
+    // Fetch data from the mylabels table using Prisma
+    const newLabel: mylabels = await prisma.mylabels.create({
       data: {
         item_code: data.item_code,
         product_name_en: data.product_name_en,

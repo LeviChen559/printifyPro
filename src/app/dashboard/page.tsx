@@ -5,7 +5,10 @@ import { useSession } from "next-auth/react";
 import { Container } from "./style";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useRouter } from "next/navigation";
-import { Typography } from "@mui/material";
+import ActivtiesTable from "@/components/activetyTable";
+import UserState from "@/components/userState";
+import Skeleton from "@mui/material/Skeleton";
+import { Suspense } from "react";
 
 
 
@@ -13,7 +16,7 @@ const AdminDashboard = () => {
  
 
   // Log the data to check its structure
-  const { status } = useSession();
+  const { data:userData,status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
@@ -39,7 +42,21 @@ const AdminDashboard = () => {
 
   return (
     <Container>
-      { <Typography variant="h2">Welcome to Dashboard</Typography>}
+       <Suspense
+          fallback={
+            <Skeleton
+              variant="rectangular"
+              sx={{ height: 100, width: "100%" }}
+            />
+          }
+        >
+          {userData ? (
+            <UserState userData={userData} />
+          ) : (
+            <Skeleton variant="text" sx={{ fontSize: "2rem", width: "100%" }} />
+          )}
+        </Suspense>
+      <ActivtiesTable/>
     </Container>
   );
 };

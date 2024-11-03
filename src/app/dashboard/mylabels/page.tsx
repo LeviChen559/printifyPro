@@ -171,7 +171,6 @@ const MyLabels = () => {
 
         />
       </div>
-
       {showCard.labelActionCard && (
         selectLabelInfo?
         <LabelActionCard setShowCard={setShowCard} />
