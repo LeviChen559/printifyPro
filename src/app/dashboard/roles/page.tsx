@@ -7,6 +7,9 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useRouter } from "next/navigation";
 import UserTable from "@/components/userTable";
 import Typography from "@mui/material/Typography";
+import Skeleton from "@mui/material/Skeleton";
+import { Suspense } from "react";
+import UserState from "@/components/userState";
 
 const fetcher = (url: string) =>
   fetch(url).then((res) => {
@@ -69,6 +72,20 @@ const AdminDashboard = () => {
   
   return (
     <Container>
+       <Suspense
+          fallback={
+            <Skeleton
+              variant="rectangular"
+              sx={{ height: 100, width: "100%" }}
+            />
+          }
+        >
+          {userData ? (
+            <UserState userData={userData} />
+          ) : (
+            <Skeleton variant="text" sx={{ fontSize: "2rem", width: "100%" }} />
+          )}
+        </Suspense>
       <UserTable />
     </Container>
   );

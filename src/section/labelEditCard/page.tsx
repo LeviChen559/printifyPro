@@ -1,5 +1,6 @@
+'use client'
 import React, { FC, useState, useRef } from "react";
-import { Container, View, Print, Options,Column } from "./style";
+import { Container, View, Print, Options, Column } from "./style";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { iLabelInfo } from "@/components/labelTable";
 import LabelCard from "@/components/labelCard";
@@ -7,6 +8,9 @@ import Button from "@/components/button";
 import FormPropsTextFields from "@/components/FormPropsTextFields";
 import { Box } from "@mui/material";
 import DropdownMenu from "@/components/dropdownMenu";
+import axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress";
+import { useRouter } from "next/navigation";
 
 interface iProps {
   selectLabelInfo: iLabelInfo;
@@ -15,12 +19,15 @@ interface iProps {
       labelActionCard: boolean;
       labelPrintCard: boolean;
       labelEditCard: boolean;
+      isLabelUpdated: boolean;
     }>
   >;
 }
 
 const LabelActionCard: FC<iProps> = (prop) => {
+  const router = useRouter();
   const contentRef = useRef<HTMLDivElement>(null);
+  const [isLabelUpdating, setIsLabelUpdating] = useState<boolean>(false);
 
   const [itemCode, setItemCode] = useState<string>(
     prop.selectLabelInfo.item_code
@@ -31,9 +38,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
   const [productNameZH, setProductNameZH] = useState<string>(
     prop.selectLabelInfo.product_name_zh
   );
-  const [weight, setWeight] = useState<number>(
-    prop.selectLabelInfo.weight
-  );
+  const [weight, setWeight] = useState<number>(prop.selectLabelInfo.weight);
   const [weightUnit, setWeightUnit] = useState<string>(
     prop.selectLabelInfo.weight_unit
   );
@@ -49,7 +54,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
   const [shelfLife, setShelfLife] = useState<string>(
     prop.selectLabelInfo.shelf_life
   );
-  const [caseGtin, setCaseGtin] = useState<string>("code-128");
+  const [caseGtin, setCaseGtin] = useState<string>(prop.selectLabelInfo.case_gtin);
   const [ingredientInfo, setIngredientInfo] = useState<string>(
     prop.selectLabelInfo.ingredient_info
   );
@@ -69,6 +74,38 @@ const LabelActionCard: FC<iProps> = (prop) => {
     ingredient_info: ingredientInfo,
   };
 
+  const updateLabel = async (labelInfo: iLabelInfo) => {
+    console.log("Updating label with info:", labelInfo);
+    setIsLabelUpdating(true);
+    try {
+      const res = await axios.patch("/api/prisma/updateLabel", labelInfo);
+      console.log("Response from server:", res);
+      if (res.data.success) {
+        setIsLabelUpdating(true);
+        setTimeout(() => {
+          setIsLabelUpdating(false);
+          prop.setShowCard(() => ({
+            labelActionCard: false,
+            labelPrintCard: false,
+            labelEditCard: false,
+            isLabelUpdated: true,
+          }));
+          router.push("/dashboard/mylabels");
+        }, 1000);
+      } else {
+        console.error("Update failed:", res.data.error);
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error("Error updating label:", error.response ? error.response.data : error.message);
+      } else {
+        console.error("Error updating label:", error);
+      }
+    } finally {
+      setIsLabelUpdating(false);
+    }
+  };
+
   return (
     <Container>
       <CancelRoundedIcon
@@ -86,173 +123,181 @@ const LabelActionCard: FC<iProps> = (prop) => {
             labelActionCard: false,
             labelPrintCard: false,
             labelEditCard: false,
+            isLabelUpdated: false,
           }))
         }
       />
       <View>
+       {isLabelUpdating?
+        <CircularProgress/>
+        :
         <LabelCard
-          ref={contentRef}
-          labelInfo={lableInput}
-          showProductNameEN={true}
-          showProductNameZH={true}
-          isEditedMode={true}
-        />
+            ref={contentRef}
+            labelInfo={lableInput}
+            showProductNameEN={true}
+            showProductNameZH={true}
+            isEditedMode={true}
+          />
+      } 
       </View>
       <Print>
         <Options>
-        <Column>
-          <Box
-            display={"flex"}
-            flexDirection={"row"}
-            flexWrap={"nowrap"}
-            gap={2}
-          >
+          <Column>
+            <Box
+              display={"flex"}
+              flexDirection={"row"}
+              flexWrap={"nowrap"}
+              gap={2}
+            >
+              <FormPropsTextFields
+                id="id"
+                label="id"
+                value={prop.selectLabelInfo.id.toString()}
+                required={true}
+                type="number"
+                placeholder=""
+                readOnly={true}
+                onChange={(e) => console.log(Number(e.target.value))}
+                startIcon={null}
+                sx={{ width: "100%", padding: "8px 0" }}
+              />
+              <FormPropsTextFields
+                id="item_code"
+                label="item_code"
+                value={itemCode}
+                required={true}
+                type="text"
+                placeholder="item_code"
+                onChange={(e) => setItemCode(e.target.value)}
+                startIcon={null}
+                sx={{ width: "100%", padding: "8px 0" }}
+              />
+            </Box>
             <FormPropsTextFields
-              id="id"
-              label="id"
-              value={prop.selectLabelInfo.id.toString()}
-              required={true}
-              type="number"
-              placeholder=""
-              readOnly={true}
-              onChange={(e) => console.log(Number(e.target.value))}
-              startIcon={null}
-              sx={{ width: "100%", padding: "8px 0" }}
-            />
-            <FormPropsTextFields
-              id="item_code"
-              label="item_code"
-              value={itemCode}
+              id="product_name_en"
+              label="Product Name (English)"
+              value={productNameEN}
               required={true}
               type="text"
-              placeholder="item_code"
-              onChange={(e) => setItemCode(e.target.value)}
+              placeholder="Product Name (English)"
+              onChange={(e) => setProductNameEN(e.target.value)}
               startIcon={null}
               sx={{ width: "100%", padding: "8px 0" }}
             />
-          </Box>
-          <FormPropsTextFields
-            id="product_name_en"
-            label="Product Name (English)"
-            value={productNameEN}
-            required={true}
-            type="text"
-            placeholder="Product Name (English)"
-            onChange={(e) => setProductNameEN(e.target.value)}
-            startIcon={null}
-            sx={{ width: "100%", padding: "8px 0" }}
-          />
-          <FormPropsTextFields
-            id="product_name_zh"
-            label="Product Name (Chinese)"
-            value={productNameZH}
-            required={true}
-            type="text"
-            placeholder="Product Name (Chinese)"
-            onChange={(e) => setProductNameZH(e.target.value)}
-            startIcon={null}
-            sx={{ width: "100%", padding: "8px 0" }}
-          />
-          <Box
-            display={"flex"}
-            flexDirection={"row"}
-            flexWrap={"nowrap"}
-            gap={2}
-          >
             <FormPropsTextFields
-              id="weight"
-              label="Net Weight"
-              value={weight.toString()}
+              id="product_name_zh"
+              label="Product Name (Chinese)"
+              value={productNameZH}
               required={true}
-              type="number"
-              placeholder="Net Weight"
-              onChange={(e) => setWeight(Number(e.target.value))}
+              type="text"
+              placeholder="Product Name (Chinese)"
+              onChange={(e) => setProductNameZH(e.target.value)}
               startIcon={null}
               sx={{ width: "100%", padding: "8px 0" }}
             />
-            <DropdownMenu
-              type="weight"
-              weightUnit={weightUnit}
-              setWeightUnit={setWeightUnit}
-            />
-          </Box>
-        </Column>
-        <Column>
-          <Box
-            display={"flex"}
-            flexDirection={"row"}
-            flexWrap={"nowrap"}
-            gap={2}
-          >
+            <Box
+              display={"flex"}
+              flexDirection={"row"}
+              flexWrap={"nowrap"}
+              gap={2}
+            >
+              <FormPropsTextFields
+                id="weight"
+                label="Net Weight"
+                value={weight.toString()}
+                required={true}
+                type="number"
+                placeholder="Net Weight"
+                onChange={(e) => setWeight(Number(e.target.value))}
+                startIcon={null}
+                sx={{ width: "100%", padding: "8px 0" }}
+              />
+              <DropdownMenu
+                type="weight"
+                weightUnit={weightUnit}
+                setWeightUnit={setWeightUnit}
+              />
+            </Box>
+          </Column>
+          <Column>
+            <Box
+              display={"flex"}
+              flexDirection={"row"}
+              flexWrap={"nowrap"}
+              gap={2}
+            >
+              <FormPropsTextFields
+                id="case_quantity"
+                label="Case Quantity"
+                value={caseQuantity.toString()}
+                required={true}
+                type="number"
+                placeholder="Case Quantity"
+                onChange={(e) => setCaseQuantity(Number(e.target.value))}
+                startIcon={null}
+                sx={{ width: "100%", padding: "8px 0" }}
+              />
+              <DropdownMenu
+                type="Case"
+                caseUnit={caseUnit}
+                setCaseUnit={setCaseUnit}
+              />
+            </Box>
             <FormPropsTextFields
-              id="case_quantity"
-              label="Case Quantity"
-              value={caseQuantity.toString()}
+              id="storage_requirements"
+              label="Storage Requirements"
+              value={storageRequirements}
               required={true}
-              type="number"
-              placeholder="Case Quantity"
-              onChange={(e) => setCaseQuantity(Number(e.target.value))}
+              type="text"
+              placeholder="Storage Requirements"
+              onChange={(e) => setStorageRequirements(e.target.value)}
               startIcon={null}
               sx={{ width: "100%", padding: "8px 0" }}
             />
-            <DropdownMenu
-              type="Case"
-              caseUnit={caseUnit}
-              setCaseUnit={setCaseUnit}
-            />
-          </Box>
-          <FormPropsTextFields
-            id="storage_requirements"
-            label="Storage Requirements"
-            value={storageRequirements}
-            required={true}
-            type="text"
-            placeholder="Storage Requirements"
-            onChange={(e) => setStorageRequirements(e.target.value)}
-            startIcon={null}
-            sx={{ width: "100%", padding: "8px 0" }}
-          />
 
-          <FormPropsTextFields
-            id="shelf_life"
-            label="Shelf Life"
-            value={shelfLife}
-            required={true}
-            type="text"
-            placeholder="Shelf Life"
-            onChange={(e) => setShelfLife(e.target.value)}
-            startIcon={null}
-            sx={{ width: "100%", padding: "8px 0" }}
-          />
-          <FormPropsTextFields
-            id="case_gtin"
-            label="Case GTIN"
-            value={caseGtin}
-            required={true}
-            type="text"
-            placeholder="Case GTIN"
-            onChange={(e) => setCaseGtin(e.target.value)}
-            startIcon={null}
-            sx={{ width: "100%", padding: "8px 0" }}
-          />
-        </Column>
-        <Column>
-          <FormPropsTextFields
-            id="ingredient_info"
-            label="ingredient_info"
-            value={ingredientInfo}
-            required={true}
-            type="text"
-            rows={12}
-            placeholder="Case GTIN"
-            onChange={(e) => setIngredientInfo(e.target.value)}
-            startIcon={null}
-            sx={{ width: "100%", padding: "8px 0" }}
-          />
-        </Column>
+            <FormPropsTextFields
+              id="shelf_life"
+              label="Shelf Life"
+              value={shelfLife}
+              required={true}
+              type="text"
+              placeholder="Shelf Life"
+              onChange={(e) => setShelfLife(e.target.value)}
+              startIcon={null}
+              sx={{ width: "100%", padding: "8px 0" }}
+            />
+            <FormPropsTextFields
+              id="case_gtin"
+              label="Case GTIN"
+              value={caseGtin}
+              required={true}
+              type="text"
+              placeholder="Case GTIN"
+              onChange={(e) => setCaseGtin(e.target.value)}
+              startIcon={null}
+              sx={{ width: "100%", padding: "8px 0" }}
+            />
+          </Column>
+          <Column>
+            <FormPropsTextFields
+              id="ingredient_info"
+              label="ingredient_info"
+              value={ingredientInfo}
+              required={true}
+              type="text"
+              rows={12}
+              placeholder="Case GTIN"
+              onChange={(e) => setIngredientInfo(e.target.value)}
+              startIcon={null}
+              sx={{ width: "100%", padding: "8px 0" }}
+            />
+          </Column>
         </Options>
-
-        <Button btnText="Update the Label" onClick={() => {}} type="button" />
+        <Button
+          btnText="Update the Label"
+          onClick={() => updateLabel(lableInput)}
+          type="button"
+        />
       </Print>
     </Container>
   );

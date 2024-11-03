@@ -11,7 +11,7 @@ export const Container =styled.div<iProps>({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     height: "100%",
     width: "100%",
     backgroundColor: "#ffffff",

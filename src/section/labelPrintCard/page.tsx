@@ -16,6 +16,7 @@ interface iProps {
       labelActionCard: boolean;
       labelPrintCard: boolean;
       labelEditCard: boolean;
+      isLabelUpdated: boolean;
     }>
   >;
 }
@@ -46,6 +47,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
             labelActionCard: false,
             labelPrintCard: false,
             labelEditCard: false,
+            isLabelUpdated: false,
           }))
         }
       />

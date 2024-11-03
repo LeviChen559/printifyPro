@@ -26,6 +26,7 @@ interface iShowCard {
   labelActionCard: boolean;
   labelPrintCard: boolean;
   labelEditCard: boolean;
+  isLabelUpdated: boolean;
 }
 
 const MyLabels = () => {
@@ -37,6 +38,7 @@ const MyLabels = () => {
     labelActionCard: false,
     labelPrintCard: false,
     labelEditCard: false,
+    isLabelUpdated: false,
   });
   const [clickResetSearch, setClickResetSearch] = useState<boolean>(false);
   const [selectLabelInfo, setSelectLabelInfo] = useState<iLabelInfo | undefined>(undefined);
@@ -44,24 +46,6 @@ const MyLabels = () => {
     "/api/prisma/getMyLabels"
   );
 
-  // const getColumnFromSearchType = (searchType: string) => {
-  //   switch (searchType) {
-  //     case "Product_EN":
-  //       return "product_name_en";
-  //     case "Product_ZH":
-  //       return "product_name_zh";
-  //     case "Ingredient_info":
-  //       return "Ingredient_info";
-  //     case "Case_Gtin":
-  //       return "case_gtin";
-  //     case "Item_Code":
-  //       return "item_code";
-  //     default:
-  //       return ""; // Return empty string if searchType is invalid
-  //   }
-  // };
-
-  // const column = getColumnFromSearchType(search.searchType);
   const resetSearch = useCallback(() => {
     setSearch({ ...search, searchValue: "" });
     setApiMyLabelUrl("/api/prisma/getMyLabels");
@@ -109,6 +93,7 @@ const MyLabels = () => {
       labelActionCard: true,
       labelPrintCard: false,
       labelEditCard: false,
+      isLabelUpdated: false,
     });
   };
 
@@ -182,6 +167,7 @@ const MyLabels = () => {
         <BarCodeInfoTable
           selectItem={selectItem}
           apiMyLabelUrl={apiMyLabelUrl}
+          isLabelUpdated={showCard.isLabelUpdated}
 
         />
       </div>

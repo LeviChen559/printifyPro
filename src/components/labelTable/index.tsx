@@ -7,7 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import useSWR from "swr";
+import useSWR,{mutate} from "swr";
 import { Container } from "@mui/material";
 import SkeletonTable from "@/components/skeletonTable";
 
@@ -29,6 +29,7 @@ export interface iLabelInfo {
 interface iTable {
   selectItem: (selectLabelInfo: iLabelInfo ) => void;
   apiMyLabelUrl: string;
+  isLabelUpdated:boolean;
 }
 
 const BarCodeInfoTable: FC<iTable> = (prop) => {
@@ -45,6 +46,7 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
     prop.apiMyLabelUrl,
     fetcher
   );
+  prop.isLabelUpdated&& mutate(prop.apiMyLabelUrl);
   const labelSelect = (id: number) => {
     // Trigger the parent callback with the selected label info
     const selectedInfo = labelData.find((item:iLabelInfo) => item.id === id);

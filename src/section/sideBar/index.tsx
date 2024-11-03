@@ -67,6 +67,7 @@ const SideBar = () => {
             </Typography>
           </Link>
         ))}
+      </MenuWrapper>
         <Button
           onClick={() =>
             signOut({ callbackUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/signin` })
@@ -74,7 +75,6 @@ const SideBar = () => {
         >
           Sign Out
         </Button>
-      </MenuWrapper>
     </Container>
   );
 };

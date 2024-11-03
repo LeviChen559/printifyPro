@@ -10,6 +10,7 @@ interface iProps {
       labelActionCard: boolean;
       labelPrintCard: boolean;
       labelEditCard: boolean;
+      isLabelUpdated: boolean;
     }>
   >;
 }
@@ -26,6 +27,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
     console.log("open:" + type);
     prop.setShowCard(() => ({
       labelActionCard: false,
+      isLabelUpdated:false,
       labelEditCard: type === CardType.LabelEdit,
       labelPrintCard: type === CardType.LabelPrint,
     }));

@@ -70,9 +70,9 @@ const TableTable: FC<iProps> = () => {
             <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
               Name
             </TableCell>
-            <TableCell align="center" sx={{ width: "100px", padding: 1 }}>
+            {/* <TableCell align="center" sx={{ width: "100px", padding: 1 }}>
               Password
-            </TableCell>
+            </TableCell> */}
             <TableCell align="center" sx={{ width: "100px", padding: 1 }}>
               Role
             </TableCell>
@@ -103,9 +103,9 @@ const TableTable: FC<iProps> = () => {
 
                 <TableCell align="left">{row.email}</TableCell>
                 <TableCell align="left">{row.name}</TableCell>
-                <TableCell align="left" sx={{ width: "200px",textWrap:"pretty",wordBreak:"break-all" }}>
-                  {row.password}
-                </TableCell>
+                {/* <TableCell align="left" sx={{ width: "200px",textWrap:"pretty",wordBreak:"break-all" }}>
+                  <Typography>{row.password}</Typography>
+                </TableCell> */}
                 <TableCell align="left" sx={{ width: "50px", }}>
                   {row.role}
                 </TableCell>
