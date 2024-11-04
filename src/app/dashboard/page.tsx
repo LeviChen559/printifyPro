@@ -56,7 +56,7 @@ const AdminDashboard = () => {
             <Skeleton variant="text" sx={{ fontSize: "2rem", width: "100%" }} />
           )}
         </Suspense>
-      <ActivtiesTable/>
+      <ActivtiesTable />
     </Container>
   );
 };

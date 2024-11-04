@@ -1,6 +1,6 @@
-'use client'
+"use client";
 import React, { FC, useState, useRef } from "react";
-import { Container, View, Print, Options, Column } from "./style";
+import { Container, View, Print, Options, Column, Row } from "./style";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { iLabelInfo } from "@/components/labelTable";
 import LabelCard from "@/components/labelCard";
@@ -11,6 +11,8 @@ import DropdownMenu from "@/components/dropdownMenu";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useRouter } from "next/navigation";
+import LottieAnimation from "@/components/lottie/send";
+import AnimationJson from "@/components/lottie/delete.json";
 
 interface iProps {
   selectLabelInfo: iLabelInfo;
@@ -22,12 +24,15 @@ interface iProps {
       isLabelUpdated: boolean;
     }>
   >;
+  userName: string;
+  userRole: string;
 }
 
 const LabelActionCard: FC<iProps> = (prop) => {
   const router = useRouter();
   const contentRef = useRef<HTMLDivElement>(null);
   const [isLabelUpdating, setIsLabelUpdating] = useState<boolean>(false);
+  const [isLabelDeleted, setIsLabelDeleted] = useState<boolean>(false);
 
   const [itemCode, setItemCode] = useState<string>(
     prop.selectLabelInfo.item_code
@@ -54,7 +59,9 @@ const LabelActionCard: FC<iProps> = (prop) => {
   const [shelfLife, setShelfLife] = useState<string>(
     prop.selectLabelInfo.shelf_life
   );
-  const [caseGtin, setCaseGtin] = useState<string>(prop.selectLabelInfo.case_gtin);
+  const [caseGtin, setCaseGtin] = useState<string>(
+    prop.selectLabelInfo.case_gtin
+  );
   const [ingredientInfo, setIngredientInfo] = useState<string>(
     prop.selectLabelInfo.ingredient_info
   );
@@ -82,6 +89,12 @@ const LabelActionCard: FC<iProps> = (prop) => {
       console.log("Response from server:", res);
       if (res.data.success) {
         setIsLabelUpdating(true);
+        await axios.patch("/api/prisma/addNewActive", {
+          event: "update label",
+          username: prop.userName,
+          role: prop.userRole,
+          label_code: labelInfo.item_code,
+        });
         setTimeout(() => {
           setIsLabelUpdating(false);
           prop.setShowCard(() => ({
@@ -97,7 +110,10 @@ const LabelActionCard: FC<iProps> = (prop) => {
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.error("Error updating label:", error.response ? error.response.data : error.message);
+        console.error(
+          "Error updating label:",
+          error.response ? error.response.data : error.message
+        );
       } else {
         console.error("Error updating label:", error);
       }
@@ -105,6 +121,42 @@ const LabelActionCard: FC<iProps> = (prop) => {
       setIsLabelUpdating(false);
     }
   };
+  const deleteLabel = async (labelId: number) => {
+    try {
+      const res = await axios.delete("/api/prisma/deleteLabel", {
+        data: { id: labelId },
+      });
+      if (res.data.success) {
+        setIsLabelDeleted(true);
+        // await axios.patch("/api/prisma/addNewActive", {
+        //   event: "delete label",
+        //   username: prop.userName,
+        //   role: prop.userRole,
+        //   label_code: itemCode,
+        //   created_at: new Date(),
+        // });
+        setTimeout(() => {
+          setIsLabelDeleted(false);
+          prop.setShowCard(() => ({
+            labelActionCard: false,
+            labelPrintCard: false,
+            labelEditCard: false,
+            isLabelUpdated: true,
+          }));
+          router.push("/dashboard/mylabels");
+        }, 3000);
+      }
+    } catch (error) {
+      console.error("Error deleting label:", error);
+    }
+  };
+  if (isLabelDeleted) {
+    return (
+      <Container>
+      <LottieAnimation text="Label is Deleted!" animationUrl={AnimationJson} />
+      </Container>
+    );
+  }
 
   return (
     <Container>
@@ -113,6 +165,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
           position: "absolute",
           top: 16,
           right: 16,
+          zIndex: 1,
           "&:hover": {
             cursor: "pointer",
             color: "#bcbcbc",
@@ -128,17 +181,17 @@ const LabelActionCard: FC<iProps> = (prop) => {
         }
       />
       <View>
-       {isLabelUpdating?
-        <CircularProgress/>
-        :
-        <LabelCard
+        {isLabelUpdating ? (
+          <CircularProgress />
+        ) : (
+          <LabelCard
             ref={contentRef}
             labelInfo={lableInput}
             showProductNameEN={true}
             showProductNameZH={true}
             isEditedMode={true}
           />
-      } 
+        )}
       </View>
       <Print>
         <Options>
@@ -159,7 +212,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
                 readOnly={true}
                 onChange={(e) => console.log(Number(e.target.value))}
                 startIcon={null}
-                sx={{ width: "100%", padding: "8px 0" }}
+                sx={{ width: "100%", padding: "8px 0", height: 60 }}
               />
               <FormPropsTextFields
                 id="item_code"
@@ -170,7 +223,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
                 placeholder="item_code"
                 onChange={(e) => setItemCode(e.target.value)}
                 startIcon={null}
-                sx={{ width: "100%", padding: "8px 0" }}
+                sx={{ width: "100%", padding: "8px 0", height: 60 }}
               />
             </Box>
             <FormPropsTextFields
@@ -182,7 +235,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
               placeholder="Product Name (English)"
               onChange={(e) => setProductNameEN(e.target.value)}
               startIcon={null}
-              sx={{ width: "100%", padding: "8px 0" }}
+              sx={{ width: "100%", padding: "8px 0", height: 60 }}
             />
             <FormPropsTextFields
               id="product_name_zh"
@@ -193,7 +246,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
               placeholder="Product Name (Chinese)"
               onChange={(e) => setProductNameZH(e.target.value)}
               startIcon={null}
-              sx={{ width: "100%", padding: "8px 0" }}
+              sx={{ width: "100%", padding: "8px 0", height: 60 }}
             />
             <Box
               display={"flex"}
@@ -210,7 +263,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
                 placeholder="Net Weight"
                 onChange={(e) => setWeight(Number(e.target.value))}
                 startIcon={null}
-                sx={{ width: "100%", padding: "8px 0" }}
+                sx={{ width: "100%", padding: "8px 0", height: 60 }}
               />
               <DropdownMenu
                 type="weight"
@@ -235,7 +288,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
                 placeholder="Case Quantity"
                 onChange={(e) => setCaseQuantity(Number(e.target.value))}
                 startIcon={null}
-                sx={{ width: "100%", padding: "8px 0" }}
+                sx={{ width: "100%", padding: "8px 0", height: 60 }}
               />
               <DropdownMenu
                 type="Case"
@@ -252,7 +305,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
               placeholder="Storage Requirements"
               onChange={(e) => setStorageRequirements(e.target.value)}
               startIcon={null}
-              sx={{ width: "100%", padding: "8px 0" }}
+              sx={{ width: "100%", padding: "8px 0", height: 60 }}
             />
 
             <FormPropsTextFields
@@ -264,7 +317,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
               placeholder="Shelf Life"
               onChange={(e) => setShelfLife(e.target.value)}
               startIcon={null}
-              sx={{ width: "100%", padding: "8px 0" }}
+              sx={{ width: "100%", padding: "8px 0", height: 60 }}
             />
             <FormPropsTextFields
               id="case_gtin"
@@ -275,7 +328,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
               placeholder="Case GTIN"
               onChange={(e) => setCaseGtin(e.target.value)}
               startIcon={null}
-              sx={{ width: "100%", padding: "8px 0" }}
+              sx={{ width: "100%", padding: "8px 0", height: 60 }}
             />
           </Column>
           <Column>
@@ -285,19 +338,27 @@ const LabelActionCard: FC<iProps> = (prop) => {
               value={ingredientInfo}
               required={true}
               type="text"
-              rows={12}
+              rows={10.5}
               placeholder="Case GTIN"
               onChange={(e) => setIngredientInfo(e.target.value)}
               startIcon={null}
-              sx={{ width: "100%", padding: "8px 0" }}
+              sx={{ width: "100%", padding: "8px 0", height: "100%" }}
             />
           </Column>
         </Options>
-        <Button
-          btnText="Update the Label"
-          onClick={() => updateLabel(lableInput)}
-          type="button"
-        />
+        <Row>
+          <Button
+            btnText="Delete the Label"
+            onClick={() => deleteLabel(lableInput.id)}
+            type="button"
+            backgroundColor="#ff0000"
+          />
+          <Button
+            btnText="Update the Label"
+            onClick={() => updateLabel(lableInput)}
+            type="button"
+          />
+        </Row>
       </Print>
     </Container>
   );

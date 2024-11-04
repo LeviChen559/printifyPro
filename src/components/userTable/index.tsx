@@ -52,7 +52,7 @@ const TableTable: FC<iProps> = () => {
   if (!userData)
     return (
       <Container>
-        <SkeletonTable />
+        <SkeletonTable columnCount={5}/>
       </Container>
     );
 

@@ -186,6 +186,8 @@ const MyLabels = () => {
         <LabelEditCard
           selectLabelInfo={selectLabelInfo as iLabelInfo}
           setShowCard={setShowCard}
+          userName={userData?.user?.name as string}
+          userRole={userData?.user?.role as string}
         />
       )}
     </Container>

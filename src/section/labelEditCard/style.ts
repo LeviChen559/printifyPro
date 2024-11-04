@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 export const Container = styled.div({
 width:"90%",
-height:"85%",
+height:"90%",
 display:"flex",
 flexDirection:"column",
 alignItems:"center",
@@ -11,7 +11,6 @@ justifyContent:"center",
 borderRadius:16,
 backgroundColor:"#ffffff",
 boxShadow:"0px 4px 4px 0px #bcbcbc",
-gap:16,
 position:"absolute",
 transform:"translateY(-50%)",
 top:"50%",
@@ -24,9 +23,13 @@ export const View = styled.div({
     justifyContent:"center",
     alignItems:"center",
     gap:16,
-    flex:2,
+    flex:1.5,
     position:"relative",
-    padding:"24px 0 24px 24px",
+    padding:24,
+    overflowY:"auto",
+    overflowX:"hidden",
+    width:"100%",
+    height:"100%",
 })
 
 export const Print = styled.div({
@@ -39,7 +42,7 @@ export const Print = styled.div({
     background:"#bcbcbc80",
     width:"100%",
     height:"100%",
-    padding:"16px 16px 16px 0px",
+    padding:16,
 })
 
 export const Options = styled.div({
@@ -60,7 +63,18 @@ export const Column = styled.div({
     gap: 16,
     padding: 0,
     width: "100%",
-    height: "100%",
+    height: "auto",
     boxSizing: "border-box",
     flex: .75,
+})
+export const Row = styled.div({
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 200,
+    padding: 0,
+    width: "100%",
+    height: "100%",
+    boxSizing: "border-box",
 })

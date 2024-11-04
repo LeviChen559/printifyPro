@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 export const Container = styled.div({
 width:"90%",
-height:"85%",
+height:"90%",
 display:"flex",
 flexDirection:"row",
 alignItems:"center",
@@ -11,7 +11,7 @@ justifyContent:"center",
 borderRadius:16,
 backgroundColor:"#ffffff",
 boxShadow:"0px 4px 4px 0px #bcbcbc",
-gap:16,
+// gap:16,
 position:"absolute",
 transform:"translateY(-50%)",
 top:"50%",
@@ -24,8 +24,8 @@ export const View = styled.div({
     justifyContent:"center",
     alignItems:"center",
     gap:16,
-    flex:2,
-    padding:"24px 0 24px 24px",
+    flex:1,
+    padding:"24px 24px 24px 24px",
 })
 
 export const Print = styled.div({

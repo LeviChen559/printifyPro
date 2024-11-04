@@ -43,7 +43,7 @@ export async function GET(req: Request) {
       where: filter, // Apply filter to the query
     });
     const sortLabels = allActivities.sort((a, b) => b.id - a.id);
-
+    console.log(sortLabels);
     return NextResponse.json(sortLabels);
   } catch (error) {
     console.log(error);

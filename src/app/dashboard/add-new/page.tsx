@@ -4,8 +4,6 @@ import React, { useEffect, Suspense } from "react";
 import { useSession } from "next-auth/react";
 import { Container } from "../style";
 import { PreviewContainer, EditContainer, Column } from "./style";
-
-// import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Typography, Box } from "@mui/material";
 import { useRouter } from "next/navigation";
@@ -16,7 +14,7 @@ import useSWR from "swr";
 import LabelCard from "@/components/labelCard";
 import Button from "@/components/button";
 import axios from "axios";
-import SendAnimation from "@/components/lottie/send";
+import LottieAnimation from "@/components/lottie/send";
 import AnimationJson from "@/components/lottie/send.json";
 import { iLabelInfo } from "@/components/labelTable";
 import DropdownMenu from "@/components/dropdownMenu";
@@ -129,13 +127,13 @@ const AddNew = () => {
     );
   }
   return (
-    <Container padding={"0px"} gap={0}>
+    <Container padding={"0px"} gap={0} justifyContent={ sendAnewLabel?"center":"flex-start"}>
       <PreviewContainer>
         <Suspense
           fallback={
             <Skeleton
               variant="rectangular"
-              sx={{ height: 100, width: "100%" }}
+              sx={{ height: 100, width: "100%"}}
             />
           }
         >
@@ -165,7 +163,7 @@ const AddNew = () => {
               readOnly={true}
               onChange={(e) => console.log(Number(e.target.value))}
               startIcon={null}
-              sx={{ width: "100%", padding: "8px 0" }}
+              sx={{ width: "100%", padding: "8px 0",height:60  }}
             />
             <FormPropsTextFields
               id="item_code"
@@ -176,7 +174,7 @@ const AddNew = () => {
               placeholder="item_code"
               onChange={(e) => setItemCode(e.target.value)}
               startIcon={null}
-              sx={{ width: "100%", padding: "8px 0" }}
+              sx={{ width: "100%", padding: "8px 0",height:60  }}
             />
           </Box>
           <FormPropsTextFields
@@ -188,7 +186,7 @@ const AddNew = () => {
             placeholder="Product Name (English)"
             onChange={(e) => setProductNameEN(e.target.value)}
             startIcon={null}
-            sx={{ width: "100%", padding: "8px 0" }}
+            sx={{ width: "100%", padding: "8px 0",height:60  }}
           />
           <FormPropsTextFields
             id="product_name_zh"
@@ -199,7 +197,7 @@ const AddNew = () => {
             placeholder="Product Name (Chinese)"
             onChange={(e) => setProductNameZH(e.target.value)}
             startIcon={null}
-            sx={{ width: "100%", padding: "8px 0" }}
+            sx={{ width: "100%", padding: "8px 0",height:60  }}
           />
           <Box
             display={"flex"}
@@ -216,9 +214,8 @@ const AddNew = () => {
               placeholder="Net Weight"
               onChange={(e) => setWeight(Number(e.target.value))}
               startIcon={null}
-              sx={{ width: "100%", padding: "8px 0" }}
+              sx={{ width: "100%", padding: "8px 0",height:60  }}
             />
-
             <DropdownMenu
               type="weight"
               weightUnit={weightUnit}
@@ -242,7 +239,7 @@ const AddNew = () => {
               placeholder="Case Quantity"
               onChange={(e) => setCaseQuantity(Number(e.target.value))}
               startIcon={null}
-              sx={{ width: "100%", padding: "8px 0" }}
+              sx={{ width: "100%", padding: "8px 0",height:60  }}
             />
             <DropdownMenu
               type="Case"
@@ -259,7 +256,7 @@ const AddNew = () => {
             placeholder="Storage Requirements"
             onChange={(e) => setStorageRequirements(e.target.value)}
             startIcon={null}
-            sx={{ width: "100%", padding: "8px 0" }}
+            sx={{ width: "100%", padding: "8px 0",height:60  }}
           />
 
           <FormPropsTextFields
@@ -271,7 +268,7 @@ const AddNew = () => {
             placeholder="Shelf Life"
             onChange={(e) => setShelfLife(e.target.value)}
             startIcon={null}
-            sx={{ width: "100%", padding: "8px 0" }}
+            sx={{ width: "100%", padding: "8px 0",height:60  }}
           />
           <FormPropsTextFields
             id="case_gtin"
@@ -282,7 +279,7 @@ const AddNew = () => {
             placeholder="Case GTIN"
             onChange={(e) => setCaseGtin(e.target.value)}
             startIcon={null}
-            sx={{ width: "100%", padding: "8px 0" }}
+            sx={{ width: "100%", padding: "8px 0",height:60  }}
           />
         </Column>
         <Column>
@@ -292,11 +289,11 @@ const AddNew = () => {
             value={ingredientInfo}
             required={true}
             type="text"
-            rows={12}
+            rows={10.5}
             placeholder="Case GTIN"
             onChange={(e) => setIngredientInfo(e.target.value)}
             startIcon={null}
-            sx={{ width: "100%", padding: "8px 0" }}
+            sx={{ width: "100%", padding: "8px 0"  }}
           />
           <Button btnText="Add New Label" onClick={createNewLabel} />
         </Column>
@@ -312,7 +309,7 @@ const AddNew = () => {
               zIndex: 1000,
             }}
           />
-          <SendAnimation animationUrl={AnimationJson} />
+          <LottieAnimation animationUrl={AnimationJson} text={"Add Label Successfully!"}/>
         </>
       )}
     </Container>

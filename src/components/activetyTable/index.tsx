@@ -52,7 +52,7 @@ const ActivtiesTable: FC<iProps> = () => {
   if (!userData)
     return (
       <Container>
-        <SkeletonTable />
+        <SkeletonTable columnCount={5}/>
       </Container>
     );
 
@@ -65,7 +65,7 @@ const ActivtiesTable: FC<iProps> = () => {
               Id
             </TableCell>
             <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
-              Lable
+              Label
             </TableCell>
             <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
               Event

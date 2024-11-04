@@ -8,6 +8,8 @@ import LocalPrintshopIcon from "@mui/icons-material/LocalPrintshop";
 import { kanit } from "@/theme";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { colorTheme } from "@/theme";
+import packageInfo from "../../../package.json";
 
 const SideBar = () => {
   const links = useMemo(
@@ -16,9 +18,9 @@ const SideBar = () => {
   );
   const pathname = usePathname();
   const { data: userData } = useSession();
-
+  const version = packageInfo.version;
   const color = (link: string) => {
-    if (pathname === "/dashboard" && !pathname.includes(link)) {
+    if (pathname === "/dashboard" && link === "") {
       return "#000000"; // Black for dashboard with no link
     } else if (pathname === "/dashboard/" + link) {
       return "#000000"; // Black for dashboard with specific link
@@ -28,7 +30,13 @@ const SideBar = () => {
   };
 
   return (
-    <Container>
+    <Container
+      background={
+        userData?.user.role === "admin"
+          ? colorTheme.admin.main
+          : colorTheme.user.main
+      }
+    >
       <Box
         sx={{
           display: "flex",
@@ -68,13 +76,17 @@ const SideBar = () => {
           </Link>
         ))}
       </MenuWrapper>
-        <Button
-          onClick={() =>
-            signOut({ callbackUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/signin` })
-          }
-        >
-          Sign Out
-        </Button>
+      <Button
+        sx={{ width: "100%" }}
+        onClick={() =>
+          signOut({ callbackUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/signin` })
+        }
+      >
+        Sign Out
+      </Button>
+      <Typography width="100%" textAlign="center" color="#bcbcbc">
+        Version : {version}
+      </Typography>
     </Container>
   );
 };

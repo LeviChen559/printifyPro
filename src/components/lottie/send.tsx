@@ -6,7 +6,7 @@ const Lottie = dynamic(() => import("lottie-light-react"), {ssr: false});
 import {LottieAnimationWrapper} from "./style";
 
 interface Props {
-    animationUrl?: object;
+    animationUrl: object;
     width?: number;
     height?: number;
     top?: number;
@@ -16,6 +16,7 @@ interface Props {
     display?: string;
     opacity?: number;
     type?: string;
+    text:string
 }
 
 const LottieAnimation: FC<Props> = (props) => {
@@ -30,7 +31,7 @@ const LottieAnimation: FC<Props> = (props) => {
             display={props.display}
             opacity={props.opacity}>
             <Lottie animationData={props.animationUrl} className="player" loop autoplay  style={{width:"100%",height:"100%"}}/>
-            <Typography variant="h4" sx={{color:"#000000"}}>Add Label Successfully!</Typography>
+            <Typography variant="h4" sx={{color:"#000000"}}>{props.text}</Typography>
         </LottieAnimationWrapper>
     );
 };

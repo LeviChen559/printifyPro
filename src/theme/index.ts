@@ -32,7 +32,20 @@ declare module "@mui/material/styles" {
     thirdary: string;
   }
 }
-
+export interface ColorTheme {
+  [key: string]: {
+      // This defines the index signature
+      main: string;
+  };
+}
+export const colorTheme: ColorTheme = {
+  admin: {
+      main: "#f6edff",
+  },
+  user: {
+      main: "#fcece3",
+  },
+}
 
 export const globalTheme = createTheme({
   palette: {
@@ -46,6 +59,7 @@ export const globalTheme = createTheme({
       light: "#ffffff",
       dark: "#BADAFF",
     },
+    
     text: {
       primary: "#424242",
       secondary: "#ffffff",
