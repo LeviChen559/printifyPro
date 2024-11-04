@@ -89,12 +89,12 @@ const LabelActionCard: FC<iProps> = (prop) => {
       console.log("Response from server:", res);
       if (res.data.success) {
         setIsLabelUpdating(true);
-        await axios.patch("/api/prisma/addNewActive", {
-          event: "update label",
-          username: prop.userName,
-          role: prop.userRole,
-          label_code: labelInfo.item_code,
-        });
+        // await axios.patch("/api/prisma/addNewActive", {
+        //   event: "update label",
+        //   username: prop.userName,
+        //   role: prop.userRole,
+        //   label_code: labelInfo.item_code,
+        // });
         setTimeout(() => {
           setIsLabelUpdating(false);
           prop.setShowCard(() => ({
