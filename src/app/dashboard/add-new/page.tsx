@@ -82,6 +82,13 @@ const AddNew = () => {
       console.log("lableInput", lableInput);
       // Directly access the data property from Axios response
       if (response.data.success) {
+        await axios.post("/api/prisma/addNewActive", {
+          event: "Add new label",
+          username: userData?.user.name,
+          role: userData?.user.role,
+          label_code: itemCode,
+          created_at: new Date(),
+        });
         setSendAnewLabel(true);
         setTimeout(() => {
           setSendAnewLabel(false);
