@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { Container } from "./style";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useRouter } from "next/navigation";
-import ActivtiesTable from "@/components/activetyTable";
+import ActivtiesTable from "@/components/activitiesTable";
 import UserState from "@/components/userState";
 import Skeleton from "@mui/material/Skeleton";
 import { Suspense } from "react";

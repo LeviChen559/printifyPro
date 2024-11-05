@@ -24,7 +24,7 @@ interface iProps {
   // selectItem: (selectLabelInfo: iUser) => void;
 }
 
-const ActivtiesTable: FC<iProps> = () => {
+const ActivitiesTable: FC<iProps> = () => {
   const fetcher = (url: string) =>
     fetch(url).then((res) => {
       if (!res.ok) {
@@ -55,23 +55,26 @@ const ActivtiesTable: FC<iProps> = () => {
         <SkeletonTable columnCount={5}/>
       </Container>
     );
-
+ 
   return (
     <TableContainer component={Paper} sx={{ borderRadius: 2, height: "auto",width:"auto" }}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow sx={{ background: "#bcbcbc80" }}>
-            <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
+            <TableCell align="center" sx={{ width: "auto", padding: 1 }}>
               Id
             </TableCell>
-            <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
+            <TableCell align="center" sx={{ width: "auto", padding: 1 }}>
               Label
             </TableCell>
-            <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
+            <TableCell align="center" sx={{ width: "auto", padding: 1 }}>
               Event
             </TableCell>
-            <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
+            <TableCell align="center" sx={{ width: "auto", padding: 1 }}>
               Create Date
+            </TableCell>
+            <TableCell align="center" sx={{ width: "100px", padding: 1 }}>
+              User Name
             </TableCell>
             <TableCell align="center" sx={{ width: "100px", padding: 1 }}>
               Role
@@ -93,16 +96,19 @@ const ActivtiesTable: FC<iProps> = () => {
                   component="th"
                   scope="row"
                   align="center"
-                  sx={{ width: "50px" }}
+                  sx={{ width: "auto" }}
                 >
                   {row.id}
                 </TableCell>
                 <TableCell align="left">{row.label_code}</TableCell>
-                <TableCell align="left">{row.event}</TableCell>
+                <TableCell align="left"sx={{ width: "auto", }}>{row.event}</TableCell>
                 <TableCell align="left">
-                  {row.created_at}
+                  {new Date(row.created_at).toLocaleDateString()+" -- "+new Date(row.created_at).toLocaleTimeString()}
                 </TableCell>
-                <TableCell align="left" sx={{ width: "50px", }}>
+                <TableCell align="left" sx={{ width: "auto", }}>
+                  {row.username}
+                </TableCell>
+                <TableCell align="left" sx={{ width: "auto", }}>
                   {row.role}
                 </TableCell>
               </TableRow>
@@ -116,4 +122,4 @@ const ActivtiesTable: FC<iProps> = () => {
   );
 };
 
-export default ActivtiesTable;
+export default ActivitiesTable;

@@ -28,7 +28,6 @@ const LabelActionCard: FC<iProps> = (prop) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
 
-  console.log("prop.selectLabelInfo",prop.selectLabelInfo)
   
   return (
     <Container>

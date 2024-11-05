@@ -18,6 +18,7 @@ export const Container =styled.div<iProps>({
     color: "#000000",
     boxSizing: "border-box",
     gap:16,
+    minWidth: 200,
 
 },props=>({
     background:props.background

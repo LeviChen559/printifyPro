@@ -89,12 +89,22 @@ const LabelActionCard: FC<iProps> = (prop) => {
       console.log("Response from server:", res);
       if (res.data.success) {
         setIsLabelUpdating(true);
-        // await axios.patch("/api/prisma/addNewActive", {
-        //   event: "update label",
-        //   username: prop.userName,
-        //   role: prop.userRole,
-        //   label_code: labelInfo.item_code,
-        // });
+        try {
+          const res = await axios.post("/api/prisma/addNewActive", {
+              event: "update label",
+              username: prop.userName,
+              role: prop.userRole,
+              label_code: labelInfo.item_code,
+          });
+      
+          if (res.status === 200) {
+              // Handle successful response, e.g., update state/UI or show confirmation
+              console.log("Label updated successfully", res.data);
+          }
+      } catch (error) {
+          console.error("Error updating label:", error);
+          // Optionally display error feedback to the user
+      }
         setTimeout(() => {
           setIsLabelUpdating(false);
           prop.setShowCard(() => ({
@@ -128,13 +138,13 @@ const LabelActionCard: FC<iProps> = (prop) => {
       });
       if (res.data.success) {
         setIsLabelDeleted(true);
-        // await axios.patch("/api/prisma/addNewActive", {
-        //   event: "delete label",
-        //   username: prop.userName,
-        //   role: prop.userRole,
-        //   label_code: itemCode,
-        //   created_at: new Date(),
-        // });
+        await axios.post("/api/prisma/addNewActive", {
+          event: "delete label",
+          username: prop.userName,
+          role: prop.userRole,
+          label_code: itemCode,
+          created_at: new Date(),
+        });
         setTimeout(() => {
           setIsLabelDeleted(false);
           prop.setShowCard(() => ({

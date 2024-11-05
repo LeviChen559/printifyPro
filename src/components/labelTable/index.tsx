@@ -62,7 +62,7 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
   if(!labelData) return <Container><SkeletonTable /></Container>
 
   return (
-    <TableContainer component={Paper} sx={{ borderRadius: 2,height:"auto",width:"1200px" }}>
+    <TableContainer component={Paper} sx={{ borderRadius: 2,height:"auto",width:"100%" }}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow sx={{ background: "#bcbcbc80" }}>
@@ -91,7 +91,7 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
               Shelf Life
             </TableCell>
             <TableCell align="center" >Case Gtin</TableCell>
-            <TableCell align="center" sx={{ width: "300px", padding: 1 }}>Ingredient Information</TableCell>
+            <TableCell align="center" sx={{ width: "200px", padding: 1 }}>Ingredient Information</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -138,7 +138,7 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
                 <TableCell align="left" sx={{width:"150px" }}>
                   {row.case_gtin}
                 </TableCell>
-                <TableCell align="left" sx={{  }}>
+                <TableCell align="left" sx={{ width:"150px" }}>
                   {row.ingredient_info}
                 </TableCell>
               </TableRow>
