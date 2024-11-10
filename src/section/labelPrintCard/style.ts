@@ -24,7 +24,7 @@ export const View = styled.div({
     justifyContent:"center",
     alignItems:"center",
     gap:16,
-    flex:1,
+    flex:2.5,
     padding:"24px 24px 24px 24px",
 })
 

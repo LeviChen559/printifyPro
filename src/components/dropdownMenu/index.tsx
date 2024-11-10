@@ -11,6 +11,7 @@ interface iProps {
   setCaseUnit?: React.Dispatch<React.SetStateAction<string>>;
   weightUnit?: string;
   caseUnit?: string;
+  readOnly?: boolean;
 }
 
 const DropdownMenu: FC<iProps> = (prop) => {
@@ -28,9 +29,10 @@ const DropdownMenu: FC<iProps> = (prop) => {
     "g_piece",
     "ml_bottle",
   ];
+
   const caseUnitList = ["tray", "bag", "container", "piece", "bottle"];
   return (
-    <Box sx={{ width: 80, padding: "8px 0" }}>
+    <Box sx={{ width: 100, padding: "0" }}>
       {prop.type === "weight" ? (
         <FormControl fullWidth sx={{ height: 24 }}>
           {/* <InputLabel id="demo-simple-select-label" sx={{height:24}}>Weight Unit</InputLabel> */}
@@ -38,11 +40,24 @@ const DropdownMenu: FC<iProps> = (prop) => {
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={prop.weightUnit}
+            readOnly={prop.readOnly}
             // label="Weight Unit"
             onChange={handleWeightChange}
             sx={{
               "&.MuiInputBase-root": {
                 height: 24, // Adjusts the overall height of the component
+                border: "none", // Removes border
+                padding: 0,
+              },
+              "& .MuiOutlinedInput-notchedOutline": {
+                border: "none", // Removes border around the dropdown
+                padding: 0,
+              },
+              "& .MuiSelect-icon": {
+                display: "none", // Hides the dropdown icon
+              },
+              "& .MuiSelect-select": {
+                padding: "0px !important", // Ensures no padding within the select content
               },
             }}
           >
@@ -57,16 +72,29 @@ const DropdownMenu: FC<iProps> = (prop) => {
         </FormControl>
       ) : (
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Case Unit</InputLabel>
+          {/* <InputLabel id="demo-simple-select-label">Case Unit</InputLabel> */}
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={prop.caseUnit}
             label="Case Unit"
+            readOnly={prop.readOnly}
             onChange={handleCaseChange}
             sx={{
               "&.MuiInputBase-root": {
-                height: 32, // Adjusts the overall height of the component
+                height: 24, // Adjusts the overall height of the component
+                border: "none", // Removes border
+                padding: 0,
+              },
+              "& .MuiOutlinedInput-notchedOutline": {
+                border: "none", // Removes border around the dropdown
+                padding: 0,
+              },
+              "& .MuiSelect-icon": {
+                display: "none", // Hides the dropdown icon
+              },
+              "& .MuiSelect-select": {
+                padding: "0px !important", // Ensures no padding within the select content
               },
             }}
           >

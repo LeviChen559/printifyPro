@@ -10,7 +10,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 
 interface iProps {
-  selectLabelInfo: iLabelInfo ;
+  selectLabelInfo: iLabelInfo;
   setShowCard: React.Dispatch<
     React.SetStateAction<{
       labelActionCard: boolean;
@@ -24,11 +24,9 @@ interface iProps {
 const LabelActionCard: FC<iProps> = (prop) => {
   const [showProductNameZH, setshowProductNameZH] = useState<boolean>(true);
   const [showProductNameEN, setshowProductNameEN] = useState<boolean>(true);
-
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
 
-  
   return (
     <Container>
       <CancelRoundedIcon
@@ -56,6 +54,13 @@ const LabelActionCard: FC<iProps> = (prop) => {
           showProductNameZH={showProductNameZH}
           showProductNameEN={showProductNameEN}
           ref={contentRef}
+          isEditedMode={false}
+          productNameEN={prop.selectLabelInfo.product_name_en}
+          productNameZH={prop.selectLabelInfo.product_name_zh}
+          ingredientInfo={prop.selectLabelInfo.ingredient_info}
+          weight={prop.selectLabelInfo.weight}
+          manufacturedFor={prop.selectLabelInfo.manufactured_for}
+          weightUnit={prop.selectLabelInfo.weight_unit}
         />
       </View>
       <Print>

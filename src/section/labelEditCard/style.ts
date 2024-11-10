@@ -1,10 +1,14 @@
 import styled from "@emotion/styled";
 
+interface iProps{
+    justifyContent?:string
+}
+
 export const Container = styled.div({
-width:"90%",
+width:"95%",
 height:"90%",
 display:"flex",
-flexDirection:"column",
+flexDirection:"row",
 alignItems:"center",
 justifyContent:"center",
 // padding:24,
@@ -23,7 +27,7 @@ export const View = styled.div({
     justifyContent:"center",
     alignItems:"center",
     gap:16,
-    flex:1.5,
+    flex:2.5,
     position:"relative",
     padding:24,
     overflowY:"auto",
@@ -45,36 +49,39 @@ export const Print = styled.div({
     padding:16,
 })
 
-export const Options = styled.div({
+export const Info = styled.div({
     display:"flex",
-    flexDirection:"row",
+    flexDirection:"column",
     justifyContent:"flex-start",
-    flexWrap:"wrap",
     alignItems:"flex-start",
     gap:8,
     flex:.8,
-    padding:"8px 0 0 0",
+    padding:"50px 0 0 0",
     boxSizing:"border-box",
+    width:"100%"
    
 })
 export const Column = styled.div({
     display: "flex",
     flexDirection: "column",
-    gap: 16,
+    alignItems:"flex-start",
+    gap: 8,
     padding: 0,
     width: "100%",
     height: "auto",
     boxSizing: "border-box",
     flex: .75,
 })
-export const Row = styled.div({
+export const Row = styled.div<iProps>({
     display: "flex",
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
-    gap: 200,
+    gap: 8,
     padding: 0,
     width: "100%",
     height: "100%",
     boxSizing: "border-box",
-})
+},props=>({
+    justifyContent:props.justifyContent
+}))

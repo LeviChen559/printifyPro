@@ -17,6 +17,7 @@ interface iProps {
   rows?: number; // Optional: for multi-line text fields
   readOnly?: boolean;
   autoComplete?: string;
+  background?:string;
 }
 
 const FormPropsTextFields: FC<iProps> = (prop) => {
@@ -34,11 +35,11 @@ const FormPropsTextFields: FC<iProps> = (prop) => {
         ...prop.sx,
         ".MuiInputBase-root": {
           height: "100%", // Or specific height value here
+          background:prop.background,
         },
       }}
       type={prop.type}
       slotProps={{
-       
           input: {
           readOnly: prop.readOnly,
           startAdornment: (

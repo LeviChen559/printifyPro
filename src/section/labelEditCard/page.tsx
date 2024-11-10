@@ -1,12 +1,12 @@
 "use client";
 import React, { FC, useState, useRef } from "react";
-import { Container, View, Print, Options, Column, Row } from "./style";
+import { Container, View, Print, Info, Column, Row } from "./style";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { iLabelInfo } from "@/components/labelTable";
 import LabelCard from "@/components/labelCard";
 import Button from "@/components/button";
 import FormPropsTextFields from "@/components/FormPropsTextFields";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import DropdownMenu from "@/components/dropdownMenu";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -42,7 +42,9 @@ const LabelActionCard: FC<iProps> = (prop) => {
   const [productNameZH, setProductNameZH] = useState<string>(
     prop.selectLabelInfo.product_name_zh
   );
-  const [weight, setWeight] = useState<number>( Number(prop.selectLabelInfo.weight));
+  const [weight, setWeight] = useState<number>(
+    Number(prop.selectLabelInfo.weight)
+  );
   const [weightUnit, setWeightUnit] = useState<string>(
     prop.selectLabelInfo.weight_unit
   );
@@ -68,9 +70,6 @@ const LabelActionCard: FC<iProps> = (prop) => {
     prop.selectLabelInfo.manufactured_for
   );
 
-  console.log("weight",weight)
-  
-
   const lableInput = {
     id: prop.selectLabelInfo.id,
     item_code: itemCode, // Add appropriate value
@@ -84,9 +83,8 @@ const LabelActionCard: FC<iProps> = (prop) => {
     shelf_life: shelfLife,
     case_gtin: caseGtin,
     ingredient_info: ingredientInfo,
-    manufactured_for: manufacturedFor
+    manufactured_for: manufacturedFor,
   };
-  console.log("lableInput", lableInput);
 
   const updateLabel = async (labelInfo: iLabelInfo) => {
     console.log("Updating label with info:", labelInfo);
@@ -98,20 +96,20 @@ const LabelActionCard: FC<iProps> = (prop) => {
         setIsLabelUpdating(true);
         try {
           const res = await axios.post("/api/prisma/addNewActive", {
-              event: "update label",
-              username: prop.userName,
-              role: prop.userRole,
-              label_code: labelInfo.item_code,
+            event: "update label",
+            username: prop.userName,
+            role: prop.userRole,
+            label_code: labelInfo.item_code,
           });
-      
+
           if (res.status === 200) {
-              // Handle successful response, e.g., update state/UI or show confirmation
-              console.log("Label updated successfully", res.data);
+            // Handle successful response, e.g., update state/UI or show confirmation
+            console.log("Label updated successfully", res.data);
           }
-      } catch (error) {
+        } catch (error) {
           console.error("Error updating label:", error);
           // Optionally display error feedback to the user
-      }
+        }
         setTimeout(() => {
           setIsLabelUpdating(false);
           prop.setShowCard(() => ({
@@ -170,7 +168,10 @@ const LabelActionCard: FC<iProps> = (prop) => {
   if (isLabelDeleted) {
     return (
       <Container>
-      <LottieAnimation text="Label is Deleted!" animationUrl={AnimationJson} />
+        <LottieAnimation
+          text="Label is Deleted!"
+          animationUrl={AnimationJson}
+        />
       </Container>
     );
   }
@@ -219,44 +220,26 @@ const LabelActionCard: FC<iProps> = (prop) => {
             manufacturedFor={manufacturedFor}
             setWeightUnit={setWeightUnit}
             weightUnit={weightUnit}
-
           />
         )}
       </View>
       <Print>
-        <Options>
+        <Info>
           <Column>
-            <Box
-              display={"flex"}
-              flexDirection={"row"}
-              flexWrap={"nowrap"}
-              gap={2}
-            >
-              <FormPropsTextFields
-                id="id"
-                label="id"
-                value={prop.selectLabelInfo.id.toString()}
-                required={true}
-                type="number"
-                placeholder=""
-                readOnly={true}
-                onChange={(e) => console.log(Number(e.target.value))}
-                startIcon={null}
-                sx={{ width: "100%", padding: "8px 0", height: 60 }}
-              />
-              <FormPropsTextFields
-                id="item_code"
-                label="item_code"
-                value={itemCode}
-                required={true}
-                type="text"
-                placeholder="item_code"
-                onChange={(e) => setItemCode(e.target.value)}
-                startIcon={null}
-                sx={{ width: "100%", padding: "8px 0", height: 60 }}
-              />
-            </Box>
             <FormPropsTextFields
+              readOnly
+              id="item_code"
+              label="item_code"
+              value={itemCode}
+              required={true}
+              type="text"
+              placeholder="item_code"
+              onChange={(e) => setItemCode(e.target.value)}
+              startIcon={null}
+              sx={{ width: "100%", padding: "8px 0", height: 50 }}
+            />
+            <FormPropsTextFields
+              readOnly
               id="product_name_en"
               label="Product Name (English)"
               value={productNameEN}
@@ -265,9 +248,10 @@ const LabelActionCard: FC<iProps> = (prop) => {
               placeholder="Product Name (English)"
               onChange={(e) => setProductNameEN(e.target.value)}
               startIcon={null}
-              sx={{ width: "100%", padding: "8px 0", height: 60 }}
+              sx={{ width: "100%", padding: "8px 0", height: 50 }}
             />
             <FormPropsTextFields
+              readOnly
               id="product_name_zh"
               label="Product Name (Chinese)"
               value={productNameZH}
@@ -276,15 +260,17 @@ const LabelActionCard: FC<iProps> = (prop) => {
               placeholder="Product Name (Chinese)"
               onChange={(e) => setProductNameZH(e.target.value)}
               startIcon={null}
-              sx={{ width: "100%", padding: "8px 0", height: 60 }}
+              sx={{ width: "100%", padding: "8px 0", height: 50 }}
             />
             <Box
               display={"flex"}
               flexDirection={"row"}
               flexWrap={"nowrap"}
-              gap={2}
+              gap={1}
+              alignItems={"center"}
             >
               <FormPropsTextFields
+                readOnly
                 id="weight"
                 label="Net Weight"
                 value={weight.toString()}
@@ -293,9 +279,10 @@ const LabelActionCard: FC<iProps> = (prop) => {
                 placeholder="Net Weight"
                 onChange={(e) => setWeight(Number(e.target.value))}
                 startIcon={null}
-                sx={{ width: "100%", padding: "8px 0", height: 60 }}
+                sx={{ width: "100%", padding: "8px 0", height: 50 }}
               />
               <DropdownMenu
+                readOnly
                 type="weight"
                 weightUnit={weightUnit}
                 setWeightUnit={setWeightUnit}
@@ -307,9 +294,11 @@ const LabelActionCard: FC<iProps> = (prop) => {
               display={"flex"}
               flexDirection={"row"}
               flexWrap={"nowrap"}
-              gap={2}
+              gap={1}
+              alignItems={"center"}
             >
               <FormPropsTextFields
+                readOnly
                 id="case_quantity"
                 label="Case Quantity"
                 value={caseQuantity.toString()}
@@ -318,37 +307,47 @@ const LabelActionCard: FC<iProps> = (prop) => {
                 placeholder="Case Quantity"
                 onChange={(e) => setCaseQuantity(Number(e.target.value))}
                 startIcon={null}
-                sx={{ width: "100%", padding: "8px 0", height: 60 }}
+                sx={{ width: "100%", padding: "8px 0", height: 50 }}
               />
               <DropdownMenu
+                readOnly
                 type="Case"
                 caseUnit={caseUnit}
                 setCaseUnit={setCaseUnit}
               />
             </Box>
-            <FormPropsTextFields
-              id="storage_requirements"
-              label="Storage Requirements"
-              value={storageRequirements}
-              required={true}
-              type="text"
-              placeholder="Storage Requirements"
-              onChange={(e) => setStorageRequirements(e.target.value)}
-              startIcon={null}
-              sx={{ width: "100%", padding: "8px 0", height: 60 }}
-            />
+            <Box
+              display={"flex"}
+              flexDirection={"row"}
+              flexWrap={"nowrap"}
+              gap={1}
+            >
+              <FormPropsTextFields
+                readOnly
+                id="storage_requirements"
+                label="Storage Requirements"
+                value={storageRequirements}
+                required={true}
+                type="text"
+                placeholder="Storage Requirements"
+                onChange={(e) => setStorageRequirements(e.target.value)}
+                startIcon={null}
+                sx={{ width: "100%", padding: "8px 0", height: 50 }}
+              />
 
-            <FormPropsTextFields
-              id="shelf_life"
-              label="Shelf Life"
-              value={shelfLife}
-              required={true}
-              type="text"
-              placeholder="Shelf Life"
-              onChange={(e) => setShelfLife(e.target.value)}
-              startIcon={null}
-              sx={{ width: "100%", padding: "8px 0", height: 60 }}
-            />
+              <FormPropsTextFields
+                readOnly
+                id="shelf_life"
+                label="Shelf Life"
+                value={shelfLife}
+                required={true}
+                type="text"
+                placeholder="Shelf Life"
+                onChange={(e) => setShelfLife(e.target.value)}
+                startIcon={null}
+                sx={{ width: "100%", padding: "8px 0", height: 50 }}
+              />
+            </Box>
             <FormPropsTextFields
               id="case_gtin"
               label="Case GTIN"
@@ -358,7 +357,8 @@ const LabelActionCard: FC<iProps> = (prop) => {
               placeholder="Case GTIN"
               onChange={(e) => setCaseGtin(e.target.value)}
               startIcon={null}
-              sx={{ width: "100%", padding: "8px 0", height: 60 }}
+              background="#ffffff"
+              sx={{ width: "100%", padding: "8px 0", height: 50 }}
             />
           </Column>
           <Column>
@@ -368,27 +368,29 @@ const LabelActionCard: FC<iProps> = (prop) => {
               value={ingredientInfo}
               required={true}
               type="text"
-              rows={10.5}
+              rows={8}
               placeholder="Case GTIN"
               onChange={(e) => setIngredientInfo(e.target.value)}
               startIcon={null}
               sx={{ width: "100%", padding: "8px 0", height: "100%" }}
             />
           </Column>
-        </Options>
-        <Row>
+        </Info>
+        <Column>
           <Button
             btnText="Delete the Label"
             onClick={() => deleteLabel(lableInput.id)}
             type="button"
             backgroundColor="#ff0000"
+            width="100%"
           />
           <Button
             btnText="Update the Label"
             onClick={() => updateLabel(lableInput)}
             type="button"
+            width="100%"
           />
-        </Row>
+        </Column>
       </Print>
     </Container>
   );

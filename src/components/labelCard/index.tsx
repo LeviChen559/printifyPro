@@ -46,13 +46,15 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             readonly={!prop.isEditedMode}
             name="product_name_en"
             style={{
+              display: "flex",
+              alignItems: "center",
               padding: "0px",
               fontSize: 24,
               background: "transparent",
               fontFamily: "Arial",
               color: "#000000",
               overflow: "hidden", // Hide scrollbar for a clean look
-              whiteSpace: "normal", // Allows text to wrap to the next line
+              whiteSpace: "pre-wrap", // Allows text to wrap to the next line
               overflowWrap: "break-word", // Breaks long words if necessary
               resize: "none", // Prevents resizing to maintain consistent font size view
               lineHeight: "1.2", // Adjust for consistent spacing
@@ -93,12 +95,12 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               fontFamily: "Arial",
               color: "#000000",
               overflow: "hidden", // Hide scrollbar for a clean look
-              whiteSpace: "pre-wrap", // Ensures text wraps correctly
+              whiteSpace: "pre-line", // Ensures text wraps correctly
               overflowWrap: "break-word", // Breaks long words if necessary
               resize: "none", // Prevents resizing to maintain consistent font size view
               lineHeight: "1.5", // Adjust for consistent spacing
             }}
-            rows={3}
+            rows={4}
             placeholder="I am an editable textarea"
             value={prop.ingredientInfo}
             onChange={(e) =>
@@ -119,12 +121,12 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             <EditText
               name="weight"
               type="number"
-              inline
               style={{
+                display: "block",
                 fontSize: 12,
                 background: "#ffffff",
                 color: "#000000",
-                width: 75,
+                width: 50,
                 minHeight: 24,
               }}
               value={prop.weight ? prop.weight.toString() : "0"}
