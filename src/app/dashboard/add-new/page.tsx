@@ -32,7 +32,7 @@ const AddNew = () => {
   const [storageRequirements, setStorageRequirements] =
     React.useState<string>("");
   const [shelfLife, setShelfLife] = React.useState<string>("");
-  const [caseGtin, setCaseGtin] = React.useState<string>("code-128");
+  const [caseGtin, setCaseGtin] = React.useState<string>("00000000000000");
   const [ingredientInfo, setIngredientInfo] = React.useState<string>("");
   const [manufacturedFor, setManufacturedFor] = React.useState<string>("");
   const [sendAnewLabel, setSendAnewLabel] = React.useState<boolean>(false);
@@ -213,6 +213,7 @@ const AddNew = () => {
             flexDirection={"row"}
             flexWrap={"nowrap"}
             gap={1}
+            alignItems={"center"}
           >
             <FormPropsTextFields
               id="weight"
@@ -224,7 +225,7 @@ const AddNew = () => {
               placeholder="Net Weight"
               onChange={(e) => setWeight(Number(e.target.value))}
               startIcon={null}
-              sx={{ width: "100%", padding: "8px 0", height: 50 }}
+              sx={{ width: "60%", padding: "8px 0", height: 50 }}
             />
             <DropdownMenu
               type="weight"
@@ -237,6 +238,7 @@ const AddNew = () => {
             flexDirection={"row"}
             flexWrap={"nowrap"}
             gap={1}
+            alignItems={"center"}
           >
             <FormPropsTextFields
               id="case_quantity"
@@ -248,7 +250,7 @@ const AddNew = () => {
               placeholder="Case Quantity"
               onChange={(e) => setCaseQuantity(Number(e.target.value))}
               startIcon={null}
-              sx={{ width: "100%", padding: "8px 0", height: 50 }}
+              sx={{ width: "60%", padding: "8px 0", height: 50 }}
             />
             <DropdownMenu
               type="Case"
@@ -299,7 +301,7 @@ const AddNew = () => {
             startIcon={null}
             sx={{ width: "100%", padding: "8px 0", height: 50 }}
           />
-          <FormPropsTextFields
+            <FormPropsTextFields
             id="ingredient_info"
             label="ingredient_info"
             value={ingredientInfo}
@@ -309,6 +311,19 @@ const AddNew = () => {
             background="#ffffff80"
             placeholder="Case GTIN"
             onChange={(e) => setIngredientInfo(e.target.value)}
+            startIcon={null}
+            sx={{ width: "100%", padding: "8px 0" }}
+          />
+          <FormPropsTextFields
+            id="manufacturedFor"
+            label="ManufacturedFor"
+            value={manufacturedFor}
+            required={true}
+            type="text"
+            rows={3}
+            background="#ffffff80"
+            placeholder="addresses"
+            onChange={(e) => setManufacturedFor(e.target.value)}
             startIcon={null}
             sx={{ width: "100%", padding: "8px 0" }}
           />

@@ -22,6 +22,7 @@ export async function POST(req: NextRequest) {
         shelf_life: data.shelf_life,
         case_gtin: data.case_gtin,
         ingredient_info: data.ingredient_info,
+        manufactured_for: data.manufactured_for,
       },
     });
 
