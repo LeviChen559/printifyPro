@@ -1,10 +1,9 @@
 import  { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { compare } from "bcryptjs";
+import { compare,hash } from "bcryptjs";
 import axios from "axios";
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { PrismaClient } from "@prisma/client"
-
 import { iUser } from "@/app/type";
 const prisma = new PrismaClient()
 
@@ -38,6 +37,7 @@ export const authOptions: NextAuthOptions = {
           if (!res.data.length) {
             throw new Error("No user found with the entered email");
           }
+          const hashedPassword = await hash(credentials.password, 10);
           const matchedUser = (res.data as iUser[]).find(
             (user) => user.email === credentials.email
           );
@@ -50,6 +50,10 @@ export const authOptions: NextAuthOptions = {
             credentials.password,
             matchedUser.password
           );
+          console.log("Password entered1:", credentials.password);
+          console.log("Password entered2:", matchedUser.password);
+          console.log("Password entered2:", hashedPassword);
+          
           console.log("Password is valid:", isValidPassword);
           if (!isValidPassword) {
             throw new Error("Invalid password");

@@ -7,21 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model mylabels {
-  id                   Int                       @id @default(autoincrement())
-  item_code            String?                   @unique(map: "item_code") @db.VarChar(50)
-  product_name_en      String                    @db.VarChar(100)
-  product_name_zh      String?                   @db.VarChar(100)
-  weight               Decimal?                  @db.Decimal(10, 0)
-  weight_unit          mylabels_weight_unit? @default(g_tray)
-  case_quantity        Int?                      @db.UnsignedInt
-  case_unit            mylabels_case_unit?   @default(tray)
-  storage_requirements String?                   @db.VarChar(150)
-  shelf_life           String?                   @db.VarChar(50)
-  case_gtin            String?                   @unique(map: "case_gtin") @db.Char(14)
-  ingredient_info      String?                   @db.Text
-}
-
 model users {
   id         Int        @id @default(autoincrement())
   email      String     @unique(map: "email") @db.VarChar(255)
@@ -31,13 +16,29 @@ model users {
   createDate DateTime?  @default(now()) @db.Timestamp(0)
 }
 
+model mylabels {
+  id                   Int                   @id @default(autoincrement())
+  item_code            String?               @unique(map: "item_code") @db.VarChar(50)
+  product_name_en      String                @db.VarChar(100)
+  product_name_zh      String?               @db.VarChar(100)
+  weight               Decimal?              @db.Decimal(10, 0)
+  weight_unit          mylabels_weight_unit? @default(g_tray)
+  case_quantity        Int?                  @db.UnsignedInt
+  case_unit            mylabels_case_unit?   @default(tray)
+  storage_requirements String?               @db.VarChar(150)
+  shelf_life           String?               @db.VarChar(50)
+  case_gtin            String?               @unique(map: "case_gtin") @db.Char(14)
+  ingredient_info      String?               @db.Text
+  manufactured_for     String?               @default("1234 Maple Street Vancouver, BC V5K 1A1 Canada") @db.VarChar(100)
+}
+
 model activities {
-  id                   Int                       @id @default(autoincrement())
-  label_code            String                   @unique(map: "label_code") @db.VarChar(50)
-  event           String     @db.VarChar(255)
-  username       String     @db.VarChar(100)     
-  created_at DateTime  @default(now()) @db.Timestamp(0)
-  role       users_role
+  id         Int             @id @default(autoincrement())
+  label_code String          @db.VarChar(50)
+  event      String          @db.VarChar(100)
+  created_at DateTime?       @default(now()) @db.Timestamp(0)
+  username   String          @db.VarChar(100)
+  role       activities_role
 }
 
 enum users_role {
@@ -61,4 +62,10 @@ enum mylabels_case_unit {
   piece
   container
   bottle
+}
+
+enum activities_role {
+  admin
+  user
+  guest
 }

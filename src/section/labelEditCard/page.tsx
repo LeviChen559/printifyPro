@@ -33,7 +33,6 @@ const LabelActionCard: FC<iProps> = (prop) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const [isLabelUpdating, setIsLabelUpdating] = useState<boolean>(false);
   const [isLabelDeleted, setIsLabelDeleted] = useState<boolean>(false);
-
   const [itemCode, setItemCode] = useState<string>(
     prop.selectLabelInfo.item_code
   );
@@ -43,7 +42,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
   const [productNameZH, setProductNameZH] = useState<string>(
     prop.selectLabelInfo.product_name_zh
   );
-  const [weight, setWeight] = useState<number>(prop.selectLabelInfo.weight);
+  const [weight, setWeight] = useState<number>( Number(prop.selectLabelInfo.weight));
   const [weightUnit, setWeightUnit] = useState<string>(
     prop.selectLabelInfo.weight_unit
   );
@@ -65,6 +64,12 @@ const LabelActionCard: FC<iProps> = (prop) => {
   const [ingredientInfo, setIngredientInfo] = useState<string>(
     prop.selectLabelInfo.ingredient_info
   );
+  const [manufacturedFor, setManufacturedFor] = useState<string>(
+    prop.selectLabelInfo.manufactured_for
+  );
+
+  console.log("weight",weight)
+  
 
   const lableInput = {
     id: prop.selectLabelInfo.id,
@@ -79,7 +84,9 @@ const LabelActionCard: FC<iProps> = (prop) => {
     shelf_life: shelfLife,
     case_gtin: caseGtin,
     ingredient_info: ingredientInfo,
+    manufactured_for: manufacturedFor
   };
+  console.log("lableInput", lableInput);
 
   const updateLabel = async (labelInfo: iLabelInfo) => {
     console.log("Updating label with info:", labelInfo);
@@ -200,6 +207,19 @@ const LabelActionCard: FC<iProps> = (prop) => {
             showProductNameEN={true}
             showProductNameZH={true}
             isEditedMode={true}
+            setProductNameEN={setProductNameEN}
+            setProductNameZH={setProductNameZH}
+            productNameEN={productNameEN}
+            productNameZH={productNameZH}
+            setIngredientInfo={setIngredientInfo}
+            ingredientInfo={ingredientInfo}
+            setWeight={setWeight}
+            weight={weight}
+            setManufacturedFor={setManufacturedFor}
+            manufacturedFor={manufacturedFor}
+            setWeightUnit={setWeightUnit}
+            weightUnit={weightUnit}
+
           />
         )}
       </View>

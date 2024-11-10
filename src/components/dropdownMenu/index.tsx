@@ -29,28 +29,26 @@ const DropdownMenu: FC<iProps> = (prop) => {
     "ml_bottle",
   ];
   const caseUnitList = ["tray", "bag", "container", "piece", "bottle"];
-
   return (
-    <Box sx={{ width: "100%", padding: "8px 0", }}>
+    <Box sx={{ width: 80, padding: "8px 0" }}>
       {prop.type === "weight" ? (
-        <FormControl fullWidth sx={{height:44}}>
-          <InputLabel id="demo-simple-select-label">Weight Unit</InputLabel>
+        <FormControl fullWidth sx={{ height: 24 }}>
+          {/* <InputLabel id="demo-simple-select-label" sx={{height:24}}>Weight Unit</InputLabel> */}
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={prop.weightUnit}
-            label="Weight Unit"
+            // label="Weight Unit"
             onChange={handleWeightChange}
             sx={{
               "&.MuiInputBase-root": {
-                height: 44, // Adjusts the overall height of the component
+                height: 24, // Adjusts the overall height of the component
               },
             }}
-            >
+          >
             {weightUnitList.map((item) => {
               return (
-                <MenuItem value={item} key={item}        >  
-           
+                <MenuItem value={item} key={item}>
                   {item}
                 </MenuItem>
               );
@@ -68,7 +66,7 @@ const DropdownMenu: FC<iProps> = (prop) => {
             onChange={handleCaseChange}
             sx={{
               "&.MuiInputBase-root": {
-                height: 44, // Adjusts the overall height of the component
+                height: 32, // Adjusts the overall height of the component
               },
             }}
           >

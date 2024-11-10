@@ -24,6 +24,7 @@ export interface iLabelInfo {
   shelf_life: string;
   case_gtin: string;
   ingredient_info: string;
+  manufactured_for: string;
 }
 
 interface iTable {
@@ -46,6 +47,7 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
     prop.apiMyLabelUrl,
     fetcher
   );
+  console.log("labelData",labelData)
   prop.isLabelUpdated&& mutate(prop.apiMyLabelUrl);
   const labelSelect = (id: number) => {
     // Trigger the parent callback with the selected label info

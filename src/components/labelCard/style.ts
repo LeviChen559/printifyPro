@@ -15,7 +15,7 @@ export const  Container =styled.div({
     borderRadius:16,
     backgroundColor:"#ffffff",
     boxShadow:"0px 4px 4px 0px #bcbcbc",
-    gap:16,
+    gap:8,
     position:"absolute",
     transform:"translateY(-50%)",
     top:"50%",
@@ -60,4 +60,13 @@ export const Ingredients = styled.div({
     justifyContent:"flex-start",
     alignItems:"flex-start",
     gap:4
+})
+
+export const Row = styled.div({
+    display:"flex",
+    flexDirection:"row",
+    justifyContent:"flex-start",
+    alignItems:"center",
+    gap:4,
+    height:24,
 })
