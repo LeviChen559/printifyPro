@@ -2,7 +2,7 @@ import React, { useState, FC, KeyboardEvent } from "react";
 import { Typography } from "@mui/material";
 interface iProps {
   text: string;
-  type: string;
+
   placeholder?: string;
 //   children: React.ReactNode;
   props?: React.HTMLAttributes<HTMLDivElement>;
@@ -10,7 +10,6 @@ interface iProps {
 
 const EditAbleTextFields: FC<iProps> = ({
   text,
-  type,
   placeholder = "Editable content",
 //   children,
   ...props
@@ -18,7 +17,7 @@ const EditAbleTextFields: FC<iProps> = ({
   const [isEditing, setEditing] = useState<boolean>(false);
     const [task, setTask] = useState<string>(text);
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>, type?: string) => {
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     // Handle when key is pressed, e.g., Escape to cancel editing
     if (event.key === "Escape") {
       setEditing(false);
@@ -30,11 +29,10 @@ const EditAbleTextFields: FC<iProps> = ({
       {isEditing ? (
         <div
           onBlur={() => setEditing(false)}
-          onKeyDown={(e) => handleKeyDown(e, type)}
+          onKeyDown={(e) => handleKeyDown(e)}
           tabIndex={0} // Needed for onKeyDown to work with div
         >
            <textarea
-            //   type="text"
               name="task"
               rows={3}
               placeholder="Write a task name"

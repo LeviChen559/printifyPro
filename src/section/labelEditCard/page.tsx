@@ -1,12 +1,12 @@
 "use client";
 import React, { FC, useState, useRef } from "react";
-import { Container, View, Print, Info, Column, Row } from "./style";
+import { Container, View, Print, Info, Column } from "./style";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { iLabelInfo } from "@/components/labelTable";
 import LabelCard from "@/components/labelCard";
 import Button from "@/components/button";
 import FormPropsTextFields from "@/components/FormPropsTextFields";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import DropdownMenu from "@/components/dropdownMenu";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";

@@ -9,7 +9,7 @@ interface iActivities{
   label_code: string;
   username: string;
   role: string;
-  created_at: Date;
+  created_at: Date | null;
 }
 const prisma = new PrismaClient();
 export async function POST(req: NextRequest) {
