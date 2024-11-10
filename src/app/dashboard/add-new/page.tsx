@@ -2,8 +2,7 @@
 
 import React, { useEffect, Suspense } from "react";
 import { useSession } from "next-auth/react";
-import { Container } from "../style";
-import { PreviewContainer, EditContainer, Column } from "./style";
+import { PreviewContainer, EditContainer, Column, Container } from "./style";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Typography, Box } from "@mui/material";
 import { useRouter } from "next/navigation";
@@ -35,6 +34,7 @@ const AddNew = () => {
   const [shelfLife, setShelfLife] = React.useState<string>("");
   const [caseGtin, setCaseGtin] = React.useState<string>("code-128");
   const [ingredientInfo, setIngredientInfo] = React.useState<string>("");
+  const [manufacturedFor, setManufacturedFor] = React.useState<string>("");
   const [sendAnewLabel, setSendAnewLabel] = React.useState<boolean>(false);
 
   const fetcher = (url: string) =>
@@ -67,6 +67,7 @@ const AddNew = () => {
     shelf_life: shelfLife,
     case_gtin: caseGtin,
     ingredient_info: ingredientInfo,
+    manufactured_for: manufacturedFor,
   };
 
   useEffect(() => {
@@ -134,13 +135,33 @@ const AddNew = () => {
     );
   }
   return (
-    <Container padding={"0px"} gap={0} justifyContent={ sendAnewLabel?"center":"flex-start"}>
+    <Container
+      padding={"0px"}
+      gap={0}
+      justifyContent={sendAnewLabel ? "center" : "flex-start"}
+    >
       <PreviewContainer>
+        <LabelCard labelInfo={lableInput} isEditedMode 
+         setProductNameEN={setProductNameEN}
+         setProductNameZH={setProductNameZH}
+         productNameEN={productNameEN}
+         productNameZH={productNameZH}
+         setIngredientInfo={setIngredientInfo}
+         ingredientInfo={ingredientInfo}
+         setWeight={setWeight}
+         weight={weight}
+         setManufacturedFor={setManufacturedFor}
+         manufacturedFor={manufacturedFor}
+         setWeightUnit={setWeightUnit}
+         weightUnit={weightUnit}
+        />
+      </PreviewContainer>
+      <EditContainer>
         <Suspense
           fallback={
             <Skeleton
               variant="rectangular"
-              sx={{ height: 100, width: "100%"}}
+              sx={{ height: 100, width: "100%" }}
             />
           }
         >
@@ -150,50 +171,30 @@ const AddNew = () => {
             <Skeleton variant="text" sx={{ fontSize: "2rem", width: "100%" }} />
           )}
         </Suspense>
-        <LabelCard labelInfo={lableInput} isEditedMode />
-      </PreviewContainer>
-      <EditContainer>
         <Column>
-          <Box
-            display={"flex"}
-            flexDirection={"row"}
-            flexWrap={"nowrap"}
-            gap={2}
-          >
-            <FormPropsTextFields
-              id="id"
-              label="id"
-              value={lastItem.id + 1}
-              required={true}
-              type="number"
-              placeholder=""
-              readOnly={true}
-              onChange={(e) => console.log(Number(e.target.value))}
-              startIcon={null}
-              sx={{ width: "100%", padding: "8px 0",height:60  }}
-            />
-            <FormPropsTextFields
-              id="item_code"
-              label="item_code"
-              value={itemCode}
-              required={true}
-              type="text"
-              placeholder="item_code"
-              onChange={(e) => setItemCode(e.target.value)}
-              startIcon={null}
-              sx={{ width: "100%", padding: "8px 0",height:60  }}
-            />
-          </Box>
+          <FormPropsTextFields
+            id="item_code"
+            label="item_code"
+            value={itemCode}
+            required={true}
+            type="text"
+            placeholder="item_code"
+            background="#ffffff80"
+            onChange={(e) => setItemCode(e.target.value)}
+            startIcon={null}
+            sx={{ width: "100%", padding: "8px 0", height: 50 }}
+          />
           <FormPropsTextFields
             id="product_name_en"
             label="Product Name (English)"
             value={productNameEN}
             required={true}
             type="text"
+            background="#ffffff80"
             placeholder="Product Name (English)"
             onChange={(e) => setProductNameEN(e.target.value)}
             startIcon={null}
-            sx={{ width: "100%", padding: "8px 0",height:60  }}
+            sx={{ width: "100%", padding: "8px 0", height: 50 }}
           />
           <FormPropsTextFields
             id="product_name_zh"
@@ -201,16 +202,17 @@ const AddNew = () => {
             value={productNameZH}
             required={true}
             type="text"
+            background="#ffffff80"
             placeholder="Product Name (Chinese)"
             onChange={(e) => setProductNameZH(e.target.value)}
             startIcon={null}
-            sx={{ width: "100%", padding: "8px 0",height:60  }}
+            sx={{ width: "100%", padding: "8px 0", height: 50 }}
           />
           <Box
             display={"flex"}
             flexDirection={"row"}
             flexWrap={"nowrap"}
-            gap={2}
+            gap={1}
           >
             <FormPropsTextFields
               id="weight"
@@ -218,10 +220,11 @@ const AddNew = () => {
               value={weight.toString()}
               required={true}
               type="number"
+              background="#ffffff80"
               placeholder="Net Weight"
               onChange={(e) => setWeight(Number(e.target.value))}
               startIcon={null}
-              sx={{ width: "100%", padding: "8px 0",height:60  }}
+              sx={{ width: "100%", padding: "8px 0", height: 50 }}
             />
             <DropdownMenu
               type="weight"
@@ -229,13 +232,11 @@ const AddNew = () => {
               setWeightUnit={setWeightUnit}
             />
           </Box>
-        </Column>
-        <Column>
           <Box
             display={"flex"}
             flexDirection={"row"}
             flexWrap={"nowrap"}
-            gap={2}
+            gap={1}
           >
             <FormPropsTextFields
               id="case_quantity"
@@ -243,10 +244,11 @@ const AddNew = () => {
               value={caseQuantity.toString()}
               required={true}
               type="number"
+              background="#ffffff80"
               placeholder="Case Quantity"
               onChange={(e) => setCaseQuantity(Number(e.target.value))}
               startIcon={null}
-              sx={{ width: "100%", padding: "8px 0",height:60  }}
+              sx={{ width: "100%", padding: "8px 0", height: 50 }}
             />
             <DropdownMenu
               type="Case"
@@ -254,42 +256,49 @@ const AddNew = () => {
               setCaseUnit={setCaseUnit}
             />
           </Box>
-          <FormPropsTextFields
-            id="storage_requirements"
-            label="Storage Requirements"
-            value={storageRequirements}
-            required={true}
-            type="text"
-            placeholder="Storage Requirements"
-            onChange={(e) => setStorageRequirements(e.target.value)}
-            startIcon={null}
-            sx={{ width: "100%", padding: "8px 0",height:60  }}
-          />
-
-          <FormPropsTextFields
-            id="shelf_life"
-            label="Shelf Life"
-            value={shelfLife}
-            required={true}
-            type="text"
-            placeholder="Shelf Life"
-            onChange={(e) => setShelfLife(e.target.value)}
-            startIcon={null}
-            sx={{ width: "100%", padding: "8px 0",height:60  }}
-          />
+          <Box
+            display={"flex"}
+            flexDirection={"row"}
+            flexWrap={"nowrap"}
+            gap={1}
+          >
+            <FormPropsTextFields
+              id="storage_requirements"
+              label="Storage Requirements"
+              value={storageRequirements}
+              required={true}
+              type="text"
+              background="#ffffff80"
+              placeholder="Storage Requirements"
+              onChange={(e) => setStorageRequirements(e.target.value)}
+              startIcon={null}
+              sx={{ width: "100%", padding: "8px 0", height: 50 }}
+            />
+            <FormPropsTextFields
+              id="shelf_life"
+              label="Shelf Life"
+              value={shelfLife}
+              required={true}
+              type="text"
+              background="#ffffff80"
+              placeholder="Shelf Life"
+              onChange={(e) => setShelfLife(e.target.value)}
+              startIcon={null}
+              sx={{ width: "100%", padding: "8px 0", height: 50 }}
+            />
+          </Box>
           <FormPropsTextFields
             id="case_gtin"
             label="Case GTIN"
             value={caseGtin}
             required={true}
             type="text"
+            background="#ffffff80"
             placeholder="Case GTIN"
             onChange={(e) => setCaseGtin(e.target.value)}
             startIcon={null}
-            sx={{ width: "100%", padding: "8px 0",height:60  }}
+            sx={{ width: "100%", padding: "8px 0", height: 50 }}
           />
-        </Column>
-        <Column>
           <FormPropsTextFields
             id="ingredient_info"
             label="ingredient_info"
@@ -297,10 +306,11 @@ const AddNew = () => {
             required={true}
             type="text"
             rows={10.5}
+            background="#ffffff80"
             placeholder="Case GTIN"
             onChange={(e) => setIngredientInfo(e.target.value)}
             startIcon={null}
-            sx={{ width: "100%", padding: "8px 0"  }}
+            sx={{ width: "100%", padding: "8px 0" }}
           />
           <Button btnText="Add New Label" onClick={createNewLabel} />
         </Column>
@@ -316,7 +326,10 @@ const AddNew = () => {
               zIndex: 1000,
             }}
           />
-          <LottieAnimation animationUrl={AnimationJson} text={"Add Label Successfully!"}/>
+          <LottieAnimation
+            animationUrl={AnimationJson}
+            text={"Add Label Successfully!"}
+          />
         </>
       )}
     </Container>
