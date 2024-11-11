@@ -23,7 +23,7 @@ overflow:"hidden",
 
 export const View = styled.div({
     display:"flex",
-    flexDirection:"row",
+    flexDirection:"column",
     justifyContent:"center",
     alignItems:"center",
     gap:16,
@@ -56,7 +56,7 @@ export const Info = styled.div({
     alignItems:"flex-start",
     gap:8,
     flex:.8,
-    padding:"50px 0 0 0",
+    padding:"24px 0 0 0",
     boxSizing:"border-box",
     width:"100%"
    
@@ -85,3 +85,18 @@ export const Row = styled.div<iProps>({
 },props=>({
     justifyContent:props.justifyContent
 }))
+
+export const StylePanel = styled.div({
+    display:"flex",
+    flexDirection:"row",
+    justifyContent:"flex-start",
+    alignItems:"flex-start",
+    gap:8,
+    padding:16,
+    boxSizing:"border-box",
+    width:"100%",
+    background:"#f5f5f5",
+    borderRadius:8,
+    position:"absolute",
+    top:0,
+})

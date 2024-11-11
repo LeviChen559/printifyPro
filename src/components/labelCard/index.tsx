@@ -14,6 +14,9 @@ import Barcode from "react-barcode";
 import { EditText, EditTextarea } from "react-edit-text";
 import "react-edit-text/dist/index.css";
 import DropdownMenu from "@/components/dropdownMenu";
+import useSWR from "swr";
+import CircularProgress from "@mui/material/CircularProgress";
+import { iEditedMode ,iTextStyle} from "@/section/labelEditCard/page";
 
 interface iProp {
   labelInfo: iLabelInfo;
@@ -33,10 +36,41 @@ interface iProp {
   manufacturedFor?: string;
   setWeightUnit?: React.Dispatch<React.SetStateAction<string>>;
   weightUnit?: string;
+  editMode?: string;
+  setEditMode?: (value: iEditedMode) => void;
+  productNameENStyle?: iTextStyle;
+  productNameZHStyle?: iTextStyle;
 }
 export type Ref = HTMLDivElement;
 
+
+
 const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
+ console.log("productNameENStyle",prop.productNameENStyle)
+  const fetcher = (url: string) =>
+    fetch(url).then((res) => {
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return res.json();
+    });
+
+  const { data: labelStyle } = useSWR(
+    prop.labelInfo?.id
+      ? `/api/prisma/getLabelStyle?id=${prop.labelInfo.id}`
+      : null,
+    fetcher
+  );
+
+  if (!labelStyle) {
+    return (
+      <Container>
+        <CircularProgress />
+        <p>Checking authentication...</p>
+      </Container>
+    );
+  }
+
   return (
     <Container id="labelCard" ref={ref}>
       <Header>
@@ -44,15 +78,18 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
         <div style={{ height: "auto", width: "50%" }}>
           <EditTextarea
             readonly={!prop.isEditedMode}
+            onEditMode={() => prop.setEditMode&&prop.setEditMode(iEditedMode.productNameEn)}
             name="product_name_en"
             style={{
               display: "flex",
               alignItems: "center",
               padding: "0px",
-              fontSize: 24,
               background: "transparent",
-              fontFamily: "Arial",
-              color: "#000000",
+              fontSize: prop.productNameENStyle&&prop.productNameENStyle.fontSize,
+              fontFamily: prop.productNameENStyle&&prop.productNameENStyle.fontFamily,
+              color: labelStyle.data[0].product_name_en.color,
+              fontStyle: prop.productNameENStyle&&prop.productNameENStyle.fontStyle,
+              fontWeight: prop.productNameENStyle&&prop.productNameENStyle.fontWeight,
               overflow: "hidden", // Hide scrollbar for a clean look
               whiteSpace: "pre-wrap", // Allows text to wrap to the next line
               overflowWrap: "break-word", // Breaks long words if necessary
@@ -68,12 +105,16 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
         <div style={{ height: "auto", width: "30%" }}>
           <EditText
             readonly={!prop.isEditedMode}
+            onEditMode={() => prop.setEditMode&&prop.setEditMode(iEditedMode.productNameZh)}
             name="product_name_zh"
             style={{
               padding: "0px",
-              fontSize: 24,
               background: "transparent",
-              color: "#000000",
+              fontSize:prop.productNameZHStyle&&prop.productNameZHStyle.fontSize,
+              fontFamily: prop.productNameZHStyle&&prop.productNameZHStyle.fontFamily,
+              color: labelStyle.data[0].product_name_zh.color,
+              fontStyle: prop.productNameZHStyle&&prop.productNameZHStyle.fontStyle,
+              fontWeight: prop.productNameZHStyle&&prop.productNameZHStyle.fontWeight,
             }}
             value={prop.productNameZH}
             onChange={(e) =>
@@ -90,22 +131,26 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             style={{
               padding: "0px",
               margin: "0px",
-              fontSize: 14,
+              fontSize: labelStyle.data[0].ingredient_info.fontSize,
+              fontFamily: labelStyle.data[0].ingredient_info.fontFamily,
+              color: labelStyle.data[0].ingredient_info.color,
+              fontStyle: labelStyle.data[0].ingredient_info.fontStyle,
+              fontWeight: labelStyle.data[0].ingredient_info.fontWeight,
               background: "transparent",
-              fontFamily: "Arial",
-              color: "#000000",
               overflow: "hidden", // Hide scrollbar for a clean look
               whiteSpace: "pre-line", // Ensures text wraps correctly
               overflowWrap: "break-word", // Breaks long words if necessary
               resize: "none", // Prevents resizing to maintain consistent font size view
               lineHeight: "1.5", // Adjust for consistent spacing
             }}
+            
             rows={4}
             placeholder="I am an editable textarea"
             value={prop.ingredientInfo}
-            onChange={(e) =>
-              prop.setIngredientInfo && prop.setIngredientInfo(e.target.value)
-            }
+            onChange={(e) => {
+              prop.setIngredientInfo && prop.setIngredientInfo(e.target.value);
+            }}
+            onEditMode={() => console.log("edit mode")}
           />
         </div>
       </Ingredients>
@@ -123,9 +168,12 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               type="number"
               style={{
                 display: "block",
-                fontSize: 12,
+                fontSize: labelStyle.data[0].weight.fontSize,
+                fontFamily: labelStyle.data[0].weight.fontFamily,
+                color: labelStyle.data[0].weight.color,
+                fontStyle: labelStyle.data[0].weight.fontStyle,
+                fontWeight: labelStyle.data[0].weight.fontWeight,
                 background: "#ffffff",
-                color: "#000000",
                 width: 50,
                 minHeight: 24,
               }}
@@ -148,12 +196,14 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           <EditTextarea
             style={{
               width: "100%",
-              fontSize: 14,
+              fontSize: labelStyle.data[0].manufactured_for.fontSize,
+              fontFamily: labelStyle.data[0].manufactured_for.fontFamily,
+              color: labelStyle.data[0].manufactured_for.color,
+              fontStyle: labelStyle.data[0].manufactured_for.fontStyle,
+              fontWeight: labelStyle.data[0].manufactured_for.fontWeight,
               height: 40,
               padding: "0px",
               margin: "0px",
-              fontFamily: "Arial",
-              color: "#000000",
               overflow: "hidden", // Hide scrollbar for a clean look
               background: "transparent",
             }}
@@ -170,11 +220,11 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           </Typography>
           <Typography variant="body2">BEST BY : 00000222</Typography>
           <Barcode
-            value={prop.labelInfo.case_gtin ?? "12345678901234"}
+            value={prop.labelInfo.case_gtin.substring(0, 11) ?? "111111111111"}
             width={2}
             height={50}
             fontSize={14}
-            format="CODE128"
+            format="UPC"
           />
         </InfomationColumn>
       </InfomationWrapper>

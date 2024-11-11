@@ -27,8 +27,11 @@ export async function DELETE(req: NextRequest) {
         const deletedLabel = await prisma.mylabels.delete({
             where: { id: labelId },
           });
+          const deletedLabelStyle = await prisma.labelstyle.delete({
+            where: { id: labelId },
+          });
     
-        return NextResponse.json({ success: true, data: deletedLabel }, { status: 200 });
+        return NextResponse.json({ success: true, data: {deletedLabel,deletedLabelStyle} }, { status: 200 });
     } catch (error) {
         console.error("Error updating user:", error);
         return NextResponse.json(

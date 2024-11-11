@@ -8,6 +8,8 @@ import Button from "@/components/button";
 import { TextField } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import { iTextStyle } from "@/section/labelEditCard/page";
+import useSWR from "swr";
 
 interface iProps {
   selectLabelInfo: iLabelInfo;
@@ -26,6 +28,19 @@ const LabelActionCard: FC<iProps> = (prop) => {
   const [showProductNameEN, setshowProductNameEN] = useState<boolean>(true);
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
+  const fetcher = (url: string) =>
+    fetch(url).then((res) => {
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return res.json();
+    });
+
+  const { data: labelStyle } = useSWR(
+    `/api/prisma/getLabelStyle?id=${prop.selectLabelInfo.id}`,
+    fetcher
+  );
+  console.log("labelStyle",labelStyle);
 
   return (
     <Container>
@@ -61,6 +76,8 @@ const LabelActionCard: FC<iProps> = (prop) => {
           weight={prop.selectLabelInfo.weight}
           manufacturedFor={prop.selectLabelInfo.manufactured_for}
           weightUnit={prop.selectLabelInfo.weight_unit}
+          productNameENStyle={labelStyle.data[0].product_name_en as iTextStyle}
+          productNameZHStyle={labelStyle.data[0].product_name_zh as iTextStyle}
         />
       </View>
       <Print>

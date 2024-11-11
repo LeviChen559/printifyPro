@@ -41,6 +41,21 @@ model activities {
   role       activities_role
 }
 
+model labelstyle {
+  id                   Int   @id @default(autoincrement())
+  item_code            Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',14,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',400,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))
+  product_name_en      Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',24,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',700,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))
+  product_name_zh      Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',24,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',700,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))
+  ingredient_info      Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',14,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',400,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))
+  weight               Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',14,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',400,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))
+  weight_unit          Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',14,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',400,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))
+  storage_requirements Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',14,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',400,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))
+  manufactured_for     Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',14,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',400,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))
+  case_quantity        Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',14,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',400,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))
+  case_unit            Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',14,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',400,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))
+  best_before          Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',14,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',400,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))
+}
+
 enum users_role {
   admin
   user

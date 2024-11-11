@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useState, useRef } from "react";
+import React, { FC, useState, useRef, useEffect } from "react";
 import { Container, View, Print, Info, Column } from "./style";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { iLabelInfo } from "@/components/labelTable";
@@ -13,6 +13,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useRouter } from "next/navigation";
 import LottieAnimation from "@/components/lottie/send";
 import AnimationJson from "@/components/lottie/delete.json";
+import StylePanel from "@/components/stylePanel";
+import useSWR from "swr";
 
 interface iProps {
   selectLabelInfo: iLabelInfo;
@@ -27,8 +29,60 @@ interface iProps {
   userName: string;
   userRole: string;
 }
+export const enum iEditedMode {
+  "productNameEn" = "productNameEn",
+  "productNameZh" = "productNameZh",
+  "ingredientInfo" = "ingredientInfo",
+  "weight" = "weight",
+  "manufacturedFor" = "manufacturedFor",
+  "weightUnit" = "weightUnit",
+  "empty" = "empty",
+}
 
+export const enum iTextStyleMode {
+  "fontStyle" = "fontStyle",
+  "fontFamily" = "fontFamily",
+  "fontWeight" = "fontWeight",
+  "fontSize" = "fontSize",
+  "color" = "color",
+}
+export interface iTextStyle {
+  color: string;
+  fontStyle: string;
+  fontSize: number;
+  fontFamily: string;
+  fontWeight: number;
+}
+
+export interface ILabelStyle {
+  id: number;
+  item_code: iTextStyle;
+  product_name_en: iTextStyle;
+  product_name_zh: iTextStyle;
+  ingredient_info: iTextStyle;
+  weight: iTextStyle;
+  weight_unit: iTextStyle;
+  storage_requirements: iTextStyle;
+  manufactured_for: iTextStyle;
+  case_quantity: iTextStyle;
+  case_unit: iTextStyle;
+  best_before: iTextStyle;
+}
 const LabelActionCard: FC<iProps> = (prop) => {
+  const fetcher = (url: string) =>
+    fetch(url).then((res) => {
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return res.json();
+    });
+
+  const { data: labelStyle } = useSWR(
+    prop.selectLabelInfo?.id
+      ? `/api/prisma/getLabelStyle?id=${prop.selectLabelInfo.id}`
+      : null,
+    fetcher
+  );
   const router = useRouter();
   const contentRef = useRef<HTMLDivElement>(null);
   const [isLabelUpdating, setIsLabelUpdating] = useState<boolean>(false);
@@ -39,9 +93,23 @@ const LabelActionCard: FC<iProps> = (prop) => {
   const [productNameEN, setProductNameEN] = useState<string>(
     prop.selectLabelInfo.product_name_en
   );
+  const [productNameENStyle, setProductNameENStyle] = useState<iTextStyle>({
+    color: "#000000",
+    fontStyle: "Normal",
+    fontSize: 24,
+    fontFamily: "Arial",
+    fontWeight: 700,
+  });
   const [productNameZH, setProductNameZH] = useState<string>(
     prop.selectLabelInfo.product_name_zh
   );
+  const [productNameZHStyle, setProductNameZHStyle] = useState<iTextStyle>({
+    color: "#000000",
+    fontStyle: "Normal",
+    fontSize: 24,
+    fontFamily: "Arial",
+    fontWeight: 700,
+  });
   const [weight, setWeight] = useState<number>(
     Number(prop.selectLabelInfo.weight)
   );
@@ -69,6 +137,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
   const [manufacturedFor, setManufacturedFor] = useState<string>(
     prop.selectLabelInfo.manufactured_for
   );
+  const [editMode, setEditMode] = useState<iEditedMode>(iEditedMode.empty);
 
   const lableInput = {
     id: prop.selectLabelInfo.id,
@@ -85,12 +154,112 @@ const LabelActionCard: FC<iProps> = (prop) => {
     ingredient_info: ingredientInfo,
     manufactured_for: manufacturedFor,
   };
+  useEffect(() => {
+    if (labelStyle?.data?.[0]?.product_name_en) {
+      setProductNameENStyle({
+        color: labelStyle.data[0].product_name_en.color ?? "#000000",
+        fontStyle: labelStyle.data[0].product_name_en.fontStyle ?? "Normal",
+        fontSize: labelStyle.data[0].product_name_en.fontSize ?? 24,
+        fontFamily: labelStyle.data[0].product_name_en.fontFamily ?? "Arial",
+        fontWeight: labelStyle.data[0].product_name_en.fontWeight ?? 700,
+      });
+      setProductNameZHStyle({
+        color: labelStyle.data[0].product_name_zh.color?? "#000000",
+        fontStyle: labelStyle.data[0].product_name_zh.fontStyle?? "Normal",
+        fontSize: labelStyle.data[0].product_name_zh.fontSize?? 24,
+        fontFamily: labelStyle.data[0].product_name_zh.fontFamily?? "Arial",
+        fontWeight: labelStyle.data[0].product_name_zh.fontWeight?? 700,
+      })
+    }
+  }, [labelStyle]);
 
-  const updateLabel = async (labelInfo: iLabelInfo) => {
+  const labelStyleuUpdates ={
+    id: prop.selectLabelInfo.id,
+    item_code:{
+      color: "#000000",
+      fontStyle: "Normal",
+      fontSize: 14,
+      fontFamily: "Arial",
+      fontWeight: 400,
+    },
+    product_name_en: {
+      color: productNameENStyle.color,
+      fontStyle: productNameENStyle.fontStyle,
+      fontSize: productNameENStyle.fontSize,
+      fontFamily: productNameENStyle.fontFamily,
+      fontWeight: productNameENStyle.fontWeight,
+    },
+    product_name_zh: {
+      color:productNameZHStyle.color,
+      fontStyle: productNameZHStyle.fontStyle,
+      fontSize: productNameZHStyle.fontSize,
+      fontFamily: productNameZHStyle.fontFamily,
+      fontWeight: productNameZHStyle.fontWeight,
+    },
+    ingredient_info: {
+      color: "#000000",
+      fontStyle: "Normal",
+      fontSize: 14,
+      fontFamily: "Arial",
+      fontWeight: 400,
+    },
+    weight: {
+      color: "#000000",
+      fontStyle: "Normal",
+      fontSize:14,
+      fontFamily: "Arial",
+      fontWeight: 400,
+  },
+  weight_unit: {
+      color: "#000000",
+      fontStyle: "Normal",
+      fontSize: 14,
+      fontFamily: "Arial",
+      fontWeight: 400,
+  },
+  storage_requirements: {
+      color: "#000000",
+      fontStyle: "Normal",
+      fontSize: 14,
+      fontFamily: "Arial",
+      fontWeight: 400,
+  },
+  manufactured_for: {
+      color: "#000000",
+      fontStyle: "Normal",
+      fontSize: 14,
+      fontFamily: "Arial",
+      fontWeight: 400,
+  },
+  case_quantity: {
+      color: "#000000",
+      fontStyle: "Normal",
+      fontSize: 14,
+      fontFamily: "Arial",
+      fontWeight: 400,
+  },
+  case_unit: {
+      color: "#000000",
+      fontStyle: "Normal",
+      fontSize: 14,
+      fontFamily: "Arial",
+      fontWeight: 400,
+  },
+  best_before: {
+      color: "#000000",
+      fontStyle: "Normal",
+      fontSize: 14,
+      fontFamily: "Arial",
+      fontWeight: 400,
+  },
+  };
+  
+
+  const updateLabel = async (labelInfo: iLabelInfo,labelStyle:ILabelStyle) => {
     console.log("Updating label with info:", labelInfo);
     setIsLabelUpdating(true);
     try {
-      const res = await axios.patch("/api/prisma/updateLabel", labelInfo);
+      const res = await axios.patch("/api/prisma/updateLabel", {labelInfo,labelStyle});
       console.log("Response from server:", res);
       if (res.data.success) {
         setIsLabelUpdating(true);
@@ -165,6 +334,33 @@ const LabelActionCard: FC<iProps> = (prop) => {
       console.error("Error deleting label:", error);
     }
   };
+  console.log("editMode", editMode);
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    dataType: iEditedMode,
+    styleType: iTextStyleMode
+  ) => {
+    if (dataType === iEditedMode.productNameEn) {
+      const value = styleType === iTextStyleMode.fontSize || styleType === iTextStyleMode.fontWeight
+        ? Number(event.target.value) // Convert to number for fontSize or fontWeight
+        : event.target.value; // Keep as string for other properties
+  
+      setProductNameENStyle((prevStyle) => ({
+        ...prevStyle,
+        [styleType]: value, // Dynamically update the style property based on styleType
+      }));
+    }else if(dataType === iEditedMode.productNameZh){
+      const value = styleType === iTextStyleMode.fontSize || styleType === iTextStyleMode.fontWeight
+        ? Number(event.target.value) // Convert to number for fontSize or fontWeight
+        : event.target.value; // Keep as string for other properties
+  
+      setProductNameZHStyle((prevStyle) => ({
+        ...prevStyle,
+        [styleType]: value, // Dynamically update the style property based on styleType
+      }));
+    }
+  };
+
   if (isLabelDeleted) {
     return (
       <Container>
@@ -172,6 +368,13 @@ const LabelActionCard: FC<iProps> = (prop) => {
           text="Label is Deleted!"
           animationUrl={AnimationJson}
         />
+      </Container>
+    );
+  }
+  if (!labelStyle) {
+    return (
+      <Container>
+        <CircularProgress />
       </Container>
     );
   }
@@ -199,6 +402,14 @@ const LabelActionCard: FC<iProps> = (prop) => {
         }
       />
       <View>
+        <StylePanel
+        isEditMode={editMode}
+        productNameENStyle={productNameENStyle}
+        productNameZHStyle={productNameZHStyle}
+       handleChange={handleChange}
+        />
+         
+       
         {isLabelUpdating ? (
           <CircularProgress />
         ) : (
@@ -220,6 +431,10 @@ const LabelActionCard: FC<iProps> = (prop) => {
             manufacturedFor={manufacturedFor}
             setWeightUnit={setWeightUnit}
             weightUnit={weightUnit}
+            editMode={editMode}
+            setEditMode={setEditMode}
+            productNameENStyle={productNameENStyle}
+            productNameZHStyle={productNameZHStyle}
           />
         )}
       </View>
@@ -334,7 +549,6 @@ const LabelActionCard: FC<iProps> = (prop) => {
                 startIcon={null}
                 sx={{ width: "100%", padding: "8px 0", height: 50 }}
               />
-
               <FormPropsTextFields
                 readOnly
                 id="shelf_life"
@@ -368,7 +582,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
               value={ingredientInfo}
               required={true}
               type="text"
-              rows={8}
+              rows={3}
               placeholder="Case GTIN"
               onChange={(e) => setIngredientInfo(e.target.value)}
               startIcon={null}
@@ -386,7 +600,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
           />
           <Button
             btnText="Update the Label"
-            onClick={() => updateLabel(lableInput)}
+            onClick={() => updateLabel(lableInput,labelStyleuUpdates)}
             type="button"
             width="100%"
           />

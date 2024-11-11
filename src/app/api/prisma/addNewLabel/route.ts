@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { PrismaClient, mylabels } from "@prisma/client";
+import { PrismaClient, mylabels,labelstyle } from "@prisma/client";
 import { NextRequest } from "next/server";
 
 const prisma = new PrismaClient();
@@ -25,8 +25,22 @@ export async function POST(req: NextRequest) {
         manufactured_for: data.manufactured_for,
       },
     });
+    const newLabelStyle:textstyle = await prisma.labelstyle.create({
+      data: {
+        item_code: data.item_code,
+        product_name_en: data.product_name_en,
+        product_name_zh: data.product_name_zh,
+        weight: data.weight,
+        weight_unit: data.weight_unit,
+        case_quantity: data.case_quantity,
+        case_unit: data.case_unit,
+        storage_requirements: data.storage_requirements,
+        best_before: data.shelf_life,
+        ingredient_info: data.ingredient_info,
+        manufactured_for: data.manufactured_for,
+    }});
 
-    return NextResponse.json({ success: true, data: newLabel });
+    return NextResponse.json({ success: true, data: {newLabel,newLabelStyle} });
   } catch (error) {
     console.error("Error creating label:", error);
     return NextResponse.json({
