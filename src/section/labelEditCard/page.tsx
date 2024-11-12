@@ -324,6 +324,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
     }
   };
 
+
   if (isLabelDeleted) {
     return (
       <Container>

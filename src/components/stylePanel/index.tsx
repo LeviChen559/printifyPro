@@ -60,13 +60,13 @@ const StylePanel: FC<iProps> = (prop) => {
             sx={{ gap: 0.5 }}
           >
             <FormControlLabel
-              value="normal"
+              value="Normal"
               control={<Radio size="small" sx={{ color: "#bcbcbc" }} />}
               label="Normal"
               sx={textStyle}
             />
             <FormControlLabel
-              value="italic"
+              value="Italic"
               control={<Radio size="small" sx={{ color: "#bcbcbc" }} />}
               label="Italic"
               sx={textStyle}

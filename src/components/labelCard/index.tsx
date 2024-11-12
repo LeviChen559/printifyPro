@@ -179,9 +179,10 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
                 color: prop.defaultLabelStyle&&prop.defaultLabelStyle.weight.color,
                 fontStyle: prop.defaultLabelStyle&&prop.defaultLabelStyle.weight.fontStyle,
                 fontWeight: prop.defaultLabelStyle&&prop.defaultLabelStyle.weight.fontWeight,
-                background: "#ffffff",
+                background: "transparent",
                 width: 50,
                 minHeight: 24,
+           
               }}
               value={prop.weight ? prop.weight.toString() : "0"}
               onChange={(e) =>
