@@ -5,7 +5,7 @@ import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { iLabelInfo } from "@/components/labelTable";
 import LabelCard from "@/components/labelCard";
 import Button from "@/components/button";
-import { TextField } from "@mui/material";
+import { CircularProgress, TextField } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { iTextStyle } from "@/type/labelType";
@@ -41,6 +41,8 @@ const LabelActionCard: FC<iProps> = (prop) => {
     fetcher
   );
   console.log("labelStyle",labelStyle);
+
+  if(!labelStyle) return <Container><CircularProgress/></Container>
 
   return (
     <Container>
