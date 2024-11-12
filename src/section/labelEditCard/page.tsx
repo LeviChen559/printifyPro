@@ -15,6 +15,7 @@ import LottieAnimation from "@/components/lottie/send";
 import AnimationJson from "@/components/lottie/delete.json";
 import StylePanel from "@/components/stylePanel";
 import useSWR from "swr";
+import { iTextStyle,iEditedMode,ILabelStyle,iTextStyleMode } from "@/type/labelType";
 
 interface iProps {
   selectLabelInfo: iLabelInfo;
@@ -29,45 +30,7 @@ interface iProps {
   userName: string;
   userRole: string;
 }
-export const enum iEditedMode {
-  "productNameEn" = "productNameEn",
-  "productNameZh" = "productNameZh",
-  "ingredientInfo" = "ingredientInfo",
-  "weight" = "weight",
-  "manufacturedFor" = "manufacturedFor",
-  "weightUnit" = "weightUnit",
-  "empty" = "empty",
-}
 
-export const enum iTextStyleMode {
-  "fontStyle" = "fontStyle",
-  "fontFamily" = "fontFamily",
-  "fontWeight" = "fontWeight",
-  "fontSize" = "fontSize",
-  "color" = "color",
-}
-export interface iTextStyle {
-  color: string;
-  fontStyle: string;
-  fontSize: number;
-  fontFamily: string;
-  fontWeight: number;
-}
-
-export interface ILabelStyle {
-  id: number;
-  item_code: iTextStyle;
-  product_name_en: iTextStyle;
-  product_name_zh: iTextStyle;
-  ingredient_info: iTextStyle;
-  weight: iTextStyle;
-  weight_unit: iTextStyle;
-  storage_requirements: iTextStyle;
-  manufactured_for: iTextStyle;
-  case_quantity: iTextStyle;
-  case_unit: iTextStyle;
-  best_before: iTextStyle;
-}
 const LabelActionCard: FC<iProps> = (prop) => {
   const fetcher = (url: string) =>
     fetch(url).then((res) => {
@@ -245,7 +208,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
       fontFamily: "Arial",
       fontWeight: 400,
   },
-  best_before: {
+  shelf_life: {
       color: "#000000",
       fontStyle: "Normal",
       fontSize: 14,
@@ -334,7 +297,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
       console.error("Error deleting label:", error);
     }
   };
-  console.log("editMode", editMode);
+
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     dataType: iEditedMode,

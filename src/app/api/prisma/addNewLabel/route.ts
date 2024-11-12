@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
         manufactured_for: data.manufactured_for,
       },
     });
-    const newLabelStyle:textstyle = await prisma.labelstyle.create({
+    const newLabelStyle:labelstyle = await prisma.labelstyle.create({
       data: {
         item_code: data.item_code,
         product_name_en: data.product_name_en,

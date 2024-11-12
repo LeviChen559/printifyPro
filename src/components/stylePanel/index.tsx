@@ -9,7 +9,7 @@ import {
   iTextStyleMode,
   iEditedMode,
   iTextStyle,
-} from "@/section/labelEditCard/page";
+} from "@/type/labelType";
 import { Typography } from "@mui/material";
 interface iProps {
   isEditMode: iEditedMode;

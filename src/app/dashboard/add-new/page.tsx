@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, Suspense } from "react";
+import React, { useEffect, Suspense, useState } from "react";
 import { useSession } from "next-auth/react";
 import { PreviewContainer, EditContainer, Column, Container } from "./style";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -17,25 +17,42 @@ import LottieAnimation from "@/components/lottie/send";
 import AnimationJson from "@/components/lottie/send.json";
 import { iLabelInfo } from "@/components/labelTable";
 import DropdownMenu from "@/components/dropdownMenu";
+import StylePanel from "@/components/stylePanel";
+import { iTextStyleMode, iEditedMode, iTextStyle } from "@/type/labelType";
 
 const AddNew = () => {
   // Log the data to check its structure
   const { data: userData, status } = useSession();
   const router = useRouter();
-  const [itemCode, setItemCode] = React.useState<string>("");
-  const [productNameEN, setProductNameEN] = React.useState<string>("");
-  const [productNameZH, setProductNameZH] = React.useState<string>("");
-  const [weight, setWeight] = React.useState<number>(0);
-  const [weightUnit, setWeightUnit] = React.useState<string>("");
-  const [caseQuantity, setCaseQuantity] = React.useState<number>(0);
-  const [caseUnit, setCaseUnit] = React.useState<string>("");
+  const [itemCode, setItemCode] = useState<string>("");
+  const [productNameEN, setProductNameEN] = useState<string>("");
+  const [productNameZH, setProductNameZH] = useState<string>("");
+  const [weight, setWeight] = useState<number>(0);
+  const [weightUnit, setWeightUnit] = useState<string>("");
+  const [caseQuantity, setCaseQuantity] = useState<number>(0);
+  const [caseUnit, setCaseUnit] = useState<string>("");
   const [storageRequirements, setStorageRequirements] =
-    React.useState<string>("");
-  const [shelfLife, setShelfLife] = React.useState<string>("");
-  const [caseGtin, setCaseGtin] = React.useState<string>("00000000000000");
-  const [ingredientInfo, setIngredientInfo] = React.useState<string>("");
-  const [manufacturedFor, setManufacturedFor] = React.useState<string>("");
-  const [sendAnewLabel, setSendAnewLabel] = React.useState<boolean>(false);
+    useState<string>("");
+  const [shelfLife, setShelfLife] = useState<string>("");
+  const [caseGtin, setCaseGtin] = useState<string>("00000000000000");
+  const [ingredientInfo, setIngredientInfo] = useState<string>("");
+  const [manufacturedFor, setManufacturedFor] = useState<string>("");
+  const [sendAnewLabel, setSendAnewLabel] = useState<boolean>(false);
+  const [editMode, setEditMode] = useState<iEditedMode>(iEditedMode.empty);
+  const [productNameENStyle, setProductNameENStyle] = useState<iTextStyle>({
+    color: "#000000",
+    fontStyle: "Normal",
+    fontSize: 24,
+    fontFamily: "Arial",
+    fontWeight: 700,
+  });
+  const [productNameZHStyle, setProductNameZHStyle] = useState<iTextStyle>({
+    color: "#000000",
+    fontStyle: "Normal",
+    fontSize: 24,
+    fontFamily: "Arial",
+    fontWeight: 700,
+  });
 
   const fetcher = (url: string) =>
     fetch(url).then((res) => {
@@ -68,6 +85,36 @@ const AddNew = () => {
     case_gtin: caseGtin,
     ingredient_info: ingredientInfo,
     manufactured_for: manufacturedFor,
+  };
+  const defaultTextlStyle = {
+    color: "#000000",
+    fontSize: 14,
+    fontWeight: 400,
+    fontStyle: "normal",
+    fontFamily: "Arial",
+  };
+  const defaultHeaderStyle = {
+    color: "#000000",
+    fontSize: 24,
+    fontWeight: 700,
+    fontStyle: "normal",
+    fontFamily: "Arial",
+  };
+
+  const defaultLabelStyle = {
+    id: 1,
+    item_code: defaultTextlStyle,
+    product_name_en: defaultHeaderStyle,
+    product_name_zh: defaultHeaderStyle,
+    weight: defaultTextlStyle,
+    weight_unit: defaultTextlStyle,
+    case_quantity: defaultTextlStyle,
+    case_unit: defaultTextlStyle,
+    storage_requirements: defaultTextlStyle,
+    shelf_life: defaultTextlStyle,
+    case_gtin: defaultTextlStyle,
+    ingredient_info: defaultTextlStyle,
+    manufactured_for: defaultTextlStyle,
   };
 
   useEffect(() => {
@@ -111,6 +158,36 @@ const AddNew = () => {
     );
   }
 
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    dataType: iEditedMode,
+    styleType: iTextStyleMode
+  ) => {
+    if (dataType === iEditedMode.productNameEn) {
+      const value =
+        styleType === iTextStyleMode.fontSize ||
+        styleType === iTextStyleMode.fontWeight
+          ? Number(event.target.value) // Convert to number for fontSize or fontWeight
+          : event.target.value; // Keep as string for other properties
+
+      setProductNameENStyle((prevStyle: iTextStyle) => ({
+        ...prevStyle,
+        [styleType]: value, // Dynamically update the style property based on styleType
+      }));
+    } else if (dataType === iEditedMode.productNameZh) {
+      const value =
+        styleType === iTextStyleMode.fontSize ||
+        styleType === iTextStyleMode.fontWeight
+          ? Number(event.target.value) // Convert to number for fontSize or fontWeight
+          : event.target.value; // Keep as string for other properties
+
+      setProductNameZHStyle((prevStyle: iTextStyle) => ({
+        ...prevStyle,
+        [styleType]: value, // Dynamically update the style property based on styleType
+      }));
+    }
+  };
+
   if (labelError) {
     return <Container>Failed to load: {labelError.message}</Container>;
   }
@@ -141,19 +218,32 @@ const AddNew = () => {
       justifyContent={sendAnewLabel ? "center" : "flex-start"}
     >
       <PreviewContainer>
-        <LabelCard labelInfo={lableInput} isEditedMode 
-         setProductNameEN={setProductNameEN}
-         setProductNameZH={setProductNameZH}
-         productNameEN={productNameEN}
-         productNameZH={productNameZH}
-         setIngredientInfo={setIngredientInfo}
-         ingredientInfo={ingredientInfo}
-         setWeight={setWeight}
-         weight={weight}
-         setManufacturedFor={setManufacturedFor}
-         manufacturedFor={manufacturedFor}
-         setWeightUnit={setWeightUnit}
-         weightUnit={weightUnit}
+        <StylePanel
+          isEditMode={editMode}
+          productNameENStyle={productNameENStyle}
+          productNameZHStyle={productNameZHStyle}
+         handleChange={handleChange}
+        />
+        <LabelCard
+          labelInfo={lableInput}
+          isEditedMode
+          setProductNameEN={setProductNameEN}
+          setProductNameZH={setProductNameZH}
+          productNameEN={productNameEN}
+          productNameZH={productNameZH}
+          setIngredientInfo={setIngredientInfo}
+          ingredientInfo={ingredientInfo}
+          setWeight={setWeight}
+          weight={weight}
+          setManufacturedFor={setManufacturedFor}
+          manufacturedFor={manufacturedFor}
+          setWeightUnit={setWeightUnit}
+          weightUnit={weightUnit}
+          defaultLabelStyle={defaultLabelStyle}
+          productNameENStyle={productNameENStyle}
+          productNameZHStyle={productNameZHStyle}
+          editMode={editMode}
+          setEditMode={setEditMode}
         />
       </PreviewContainer>
       <EditContainer>
@@ -301,7 +391,7 @@ const AddNew = () => {
             startIcon={null}
             sx={{ width: "100%", padding: "8px 0", height: 50 }}
           />
-            <FormPropsTextFields
+          <FormPropsTextFields
             id="ingredient_info"
             label="ingredient_info"
             value={ingredientInfo}

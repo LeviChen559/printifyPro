@@ -8,7 +8,7 @@ import Button from "@/components/button";
 import { TextField } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import { iTextStyle } from "@/section/labelEditCard/page";
+import { iTextStyle } from "@/type/labelType";
 import useSWR from "swr";
 
 interface iProps {

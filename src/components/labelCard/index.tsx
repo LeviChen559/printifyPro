@@ -16,7 +16,8 @@ import "react-edit-text/dist/index.css";
 import DropdownMenu from "@/components/dropdownMenu";
 import useSWR from "swr";
 import CircularProgress from "@mui/material/CircularProgress";
-import { iEditedMode ,iTextStyle} from "@/section/labelEditCard/page";
+import { iEditedMode ,ILabelStyle,iTextStyle} from "@/type/labelType";
+
 
 interface iProp {
   labelInfo: iLabelInfo;
@@ -40,13 +41,11 @@ interface iProp {
   setEditMode?: (value: iEditedMode) => void;
   productNameENStyle?: iTextStyle;
   productNameZHStyle?: iTextStyle;
+  defaultLabelStyle?:ILabelStyle
 }
 export type Ref = HTMLDivElement;
 
-
-
 const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
- console.log("productNameENStyle",prop.productNameENStyle)
   const fetcher = (url: string) =>
     fetch(url).then((res) => {
       if (!res.ok) {
@@ -85,11 +84,15 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               alignItems: "center",
               padding: "0px",
               background: "transparent",
-              fontSize: prop.productNameENStyle&&prop.productNameENStyle.fontSize,
-              fontFamily: prop.productNameENStyle&&prop.productNameENStyle.fontFamily,
-              color: labelStyle.data[0].product_name_en.color,
-              fontStyle: prop.productNameENStyle&&prop.productNameENStyle.fontStyle,
-              fontWeight: prop.productNameENStyle&&prop.productNameENStyle.fontWeight,
+              fontSize: prop.productNameENStyle?prop.productNameENStyle.fontSize :prop.defaultLabelStyle&&prop.defaultLabelStyle.product_name_en.fontSize,
+              fontFamily: prop.productNameENStyle?prop.productNameENStyle.fontFamily:
+              prop.defaultLabelStyle&&prop.defaultLabelStyle.product_name_en.fontFamily
+              ,
+              color: prop.productNameENStyle&&prop.productNameENStyle.color,
+              fontStyle: prop.productNameENStyle?prop.productNameENStyle.fontStyle:
+              prop.defaultLabelStyle&&prop.defaultLabelStyle.product_name_en.fontStyle,
+              fontWeight: prop.productNameENStyle?prop.productNameENStyle.fontWeight:
+              prop.defaultLabelStyle&&prop.defaultLabelStyle.product_name_en.fontWeight,
               overflow: "hidden", // Hide scrollbar for a clean look
               whiteSpace: "pre-wrap", // Allows text to wrap to the next line
               overflowWrap: "break-word", // Breaks long words if necessary
@@ -110,11 +113,14 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             style={{
               padding: "0px",
               background: "transparent",
-              fontSize:prop.productNameZHStyle&&prop.productNameZHStyle.fontSize,
-              fontFamily: prop.productNameZHStyle&&prop.productNameZHStyle.fontFamily,
-              color: labelStyle.data[0].product_name_zh.color,
-              fontStyle: prop.productNameZHStyle&&prop.productNameZHStyle.fontStyle,
-              fontWeight: prop.productNameZHStyle&&prop.productNameZHStyle.fontWeight,
+              fontSize:prop.productNameZHStyle?prop.productNameZHStyle.fontSize:prop.defaultLabelStyle&&prop.defaultLabelStyle.product_name_zh.fontSize,
+              fontFamily: prop.productNameZHStyle?prop.productNameZHStyle.fontFamily:
+              prop.defaultLabelStyle&&prop.defaultLabelStyle.product_name_zh.fontFamily,
+              color: prop.productNameZHStyle&&prop.productNameZHStyle.color,
+              fontStyle: prop.productNameZHStyle?prop.productNameZHStyle.fontStyle:
+              prop.defaultLabelStyle&&prop.defaultLabelStyle.product_name_zh.fontStyle,
+              fontWeight: prop.productNameZHStyle?prop.productNameZHStyle.fontWeight:
+              prop.defaultLabelStyle&&prop.defaultLabelStyle.product_name_zh.fontWeight,
             }}
             value={prop.productNameZH}
             onChange={(e) =>
@@ -131,11 +137,11 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             style={{
               padding: "0px",
               margin: "0px",
-              fontSize: labelStyle.data[0].ingredient_info.fontSize,
-              fontFamily: labelStyle.data[0].ingredient_info.fontFamily,
-              color: labelStyle.data[0].ingredient_info.color,
-              fontStyle: labelStyle.data[0].ingredient_info.fontStyle,
-              fontWeight: labelStyle.data[0].ingredient_info.fontWeight,
+              fontSize: prop.defaultLabelStyle&&prop.defaultLabelStyle.ingredient_info.fontSize,
+              fontFamily: prop.defaultLabelStyle&&prop.defaultLabelStyle.ingredient_info.fontFamily,
+              color: prop.defaultLabelStyle&&prop.defaultLabelStyle.ingredient_info.color,
+              fontStyle: prop.defaultLabelStyle&&prop.defaultLabelStyle.ingredient_info.fontStyle,
+              fontWeight: prop.defaultLabelStyle&&prop.defaultLabelStyle.ingredient_info.fontWeight,
               background: "transparent",
               overflow: "hidden", // Hide scrollbar for a clean look
               whiteSpace: "pre-line", // Ensures text wraps correctly
@@ -168,11 +174,11 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               type="number"
               style={{
                 display: "block",
-                fontSize: labelStyle.data[0].weight.fontSize,
-                fontFamily: labelStyle.data[0].weight.fontFamily,
-                color: labelStyle.data[0].weight.color,
-                fontStyle: labelStyle.data[0].weight.fontStyle,
-                fontWeight: labelStyle.data[0].weight.fontWeight,
+                fontSize: prop.defaultLabelStyle&&prop.defaultLabelStyle.weight.fontSize,
+                fontFamily: prop.defaultLabelStyle&&prop.defaultLabelStyle.weight.fontFamily,
+                color: prop.defaultLabelStyle&&prop.defaultLabelStyle.weight.color,
+                fontStyle: prop.defaultLabelStyle&&prop.defaultLabelStyle.weight.fontStyle,
+                fontWeight: prop.defaultLabelStyle&&prop.defaultLabelStyle.weight.fontWeight,
                 background: "#ffffff",
                 width: 50,
                 minHeight: 24,
@@ -196,11 +202,11 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           <EditTextarea
             style={{
               width: "100%",
-              fontSize: labelStyle.data[0].manufactured_for.fontSize,
-              fontFamily: labelStyle.data[0].manufactured_for.fontFamily,
-              color: labelStyle.data[0].manufactured_for.color,
-              fontStyle: labelStyle.data[0].manufactured_for.fontStyle,
-              fontWeight: labelStyle.data[0].manufactured_for.fontWeight,
+              fontSize: prop.defaultLabelStyle&&prop.defaultLabelStyle.manufactured_for.fontSize,
+              fontFamily: prop.defaultLabelStyle&&prop.defaultLabelStyle.manufactured_for.fontFamily,
+              color: prop.defaultLabelStyle&&prop.defaultLabelStyle.manufactured_for.color,
+              fontStyle: prop.defaultLabelStyle&&prop.defaultLabelStyle.manufactured_for.fontStyle,
+              fontWeight: prop.defaultLabelStyle&&prop.defaultLabelStyle.manufactured_for.fontWeight,
               height: 40,
               padding: "0px",
               margin: "0px",
