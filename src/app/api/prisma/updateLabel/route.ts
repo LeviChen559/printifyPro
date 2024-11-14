@@ -8,7 +8,6 @@ export async function PATCH(req: NextRequest) {
     // Parse the request body
     const { labelInfo, labelStyle } = await req.json();
 
-    console.log("labelStyle",labelStyle)
     
     // Check if the user ID is provided
     if (!labelInfo) {
@@ -30,6 +29,7 @@ export async function PATCH(req: NextRequest) {
       if (!existingLabel) {
         return NextResponse.json({ success: false, error: "Label not found" }, { status: 404 });
       }
+    
     // Prepare fields to update and query parameters dynamically
     const fieldsToUpdate = {
         ...(labelInfo.product_name_en && { product_name_en: labelInfo.product_name_en }),
@@ -77,12 +77,13 @@ export async function PATCH(req: NextRequest) {
             where: { id:labelInfo.id },
             data: fieldsToUpdate,
           });
+           // Log result to confirm success
+
 
           const updatedLabelStyle = await prisma.labelstyle.update({
             where: { id: labelInfo.id },  // Assuming labelStyle has a foreign key to the label
             data: styleFieldsToUpdate,
           });
-    
     
         return NextResponse.json({ success: true, data: {updatedLabel,updatedLabelStyle} }, { status: 200 });
     } catch (error) {

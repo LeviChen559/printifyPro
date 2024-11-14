@@ -223,7 +223,6 @@ const LabelActionCard: FC<iProps> = (prop) => {
     setIsLabelUpdating(true);
     try {
       const res = await axios.patch("/api/prisma/updateLabel", {labelInfo,labelStyle});
-      console.log("Response from server:", res);
       if (res.data.success) {
         setIsLabelUpdating(true);
         try {
@@ -233,7 +232,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
             role: prop.userRole,
             label_code: labelInfo.item_code,
           });
-
+          console.log("Response from server2:", res);
           if (res.status === 200) {
             // Handle successful response, e.g., update state/UI or show confirmation
             console.log("Label updated successfully", res.data);

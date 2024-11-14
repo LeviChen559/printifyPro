@@ -42,7 +42,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
   );
   console.log("labelStyle",labelStyle);
 
-  if(!labelStyle) return <Container><CircularProgress/></Container>
+  if(!labelStyle&&labelStyle.data.length===0) return <Container><CircularProgress/></Container>
 
   return (
     <Container>

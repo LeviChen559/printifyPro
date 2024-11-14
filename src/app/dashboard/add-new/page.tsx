@@ -150,14 +150,6 @@ const AddNew = () => {
     }
   };
 
-  if (!labelData) {
-    return (
-      <Container>
-        <CircularProgress />
-      </Container>
-    );
-  }
-
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     dataType: iEditedMode,
@@ -187,6 +179,15 @@ const AddNew = () => {
       }));
     }
   };
+
+  
+  if (!labelData) {
+    return (
+      <Container>
+        <CircularProgress />
+      </Container>
+    );
+  }
 
   if (labelError) {
     return <Container>Failed to load: {labelError.message}</Container>;
@@ -270,7 +271,7 @@ const AddNew = () => {
             type="text"
             placeholder="item_code"
             background="#ffffff80"
-            onChange={(e) => setItemCode(e.target.value)}
+            onChange={(e) => setItemCode(e.target.value.toString())}
             startIcon={null}
             sx={{ width: "100%", padding: "8px 0", height: 50 }}
           />

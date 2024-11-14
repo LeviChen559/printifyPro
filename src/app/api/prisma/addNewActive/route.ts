@@ -16,18 +16,19 @@ export async function POST(req: NextRequest) {
   try {
     // Parse JSON data from the request body
     const data = await req.json();
+    console.log("data",data)
+   
 
     // Fetch data from the mylabels table using Prisma
     const newActivety: iActivities = await prisma.activities.create({
-      data: {
+      data:{
+        // id: lastActivity.id + 1,
         event: data.event,
-        username: data.username,
-        created_at: new Date(),
-        role: data.role,
         label_code: data.label_code,
-      
-      },
-    });
+        username: data.username,
+        role: data.role,
+        created_at: new Date()
+      }});
 
     return NextResponse.json({ success: true, data: newActivety });
   } catch (error) {
