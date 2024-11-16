@@ -64,6 +64,7 @@ const AddNew = () => {
 
   useEffect(() => {
     // List of fields to check
+    if (!submitClicked) return;
     const validations = [
       {
         field: itemCode,
@@ -155,7 +156,7 @@ const AddNew = () => {
     caseGtin,
     ingredientInfo,
     manufacturedFor,
-    // submitClicked,
+    submitClicked,
   ]);
 
   const fetcher = (url: string) =>
