@@ -1,5 +1,5 @@
 import { FC } from "react";
-import TextField from "@mui/material/TextField";
+import {TextField,FormHelperText,Box} from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 interface iProps {
   id: string;
@@ -18,10 +18,12 @@ interface iProps {
   readOnly?: boolean;
   autoComplete?: string;
   background?:string;
+  helperText?: string;
 }
 
 const FormPropsTextFields: FC<iProps> = (prop) => {
   return (
+    <Box sx={{width:"100%"}}>
     <TextField
       required={prop.required}
       id={prop.id}
@@ -63,6 +65,8 @@ const FormPropsTextFields: FC<iProps> = (prop) => {
       onChange={prop.onChange}
       placeholder={prop.placeholder}
     />
+    {prop.error && <FormHelperText sx={{padding:0,margin:0,color:"red"}}>{prop.helperText}</FormHelperText>}
+</Box>
   );
 };
 

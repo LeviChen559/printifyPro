@@ -38,7 +38,7 @@ export const PreviewContainer = styled.div({
   overflow: "auto",
   width: "100%",
   height: "100%",
-  flex: 3,
+  flex: 2.5,
   position: "relative",
   padding: 24,
   boxSizing: "border-box",
@@ -60,10 +60,10 @@ export const EditContainer = styled.div({
 export const Column = styled.div<iProps>({
   display: "flex",
   flexDirection: "column",
-  gap: 8,
+  gap: 12,
   // padding: 16,
   width: "100%",
   height: "100%",
   boxSizing: "border-box",
-  marginTop:24
+  marginTop:8,
 });

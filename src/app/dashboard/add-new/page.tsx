@@ -2,27 +2,35 @@
 
 import React, { useEffect, Suspense, useState } from "react";
 import { useSession } from "next-auth/react";
-import { PreviewContainer, EditContainer, Column, Container } from "./style";
+import { PreviewContainer, EditContainer, Container } from "./style";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Typography, Box } from "@mui/material";
+import { Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import Skeleton from "@mui/material/Skeleton";
 import UserState from "@/components/userState";
-import FormPropsTextFields from "@/components/FormPropsTextFields";
 import useSWR from "swr";
 import LabelCard from "@/components/labelCard";
-import Button from "@/components/button";
 import axios from "axios";
 import LottieAnimation from "@/components/lottie/send";
 import AnimationJson from "@/components/lottie/send.json";
 import { iLabelInfo } from "@/components/labelTable";
-import DropdownMenu from "@/components/dropdownMenu";
 import StylePanel from "@/components/stylePanel";
 import { iTextStyleMode, iEditedMode, iTextStyle } from "@/type/labelType";
+import AddNewLabelForm from "@/section/addNewLabelForm";
+interface formState {
+  error: boolean;
+  message: string;
+  locale: string;
+}
 
 const AddNew = () => {
   // Log the data to check its structure
   const { data: userData, status } = useSession();
+  const [formError, setFormError] = useState<formState>({
+    error: false,
+    message: "",
+    locale: "",
+  });
   const router = useRouter();
   const [itemCode, setItemCode] = useState<string>("");
   const [productNameEN, setProductNameEN] = useState<string>("");
@@ -31,14 +39,14 @@ const AddNew = () => {
   const [weightUnit, setWeightUnit] = useState<string>("");
   const [caseQuantity, setCaseQuantity] = useState<number>(0);
   const [caseUnit, setCaseUnit] = useState<string>("");
-  const [storageRequirements, setStorageRequirements] =
-    useState<string>("");
+  const [storageRequirements, setStorageRequirements] = useState<string>("");
   const [shelfLife, setShelfLife] = useState<string>("");
   const [caseGtin, setCaseGtin] = useState<string>("00000000000000");
   const [ingredientInfo, setIngredientInfo] = useState<string>("");
   const [manufacturedFor, setManufacturedFor] = useState<string>("");
   const [sendAnewLabel, setSendAnewLabel] = useState<boolean>(false);
   const [editMode, setEditMode] = useState<iEditedMode>(iEditedMode.empty);
+  const [submitClicked, setSubmitClicked] = useState<boolean>(false);
   const [productNameENStyle, setProductNameENStyle] = useState<iTextStyle>({
     color: "#000000",
     fontStyle: "Normal",
@@ -53,6 +61,102 @@ const AddNew = () => {
     fontFamily: "Arial",
     fontWeight: 700,
   });
+
+  useEffect(() => {
+    // List of fields to check
+    const validations = [
+      {
+        field: itemCode,
+        message: "Item code is required",
+        locale: "item_code",
+      },
+      {
+        field: productNameEN,
+        message: "Product Name (English) is required",
+        locale: "product_name_en",
+      },
+      {
+        field: productNameZH,
+        message: "Product Name (Chinese) is required",
+        locale: "product_name_zh",
+      },
+      { field: weight, message: "Net Weight is required", locale: "weight" },
+      {
+        field: weightUnit,
+        message: "Weight Unit is required",
+        locale: "weight_unit",
+      },
+      {
+        field: caseQuantity,
+        message: "Case Quantity is required",
+        locale: "case_quantity",
+      },
+      {
+        field: caseUnit,
+        message: "Case Unit is required",
+        locale: "case_unit",
+      },
+      {
+        field: storageRequirements,
+        message: "Storage Requirements is required",
+        locale: "storage_requirements",
+      },
+      {
+        field: shelfLife,
+        message: "Shelf Life is required",
+        locale: "shelf_life",
+      },
+      {
+        field: ingredientInfo,
+        message: "Ingredient Info is required",
+        locale: "ingredient_info",
+      },
+      {
+        field: manufacturedFor,
+        message: "Manufactured For is required",
+        locale: "manufactured_for",
+      },
+      {
+        field: caseGtin,
+        message: "Case GTIN is required and must be 12 characters",
+        locale: "case_gtin",
+        validate: (value: string) => value?.length === 12,
+      },
+    ];
+
+    // Loop through each validation rule
+    for (const { field, message, locale, validate } of validations) {
+      if ( (!field || (validate && !validate(field)))) {
+        setFormError({
+          error: true,
+          message,
+          locale,
+        });
+        return; // stop here if validation fails
+      }
+    }
+
+    // If no errors were found, clear formError
+    setFormError({
+      error: false,
+      message: "",
+      locale: "",
+    });
+  }, [
+    itemCode,
+    productNameEN,
+    productNameZH,
+    weight,
+    weightUnit,
+    caseQuantity,
+    caseUnit,
+    storageRequirements,
+    shelfLife,
+    caseGtin,
+    ingredientInfo,
+    manufacturedFor,
+    // submitClicked,
+  ]);
 
   const fetcher = (url: string) =>
     fetch(url).then((res) => {
@@ -123,7 +227,11 @@ const AddNew = () => {
     }
   }, [status, router]);
 
-  const createNewLabel = async () => {
+  console.log("formError.error", formError.error);
+  const createNewLabel = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSubmitClicked(true);
+    if (formError.error) return;
     try {
       const response = await axios.post("/api/prisma/addNewLabel", lableInput);
       console.log("response", response.data);
@@ -180,7 +288,6 @@ const AddNew = () => {
     }
   };
 
-  
   if (!labelData) {
     return (
       <Container>
@@ -223,7 +330,7 @@ const AddNew = () => {
           isEditMode={editMode}
           productNameENStyle={productNameENStyle}
           productNameZHStyle={productNameZHStyle}
-         handleChange={handleChange}
+          handleChange={handleChange}
         />
         <LabelCard
           labelInfo={lableInput}
@@ -262,164 +369,34 @@ const AddNew = () => {
             <Skeleton variant="text" sx={{ fontSize: "2rem", width: "100%" }} />
           )}
         </Suspense>
-        <Column>
-          <FormPropsTextFields
-            id="item_code"
-            label="item_code"
-            value={itemCode}
-            required={true}
-            type="text"
-            placeholder="item_code"
-            background="#ffffff80"
-            onChange={(e) => setItemCode(e.target.value.toString())}
-            startIcon={null}
-            sx={{ width: "100%", padding: "8px 0", height: 50 }}
-          />
-          <FormPropsTextFields
-            id="product_name_en"
-            label="Product Name (English)"
-            value={productNameEN}
-            required={true}
-            type="text"
-            background="#ffffff80"
-            placeholder="Product Name (English)"
-            onChange={(e) => setProductNameEN(e.target.value)}
-            startIcon={null}
-            sx={{ width: "100%", padding: "8px 0", height: 50 }}
-          />
-          <FormPropsTextFields
-            id="product_name_zh"
-            label="Product Name (Chinese)"
-            value={productNameZH}
-            required={true}
-            type="text"
-            background="#ffffff80"
-            placeholder="Product Name (Chinese)"
-            onChange={(e) => setProductNameZH(e.target.value)}
-            startIcon={null}
-            sx={{ width: "100%", padding: "8px 0", height: 50 }}
-          />
-          <Box
-            display={"flex"}
-            flexDirection={"row"}
-            flexWrap={"nowrap"}
-            gap={1}
-            alignItems={"center"}
-          >
-            <FormPropsTextFields
-              id="weight"
-              label="Net Weight"
-              value={weight.toString()}
-              required={true}
-              type="number"
-              background="#ffffff80"
-              placeholder="Net Weight"
-              onChange={(e) => setWeight(Number(e.target.value))}
-              startIcon={null}
-              sx={{ width: "60%", padding: "8px 0", height: 50 }}
-            />
-            <DropdownMenu
-              type="weight"
-              weightUnit={weightUnit}
-              setWeightUnit={setWeightUnit}
-            />
-          </Box>
-          <Box
-            display={"flex"}
-            flexDirection={"row"}
-            flexWrap={"nowrap"}
-            gap={1}
-            alignItems={"center"}
-          >
-            <FormPropsTextFields
-              id="case_quantity"
-              label="Case Quantity"
-              value={caseQuantity.toString()}
-              required={true}
-              type="number"
-              background="#ffffff80"
-              placeholder="Case Quantity"
-              onChange={(e) => setCaseQuantity(Number(e.target.value))}
-              startIcon={null}
-              sx={{ width: "60%", padding: "8px 0", height: 50 }}
-            />
-            <DropdownMenu
-              type="Case"
-              caseUnit={caseUnit}
-              setCaseUnit={setCaseUnit}
-            />
-          </Box>
-          <Box
-            display={"flex"}
-            flexDirection={"row"}
-            flexWrap={"nowrap"}
-            gap={1}
-          >
-            <FormPropsTextFields
-              id="storage_requirements"
-              label="Storage Requirements"
-              value={storageRequirements}
-              required={true}
-              type="text"
-              background="#ffffff80"
-              placeholder="Storage Requirements"
-              onChange={(e) => setStorageRequirements(e.target.value)}
-              startIcon={null}
-              sx={{ width: "100%", padding: "8px 0", height: 50 }}
-            />
-            <FormPropsTextFields
-              id="shelf_life"
-              label="Shelf Life"
-              value={shelfLife}
-              required={true}
-              type="text"
-              background="#ffffff80"
-              placeholder="Shelf Life"
-              onChange={(e) => setShelfLife(e.target.value)}
-              startIcon={null}
-              sx={{ width: "100%", padding: "8px 0", height: 50 }}
-            />
-          </Box>
-          <FormPropsTextFields
-            id="case_gtin"
-            label="Case GTIN"
-            value={caseGtin}
-            required={true}
-            type="text"
-            background="#ffffff80"
-            placeholder="Case GTIN"
-            onChange={(e) => setCaseGtin(e.target.value)}
-            startIcon={null}
-            sx={{ width: "100%", padding: "8px 0", height: 50 }}
-          />
-          <FormPropsTextFields
-            id="ingredient_info"
-            label="ingredient_info"
-            value={ingredientInfo}
-            required={true}
-            type="text"
-            rows={10.5}
-            background="#ffffff80"
-            placeholder="Case GTIN"
-            onChange={(e) => setIngredientInfo(e.target.value)}
-            startIcon={null}
-            sx={{ width: "100%", padding: "8px 0" }}
-          />
-          <FormPropsTextFields
-            id="manufacturedFor"
-            label="ManufacturedFor"
-            value={manufacturedFor}
-            required={true}
-            type="text"
-            rows={3}
-            background="#ffffff80"
-            placeholder="addresses"
-            onChange={(e) => setManufacturedFor(e.target.value)}
-            startIcon={null}
-            sx={{ width: "100%", padding: "8px 0" }}
-          />
-          <Button btnText="Add New Label" onClick={createNewLabel} />
-        </Column>
+        <AddNewLabelForm
+          itemCode={itemCode}
+          setItemCode={setItemCode}
+          productNameEN={productNameEN}
+          setProductNameEN={setProductNameEN}
+          productNameZH={productNameZH}
+          setProductNameZH={setProductNameZH}
+          ingredientInfo={ingredientInfo}
+          setIngredientInfo={setIngredientInfo}
+          weight={weight}
+          setWeight={setWeight}
+          weightUnit={weightUnit}
+          setWeightUnit={setWeightUnit}
+          caseQuantity={caseQuantity}
+          setCaseQuantity={setCaseQuantity}
+          caseUnit={caseUnit}
+          setCaseUnit={setCaseUnit}
+          caseGtin={caseGtin}
+          setCaseGtin={setCaseGtin}
+          manufacturedFor={manufacturedFor}
+          setManufacturedFor={setManufacturedFor}
+          storageRequirements={storageRequirements}
+          setStorageRequirements={setStorageRequirements}
+          shelfLife={shelfLife}
+          setShelfLife={setShelfLife}
+          formError={formError}
+          createNewLabel={createNewLabel}
+        />
       </EditContainer>
       {sendAnewLabel && (
         <>

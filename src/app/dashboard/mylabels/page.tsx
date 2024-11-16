@@ -157,7 +157,7 @@ const MyLabels = () => {
             }
             required={false}
             startIcon={null}
-            sx={{ flex: "1 0 200px", height: "50px" }}
+            sx={{ width:"100%", height: "50px" }}
             endIcon={
               clickResetSearch === false &&
               search.searchValue && <CancelIcon onClick={resetSearch} />

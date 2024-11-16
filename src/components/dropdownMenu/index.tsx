@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { FormHelperText } from "@mui/material";
 
 interface iProps {
   type: string;
@@ -11,6 +12,8 @@ interface iProps {
   weightUnit?: string;
   caseUnit?: string;
   readOnly?: boolean;
+  error?: boolean;
+  helperText?: string;
 }
 
 const DropdownMenu: FC<iProps> = (prop) => {
@@ -31,7 +34,7 @@ const DropdownMenu: FC<iProps> = (prop) => {
 
   const caseUnitList = ["tray", "bag", "container", "piece", "bottle"];
   return (
-    <Box sx={{ width: 100, padding: "0" }}>
+    <Box sx={{ width: "90%", padding: "0" }}>
       {prop.type === "weight" ? (
         <FormControl
           fullWidth
@@ -47,6 +50,7 @@ const DropdownMenu: FC<iProps> = (prop) => {
             readOnly={prop.readOnly}
             // label="Weight Unit"
             onChange={handleWeightChange}
+            error={prop.error}
             sx={{
               "&.MuiInputBase-root": {
                 height: prop.readOnly ? 24 : 32, // Adjusts the overall height of the component
@@ -73,6 +77,7 @@ const DropdownMenu: FC<iProps> = (prop) => {
               );
             })}
           </Select>
+          <FormHelperText sx={{color:"red",textWrap:"nowrap"}}>{prop.helperText}</FormHelperText>
         </FormControl>
       ) : (
         <FormControl
@@ -113,6 +118,7 @@ const DropdownMenu: FC<iProps> = (prop) => {
               );
             })}
           </Select>
+          <FormHelperText sx={{color:"red",textWrap:"nowrap"}}>{prop.helperText}</FormHelperText>
         </FormControl>
       )}
     </Box>
