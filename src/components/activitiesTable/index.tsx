@@ -10,6 +10,7 @@ import Paper from "@mui/material/Paper";
 import useSWR from "swr";
 import { Container } from "@mui/material";
 import SkeletonTable from "@/components/skeletonTable";
+import {fetcher} from "@/utils/lib/fetcher";
 
 export interface iActivety {
   id: number;
@@ -25,13 +26,6 @@ interface iProps {
 }
 
 const ActivitiesTable: FC<iProps> = () => {
-  const fetcher = (url: string) =>
-    fetch(url).then((res) => {
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return res.json();
-    });
 
   const { data: userData, error: userError } = useSWR(
     "/api/prisma/getActivties",

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 export const Container = styled.div({
-width:"90%",
+width:"95%",
 height:"90%",
 display:"flex",
 flexDirection:"row",

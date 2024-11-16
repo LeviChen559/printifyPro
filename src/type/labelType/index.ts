@@ -37,3 +37,9 @@ export const enum iEditedMode {
     case_unit: iTextStyle;
     shelf_life: iTextStyle;
   }
+
+  export interface formState {
+    error: boolean;
+    message: string;
+    locale: string;
+  }

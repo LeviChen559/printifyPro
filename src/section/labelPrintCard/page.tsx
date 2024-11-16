@@ -10,6 +10,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { iTextStyle } from "@/type/labelType";
 import useSWR from "swr";
+import { fetcher } from "@/utils/lib/fetcher";
 
 interface iProps {
   selectLabelInfo: iLabelInfo;
@@ -28,21 +29,19 @@ const LabelActionCard: FC<iProps> = (prop) => {
   const [showProductNameEN, setshowProductNameEN] = useState<boolean>(true);
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
-  const fetcher = (url: string) =>
-    fetch(url).then((res) => {
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return res.json();
-    });
 
   const { data: labelStyle } = useSWR(
     `/api/prisma/getLabelStyle?id=${prop.selectLabelInfo.id}`,
     fetcher
   );
-  console.log("labelStyle",labelStyle);
+  console.log("labelStyle", labelStyle);
 
-  if(!labelStyle&&labelStyle.data.length===0) return <Container><CircularProgress/></Container>
+  if (!labelStyle || labelStyle.data.length === 0)
+    return (
+      <Container>
+        <CircularProgress />
+      </Container>
+    );
 
   return (
     <Container>

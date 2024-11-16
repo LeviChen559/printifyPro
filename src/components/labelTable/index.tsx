@@ -10,9 +10,12 @@ import Paper from "@mui/material/Paper";
 import useSWR, { mutate } from "swr";
 import { Container } from "@mui/material";
 import SkeletonTable from "@/components/skeletonTable";
+import { fetcher } from "@/utils/lib/fetcher";
+import LabelLogo from "../logo";
 
 export interface iLabelInfo {
   id: number;
+  logo: string;
   item_code: string;
   product_name_en: string;
   product_name_zh: string;
@@ -49,20 +52,12 @@ interface iTable {
 }
 
 const BarCodeInfoTable: FC<iTable> = (prop) => {
-  const fetcher = (url: string) =>
-    fetch(url).then((res) => {
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return res.json();
-    });
-
   const { data: labelData, error: labelError } = useSWR(
     prop.apiMyLabelUrl,
     fetcher
   );
 
-  prop.isLabelUpdated && mutate(prop.apiMyLabelUrl)
+  prop.isLabelUpdated && mutate(prop.apiMyLabelUrl);
   const labelSelect = (id: number) => {
     // Trigger the parent callback with the selected label info
     const selectedInfo = labelData.find((item: iLabelInfo) => item.id === id);
@@ -96,6 +91,9 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
             <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
               Item Code
             </TableCell>
+            <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
+              Logo
+            </TableCell>
             <TableCell align="center" sx={{ width: "100px", padding: 1 }}>
               Product_EN
             </TableCell>
@@ -106,17 +104,22 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
               Weight
             </TableCell>
             <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
-              Case Size
+              Case
             </TableCell>
-            <TableCell align="center" sx={{ width: "100px", padding: 1 }}>
+            <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
               Storage
             </TableCell>
             <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
               Shelf Life
             </TableCell>
-            <TableCell align="center">Case Gtin</TableCell>
-            <TableCell align="center" sx={{ width: "200px", padding: 1 }}>
+            <TableCell align="center" sx={{ width: "75px", padding: 1 }}>
+              Case Gtin
+            </TableCell>
+            <TableCell align="center" sx={{ width: "150px", padding: 1 }}>
               Ingredient Information
+            </TableCell>
+            <TableCell align="center" sx={{ width: "150px", padding: 1 }}>
+              Manufactured For
             </TableCell>
           </TableRow>
         </TableHead>
@@ -140,6 +143,9 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
                   {row.id}
                 </TableCell>
                 <TableCell align="left">{row.item_code}</TableCell>
+                <TableCell align="left">
+                  <LabelLogo logo={row.logo} fontSize={18}/>
+                </TableCell>
                 <TableCell align="left">{row.product_name_en}</TableCell>
                 <TableCell align="left">{row.product_name_zh}</TableCell>
                 <TableCell align="left">
@@ -152,7 +158,7 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
                 <TableCell
                   align="left"
                   sx={{
-                    width: "100px",
+                    width: "50px",
                     whiteSpace: "balance",
                     textWrap: "balance",
                     wordBreak: "break-word",
@@ -161,14 +167,17 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
                 >
                   {row.storage_requirements}
                 </TableCell>
-                <TableCell align="left" sx={{ padding: 1 }}>
+                <TableCell align="left" sx={{ padding: 1, width: "50px" }}>
                   {row.shelf_life}
                 </TableCell>
-                <TableCell align="left" sx={{ width: "150px", padding: 1 }}>
+                <TableCell align="left" sx={{ width: "75px", padding: 1 }}>
                   {row.case_gtin}
                 </TableCell>
                 <TableCell align="left" sx={{ width: "150px", padding: 1 }}>
                   {row.ingredient_info}
+                </TableCell>
+                <TableCell align="left" sx={{ width: "150px", padding: 1 }}>
+                  {row.manufactured_for}
                 </TableCell>
               </TableRow>
             ))

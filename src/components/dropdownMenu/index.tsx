@@ -7,13 +7,16 @@ import { FormHelperText } from "@mui/material";
 
 interface iProps {
   type: string;
-  setWeightUnit?: React.Dispatch<React.SetStateAction<string>>;
-  setCaseUnit?: React.Dispatch<React.SetStateAction<string>>;
+  logo?: string;
+  setLogo?: React.Dispatch<React.SetStateAction<string>>;
   weightUnit?: string;
+  setWeightUnit?: React.Dispatch<React.SetStateAction<string>>;
   caseUnit?: string;
+  setCaseUnit?: React.Dispatch<React.SetStateAction<string>>;
   readOnly?: boolean;
   error?: boolean;
   helperText?: string;
+  width?: string;
 }
 
 const DropdownMenu: FC<iProps> = (prop) => {
@@ -23,6 +26,10 @@ const DropdownMenu: FC<iProps> = (prop) => {
   const handleCaseChange = (event: SelectChangeEvent) => {
     prop.setCaseUnit && prop.setCaseUnit(event.target.value as string);
   };
+
+  const handleLogoChange = (event: SelectChangeEvent) => {
+    prop.setLogo && prop.setLogo(event.target.value as string);
+  };
   const weightUnitList = [
     "g_tray",
     "g_bag",
@@ -31,43 +38,44 @@ const DropdownMenu: FC<iProps> = (prop) => {
     "g_piece",
     "ml_bottle",
   ];
+  console.log("readOnly", prop.readOnly);
 
   const caseUnitList = ["tray", "bag", "container", "piece", "bottle"];
+  const logoList = ["001", "002", "003", "004"];
+  const formControlStyle = {
+    background: "#ffffff40",
+    height: prop.readOnly ? 24 : 40,
+    borderRadius: 1,
+  };
+  const MuiInputBaseStyle = {
+    "&.MuiInputBase-root": {
+      height: prop.readOnly ? 24 : 40, // Adjusts the overall height of the component
+      border: prop.readOnly ? "none" : "block", // Removes border
+      padding: 0,
+    },
+    "& .MuiOutlinedInput-notchedOutline": {
+      border: prop.readOnly ? "none" : "block", // Removes border around the dropdown
+      padding: 0,
+    },
+    "& .MuiSelect-icon": {
+      display: prop.readOnly ? "none" : "block", // Hides the dropdown icon
+    },
+    "& .MuiSelect-select": {
+      padding: prop.readOnly ? "0px 0px 6px 0px !important" : "auto", // Ensures no padding within the select content
+    },
+  };
   return (
-    <Box sx={{ width: "90%", padding: "0" }}>
-      {prop.type === "weight" ? (
-        <FormControl
-          fullWidth
-          sx={{ height: prop.readOnly ? 24 : 32, background: "#ffffff80" }}
-        >
-          {/* <InputLabel id="demo-simple-select-label" sx={{ paddingTop:  prop.readOnly ? -5 : 0 }}>
-            Weight Unit
-          </InputLabel> */}
+    <Box sx={{ width: prop.width, padding: "0" }}>
+      {prop.type === "weight_unit" ? (
+        <FormControl fullWidth size="small" sx={formControlStyle}>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={prop.weightUnit}
             readOnly={prop.readOnly}
-            // label="Weight Unit"
             onChange={handleWeightChange}
             error={prop.error}
-            sx={{
-              "&.MuiInputBase-root": {
-                height: prop.readOnly ? 24 : 32, // Adjusts the overall height of the component
-                border: prop.readOnly ? "none" : "block", // Removes border
-                padding: 0,
-              },
-              "& .MuiOutlinedInput-notchedOutline": {
-                border: prop.readOnly ? "none" : "block", // Removes border around the dropdown
-                padding: 0,
-              },
-              "& .MuiSelect-icon": {
-                display: prop.readOnly ? "none" : "block", // Hides the dropdown icon
-              },
-              "& .MuiSelect-select": {
-                padding: prop.readOnly ? "0px !important" : "auto", // Ensures no padding within the select content
-              },
-            }}
+            sx={MuiInputBaseStyle}
           >
             {weightUnitList.map((item) => {
               return (
@@ -77,36 +85,55 @@ const DropdownMenu: FC<iProps> = (prop) => {
               );
             })}
           </Select>
-          <FormHelperText sx={{color:"red",textWrap:"nowrap"}}>{prop.helperText}</FormHelperText>
+          <FormHelperText sx={{ color: "red", textWrap: "nowrap" }}>
+            {prop.helperText}
+          </FormHelperText>
+        </FormControl>
+      ) : prop.type === "logo" ? (
+        <FormControl fullWidth size="small" sx={formControlStyle}>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={prop.logo}
+            readOnly={prop.readOnly}
+            onChange={handleLogoChange}
+            sx={MuiInputBaseStyle}
+          >
+            {logoList.map((item) => {
+              return (
+                <MenuItem value={item} key={item}>
+                  {item}
+                </MenuItem>
+              );
+            })}
+          </Select>
+          <FormHelperText sx={{ color: "red", textWrap: "nowrap" }}>
+            {prop.helperText}
+          </FormHelperText>
         </FormControl>
       ) : (
-        <FormControl
-          fullWidth
-          sx={{ height: prop.readOnly ? 24 : 32, background: "#ffffff80" }}
-        >
-          {/* <InputLabel id="demo-simple-select-label">Case Unit</InputLabel> */}
+        <FormControl fullWidth size="small" sx={formControlStyle}>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={prop.caseUnit}
-            // label="Case Unit"
             readOnly={prop.readOnly}
             onChange={handleCaseChange}
             sx={{
               "&.MuiInputBase-root": {
-                height: prop.readOnly ? 24 : 32, // Adjusts the overall height of the component
+                height: prop.readOnly ? 24 : 40, // Adjusts the overall height of the component
                 border: prop.readOnly ? "none" : "block", // Removes border
-                padding: 0,
+                // padding: 0,
               },
               "& .MuiOutlinedInput-notchedOutline": {
                 border: prop.readOnly ? "none" : "block", // Removes border around the dropdown
-                padding: 0,
+                // padding: 0,
               },
               "& .MuiSelect-icon": {
                 display: prop.readOnly ? "none" : "block", // Hides the dropdown icon
               },
               "& .MuiSelect-select": {
-                padding: prop.readOnly ? "0px !important" : "auto", // Ensures no padding within the select content
+                padding: prop.readOnly ? "0px 0px 6px 0px !important" : "auto", // Ensures no padding within the select content
               },
             }}
           >
@@ -118,7 +145,9 @@ const DropdownMenu: FC<iProps> = (prop) => {
               );
             })}
           </Select>
-          <FormHelperText sx={{color:"red",textWrap:"nowrap"}}>{prop.helperText}</FormHelperText>
+          <FormHelperText sx={{ color: "red", textWrap: "nowrap" }}>
+            {prop.helperText}
+          </FormHelperText>
         </FormControl>
       )}
     </Box>

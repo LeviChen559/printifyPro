@@ -15,13 +15,14 @@ import LottieAnimation from "@/components/lottie/send";
 import AnimationJson from "@/components/lottie/send.json";
 import { iLabelInfo } from "@/components/labelTable";
 import StylePanel from "@/components/stylePanel";
-import { iTextStyleMode, iEditedMode, iTextStyle } from "@/type/labelType";
-import AddNewLabelForm from "@/section/addNewLabelForm";
-interface formState {
-  error: boolean;
-  message: string;
-  locale: string;
-}
+import {
+  iTextStyleMode,
+  iEditedMode,
+  iTextStyle,
+  formState,
+} from "@/type/labelType";
+import LabelForm from "@/section/labelForm";
+import {fetcher} from "@/utils/lib/fetcher";
 
 const AddNew = () => {
   // Log the data to check its structure
@@ -32,16 +33,17 @@ const AddNew = () => {
     locale: "",
   });
   const router = useRouter();
+  const [logo, setLogo] = useState<string>("001");
   const [itemCode, setItemCode] = useState<string>("");
   const [productNameEN, setProductNameEN] = useState<string>("");
   const [productNameZH, setProductNameZH] = useState<string>("");
   const [weight, setWeight] = useState<number>(0);
-  const [weightUnit, setWeightUnit] = useState<string>("");
+  const [weightUnit, setWeightUnit] = useState<string>("g_tray");
   const [caseQuantity, setCaseQuantity] = useState<number>(0);
-  const [caseUnit, setCaseUnit] = useState<string>("");
+  const [caseUnit, setCaseUnit] = useState<string>("tray");
   const [storageRequirements, setStorageRequirements] = useState<string>("");
   const [shelfLife, setShelfLife] = useState<string>("");
-  const [caseGtin, setCaseGtin] = useState<string>("00000000000000");
+  const [caseGtin, setCaseGtin] = useState<string>("000000000000");
   const [ingredientInfo, setIngredientInfo] = useState<string>("");
   const [manufacturedFor, setManufacturedFor] = useState<string>("");
   const [sendAnewLabel, setSendAnewLabel] = useState<boolean>(false);
@@ -127,7 +129,7 @@ const AddNew = () => {
 
     // Loop through each validation rule
     for (const { field, message, locale, validate } of validations) {
-      if ( (!field || (validate && !validate(field)))) {
+      if (!field || (validate && !validate(field))) {
         setFormError({
           error: true,
           message,
@@ -159,13 +161,7 @@ const AddNew = () => {
     submitClicked,
   ]);
 
-  const fetcher = (url: string) =>
-    fetch(url).then((res) => {
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return res.json();
-    });
+
 
   const { data: labelData, error: labelError } = useSWR(
     "/api/prisma/getMyLabels",
@@ -178,6 +174,7 @@ const AddNew = () => {
 
   const lableInput = {
     id: lastItem && lastItem.id + 1, // Add appropriate value
+    logo: logo,
     item_code: isUniqueItemCode && itemCode, // Add appropriate value
     product_name_en: productNameEN,
     product_name_zh: productNameZH,
@@ -191,6 +188,7 @@ const AddNew = () => {
     ingredient_info: ingredientInfo,
     manufactured_for: manufacturedFor,
   };
+
   const defaultTextlStyle = {
     color: "#000000",
     fontSize: 14,
@@ -370,7 +368,10 @@ const AddNew = () => {
             <Skeleton variant="text" sx={{ fontSize: "2rem", width: "100%" }} />
           )}
         </Suspense>
-        <AddNewLabelForm
+        <LabelForm 
+          isEditedView={false}
+          logo={logo}
+          setLogo={setLogo}
           itemCode={itemCode}
           setItemCode={setItemCode}
           productNameEN={productNameEN}

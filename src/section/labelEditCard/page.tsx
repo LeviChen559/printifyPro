@@ -1,13 +1,9 @@
 "use client";
 import React, { FC, useState, useRef, useEffect } from "react";
-import { Container, View, Print, Info, Column } from "./style";
+import { Container, View, Print } from "./style";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { iLabelInfo } from "@/components/labelTable";
 import LabelCard from "@/components/labelCard";
-import Button from "@/components/button";
-import FormPropsTextFields from "@/components/FormPropsTextFields";
-import { Box } from "@mui/material";
-import DropdownMenu from "@/components/dropdownMenu";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useRouter } from "next/navigation";
@@ -15,7 +11,16 @@ import LottieAnimation from "@/components/lottie/send";
 import AnimationJson from "@/components/lottie/delete.json";
 import StylePanel from "@/components/stylePanel";
 import useSWR from "swr";
-import { iTextStyle,iEditedMode,ILabelStyle,iTextStyleMode } from "@/type/labelType";
+import {
+  iTextStyle,
+  iEditedMode,
+  ILabelStyle,
+  iTextStyleMode,
+  formState,
+} from "@/type/labelType";
+import LabelForm from "@/section/labelForm";
+import {fetcher} from "@/utils/lib/fetcher";
+
 
 interface iProps {
   selectLabelInfo: iLabelInfo;
@@ -32,13 +37,6 @@ interface iProps {
 }
 
 const LabelActionCard: FC<iProps> = (prop) => {
-  const fetcher = (url: string) =>
-    fetch(url).then((res) => {
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return res.json();
-    });
 
   const { data: labelStyle } = useSWR(
     prop.selectLabelInfo?.id
@@ -50,6 +48,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const [isLabelUpdating, setIsLabelUpdating] = useState<boolean>(false);
   const [isLabelDeleted, setIsLabelDeleted] = useState<boolean>(false);
+  const [logo, setLogo] = useState<string>(prop.selectLabelInfo.logo);
   const [itemCode, setItemCode] = useState<string>(
     prop.selectLabelInfo.item_code
   );
@@ -101,9 +100,16 @@ const LabelActionCard: FC<iProps> = (prop) => {
     prop.selectLabelInfo.manufactured_for
   );
   const [editMode, setEditMode] = useState<iEditedMode>(iEditedMode.empty);
-
+    const [submitClicked, setSubmitClicked] = useState<boolean>(false);
+  
+  const [formError, setFormError] = useState<formState>({
+    error: false,
+    message: "",
+    locale: "",
+  });
   const lableInput = {
     id: prop.selectLabelInfo.id,
+    logo: prop.selectLabelInfo.logo,
     item_code: itemCode, // Add appropriate value
     product_name_en: productNameEN,
     product_name_zh: productNameZH,
@@ -117,6 +123,103 @@ const LabelActionCard: FC<iProps> = (prop) => {
     ingredient_info: ingredientInfo,
     manufactured_for: manufacturedFor,
   };
+
+  useEffect(() => {
+      // List of fields to check
+      if (!submitClicked) return;
+      const validations = [
+        {
+          field: itemCode,
+          message: "Item code is required",
+          locale: "item_code",
+        },
+        {
+          field: productNameEN,
+          message: "Product Name (English) is required",
+          locale: "product_name_en",
+        },
+        {
+          field: productNameZH,
+          message: "Product Name (Chinese) is required",
+          locale: "product_name_zh",
+        },
+        { field: weight, message: "Net Weight is required", locale: "weight" },
+        {
+          field: weightUnit,
+          message: "Weight Unit is required",
+          locale: "weight_unit",
+        },
+        {
+          field: caseQuantity,
+          message: "Case Quantity is required",
+          locale: "case_quantity",
+        },
+        {
+          field: caseUnit,
+          message: "Case Unit is required",
+          locale: "case_unit",
+        },
+        {
+          field: storageRequirements,
+          message: "Storage Requirements is required",
+          locale: "storage_requirements",
+        },
+        {
+          field: shelfLife,
+          message: "Shelf Life is required",
+          locale: "shelf_life",
+        },
+        {
+          field: ingredientInfo,
+          message: "Ingredient Info is required",
+          locale: "ingredient_info",
+        },
+        {
+          field: manufacturedFor,
+          message: "Manufactured For is required",
+          locale: "manufactured_for",
+        },
+        {
+          field: caseGtin,
+          message: "Case GTIN is required and must be 12 characters",
+          locale: "case_gtin",
+          validate: (value: string) => value?.length === 12,
+        },
+      ];
+  
+      // Loop through each validation rule
+      for (const { field, message, locale, validate } of validations) {
+        if (!field || (validate && !validate(field))) {
+          setFormError({
+            error: true,
+            message,
+            locale,
+          });
+          return; // stop here if validation fails
+        }
+      }
+  
+      // If no errors were found, clear formError
+      setFormError({
+        error: false,
+        message: "",
+        locale: "",
+      });
+    }, [
+      itemCode,
+      productNameEN,
+      productNameZH,
+      weight,
+      weightUnit,
+      caseQuantity,
+      caseUnit,
+      storageRequirements,
+      shelfLife,
+      caseGtin,
+      ingredientInfo,
+      manufacturedFor,
+      submitClicked,
+    ]);
   useEffect(() => {
     if (labelStyle?.data?.[0]?.product_name_en) {
       setProductNameENStyle({
@@ -127,18 +230,18 @@ const LabelActionCard: FC<iProps> = (prop) => {
         fontWeight: labelStyle.data[0].product_name_en.fontWeight ?? 700,
       });
       setProductNameZHStyle({
-        color: labelStyle.data[0].product_name_zh.color?? "#000000",
-        fontStyle: labelStyle.data[0].product_name_zh.fontStyle?? "Normal",
-        fontSize: labelStyle.data[0].product_name_zh.fontSize?? 24,
-        fontFamily: labelStyle.data[0].product_name_zh.fontFamily?? "Arial",
-        fontWeight: labelStyle.data[0].product_name_zh.fontWeight?? 700,
-      })
+        color: labelStyle.data[0].product_name_zh.color ?? "#000000",
+        fontStyle: labelStyle.data[0].product_name_zh.fontStyle ?? "Normal",
+        fontSize: labelStyle.data[0].product_name_zh.fontSize ?? 24,
+        fontFamily: labelStyle.data[0].product_name_zh.fontFamily ?? "Arial",
+        fontWeight: labelStyle.data[0].product_name_zh.fontWeight ?? 700,
+      });
     }
   }, [labelStyle]);
 
-  const labelStyleuUpdates ={
+  const labelStyleuUpdates = {
     id: prop.selectLabelInfo.id,
-    item_code:{
+    item_code: {
       color: "#000000",
       fontStyle: "Normal",
       fontSize: 14,
@@ -153,7 +256,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
       fontWeight: productNameENStyle.fontWeight,
     },
     product_name_zh: {
-      color:productNameZHStyle.color,
+      color: productNameZHStyle.color,
       fontStyle: productNameZHStyle.fontStyle,
       fontSize: productNameZHStyle.fontSize,
       fontFamily: productNameZHStyle.fontFamily,
@@ -169,60 +272,65 @@ const LabelActionCard: FC<iProps> = (prop) => {
     weight: {
       color: "#000000",
       fontStyle: "Normal",
-      fontSize:14,
+      fontSize: 14,
       fontFamily: "Arial",
       fontWeight: 400,
-  },
-  weight_unit: {
+    },
+    weight_unit: {
       color: "#000000",
       fontStyle: "Normal",
       fontSize: 14,
       fontFamily: "Arial",
       fontWeight: 400,
-  },
-  storage_requirements: {
+    },
+    storage_requirements: {
       color: "#000000",
       fontStyle: "Normal",
       fontSize: 14,
       fontFamily: "Arial",
       fontWeight: 400,
-  },
-  manufactured_for: {
+    },
+    manufactured_for: {
       color: "#000000",
       fontStyle: "Normal",
       fontSize: 14,
       fontFamily: "Arial",
       fontWeight: 400,
-  },
-  case_quantity: {
+    },
+    case_quantity: {
       color: "#000000",
       fontStyle: "Normal",
       fontSize: 14,
       fontFamily: "Arial",
       fontWeight: 400,
-  },
-  case_unit: {
+    },
+    case_unit: {
       color: "#000000",
       fontStyle: "Normal",
       fontSize: 14,
       fontFamily: "Arial",
       fontWeight: 400,
-  },
-  shelf_life: {
+    },
+    shelf_life: {
       color: "#000000",
       fontStyle: "Normal",
       fontSize: 14,
       fontFamily: "Arial",
       fontWeight: 400,
-  },
+    },
   };
-  
 
-  const updateLabel = async (labelInfo: iLabelInfo,labelStyle:ILabelStyle) => {
-    console.log("Updating label with info:", labelInfo);
+  const updateLabel = async (
+    labelInfo: iLabelInfo,
+    labelStyle: ILabelStyle
+  ) => {
+    setSubmitClicked(true);
     setIsLabelUpdating(true);
     try {
-      const res = await axios.patch("/api/prisma/updateLabel", {labelInfo,labelStyle});
+      const res = await axios.patch("/api/prisma/updateLabel", {
+        labelInfo,
+        labelStyle,
+      });
       if (res.data.success) {
         setIsLabelUpdating(true);
         try {
@@ -303,26 +411,29 @@ const LabelActionCard: FC<iProps> = (prop) => {
     styleType: iTextStyleMode
   ) => {
     if (dataType === iEditedMode.productNameEn) {
-      const value = styleType === iTextStyleMode.fontSize || styleType === iTextStyleMode.fontWeight
-        ? Number(event.target.value) // Convert to number for fontSize or fontWeight
-        : event.target.value; // Keep as string for other properties
-  
+      const value =
+        styleType === iTextStyleMode.fontSize ||
+        styleType === iTextStyleMode.fontWeight
+          ? Number(event.target.value) // Convert to number for fontSize or fontWeight
+          : event.target.value; // Keep as string for other properties
+
       setProductNameENStyle((prevStyle) => ({
         ...prevStyle,
         [styleType]: value, // Dynamically update the style property based on styleType
       }));
-    }else if(dataType === iEditedMode.productNameZh){
-      const value = styleType === iTextStyleMode.fontSize || styleType === iTextStyleMode.fontWeight
-        ? Number(event.target.value) // Convert to number for fontSize or fontWeight
-        : event.target.value; // Keep as string for other properties
-  
+    } else if (dataType === iEditedMode.productNameZh) {
+      const value =
+        styleType === iTextStyleMode.fontSize ||
+        styleType === iTextStyleMode.fontWeight
+          ? Number(event.target.value) // Convert to number for fontSize or fontWeight
+          : event.target.value; // Keep as string for other properties
+
       setProductNameZHStyle((prevStyle) => ({
         ...prevStyle,
         [styleType]: value, // Dynamically update the style property based on styleType
       }));
     }
   };
-
 
   if (isLabelDeleted) {
     return (
@@ -366,13 +477,12 @@ const LabelActionCard: FC<iProps> = (prop) => {
       />
       <View>
         <StylePanel
-        isEditMode={editMode}
-        productNameENStyle={productNameENStyle}
-        productNameZHStyle={productNameZHStyle}
-       handleChange={handleChange}
+          isEditMode={editMode}
+          productNameENStyle={productNameENStyle}
+          productNameZHStyle={productNameZHStyle}
+          handleChange={handleChange}
         />
-         
-       
+
         {isLabelUpdating ? (
           <CircularProgress />
         ) : (
@@ -402,172 +512,42 @@ const LabelActionCard: FC<iProps> = (prop) => {
         )}
       </View>
       <Print>
-        <Info>
-          <Column>
-            <FormPropsTextFields
-              readOnly
-              id="item_code"
-              label="item_code"
-              value={itemCode}
-              required={true}
-              type="text"
-              placeholder="item_code"
-              onChange={(e) => setItemCode(e.target.value)}
-              startIcon={null}
-              sx={{ width: "100%", padding: "8px 0", height: 50 }}
-            />
-            <FormPropsTextFields
-              readOnly
-              id="product_name_en"
-              label="Product Name (English)"
-              value={productNameEN}
-              required={true}
-              type="text"
-              placeholder="Product Name (English)"
-              onChange={(e) => setProductNameEN(e.target.value)}
-              startIcon={null}
-              sx={{ width: "100%", padding: "8px 0", height: 50 }}
-            />
-            <FormPropsTextFields
-              readOnly
-              id="product_name_zh"
-              label="Product Name (Chinese)"
-              value={productNameZH}
-              required={true}
-              type="text"
-              placeholder="Product Name (Chinese)"
-              onChange={(e) => setProductNameZH(e.target.value)}
-              startIcon={null}
-              sx={{ width: "100%", padding: "8px 0", height: 50 }}
-            />
-            <Box
-              display={"flex"}
-              flexDirection={"row"}
-              flexWrap={"nowrap"}
-              gap={1}
-              alignItems={"center"}
-            >
-              <FormPropsTextFields
-                readOnly
-                id="weight"
-                label="Net Weight"
-                value={weight.toString()}
-                required={true}
-                type="number"
-                placeholder="Net Weight"
-                onChange={(e) => setWeight(Number(e.target.value))}
-                startIcon={null}
-                sx={{ width: "100%", padding: "8px 0", height: 50 }}
-              />
-              <DropdownMenu
-                readOnly
-                type="weight"
-                weightUnit={weightUnit}
-                setWeightUnit={setWeightUnit}
-              />
-            </Box>
-          </Column>
-          <Column>
-            <Box
-              display={"flex"}
-              flexDirection={"row"}
-              flexWrap={"nowrap"}
-              gap={1}
-              alignItems={"center"}
-            >
-              <FormPropsTextFields
-                readOnly
-                id="case_quantity"
-                label="Case Quantity"
-                value={caseQuantity.toString()}
-                required={true}
-                type="number"
-                placeholder="Case Quantity"
-                onChange={(e) => setCaseQuantity(Number(e.target.value))}
-                startIcon={null}
-                sx={{ width: "100%", padding: "8px 0", height: 50 }}
-              />
-              <DropdownMenu
-                readOnly
-                type="Case"
-                caseUnit={caseUnit}
-                setCaseUnit={setCaseUnit}
-              />
-            </Box>
-            <Box
-              display={"flex"}
-              flexDirection={"row"}
-              flexWrap={"nowrap"}
-              gap={1}
-            >
-              <FormPropsTextFields
-                readOnly
-                id="storage_requirements"
-                label="Storage Requirements"
-                value={storageRequirements}
-                required={true}
-                type="text"
-                placeholder="Storage Requirements"
-                onChange={(e) => setStorageRequirements(e.target.value)}
-                startIcon={null}
-                sx={{ width: "100%", padding: "8px 0", height: 50 }}
-              />
-              <FormPropsTextFields
-                readOnly
-                id="shelf_life"
-                label="Shelf Life"
-                value={shelfLife}
-                required={true}
-                type="text"
-                placeholder="Shelf Life"
-                onChange={(e) => setShelfLife(e.target.value)}
-                startIcon={null}
-                sx={{ width: "100%", padding: "8px 0", height: 50 }}
-              />
-            </Box>
-            <FormPropsTextFields
-              id="case_gtin"
-              label="Case GTIN"
-              value={caseGtin}
-              required={true}
-              type="text"
-              placeholder="Case GTIN"
-              onChange={(e) => setCaseGtin(e.target.value)}
-              startIcon={null}
-              background="#ffffff"
-              sx={{ width: "100%", padding: "8px 0", height: 50 }}
-            />
-          </Column>
-          <Column>
-            <FormPropsTextFields
-              id="ingredient_info"
-              label="ingredient_info"
-              value={ingredientInfo}
-              required={true}
-              type="text"
-              rows={3}
-              placeholder="Case GTIN"
-              onChange={(e) => setIngredientInfo(e.target.value)}
-              startIcon={null}
-              sx={{ width: "100%", padding: "8px 0", height: "100%" }}
-            />
-          </Column>
-        </Info>
-        <Column>
-          <Button
-            btnText="Delete the Label"
-            onClick={() => deleteLabel(lableInput.id)}
-            type="button"
-            backgroundColor="#ff0000"
-            width="100%"
-          />
-          <Button
-            btnText="Update the Label"
-            onClick={() => updateLabel(lableInput,labelStyleuUpdates)}
-            type="button"
-            width="100%"
-          />
-        </Column>
+        <LabelForm
+          isEditedView={true}
+          id={prop.selectLabelInfo.id}
+          logo={logo}
+          setLogo={setLogo}
+          itemCode={itemCode}
+          setItemCode={setItemCode}
+          productNameEN={productNameEN}
+          setProductNameEN={setProductNameEN}
+          productNameZH={productNameZH}
+          setProductNameZH={setProductNameZH}
+          ingredientInfo={ingredientInfo}
+          setIngredientInfo={setIngredientInfo}
+          weight={weight}
+          setWeight={setWeight}
+          weightUnit={weightUnit}
+          setWeightUnit={setWeightUnit}
+          caseQuantity={caseQuantity}
+          setCaseQuantity={setCaseQuantity}
+          caseUnit={caseUnit}
+          setCaseUnit={setCaseUnit}
+          caseGtin={caseGtin}
+          setCaseGtin={setCaseGtin}
+          manufacturedFor={manufacturedFor}
+          setManufacturedFor={setManufacturedFor}
+          storageRequirements={storageRequirements}
+          setStorageRequirements={setStorageRequirements}
+          shelfLife={shelfLife}
+          setShelfLife={setShelfLife}
+          formError={formError}
+          updateLabel={(event) => {
+            event.preventDefault();
+            updateLabel(lableInput, labelStyleuUpdates);
+          }}
+          deleteLabel={() => deleteLabel(prop.selectLabelInfo.id)}
+        />
       </Print>
     </Container>
   );

@@ -10,6 +10,8 @@ import Paper from "@mui/material/Paper";
 import useSWR from "swr";
 import { Container } from "@mui/material";
 import SkeletonTable from "@/components/skeletonTable";
+import {fetcher} from "@/utils/lib/fetcher";
+
 
 export interface iUser {
   id: number;
@@ -24,14 +26,7 @@ interface iProps {
   // selectItem: (selectLabelInfo: iUser) => void;
 }
 
-const TableTable: FC<iProps> = () => {
-  const fetcher = (url: string) =>
-    fetch(url).then((res) => {
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return res.json();
-    });
+const UserTable: FC<iProps> = () => {
 
   const { data: userData, error: userError } = useSWR(
     "/api/prisma/getUsers",
@@ -124,4 +119,4 @@ const TableTable: FC<iProps> = () => {
   );
 };
 
-export default TableTable;
+export default UserTable;

@@ -5,17 +5,18 @@ interface iProps{
 }
 
 export const Container = styled.div({
-width:"95%",
-height:"90%",
+width:"97.5%",
+height:"95%",
 display:"flex",
 flexDirection:"row",
 alignItems:"center",
 justifyContent:"center",
 // padding:24,
-borderRadius:16,
+borderRadius:8,
 backgroundColor:"#ffffff",
 boxShadow:"0px 4px 4px 0px #bcbcbc",
 position:"absolute",
+border:"1px solid #bcbcbc",
 transform:"translateY(-50%)",
 top:"50%",
 overflow:"hidden",
@@ -46,7 +47,8 @@ export const Print = styled.div({
     background:"#bcbcbc80",
     width:"100%",
     height:"100%",
-    padding:16,
+    padding:"48px 16px 16px 16px",
+
 })
 
 export const Info = styled.div({

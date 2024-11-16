@@ -47,7 +47,6 @@ export const PreviewContainer = styled.div({
 export const EditContainer = styled.div({
   display: "flex",
   flexDirection: "column",
-  overflow: "auto",
   width: "100%",
   height: "100%",
   flex: 1,

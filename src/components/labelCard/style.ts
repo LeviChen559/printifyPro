@@ -11,7 +11,7 @@ export const  Container =styled.div({
     flexDirection:"column",
     alignItems:"center",
     justifyContent:"space-between",
-    padding:24,
+    padding:16,
     borderRadius:16,
     backgroundColor:"#ffffff",
     boxShadow:"0px 4px 4px 0px #bcbcbc",
@@ -63,6 +63,7 @@ export const Ingredients = styled.div({
 })
 
 export const Row = styled.div({
+    width:"100%",
     display:"flex",
     flexDirection:"row",
     justifyContent:"flex-start",
