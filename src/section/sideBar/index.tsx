@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { colorTheme } from "@/theme";
 import packageInfo from "../../../package.json";
-
+import InactivityLogoutTimer from '@/utils/lib/autoLogout';
 
 const SideBar = () => {
   const links = useMemo(
@@ -39,6 +39,7 @@ const SideBar = () => {
           : colorTheme.user.main
       }
     >
+      <InactivityLogoutTimer />
       <Box
         sx={{
           display: "flex",

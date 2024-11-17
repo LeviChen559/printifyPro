@@ -20,7 +20,7 @@ const InactivityLogoutTimer = () => {
     },[router, pathname]);
 
     const updateExpiryTime = () => {
-        const expireTime = Date.now() + 2 * 60 * 60 * 1000; // 2 hours in milliseconds
+        const expireTime = Date.now() +   5*60 * 1000; // 30 seconds in milliseconds
         localStorage.setItem('expireTime', expireTime.toString());
     };
 
