@@ -335,7 +335,7 @@ const AddNew = () => {
         />
         <LabelCard
         type={labelSize}
-        lableInput={lableInput}
+        labelInput={lableInput}
           isEditedMode
           setProductNameEN={setProductNameEN}
           setProductNameZH={setProductNameZH}
