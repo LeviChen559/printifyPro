@@ -41,7 +41,7 @@ const LabelCard: FC<iProps> = (prop) => {
   return prop.type === "4x4" ? (
     <LabelCard4_4
       labelInfo={prop.labelInput}
-      isEditedMode
+      isEditedMode={prop.isEditedMode}
       setProductNameEN={prop.setProductNameEN}
       setProductNameZH={prop.setProductNameZH}
       productNameEN={prop.productNameEN}
@@ -66,7 +66,7 @@ const LabelCard: FC<iProps> = (prop) => {
   ) : prop.type === "4x6" ? (
     <LabelCard4_6
       labelInfo={prop.labelInput}
-      isEditedMode
+      isEditedMode={prop.isEditedMode}
       setProductNameEN={prop.setProductNameEN}
       setProductNameZH={prop.setProductNameZH}
       productNameEN={prop.productNameEN}
@@ -92,7 +92,7 @@ const LabelCard: FC<iProps> = (prop) => {
   ) : prop.type === "4x8" ? (
     <LabelCard4_8
       labelInfo={prop.labelInput}
-      isEditedMode
+      isEditedMode={prop.isEditedMode}
       setProductNameEN={prop.setProductNameEN}
       setProductNameZH={prop.setProductNameZH}
       productNameEN={prop.productNameEN}
