@@ -11,7 +11,7 @@ import {
 
 interface iProps {
   type: string;
-  lableInput: iLabelInfo;
+  labelInput: iLabelInfo;
   showProductNameZH?: boolean;
   showProductNameEN?: boolean;
   isEditedMode?: boolean;
@@ -32,7 +32,7 @@ interface iProps {
   editMode?: string;
   setEditMode?: (value: iEditedMode) => void;
   logo: string;
-  setLogo: React.Dispatch<React.SetStateAction<string>>;
+  setLogo?: React.Dispatch<React.SetStateAction<string>>;
   productNameENStyle?: iTextStyle;
   productNameZHStyle?: iTextStyle;
   defaultLabelStyle: ILabelStyle;
@@ -40,7 +40,7 @@ interface iProps {
 const LabelCard: FC<iProps> = (prop) => {
   return prop.type === "4x4" ? (
     <LabelCard4_4
-      labelInfo={prop.lableInput}
+      labelInfo={prop.labelInput}
       isEditedMode
       setProductNameEN={prop.setProductNameEN}
       setProductNameZH={prop.setProductNameZH}
@@ -65,7 +65,7 @@ const LabelCard: FC<iProps> = (prop) => {
     />
   ) : prop.type === "4x6" ? (
     <LabelCard4_6
-      labelInfo={prop.lableInput}
+      labelInfo={prop.labelInput}
       isEditedMode
       setProductNameEN={prop.setProductNameEN}
       setProductNameZH={prop.setProductNameZH}
@@ -91,7 +91,7 @@ const LabelCard: FC<iProps> = (prop) => {
     />
   ) : prop.type === "4x8" ? (
     <LabelCard4_8
-      labelInfo={prop.lableInput}
+      labelInfo={prop.labelInput}
       isEditedMode
       setProductNameEN={prop.setProductNameEN}
       setProductNameZH={prop.setProductNameZH}

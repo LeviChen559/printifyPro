@@ -110,7 +110,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
     message: "",
     locale: "",
   });
-  const lableInput = {
+  const labelInput = {
     id: prop.selectLabelInfo.id,
     logo: logo,
     item_code: itemCode, // Add appropriate value
@@ -323,7 +323,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
       fontWeight: 400,
     },
   };
-  console.log("lableInput", lableInput);
+
 
   const updateLabel = async (
     labelInfo: iLabelInfo,
@@ -496,7 +496,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
             ref={contentRef}
             logo={logo}
             setLogo={setLogo}
-            lableInput={lableInput}
+            labelInput={labelInput}
             showProductNameEN={true}
             showProductNameZH={true}
             isEditedMode={true}
@@ -555,7 +555,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
           formError={formError}
           updateLabel={(event) => {
             event.preventDefault();
-            updateLabel(lableInput, labelStyleuUpdates);
+            updateLabel(labelInput, labelStyleuUpdates);
           }}
           deleteLabel={() => deleteLabel(prop.selectLabelInfo.id)}
         />

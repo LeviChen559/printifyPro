@@ -3,7 +3,7 @@ import { useReactToPrint } from "react-to-print";
 import { Container, View, Print, Options } from "./style";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { iLabelInfo } from "@/type/labelType";
-import LabelCard from "@/section/labelCard/4_4";
+import LabelCard from "@/section/labelCard/";
 import Button from "@/components/button";
 import { CircularProgress, TextField } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -65,11 +65,12 @@ const LabelActionCard: FC<iProps> = (prop) => {
       />
       <View>
         <LabelCard
-          labelInfo={prop.selectLabelInfo}
+          labelInput={prop.selectLabelInfo}
           showProductNameZH={showProductNameZH}
           showProductNameEN={showProductNameEN}
           ref={contentRef}
           isEditedMode={false}
+          type={prop.selectLabelInfo.label_size}
           logo={prop.selectLabelInfo.logo}
           productNameEN={prop.selectLabelInfo.product_name_en}
           productNameZH={prop.selectLabelInfo.product_name_zh}
