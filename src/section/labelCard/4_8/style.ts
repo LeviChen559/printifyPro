@@ -5,7 +5,7 @@ interface iProps {
 }
 
 export const  Container =styled.div({
-    width:576,
+    width:768,
     height:384,
     display:"flex",
     flexDirection:"column",
@@ -15,10 +15,9 @@ export const  Container =styled.div({
     borderRadius:16,
     backgroundColor:"#ffffff",
     boxShadow:"0px 4px 4px 0px #bcbcbc",
+    border:"1px solid #bcbcbc80",
     gap:8,
-    position:"absolute",
-    transform:"translateY(-50%)",
-    top:"50%",
+    position:"relative",
 })
 
 export const Header = styled.div({
@@ -38,7 +37,7 @@ export const InfomationWrapper = styled.div({
     height:"auto",
     justifyContent:"space-between",
     alignItems:"flex-start",
-    gap:16
+    gap:8
 })
 export const InfomationColumn = styled.div<iProps>({
     display:"flex",
@@ -59,7 +58,7 @@ export const Ingredients = styled.div({
     flexDirection:"column",
     justifyContent:"flex-start",
     alignItems:"flex-start",
-    gap:4
+    gap:2
 })
 
 export const Row = styled.div({

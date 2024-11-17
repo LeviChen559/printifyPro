@@ -12,38 +12,9 @@ import { Container } from "@mui/material";
 import SkeletonTable from "@/components/skeletonTable";
 import { fetcher } from "@/utils/lib/fetcher";
 import LabelLogo from "../logo";
+import { iLabelInfo } from "@/type/labelType";
 
-export interface iLabelInfo {
-  id: number;
-  logo: string;
-  item_code: string;
-  product_name_en: string;
-  product_name_zh: string;
-  weight: number;
-  weight_unit: string;
-  case_quantity: number;
-  case_unit: string;
-  storage_requirements: string;
-  shelf_life: string;
-  case_gtin: string;
-  ingredient_info: string;
-  manufactured_for: string;
-}
-export interface iLabelInfoStyle {
-  id: number;
-  item_code: string;
-  product_name_en: string;
-  product_name_zh: string;
-  weight: number;
-  weight_unit: string;
-  case_quantity: number;
-  case_unit: string;
-  storage_requirements: string;
-  shelf_life: string;
-  case_gtin: string;
-  ingredient_info: string;
-  manufactured_for: string;
-}
+
 
 interface iTable {
   selectItem: (selectLabelInfo: iLabelInfo) => void;
@@ -80,7 +51,7 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
   return (
     <TableContainer
       component={Paper}
-      sx={{ borderRadius: 2, height: "auto", width: "100%" }}
+      sx={{ borderRadius: 2, height: "auto", width: "100%",background: "#bcbcbc1A" }}
     >
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -109,7 +80,7 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
             <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
               Storage
             </TableCell>
-            <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
+            <TableCell align="center" sx={{ width: "75px", padding: 1 }}>
               Shelf Life
             </TableCell>
             <TableCell align="center" sx={{ width: "75px", padding: 1 }}>
@@ -168,7 +139,7 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
                   {row.storage_requirements}
                 </TableCell>
                 <TableCell align="left" sx={{ padding: 1, width: "50px" }}>
-                  {row.shelf_life}
+                  {row.shelf_life} days
                 </TableCell>
                 <TableCell align="left" sx={{ width: "75px", padding: 1 }}>
                   {row.case_gtin}

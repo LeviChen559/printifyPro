@@ -43,3 +43,35 @@ export const enum iEditedMode {
     message: string;
     locale: string;
   }
+
+  export interface iLabelInfo {
+    id: number;
+    logo: string;
+    item_code: string;
+    product_name_en: string;
+    product_name_zh: string;
+    weight: number;
+    weight_unit: string;
+    case_quantity: number;
+    case_unit: string;
+    storage_requirements: string;
+    shelf_life: number;
+    case_gtin: string;
+    ingredient_info: string;
+    manufactured_for: string;
+  }
+  export interface iLabelInfoStyle {
+    id: number;
+    item_code: string;
+    product_name_en: string;
+    product_name_zh: string;
+    weight: number;
+    weight_unit: string;
+    case_quantity: number;
+    case_unit: string;
+    storage_requirements: string;
+    shelf_life: string;
+    case_gtin: string;
+    ingredient_info: string;
+    manufactured_for: string;
+  }

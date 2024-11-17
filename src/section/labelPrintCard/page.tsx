@@ -2,13 +2,13 @@ import React, { FC, useState, useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import { Container, View, Print, Options } from "./style";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
-import { iLabelInfo } from "@/components/labelTable";
-import LabelCard from "@/components/labelCard";
+import { iLabelInfo } from "@/type/labelType";
+import LabelCard from "@/section/labelCard/4_4";
 import Button from "@/components/button";
 import { CircularProgress, TextField } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import { iTextStyle } from "@/type/labelType";
+import { iTextStyle,ILabelStyle } from "@/type/labelType";
 import useSWR from "swr";
 import { fetcher } from "@/utils/lib/fetcher";
 
@@ -34,9 +34,8 @@ const LabelActionCard: FC<iProps> = (prop) => {
     `/api/prisma/getLabelStyle?id=${prop.selectLabelInfo.id}`,
     fetcher
   );
-  console.log("labelStyle", labelStyle);
 
-  if (!labelStyle || labelStyle.data.length === 0)
+  if (!labelStyle )
     return (
       <Container>
         <CircularProgress />
@@ -79,6 +78,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
           weightUnit={prop.selectLabelInfo.weight_unit}
           productNameENStyle={labelStyle.data[0].product_name_en as iTextStyle}
           productNameZHStyle={labelStyle.data[0].product_name_zh as iTextStyle}
+          defaultLabelStyle={labelStyle.data[0] as ILabelStyle}
         />
       </View>
       <Print>

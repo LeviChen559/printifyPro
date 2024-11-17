@@ -9,11 +9,11 @@ import { useRouter } from "next/navigation";
 import Skeleton from "@mui/material/Skeleton";
 import UserState from "@/components/userState";
 import useSWR from "swr";
-import LabelCard from "@/components/labelCard";
+import LabelCard from "@/section/labelCard";
 import axios from "axios";
 import LottieAnimation from "@/components/lottie/send";
 import AnimationJson from "@/components/lottie/send.json";
-import { iLabelInfo } from "@/components/labelTable";
+import { iLabelInfo } from "@/type/labelType";
 import StylePanel from "@/components/stylePanel";
 import {
   iTextStyleMode,
@@ -34,6 +34,7 @@ const AddNew = () => {
   });
   const router = useRouter();
   const [logo, setLogo] = useState<string>("001");
+  const [labelSize, setLabelSize] = useState<string>("4x6");
   const [itemCode, setItemCode] = useState<string>("");
   const [productNameEN, setProductNameEN] = useState<string>("");
   const [productNameZH, setProductNameZH] = useState<string>("");
@@ -42,7 +43,7 @@ const AddNew = () => {
   const [caseQuantity, setCaseQuantity] = useState<number>(0);
   const [caseUnit, setCaseUnit] = useState<string>("tray");
   const [storageRequirements, setStorageRequirements] = useState<string>("");
-  const [shelfLife, setShelfLife] = useState<string>("");
+  const [shelfLife, setShelfLife] = useState<number>(1);
   const [caseGtin, setCaseGtin] = useState<string>("000000000000");
   const [ingredientInfo, setIngredientInfo] = useState<string>("");
   const [manufacturedFor, setManufacturedFor] = useState<string>("");
@@ -173,6 +174,7 @@ const AddNew = () => {
     labelData.some((item: iLabelInfo) => item.item_code !== itemCode);
 
   const lableInput = {
+
     id: lastItem && lastItem.id + 1, // Add appropriate value
     logo: logo,
     item_code: isUniqueItemCode && itemCode, // Add appropriate value
@@ -205,7 +207,7 @@ const AddNew = () => {
   };
 
   const defaultLabelStyle = {
-    id: 1,
+    id: lableInput.id,
     item_code: defaultTextlStyle,
     product_name_en: defaultHeaderStyle,
     product_name_zh: defaultHeaderStyle,
@@ -226,13 +228,12 @@ const AddNew = () => {
     }
   }, [status, router]);
 
-  console.log("formError.error", formError.error);
   const createNewLabel = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSubmitClicked(true);
     if (formError.error) return;
     try {
-      const response = await axios.post("/api/prisma/addNewLabel", lableInput);
+      const response = await axios.post("/api/prisma/addNewLabel", {lableInput, defaultLabelStyle});
       console.log("response", response.data);
       console.log("lableInput", lableInput);
       // Directly access the data property from Axios response
@@ -332,7 +333,8 @@ const AddNew = () => {
           handleChange={handleChange}
         />
         <LabelCard
-          labelInfo={lableInput}
+        type={labelSize}
+        lableInput={lableInput}
           isEditedMode
           setProductNameEN={setProductNameEN}
           setProductNameZH={setProductNameZH}
@@ -343,6 +345,7 @@ const AddNew = () => {
           setWeight={setWeight}
           weight={weight}
           setManufacturedFor={setManufacturedFor}
+          setStorageRequirements={setStorageRequirements}
           manufacturedFor={manufacturedFor}
           setWeightUnit={setWeightUnit}
           weightUnit={weightUnit}
@@ -398,6 +401,8 @@ const AddNew = () => {
           setShelfLife={setShelfLife}
           formError={formError}
           createNewLabel={createNewLabel}
+          setLabelSize={setLabelSize}
+          labelSize={labelSize}
         />
       </EditContainer>
       {sendAnewLabel && (

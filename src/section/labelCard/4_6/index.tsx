@@ -7,16 +7,13 @@ import {
   Ingredients,
   Row,
 } from "./style";
-import { iLabelInfo } from "../labelTable";
+import { iLabelInfo } from "@/type/labelType";
 import { Typography } from "@mui/material";
 import Barcode from "react-barcode";
 import { EditText, EditTextarea } from "react-edit-text";
 import "react-edit-text/dist/index.css";
 import DropdownMenu from "@/components/dropdownMenu";
-import useSWR from "swr";
-import CircularProgress from "@mui/material/CircularProgress";
 import { iEditedMode, ILabelStyle, iTextStyle } from "@/type/labelType";
-import { fetcher } from "@/utils/lib/fetcher";
 import LabelLogo from "@/components/logo";
 
 interface iProp {
@@ -36,37 +33,30 @@ interface iProp {
   setManufacturedFor?: (value: string) => void;
   manufacturedFor?: string;
   setWeightUnit?: React.Dispatch<React.SetStateAction<string>>;
+  setStorageRequirements?: (value: string) => void;
   weightUnit?: string;
   editMode?: string;
   setEditMode?: (value: iEditedMode) => void;
   productNameENStyle?: iTextStyle;
   productNameZHStyle?: iTextStyle;
-  defaultLabelStyle?: ILabelStyle;
+  defaultLabelStyle: ILabelStyle;
 }
 export type Ref = HTMLDivElement;
 
+
 const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
-  const { data: labelStyle } = useSWR(
-    prop.labelInfo?.id
-      ? `/api/prisma/getLabelStyle?id=${prop.labelInfo.id}`
-      : null,
-    fetcher
-  );
-  console.log("prop.labelInfo", prop.labelInfo);
+  const now = new Date();
+  const bestByValue = new Date(now.getTime() + (prop.labelInfo.shelf_life * 24 * 60 * 60 * 1000))
+  const formattedDate = 
+  String(bestByValue.getDate()).padStart(2, '0') + "/" + 
+  String(bestByValue.getMonth() + 1).padStart(2, '0') + "/" + 
+  bestByValue.getFullYear();
 
-  if (!labelStyle) {
-    return (
-      <Container>
-        <CircularProgress />
-        <p>Checking authentication...</p>
-      </Container>
-    );
-  }
-
+   
   return (
     <Container id="labelCard" ref={ref}>
       <Header>
-        <LabelLogo logo={prop.labelInfo.logo} fontSize={48}/>
+        <LabelLogo logo={prop.labelInfo.logo} fontSize={48} />
         <div style={{ height: "auto", width: "60%" }}>
           <EditTextarea
             readonly={!prop.isEditedMode}
@@ -151,7 +141,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
       </Header>
       <Ingredients>
         <Typography width={"100%"}>Ingredients:</Typography>
-        <div style={{ width: "100%", overflow: "hidden", height: 88 }}>
+        <div style={{ width: "100%", overflow: "hidden", height: 64 }}>
           <EditTextarea
             readonly={!prop.isEditedMode}
             style={{
@@ -179,10 +169,11 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               whiteSpace: "pre-line", // Ensures text wraps correctly
               overflowWrap: "break-word", // Breaks long words if necessary
               resize: "none", // Prevents resizing to maintain consistent font size view
-              lineHeight: "1.5", // Adjust for consistent spacing
+              lineHeight: "1.35", // Adjust for consistent spacing
               border: prop.isEditedMode ? "1px solid #bcbcbc80" : "none",
               borderRadius: prop.isEditedMode ? "4px" : "none",
             }}
+            rows={2}
             placeholder="I am an editable textarea"
             value={prop.ingredientInfo}
             onChange={(e) => {
@@ -222,8 +213,8 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
                   prop.defaultLabelStyle &&
                   prop.defaultLabelStyle.weight.fontWeight,
                 background: "transparent",
-                width: 50,
-                minHeight: 40,
+                width: 85,
+                minHeight: 24,
                 border: prop.isEditedMode ? "1px solid #bcbcbc80" : "none",
                 borderRadius: prop.isEditedMode ? "4px" : "none",
               }}
@@ -238,19 +229,57 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               setWeightUnit={prop.setWeightUnit}
               width="40%"
               readOnly={!prop.isEditedMode}
+              isOnLabeCard={true}
             />
           </Row>
-          <Typography variant="body2">
-            {prop.labelInfo.storage_requirements}
-          </Typography>
+          <Row>
+          <EditText
+            readonly={!prop.isEditedMode}
+            style={{
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              padding:"4px 0",
+              fontSize:
+                prop.defaultLabelStyle &&
+                prop.defaultLabelStyle.storage_requirements.fontSize,
+              fontFamily:
+                prop.defaultLabelStyle &&
+                prop.defaultLabelStyle.storage_requirements.fontFamily,
+              color:
+                prop.defaultLabelStyle &&
+                prop.defaultLabelStyle.storage_requirements.color,
+              fontStyle:
+                prop.defaultLabelStyle &&
+                prop.defaultLabelStyle.storage_requirements.fontStyle,
+              fontWeight:
+                prop.defaultLabelStyle &&
+                prop.defaultLabelStyle.storage_requirements.fontWeight,
+              background: "transparent",
+              overflow: "hidden", // Hide scrollbar for a clean look
+              whiteSpace: "pre-line", // Ensures text wraps correctly
+              overflowWrap: "break-word", // Breaks long words if necessary
+              resize: "none", // Prevents resizing to maintain consistent font size view
+              lineHeight: "1", // Adjust for consistent spacing
+              border: prop.isEditedMode ? "1px solid #bcbcbc80" : "none",
+              borderRadius: prop.isEditedMode ? "4px" : "none",
+            }}
+            placeholder="I am an editable textarea"
+            value={prop.labelInfo.storage_requirements}
+            onChange={(e) =>
+              prop.setStorageRequirements && prop.setStorageRequirements(e.target.value)
+            }
+          />
+        </Row>
           <Typography variant="body2">Manufactured For:</Typography>
-          <div style={{ width: "100%", height: "58px" }}>
+          <div style={{ width: "100%", height: 44 }}>
             <EditTextarea
               readonly={!prop.isEditedMode}
               style={{
                 width: "100%",
                 height: "100%",
-                margin: "0px",
+                margin: 0,
+                padding:0,
                 fontSize:
                   prop.defaultLabelStyle &&
                   prop.defaultLabelStyle.manufactured_for.fontSize,
@@ -271,12 +300,12 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
                 whiteSpace: "pre-line", // Ensures text wraps correctly
                 overflowWrap: "break-word", // Breaks long words if necessary
                 resize: "none", // Prevents resizing to maintain consistent font size view
-                lineHeight: "1.5", // Adjust for consistent spacing
+                lineHeight: "1.25", // Adjust for consistent spacing
                 border: prop.isEditedMode ? "1px solid #bcbcbc80" : "none",
                 borderRadius: prop.isEditedMode ? "4px" : "none",
               }}
               placeholder="I am an editable textarea"
-              rows={1.75}
+              rows={1.25}
               value={prop.manufacturedFor}
               onChange={(e) =>
                 prop.setManufacturedFor &&
@@ -289,7 +318,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           <Typography variant="body2">
             LOT #{prop.labelInfo.item_code}
           </Typography>
-          <Typography variant="body2">BEST BY : 00000222</Typography>
+          <Typography variant="body2">BEST BY : {formattedDate}</Typography>
           <Barcode
             value={prop.labelInfo.case_gtin.substring(0, 11) ?? "111111111111"}
             width={2}

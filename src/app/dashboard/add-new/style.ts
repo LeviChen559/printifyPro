@@ -42,6 +42,8 @@ export const PreviewContainer = styled.div({
   position: "relative",
   padding: 24,
   boxSizing: "border-box",
+  overflowX: "auto",
+
 });
 
 export const EditContainer = styled.div({

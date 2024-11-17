@@ -39,9 +39,11 @@ interface iProps {
   setManufacturedFor: (value: string) => void;
   storageRequirements: string;
   setStorageRequirements: (value: string) => void;
-  shelfLife: string;
-  setShelfLife: (value: string) => void;
+  shelfLife: number;
+  setShelfLife: (value: number) => void;
   isEditedView: boolean;
+  labelSize: string;
+  setLabelSize: React.Dispatch<React.SetStateAction<string>>;
 }
 const commonTextFieldStyles = {
   width: "100%",
@@ -53,6 +55,25 @@ const LabelForm: FC<iProps> = (prop) => {
   return (
     <Form onSubmit={prop.isEditedView ? prop.updateLabel : prop.createNewLabel}>
       <Column height="85%">
+      <Box
+          display={"flex"}
+          flexDirection={"row"}
+          flexWrap={"nowrap"}
+          gap={1}
+          alignItems={"center"}
+        >
+           <DropdownMenu
+          type="labelSize"
+          labelSize={prop.labelSize}
+          setLabelSize={prop.setLabelSize}
+          error={prop.formError.error && prop.formError.locale === "labelSize"}
+          helperText={
+            prop.formError.error && prop.formError.locale === "labelSize"
+              ? prop.formError.message
+              : ""
+          }
+          width="100%"
+        />
         <DropdownMenu
           type="logo"
           logo={prop.logo}
@@ -65,6 +86,7 @@ const LabelForm: FC<iProps> = (prop) => {
           }
           width="100%"
         />
+        </Box>
         <FormPropsTextFields
           id="item_code"
           label="item_code"
@@ -233,12 +255,12 @@ const LabelForm: FC<iProps> = (prop) => {
           <FormPropsTextFields
             id="shelf_life"
             label="Shelf Life"
-            value={prop.shelfLife}
+            value={prop.shelfLife.toString()}
             required={true}
-            type="text"
+            type="number"
             background="#ffffff40"
             placeholder="Shelf Life"
-            onChange={(e) => prop.setShelfLife(e.target.value)}
+            onChange={(e) => prop.setShelfLife(Number(e.target.value))}
             startIcon={null}
             error={
               prop.formError.error && prop.formError.locale === "shelf_life"
@@ -276,7 +298,7 @@ const LabelForm: FC<iProps> = (prop) => {
           required={true}
           type="text"
           rows={10.5}
-          background="#ffffff40"
+          background="#ffffff80"
           placeholder="Case GTIN"
           onChange={(e) => prop.setIngredientInfo(e.target.value)}
           startIcon={null}
@@ -297,7 +319,7 @@ const LabelForm: FC<iProps> = (prop) => {
           required={true}
           type="text"
           rows={3}
-          background="#ffffff40"
+          background="#ffffff80"
           placeholder="addresses"
           onChange={(e) => prop.setManufacturedFor(e.target.value)}
           startIcon={null}

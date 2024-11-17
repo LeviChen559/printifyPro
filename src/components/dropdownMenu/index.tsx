@@ -13,10 +13,13 @@ interface iProps {
   setWeightUnit?: React.Dispatch<React.SetStateAction<string>>;
   caseUnit?: string;
   setCaseUnit?: React.Dispatch<React.SetStateAction<string>>;
+  labelSize?: string;
+  setLabelSize?: React.Dispatch<React.SetStateAction<string>>;
   readOnly?: boolean;
   error?: boolean;
   helperText?: string;
   width?: string;
+  isOnLabeCard?: boolean;
 }
 
 const DropdownMenu: FC<iProps> = (prop) => {
@@ -30,6 +33,9 @@ const DropdownMenu: FC<iProps> = (prop) => {
   const handleLogoChange = (event: SelectChangeEvent) => {
     prop.setLogo && prop.setLogo(event.target.value as string);
   };
+  const handleLabelSizeChange = (event: SelectChangeEvent) => {
+    prop.setLabelSize && prop.setLabelSize(event.target.value as string);
+  };
   const weightUnitList = [
     "g_tray",
     "g_bag",
@@ -42,14 +48,15 @@ const DropdownMenu: FC<iProps> = (prop) => {
 
   const caseUnitList = ["tray", "bag", "container", "piece", "bottle"];
   const logoList = ["001", "002", "003", "004"];
+  const labelSizeList = ["4x4", "4x6", "4x8"];
   const formControlStyle = {
-    background: "#ffffff40",
-    height: prop.readOnly ? 24 : 40,
+    background: "#ffffff80",
+    height: prop.readOnly?24:prop.isOnLabeCard ? 28 : 40,
     borderRadius: 1,
   };
   const MuiInputBaseStyle = {
     "&.MuiInputBase-root": {
-      height: prop.readOnly ? 24 : 40, // Adjusts the overall height of the component
+      height: prop.readOnly?24:prop.isOnLabeCard ? 28 : 40, // Adjusts the overall height of the component
       border: prop.readOnly ? "none" : "block", // Removes border
       padding: 0,
     },
@@ -100,6 +107,28 @@ const DropdownMenu: FC<iProps> = (prop) => {
             sx={MuiInputBaseStyle}
           >
             {logoList.map((item) => {
+              return (
+                <MenuItem value={item} key={item}>
+                  {item}
+                </MenuItem>
+              );
+            })}
+          </Select>
+          <FormHelperText sx={{ color: "red", textWrap: "nowrap" }}>
+            {prop.helperText}
+          </FormHelperText>
+        </FormControl>
+       ) : prop.type === "labelSize" ? (
+        <FormControl fullWidth size="small" sx={formControlStyle}>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={prop.labelSize}
+            readOnly={prop.readOnly}
+            onChange={handleLabelSizeChange}
+            sx={MuiInputBaseStyle}
+          >
+            {labelSizeList.map((item) => {
               return (
                 <MenuItem value={item} key={item}>
                   {item}

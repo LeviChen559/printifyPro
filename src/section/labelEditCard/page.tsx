@@ -2,8 +2,8 @@
 import React, { FC, useState, useRef, useEffect } from "react";
 import { Container, View, Print } from "./style";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
-import { iLabelInfo } from "@/components/labelTable";
-import LabelCard from "@/components/labelCard";
+import { iLabelInfo } from "@/type/labelType";
+import LabelCard from "@/section/labelCard";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useRouter } from "next/navigation";
@@ -49,6 +49,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
   const [isLabelUpdating, setIsLabelUpdating] = useState<boolean>(false);
   const [isLabelDeleted, setIsLabelDeleted] = useState<boolean>(false);
   const [logo, setLogo] = useState<string>(prop.selectLabelInfo.logo);
+  const [labelSize, setLabelSize] = useState<string>("4x4");
   const [itemCode, setItemCode] = useState<string>(
     prop.selectLabelInfo.item_code
   );
@@ -87,7 +88,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
   const [storageRequirements, setStorageRequirements] = useState<string>(
     prop.selectLabelInfo.storage_requirements
   );
-  const [shelfLife, setShelfLife] = useState<string>(
+  const [shelfLife, setShelfLife] = useState<number>(
     prop.selectLabelInfo.shelf_life
   );
   const [caseGtin, setCaseGtin] = useState<string>(
@@ -487,8 +488,8 @@ const LabelActionCard: FC<iProps> = (prop) => {
           <CircularProgress />
         ) : (
           <LabelCard
-            ref={contentRef}
-            labelInfo={lableInput}
+            type={labelSize}
+            lableInput={lableInput}
             showProductNameEN={true}
             showProductNameZH={true}
             isEditedMode={true}
@@ -508,6 +509,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
             setEditMode={setEditMode}
             productNameENStyle={productNameENStyle}
             productNameZHStyle={productNameZHStyle}
+            defaultLabelStyle={labelStyle.data[0] as ILabelStyle}
           />
         )}
       </View>
@@ -541,6 +543,8 @@ const LabelActionCard: FC<iProps> = (prop) => {
           setStorageRequirements={setStorageRequirements}
           shelfLife={shelfLife}
           setShelfLife={setShelfLife}
+          labelSize={labelSize}
+          setLabelSize={setLabelSize}
           formError={formError}
           updateLabel={(event) => {
             event.preventDefault();
