@@ -35,6 +35,7 @@ export const PreviewContainer = styled.div({
   display: "flex",
   flexDirection: "row",
   justifyContent: "center",
+  alignItems: "center",
   overflow: "auto",
   width: "100%",
   height: "100%",
