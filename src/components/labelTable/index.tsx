@@ -56,9 +56,9 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow sx={{ background: "#bcbcbc80" }}>
-            <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
+            {/* <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
               Id
-            </TableCell>
+            </TableCell> */}
             <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
               Item Code
             </TableCell>
@@ -108,14 +108,14 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
                 }}
                 onClick={() => labelSelect(row.id)}
               >
-                <TableCell
+                {/* <TableCell
                   component="th"
                   scope="row"
                   align="center"
                   sx={{ width: "50px", padding: 1 }}
                 >
                   {row.id}
-                </TableCell>
+                </TableCell> */}
                 <TableCell align="left">{row.item_code}</TableCell>
                 <TableCell align="left">
                   <LabelLogo logo={row.logo} fontSize={18}/>
