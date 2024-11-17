@@ -40,23 +40,24 @@ interface iProp {
   productNameENStyle?: iTextStyle;
   productNameZHStyle?: iTextStyle;
   defaultLabelStyle: ILabelStyle;
+  logo: string;
 }
 export type Ref = HTMLDivElement;
 
 
 const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
-  const now = new Date();
-  const bestByValue = new Date(now.getTime() + (prop.labelInfo.shelf_life * 24 * 60 * 60 * 1000))
-  const formattedDate = 
-  String(bestByValue.getDate()).padStart(2, '0') + "/" + 
-  String(bestByValue.getMonth() + 1).padStart(2, '0') + "/" + 
-  bestByValue.getFullYear();
+  // const now = new Date();
+  // const bestByValue = new Date(now.getTime() + (prop.labelInfo.shelf_life * 24 * 60 * 60 * 1000))
+  // const formattedDate = 
+  // String(bestByValue.getDate()).padStart(2, '0') + "/" + 
+  // String(bestByValue.getMonth() + 1).padStart(2, '0') + "/" + 
+  // bestByValue.getFullYear();
 
    
   return (
     <Container id="labelCard" ref={ref}>
       <Header>
-        <LabelLogo logo={prop.labelInfo.logo} fontSize={48} />
+        <LabelLogo logo={prop.logo} fontSize={48} />
         <div style={{ height: "auto", width: "60%" }}>
           <EditTextarea
             readonly={!prop.isEditedMode}

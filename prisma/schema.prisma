@@ -50,7 +50,7 @@ model mylabels {
   ingredient_info      String  @db.VarChar
   manufactured_for     String  @db.VarChar
   logo                 String  @default("001")
-  labe_size            String? @default("4x6")
+  label_size           String? @default("4x6")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.

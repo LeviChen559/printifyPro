@@ -1,12 +1,11 @@
 "use client";
 import React, { useEffect, useState, Suspense, useCallback } from "react";
-import { iLabelInfo } from "@/components/labelTable";
+import { iLabelInfo } from "@/type/labelType";
 import { useSession } from "next-auth/react";
 import { Container, SearchContainer } from "../style";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useRouter } from "next/navigation";
 import FormPropsTextFields from "@/components/FormPropsTextFields";
-// import SelectMenu from "@/components/selectMenu";
 import { iCustomerSearchProps } from "@/app/type";
 import LabelActionCard from "@/section/labelActionCard/page";
 import LabelPrintCard from "@/section/labelPrintCard/page";
@@ -96,7 +95,6 @@ const MyLabels = () => {
       isLabelUpdated: false,
     });
   };
-
 
 
   if (status === "loading") {

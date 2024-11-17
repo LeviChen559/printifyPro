@@ -39,7 +39,5 @@ export const Form = styled.form<iProps>(
     position: "relative",
     display: "flex",
     flexDirection: "column",
-  },
-  (props) => ({
-  })
+  }
 );

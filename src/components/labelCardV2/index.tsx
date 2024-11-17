@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
 import { Container } from "./style";
-import { iLabelInfo } from "../labelTable";
+import { iLabelInfo } from "@/type/labelType";
 
 // import Barcode from "react-barcode";
 

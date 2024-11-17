@@ -5,6 +5,7 @@ import Button from "@/components/button";
 import { Box } from "@mui/material";
 import DropdownMenu from "@/components/dropdownMenu";
 
+
 interface iProps {
   createNewLabel?: (event: FormEvent<HTMLFormElement>) => void;
   updateLabel?: (event: FormEvent<HTMLFormElement>) => void;
@@ -52,6 +53,7 @@ const commonTextFieldStyles = {
   background: "#ffffff40",
 };
 const LabelForm: FC<iProps> = (prop) => {
+  console.log("logo",prop.logo);
   return (
     <Form onSubmit={prop.isEditedView ? prop.updateLabel : prop.createNewLabel}>
       <Column height="85%">

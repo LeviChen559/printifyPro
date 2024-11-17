@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 
@@ -8,7 +8,7 @@ const InactivityLogoutTimer = () => {
    
 
 
-    const checkForInactivity = () => {
+    const checkForInactivity = useCallback(() => {
         const expireTimeString = localStorage.getItem('expireTime');
         const expireTime = expireTimeString ? parseInt(expireTimeString) : 0;
 
@@ -17,7 +17,7 @@ const InactivityLogoutTimer = () => {
             signOut();
             router.push('/');
         }
-    };
+    },[router, pathname]);
 
     const updateExpiryTime = () => {
         const expireTime = Date.now() + 2 * 60 * 60 * 1000; // 2 hours in milliseconds
@@ -30,7 +30,7 @@ const InactivityLogoutTimer = () => {
         }, 5000); // Check for inactivity every 5 seconds
 
         return () => clearInterval(interval);
-    }, []);
+    }, [checkForInactivity]);
 
 useEffect(() => {
     const events = ['click', 'keypress', 'scroll', 'mousemove'];

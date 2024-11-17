@@ -22,6 +22,7 @@ import LabelForm from "@/section/labelForm";
 import {fetcher} from "@/utils/lib/fetcher";
 
 
+
 interface iProps {
   selectLabelInfo: iLabelInfo;
   setShowCard: React.Dispatch<
@@ -49,7 +50,8 @@ const LabelActionCard: FC<iProps> = (prop) => {
   const [isLabelUpdating, setIsLabelUpdating] = useState<boolean>(false);
   const [isLabelDeleted, setIsLabelDeleted] = useState<boolean>(false);
   const [logo, setLogo] = useState<string>(prop.selectLabelInfo.logo);
-  const [labelSize, setLabelSize] = useState<string>("4x4");
+  const [labelSize, setLabelSize] = useState<string>( prop.selectLabelInfo.label_size);
+ 
   const [itemCode, setItemCode] = useState<string>(
     prop.selectLabelInfo.item_code
   );
@@ -110,7 +112,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
   });
   const lableInput = {
     id: prop.selectLabelInfo.id,
-    logo: prop.selectLabelInfo.logo,
+    logo: logo,
     item_code: itemCode, // Add appropriate value
     product_name_en: productNameEN,
     product_name_zh: productNameZH,
@@ -123,6 +125,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
     case_gtin: caseGtin,
     ingredient_info: ingredientInfo,
     manufactured_for: manufacturedFor,
+    label_size: labelSize,
   };
 
   useEffect(() => {
@@ -320,6 +323,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
       fontWeight: 400,
     },
   };
+  console.log("lableInput", lableInput);
 
   const updateLabel = async (
     labelInfo: iLabelInfo,
@@ -489,6 +493,9 @@ const LabelActionCard: FC<iProps> = (prop) => {
         ) : (
           <LabelCard
             type={labelSize}
+            ref={contentRef}
+            logo={logo}
+            setLogo={setLogo}
             lableInput={lableInput}
             showProductNameEN={true}
             showProductNameZH={true}

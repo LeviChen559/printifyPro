@@ -40,6 +40,7 @@ interface iProp {
   productNameENStyle?: iTextStyle;
   productNameZHStyle?: iTextStyle;
   defaultLabelStyle: ILabelStyle;
+  logo: string;
 }
 export type Ref = HTMLDivElement;
 
@@ -56,7 +57,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
   return (
     <Container id="labelCard" ref={ref}>
       <Header>
-        <LabelLogo logo={prop.labelInfo.logo} fontSize={48} />
+        <LabelLogo logo={prop.logo} fontSize={48} />
         <div style={{ height: "auto", width: "60%" }}>
           <EditTextarea
             readonly={!prop.isEditedMode}

@@ -15,6 +15,7 @@ interface iProps {
   showProductNameZH?: boolean;
   showProductNameEN?: boolean;
   isEditedMode?: boolean;
+  ref?: React.RefObject<HTMLDivElement> | undefined;
   setProductNameEN?: (value: string) => void;
   setProductNameZH?: (value: string) => void;
   productNameEN?: string;
@@ -30,6 +31,8 @@ interface iProps {
   weightUnit?: string;
   editMode?: string;
   setEditMode?: (value: iEditedMode) => void;
+  logo: string;
+  setLogo: React.Dispatch<React.SetStateAction<string>>;
   productNameENStyle?: iTextStyle;
   productNameZHStyle?: iTextStyle;
   defaultLabelStyle: ILabelStyle;
@@ -57,6 +60,8 @@ const LabelCard: FC<iProps> = (prop) => {
       productNameZHStyle={prop.productNameZHStyle}
       editMode={prop.editMode}
       setEditMode={prop.setEditMode}
+      logo={prop.logo}
+      ref={prop.ref}
     />
   ) : prop.type === "4x6" ? (
     <LabelCard4_6
@@ -80,6 +85,9 @@ const LabelCard: FC<iProps> = (prop) => {
       productNameZHStyle={prop.productNameZHStyle}
       editMode={prop.editMode}
       setEditMode={prop.setEditMode}
+      logo={prop.logo}
+      ref={prop.ref}
+
     />
   ) : prop.type === "4x8" ? (
     <LabelCard4_8
@@ -103,6 +111,9 @@ const LabelCard: FC<iProps> = (prop) => {
       productNameZHStyle={prop.productNameZHStyle}
       editMode={prop.editMode}
       setEditMode={prop.setEditMode}
+      logo={prop.logo}
+      ref={prop.ref}
+
     />
   ) : null;
 };

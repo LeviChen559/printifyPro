@@ -59,6 +59,7 @@ export const enum iEditedMode {
     case_gtin: string;
     ingredient_info: string;
     manufactured_for: string;
+    label_size: string;
   }
   export interface iLabelInfoStyle {
     id: number;

@@ -9,6 +9,7 @@ export async function PATCH(req: NextRequest) {
     const { labelInfo, labelStyle } = await req.json();
 
     
+    console.log("labelInfo",labelInfo)
     // Check if the user ID is provided
     if (!labelInfo) {
         return NextResponse.json(
@@ -41,6 +42,8 @@ export async function PATCH(req: NextRequest) {
         ...(labelInfo.shelf_life && { shelf_life: labelInfo.shelf_life }),
         ...(labelInfo.case_gtin && { case_gtin: labelInfo.case_gtin }),
         ...(labelInfo.ingredient_info && { ingredient_info: labelInfo.ingredient_info }),
+        ...(labelInfo.label_size && { label_size: labelInfo.label_size }),
+        ...(labelInfo.logo && { logo: labelInfo.logo }),
       };
     
     

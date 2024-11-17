@@ -10,14 +10,14 @@ import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { colorTheme } from "@/theme";
 import packageInfo from "../../../package.json";
-import InactivityLogoutTimer from "@/utils/lib/autoLogout";
+
 
 const SideBar = () => {
   const links = useMemo(
     () => ["", "add-new", "mylabels", "roles", "setting"],
     []
   );
-  InactivityLogoutTimer();
+
   const pathname = usePathname();
   const { data: userData } = useSession();
   const version = packageInfo.version;

@@ -70,6 +70,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
           showProductNameEN={showProductNameEN}
           ref={contentRef}
           isEditedMode={false}
+          logo={prop.selectLabelInfo.logo}
           productNameEN={prop.selectLabelInfo.product_name_en}
           productNameZH={prop.selectLabelInfo.product_name_zh}
           ingredientInfo={prop.selectLabelInfo.ingredient_info}

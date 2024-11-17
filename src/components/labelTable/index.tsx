@@ -92,6 +92,9 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
             <TableCell align="center" sx={{ width: "150px", padding: 1 }}>
               Manufactured For
             </TableCell>
+            <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
+              Label Size
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -122,7 +125,6 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
                 <TableCell align="left">
                   {row.weight} {row.weight_unit}
                 </TableCell>
-
                 <TableCell align="left" sx={{ width: "50px", padding: 1 }}>
                   {row.case_quantity} {row.case_unit}
                 </TableCell>
@@ -149,6 +151,9 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
                 </TableCell>
                 <TableCell align="left" sx={{ width: "150px", padding: 1 }}>
                   {row.manufactured_for}
+                </TableCell>
+                <TableCell align="left" sx={{ width: "50px", padding: 1 }}>
+                  {row.label_size}
                 </TableCell>
               </TableRow>
             ))

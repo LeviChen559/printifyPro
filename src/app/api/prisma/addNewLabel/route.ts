@@ -24,6 +24,8 @@ export async function POST(req: NextRequest) {
         case_gtin: data.lableInput.case_gtin,
         ingredient_info: data.lableInput.ingredient_info,
         manufactured_for: data.lableInput.manufactured_for,
+        label_size: data.lableInput.label_size,
+        logo: data.lableInput.logo
       },
     });
     const newLabelStyle:labelstyle = await prisma.labelstyle.create({

@@ -189,6 +189,7 @@ const AddNew = () => {
     case_gtin: caseGtin,
     ingredient_info: ingredientInfo,
     manufactured_for: manufacturedFor,
+    label_size: labelSize,
   };
 
   const defaultTextlStyle = {
@@ -354,6 +355,8 @@ const AddNew = () => {
           productNameZHStyle={productNameZHStyle}
           editMode={editMode}
           setEditMode={setEditMode}
+          logo={logo}
+          setLogo={setLogo}
         />
       </PreviewContainer>
       <EditContainer>
