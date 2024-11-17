@@ -13,7 +13,7 @@ import Barcode from "react-barcode";
 import { EditText, EditTextarea } from "react-edit-text";
 import "react-edit-text/dist/index.css";
 import DropdownMenu from "@/components/dropdownMenu";
-import { iEditedMode, ILabelStyle, iTextStyle } from "@/type/labelType";
+import { iEditedMode, iLabelStyle, iTextStyle } from "@/type/labelType";
 import LabelLogo from "@/components/logo";
 
 interface iProp {
@@ -39,7 +39,7 @@ interface iProp {
   setEditMode?: (value: iEditedMode) => void;
   productNameENStyle?: iTextStyle;
   productNameZHStyle?: iTextStyle;
-  defaultLabelStyle: ILabelStyle;
+  defaultLabelStyle: iLabelStyle;
   logo: string;
 }
 export type Ref = HTMLDivElement;
@@ -49,9 +49,10 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
   const now = new Date();
   const bestByValue = new Date(now.getTime() + (prop.labelInfo.shelf_life * 24 * 60 * 60 * 1000))
   const formattedDate = 
-  String(bestByValue.getDate()).padStart(2, '0') + "/" + 
+  (String(bestByValue.getDate()).padStart(2, '0') + "/" + 
   String(bestByValue.getMonth() + 1).padStart(2, '0') + "/" + 
-  bestByValue.getFullYear();
+  bestByValue.getFullYear());
+
 
    
   return (
@@ -73,20 +74,20 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               fontSize: prop.productNameENStyle
                 ? prop.productNameENStyle.fontSize
                 : prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.product_name_en.fontSize,
+                  JSON.parse(prop.defaultLabelStyle.product_name_en).fontSize,
               fontFamily: prop.productNameENStyle
                 ? prop.productNameENStyle.fontFamily
                 : prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.product_name_en.fontFamily,
+                JSON.parse(prop.defaultLabelStyle.product_name_en).fontFamily,
               color: prop.productNameENStyle && prop.productNameENStyle.color,
               fontStyle: prop.productNameENStyle
                 ? prop.productNameENStyle.fontStyle
                 : prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.product_name_en.fontStyle,
+                JSON.parse(prop.defaultLabelStyle.product_name_en).fontStyle,
               fontWeight: prop.productNameENStyle
                 ? prop.productNameENStyle.fontWeight
                 : prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.product_name_en.fontWeight,
+                JSON.parse(prop.defaultLabelStyle.product_name_en).fontWeight,
               overflow: "hidden", // Hide scrollbar for a clean look
               whiteSpace: "pre-wrap", // Allows text to wrap to the next line
               overflowWrap: "break-word", // Breaks long words if necessary
@@ -116,20 +117,20 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               fontSize: prop.productNameZHStyle
                 ? prop.productNameZHStyle.fontSize
                 : prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.product_name_zh.fontSize,
+                JSON.parse(prop.defaultLabelStyle.product_name_zh).fontSize,
               fontFamily: prop.productNameZHStyle
                 ? prop.productNameZHStyle.fontFamily
                 : prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.product_name_zh.fontFamily,
+                JSON.parse(prop.defaultLabelStyle.product_name_zh).fontFamily,
               color: prop.productNameZHStyle && prop.productNameZHStyle.color,
               fontStyle: prop.productNameZHStyle
                 ? prop.productNameZHStyle.fontStyle
                 : prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.product_name_zh.fontStyle,
+                JSON.parse(prop.defaultLabelStyle.product_name_zh).fontStyle,
               fontWeight: prop.productNameZHStyle
                 ? prop.productNameZHStyle.fontWeight
                 : prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.product_name_zh.fontWeight,
+                JSON.parse(prop.defaultLabelStyle.product_name_zh).fontWeight,
               border: prop.isEditedMode ? "1px solid #bcbcbc80" : "none",
               borderRadius: prop.isEditedMode ? "4px" : "none",
             }}
@@ -152,19 +153,19 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               margin: "0px",
               fontSize:
                 prop.defaultLabelStyle &&
-                prop.defaultLabelStyle.ingredient_info.fontSize,
+                JSON.parse(prop.defaultLabelStyle.ingredient_info).fontSize,
               fontFamily:
                 prop.defaultLabelStyle &&
-                prop.defaultLabelStyle.ingredient_info.fontFamily,
+                JSON.parse(prop.defaultLabelStyle.ingredient_info).fontFamily,
               color:
                 prop.defaultLabelStyle &&
-                prop.defaultLabelStyle.ingredient_info.color,
+                JSON.parse(prop.defaultLabelStyle.ingredient_info).color,
               fontStyle:
                 prop.defaultLabelStyle &&
-                prop.defaultLabelStyle.ingredient_info.fontStyle,
+                JSON.parse(prop.defaultLabelStyle.ingredient_info).fontStyle,
               fontWeight:
                 prop.defaultLabelStyle &&
-                prop.defaultLabelStyle.ingredient_info.fontWeight,
+                JSON.parse(prop.defaultLabelStyle.ingredient_info).fontWeight,
               background: "transparent",
               overflow: "hidden", // Hide scrollbar for a clean look
               whiteSpace: "pre-line", // Ensures text wraps correctly
@@ -201,18 +202,18 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
                 alignItems: "center",
                 fontSize:
                   prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.weight.fontSize,
+                  JSON.parse(prop.defaultLabelStyle.weight).fontSize,
                 fontFamily:
                   prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.weight.fontFamily,
+                  JSON.parse(prop.defaultLabelStyle.weight).fontFamily,
                 color:
-                  prop.defaultLabelStyle && prop.defaultLabelStyle.weight.color,
+                  prop.defaultLabelStyle && JSON.parse(prop.defaultLabelStyle.weight).color,
                 fontStyle:
                   prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.weight.fontStyle,
+                  JSON.parse(prop.defaultLabelStyle.weight).fontStyle,
                 fontWeight:
                   prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.weight.fontWeight,
+                  JSON.parse(prop.defaultLabelStyle.weight).fontWeight,
                 background: "transparent",
                 width: 85,
                 minHeight: 24,
@@ -243,19 +244,19 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               padding:"4px 0",
               fontSize:
                 prop.defaultLabelStyle &&
-                prop.defaultLabelStyle.storage_requirements.fontSize,
+                JSON.parse(prop.defaultLabelStyle.storage_requirements).fontSize,
               fontFamily:
                 prop.defaultLabelStyle &&
-                prop.defaultLabelStyle.storage_requirements.fontFamily,
+                JSON.parse(prop.defaultLabelStyle.storage_requirements).fontFamily,
               color:
                 prop.defaultLabelStyle &&
-                prop.defaultLabelStyle.storage_requirements.color,
+                JSON.parse(prop.defaultLabelStyle.storage_requirements).color,
               fontStyle:
                 prop.defaultLabelStyle &&
-                prop.defaultLabelStyle.storage_requirements.fontStyle,
+                JSON.parse(prop.defaultLabelStyle.storage_requirements).fontStyle,
               fontWeight:
                 prop.defaultLabelStyle &&
-                prop.defaultLabelStyle.storage_requirements.fontWeight,
+                JSON.parse(prop.defaultLabelStyle.storage_requirements).fontWeight,
               background: "transparent",
               overflow: "hidden", // Hide scrollbar for a clean look
               whiteSpace: "pre-line", // Ensures text wraps correctly
@@ -283,19 +284,19 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
                 padding:0,
                 fontSize:
                   prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.manufactured_for.fontSize,
+                  JSON.parse(prop.defaultLabelStyle.manufactured_for).fontSize,
                 fontFamily:
                   prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.manufactured_for.fontFamily,
+                  JSON.parse(prop.defaultLabelStyle.manufactured_for).fontFamily,
                 color:
                   prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.manufactured_for.color,
+                  JSON.parse(prop.defaultLabelStyle.manufactured_for).color,
                 fontStyle:
                   prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.manufactured_for.fontStyle,
+                  JSON.parse(prop.defaultLabelStyle.manufactured_for).fontStyle,
                 fontWeight:
                   prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.manufactured_for.fontWeight,
+                  JSON.parse(prop.defaultLabelStyle.manufactured_for).fontWeight,
                 background: "transparent",
                 overflow: "hidden", // Hide scrollbar for a clean look
                 whiteSpace: "pre-line", // Ensures text wraps correctly

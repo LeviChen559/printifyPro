@@ -20,18 +20,18 @@ model activities {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model labelstyle {
-  id                   Int   @id @default(autoincrement()) @db.SmallInt
-  item_code            Json?
-  product_name_en      Json?
-  product_name_zh      Json?
-  ingredient_info      Json?
-  weight               Json?
-  weight_unit          Json?
-  storage_requirements Json?
-  manufactured_for     Json?
-  case_quantity        Json?
-  case_unit            Json?
-  best_before          Json?
+  id                   Int  @id @db.SmallInt
+  item_code            Json
+  product_name_en      Json
+  product_name_zh      Json
+  ingredient_info      Json
+  weight               Json
+  weight_unit          Json
+  storage_requirements Json
+  manufactured_for     Json
+  case_quantity        Json
+  case_unit            Json
+  best_before          Json
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.

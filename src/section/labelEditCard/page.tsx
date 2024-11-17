@@ -14,7 +14,7 @@ import useSWR from "swr";
 import {
   iTextStyle,
   iEditedMode,
-  ILabelStyle,
+  iLabelStyle,
   iTextStyleMode,
   formState,
 } from "@/type/labelType";
@@ -245,89 +245,89 @@ const LabelActionCard: FC<iProps> = (prop) => {
 
   const labelStyleuUpdates = {
     id: prop.selectLabelInfo.id,
-    item_code: {
+    item_code: JSON.stringify({
       color: "#000000",
       fontStyle: "Normal",
       fontSize: 14,
       fontFamily: "Arial",
       fontWeight: 400,
-    },
-    product_name_en: {
+    }),
+    product_name_en: JSON.stringify({
       color: productNameENStyle.color,
       fontStyle: productNameENStyle.fontStyle,
       fontSize: productNameENStyle.fontSize,
       fontFamily: productNameENStyle.fontFamily,
       fontWeight: productNameENStyle.fontWeight,
-    },
-    product_name_zh: {
+    }),
+    product_name_zh: JSON.stringify({
       color: productNameZHStyle.color,
       fontStyle: productNameZHStyle.fontStyle,
       fontSize: productNameZHStyle.fontSize,
       fontFamily: productNameZHStyle.fontFamily,
       fontWeight: productNameZHStyle.fontWeight,
-    },
-    ingredient_info: {
+    }),
+    ingredient_info: JSON.stringify({
       color: "#000000",
       fontStyle: "Normal",
       fontSize: 14,
       fontFamily: "Arial",
       fontWeight: 400,
-    },
-    weight: {
+    }),
+    weight: JSON.stringify({
       color: "#000000",
       fontStyle: "Normal",
       fontSize: 14,
       fontFamily: "Arial",
       fontWeight: 400,
-    },
-    weight_unit: {
+    }),
+    weight_unit: JSON.stringify({
       color: "#000000",
       fontStyle: "Normal",
       fontSize: 14,
       fontFamily: "Arial",
       fontWeight: 400,
-    },
-    storage_requirements: {
+    }),
+    storage_requirements:JSON.stringify({
       color: "#000000",
       fontStyle: "Normal",
       fontSize: 14,
       fontFamily: "Arial",
       fontWeight: 400,
-    },
-    manufactured_for: {
+    }),
+    manufactured_for: JSON.stringify({
       color: "#000000",
       fontStyle: "Normal",
       fontSize: 14,
       fontFamily: "Arial",
       fontWeight: 400,
-    },
-    case_quantity: {
+    }),
+    case_quantity: JSON.stringify({
       color: "#000000",
       fontStyle: "Normal",
       fontSize: 14,
       fontFamily: "Arial",
       fontWeight: 400,
-    },
-    case_unit: {
+    }),
+    case_unit: JSON.stringify({
       color: "#000000",
       fontStyle: "Normal",
       fontSize: 14,
       fontFamily: "Arial",
       fontWeight: 400,
-    },
-    shelf_life: {
+    }),
+    shelf_life: JSON.stringify({
       color: "#000000",
       fontStyle: "Normal",
       fontSize: 14,
       fontFamily: "Arial",
       fontWeight: 400,
-    },
+    }),
   };
 
 
   const updateLabel = async (
     labelInfo: iLabelInfo,
-    labelStyle: ILabelStyle
+    labelStyle: iLabelStyle
   ) => {
     setSubmitClicked(true);
     setIsLabelUpdating(true);
@@ -516,7 +516,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
             setEditMode={setEditMode}
             productNameENStyle={productNameENStyle}
             productNameZHStyle={productNameZHStyle}
-            defaultLabelStyle={labelStyle.data[0] as ILabelStyle}
+            defaultLabelStyle={labelStyle.data[0] as iLabelStyle}
           />
         )}
       </View>

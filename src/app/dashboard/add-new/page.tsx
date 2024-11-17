@@ -209,18 +209,18 @@ const AddNew = () => {
 
   const defaultLabelStyle = {
     id: lableInput.id,
-    item_code: defaultTextlStyle,
-    product_name_en: defaultHeaderStyle,
-    product_name_zh: defaultHeaderStyle,
-    weight: defaultTextlStyle,
-    weight_unit: defaultTextlStyle,
-    case_quantity: defaultTextlStyle,
-    case_unit: defaultTextlStyle,
-    storage_requirements: defaultTextlStyle,
-    shelf_life: defaultTextlStyle,
-    case_gtin: defaultTextlStyle,
-    ingredient_info: defaultTextlStyle,
-    manufactured_for: defaultTextlStyle,
+    item_code: JSON.stringify(defaultTextlStyle),
+    product_name_en: JSON.stringify(defaultHeaderStyle),
+    product_name_zh: JSON.stringify(defaultHeaderStyle),
+    weight: JSON.stringify(defaultTextlStyle),
+    weight_unit: JSON.stringify(defaultTextlStyle),
+    case_quantity: JSON.stringify(defaultTextlStyle),
+    case_unit: JSON.stringify(defaultTextlStyle),
+    storage_requirements: JSON.stringify(defaultTextlStyle),
+    shelf_life: JSON.stringify(defaultTextlStyle),
+    case_gtin: JSON.stringify(defaultTextlStyle),
+    ingredient_info: JSON.stringify(defaultTextlStyle),
+    manufactured_for: JSON.stringify(defaultTextlStyle),
   };
 
   useEffect(() => {

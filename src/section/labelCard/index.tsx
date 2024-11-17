@@ -5,7 +5,7 @@ import LabelCard4_8 from "@/section/labelCard/4_8";
 import {
   iLabelInfo,
   iTextStyle,
-  ILabelStyle,
+  iLabelStyle,
   iEditedMode,
 } from "@/type/labelType";
 
@@ -35,7 +35,7 @@ interface iProps {
   setLogo?: React.Dispatch<React.SetStateAction<string>>;
   productNameENStyle?: iTextStyle;
   productNameZHStyle?: iTextStyle;
-  defaultLabelStyle: ILabelStyle;
+  defaultLabelStyle: iLabelStyle;
 }
 const LabelCard: FC<iProps> = (prop) => {
   return prop.type === "4x4" ? (
