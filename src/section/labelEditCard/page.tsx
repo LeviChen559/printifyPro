@@ -19,9 +19,7 @@ import {
   formState,
 } from "@/type/labelType";
 import LabelForm from "@/section/labelForm";
-import {fetcher} from "@/utils/lib/fetcher";
-
-
+import { fetcher } from "@/utils/lib/fetcher";
 
 interface iProps {
   selectLabelInfo: iLabelInfo;
@@ -38,7 +36,6 @@ interface iProps {
 }
 
 const LabelActionCard: FC<iProps> = (prop) => {
-
   const { data: labelStyle } = useSWR(
     prop.selectLabelInfo?.id
       ? `/api/prisma/getLabelStyle?id=${prop.selectLabelInfo.id}`
@@ -50,31 +47,25 @@ const LabelActionCard: FC<iProps> = (prop) => {
   const [isLabelUpdating, setIsLabelUpdating] = useState<boolean>(false);
   const [isLabelDeleted, setIsLabelDeleted] = useState<boolean>(false);
   const [logo, setLogo] = useState<string>(prop.selectLabelInfo.logo);
-  const [labelSize, setLabelSize] = useState<string>( prop.selectLabelInfo.label_size);
- 
+  const [labelSize, setLabelSize] = useState<string>(
+    prop.selectLabelInfo.label_size
+  );
+
   const [itemCode, setItemCode] = useState<string>(
     prop.selectLabelInfo.item_code
   );
   const [productNameEN, setProductNameEN] = useState<string>(
     prop.selectLabelInfo.product_name_en
   );
-  const [productNameENStyle, setProductNameENStyle] = useState<iTextStyle>({
-    color: "#000000",
-    fontStyle: "Normal",
-    fontSize: 24,
-    fontFamily: "Arial",
-    fontWeight: 700,
-  });
+  const [productNameENStyle, setProductNameENStyle] = useState<iTextStyle>(
+    JSON.parse(labelStyle.data[0].productNameEN)
+  );
   const [productNameZH, setProductNameZH] = useState<string>(
     prop.selectLabelInfo.product_name_zh
   );
-  const [productNameZHStyle, setProductNameZHStyle] = useState<iTextStyle>({
-    color: "#000000",
-    fontStyle: "Normal",
-    fontSize: 24,
-    fontFamily: "Arial",
-    fontWeight: 700,
-  });
+  const [productNameZHStyle, setProductNameZHStyle] = useState<iTextStyle>(
+    JSON.parse(labelStyle.data[0].productNameZH)
+  );
   const [weight, setWeight] = useState<number>(
     Number(prop.selectLabelInfo.weight)
   );
@@ -103,8 +94,8 @@ const LabelActionCard: FC<iProps> = (prop) => {
     prop.selectLabelInfo.manufactured_for
   );
   const [editMode, setEditMode] = useState<iEditedMode>(iEditedMode.empty);
-    const [submitClicked, setSubmitClicked] = useState<boolean>(false);
-  
+  const [submitClicked, setSubmitClicked] = useState<boolean>(false);
+
   const [formError, setFormError] = useState<formState>({
     error: false,
     message: "",
@@ -129,101 +120,101 @@ const LabelActionCard: FC<iProps> = (prop) => {
   };
 
   useEffect(() => {
-      // List of fields to check
-      if (!submitClicked) return;
-      const validations = [
-        {
-          field: itemCode,
-          message: "Item code is required",
-          locale: "item_code",
-        },
-        {
-          field: productNameEN,
-          message: "Product Name (English) is required",
-          locale: "product_name_en",
-        },
-        {
-          field: productNameZH,
-          message: "Product Name (Chinese) is required",
-          locale: "product_name_zh",
-        },
-        { field: weight, message: "Net Weight is required", locale: "weight" },
-        {
-          field: weightUnit,
-          message: "Weight Unit is required",
-          locale: "weight_unit",
-        },
-        {
-          field: caseQuantity,
-          message: "Case Quantity is required",
-          locale: "case_quantity",
-        },
-        {
-          field: caseUnit,
-          message: "Case Unit is required",
-          locale: "case_unit",
-        },
-        {
-          field: storageRequirements,
-          message: "Storage Requirements is required",
-          locale: "storage_requirements",
-        },
-        {
-          field: shelfLife,
-          message: "Shelf Life is required",
-          locale: "shelf_life",
-        },
-        {
-          field: ingredientInfo,
-          message: "Ingredient Info is required",
-          locale: "ingredient_info",
-        },
-        {
-          field: manufacturedFor,
-          message: "Manufactured For is required",
-          locale: "manufactured_for",
-        },
-        {
-          field: caseGtin,
-          message: "Case GTIN is required and must be 12 characters",
-          locale: "case_gtin",
-          validate: (value: string) => value?.length === 12,
-        },
-      ];
-  
-      // Loop through each validation rule
-      for (const { field, message, locale, validate } of validations) {
-        if (!field || (validate && !validate(field))) {
-          setFormError({
-            error: true,
-            message,
-            locale,
-          });
-          return; // stop here if validation fails
-        }
+    // List of fields to check
+    if (!submitClicked) return;
+    const validations = [
+      {
+        field: itemCode,
+        message: "Item code is required",
+        locale: "item_code",
+      },
+      {
+        field: productNameEN,
+        message: "Product Name (English) is required",
+        locale: "product_name_en",
+      },
+      {
+        field: productNameZH,
+        message: "Product Name (Chinese) is required",
+        locale: "product_name_zh",
+      },
+      { field: weight, message: "Net Weight is required", locale: "weight" },
+      {
+        field: weightUnit,
+        message: "Weight Unit is required",
+        locale: "weight_unit",
+      },
+      {
+        field: caseQuantity,
+        message: "Case Quantity is required",
+        locale: "case_quantity",
+      },
+      {
+        field: caseUnit,
+        message: "Case Unit is required",
+        locale: "case_unit",
+      },
+      {
+        field: storageRequirements,
+        message: "Storage Requirements is required",
+        locale: "storage_requirements",
+      },
+      {
+        field: shelfLife,
+        message: "Shelf Life is required",
+        locale: "shelf_life",
+      },
+      {
+        field: ingredientInfo,
+        message: "Ingredient Info is required",
+        locale: "ingredient_info",
+      },
+      {
+        field: manufacturedFor,
+        message: "Manufactured For is required",
+        locale: "manufactured_for",
+      },
+      {
+        field: caseGtin,
+        message: "Case GTIN is required and must be 12 characters",
+        locale: "case_gtin",
+        validate: (value: string) => value?.length === 12,
+      },
+    ];
+
+    // Loop through each validation rule
+    for (const { field, message, locale, validate } of validations) {
+      if (!field || (validate && !validate(field))) {
+        setFormError({
+          error: true,
+          message,
+          locale,
+        });
+        return; // stop here if validation fails
       }
-  
-      // If no errors were found, clear formError
-      setFormError({
-        error: false,
-        message: "",
-        locale: "",
-      });
-    }, [
-      itemCode,
-      productNameEN,
-      productNameZH,
-      weight,
-      weightUnit,
-      caseQuantity,
-      caseUnit,
-      storageRequirements,
-      shelfLife,
-      caseGtin,
-      ingredientInfo,
-      manufacturedFor,
-      submitClicked,
-    ]);
+    }
+
+    // If no errors were found, clear formError
+    setFormError({
+      error: false,
+      message: "",
+      locale: "",
+    });
+  }, [
+    itemCode,
+    productNameEN,
+    productNameZH,
+    weight,
+    weightUnit,
+    caseQuantity,
+    caseUnit,
+    storageRequirements,
+    shelfLife,
+    caseGtin,
+    ingredientInfo,
+    manufacturedFor,
+    submitClicked,
+  ]);
   useEffect(() => {
     if (labelStyle?.data?.[0]?.product_name_en) {
       setProductNameENStyle({
@@ -245,13 +236,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
 
   const labelStyleuUpdates = {
     id: prop.selectLabelInfo.id,
-    item_code: JSON.stringify({
-      color: "#000000",
-      fontStyle: "Normal",
-      fontSize: 14,
-      fontFamily: "Arial",
-      fontWeight: 400,
-    }),
+    item_code: labelStyle.data[0].item_code,
     product_name_en: JSON.stringify({
       color: productNameENStyle.color,
       fontStyle: productNameENStyle.fontStyle,
@@ -266,64 +251,17 @@ const LabelActionCard: FC<iProps> = (prop) => {
       fontFamily: productNameZHStyle.fontFamily,
       fontWeight: productNameZHStyle.fontWeight,
     }),
-    ingredient_info: JSON.stringify({
-      color: "#000000",
-      fontStyle: "Normal",
-      fontSize: 14,
-      fontFamily: "Arial",
-      fontWeight: 400,
-    }),
-    weight: JSON.stringify({
-      color: "#000000",
-      fontStyle: "Normal",
-      fontSize: 14,
-      fontFamily: "Arial",
-      fontWeight: 400,
-    }),
-    weight_unit: JSON.stringify({
-      color: "#000000",
-      fontStyle: "Normal",
-      fontSize: 14,
-      fontFamily: "Arial",
-      fontWeight: 400,
-    }),
-    storage_requirements:JSON.stringify({
-      color: "#000000",
-      fontStyle: "Normal",
-      fontSize: 14,
-      fontFamily: "Arial",
-      fontWeight: 400,
-    }),
-    manufactured_for: JSON.stringify({
-      color: "#000000",
-      fontStyle: "Normal",
-      fontSize: 14,
-      fontFamily: "Arial",
-      fontWeight: 400,
-    }),
-    case_quantity: JSON.stringify({
-      color: "#000000",
-      fontStyle: "Normal",
-      fontSize: 14,
-      fontFamily: "Arial",
-      fontWeight: 400,
-    }),
-    case_unit: JSON.stringify({
-      color: "#000000",
-      fontStyle: "Normal",
-      fontSize: 14,
-      fontFamily: "Arial",
-      fontWeight: 400,
-    }),
-    shelf_life: JSON.stringify({
-      color: "#000000",
-      fontStyle: "Normal",
-      fontSize: 14,
-      fontFamily: "Arial",
-      fontWeight: 400,
-    }),
+    ingredient_info: labelStyle.data[0].ingredient_info,
+    weight: labelStyle.data[0].weight,
+    weight_unit: labelStyle.data[0].weight_unit,
+    storage_requirements: 
+      labelStyle.data[0].storage_requirements
+    ,
+    manufactured_for: labelStyle.data[0].manufactured_for,
+    case_quantity: labelStyle.data[0].case_quantity,
+    case_unit: labelStyle.data[0].case_unit,
+    shelf_life: labelStyle.data[0].shelf_life,
   };
-
 
   const updateLabel = async (
     labelInfo: iLabelInfo,
