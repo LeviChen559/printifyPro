@@ -1,8 +1,7 @@
 
 import { NextResponse, NextRequest } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import prisma from '@/utils/lib/prisma';
 
-const prisma = new PrismaClient();
 export async function PATCH(req: NextRequest) {
     
     // Parse the request body

@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { PrismaClient, mylabels,labelstyle } from "@prisma/client";
+import {  mylabels,labelstyle } from "@prisma/client";
 import { NextRequest } from "next/server";
+import prisma from '@/utils/lib/prisma';
 
-const prisma = new PrismaClient();
 export async function POST(req: NextRequest) {
   try {
     // Parse JSON data from the request body

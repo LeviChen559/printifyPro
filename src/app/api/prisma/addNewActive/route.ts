@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+
 import { NextRequest } from "next/server";
+import prisma from '@/utils/lib/prisma';
 
 
 interface iActivities{
@@ -11,7 +12,7 @@ interface iActivities{
   role: string;
   created_at: Date | null;
 }
-const prisma = new PrismaClient();
+
 export async function POST(req: NextRequest) {
   try {
     // Parse JSON data from the request body

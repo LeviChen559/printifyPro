@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+
+
+import prisma from '@/utils/lib/prisma';
 
 interface iActivities{
   id: number;
@@ -10,8 +12,6 @@ interface iActivities{
   created_at: Date | null;
 }
 
-
-const prisma = new PrismaClient();
 export async function GET(req: Request) {
   try {
     // Extract query parameters from the URL
