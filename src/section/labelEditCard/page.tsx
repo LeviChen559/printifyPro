@@ -35,13 +35,12 @@ interface iProps {
   userRole: string;
 }
 
-const LabelActionCard: FC<iProps> = (prop) => {
+const LabelEditCard: FC<iProps> = (prop) => {
   const { data: labelStyle } = useSWR(
-    prop.selectLabelInfo?.id
-      ? `/api/prisma/getLabelStyle?id=${prop.selectLabelInfo.id}`
-      : null,
+    `/api/prisma/getLabelStyle?id=${prop.selectLabelInfo.id}`,
     fetcher
   );
+  console.log("labelStyle", labelStyle);
   const router = useRouter();
   const contentRef = useRef<HTMLDivElement>(null);
   const [isLabelUpdating, setIsLabelUpdating] = useState<boolean>(false);
@@ -58,13 +57,25 @@ const LabelActionCard: FC<iProps> = (prop) => {
     prop.selectLabelInfo.product_name_en
   );
   const [productNameENStyle, setProductNameENStyle] = useState<iTextStyle>(
-    JSON.parse(labelStyle.data[0].productNameEN)
+  {
+        color: "#000000",
+        fontStyle: "Normal",
+        fontSize: 24,
+        fontFamily: "Arial",
+        fontWeight: 700,
+      }
   );
   const [productNameZH, setProductNameZH] = useState<string>(
     prop.selectLabelInfo.product_name_zh
   );
   const [productNameZHStyle, setProductNameZHStyle] = useState<iTextStyle>(
-    JSON.parse(labelStyle.data[0].productNameZH)
+    {
+      color: "#000000",
+      fontStyle: "Normal",
+      fontSize: 24,
+      fontFamily: "Arial",
+      fontWeight: 700,
+    }
   );
   const [weight, setWeight] = useState<number>(
     Number(prop.selectLabelInfo.weight)
@@ -234,9 +245,16 @@ const LabelActionCard: FC<iProps> = (prop) => {
     }
   }, [labelStyle]);
 
+  const defaultText={
+    color: "#000000",
+    fontStyle: "Normal",
+    fontSize: 14,
+    fontFamily: "Arial",
+    fontWeight: 400,
+  }
   const labelStyleuUpdates = {
     id: prop.selectLabelInfo.id,
-    item_code: labelStyle.data[0].item_code,
+    item_code: labelStyle?labelStyle.data[0].item_code:defaultText,
     product_name_en: JSON.stringify({
       color: productNameENStyle.color,
       fontStyle: productNameENStyle.fontStyle,
@@ -251,16 +269,14 @@ const LabelActionCard: FC<iProps> = (prop) => {
       fontFamily: productNameZHStyle.fontFamily,
       fontWeight: productNameZHStyle.fontWeight,
     }),
-    ingredient_info: labelStyle.data[0].ingredient_info,
-    weight: labelStyle.data[0].weight,
-    weight_unit: labelStyle.data[0].weight_unit,
-    storage_requirements: 
-      labelStyle.data[0].storage_requirements
-    ,
-    manufactured_for: labelStyle.data[0].manufactured_for,
-    case_quantity: labelStyle.data[0].case_quantity,
-    case_unit: labelStyle.data[0].case_unit,
-    shelf_life: labelStyle.data[0].shelf_life,
+    ingredient_info: labelStyle?labelStyle.data[0].ingredient_info:defaultText,
+    weight: labelStyle?labelStyle.data[0].weight:defaultText,
+    weight_unit: labelStyle?labelStyle.data[0].weight_unit:defaultText,
+    storage_requirements: labelStyle?labelStyle.data[0].storage_requirements:defaultText,
+    manufactured_for: labelStyle?labelStyle.data[0].manufactured_for:defaultText,
+    case_quantity: labelStyle?labelStyle.data[0].case_quantity:defaultText,
+    case_unit: labelStyle?labelStyle.data[0].case_unit: defaultText,
+    shelf_life: labelStyle?labelStyle.data[0].shelf_life:defaultText,
   };
 
   const updateLabel = async (
@@ -388,7 +404,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
       </Container>
     );
   }
-  if (!labelStyle) {
+  if (labelStyle === undefined || !Array.isArray(labelStyle.data)) {
     return (
       <Container>
         <CircularProgress />
@@ -502,4 +518,4 @@ const LabelActionCard: FC<iProps> = (prop) => {
   );
 };
 
-export default LabelActionCard;
+export default LabelEditCard;

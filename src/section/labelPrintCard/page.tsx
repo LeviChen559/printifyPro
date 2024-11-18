@@ -24,7 +24,7 @@ interface iProps {
   >;
 }
 
-const LabelActionCard: FC<iProps> = (prop) => {
+const LabelPrintCard: FC<iProps> = (prop) => {
   const [showProductNameZH, setshowProductNameZH] = useState<boolean>(true);
   const [showProductNameEN, setshowProductNameEN] = useState<boolean>(true);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -164,4 +164,4 @@ const LabelActionCard: FC<iProps> = (prop) => {
   );
 };
 
-export default LabelActionCard;
+export default LabelPrintCard;
