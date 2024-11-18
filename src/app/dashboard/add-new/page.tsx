@@ -50,20 +50,15 @@ const AddNew = () => {
   const [sendAnewLabel, setSendAnewLabel] = useState<boolean>(false);
   const [editMode, setEditMode] = useState<iEditedMode>(iEditedMode.empty);
   const [submitClicked, setSubmitClicked] = useState<boolean>(false);
-  const [productNameENStyle, setProductNameENStyle] = useState<iTextStyle>({
+  const defaultHeaderStyle = {
     color: "#000000",
-    fontStyle: "Normal",
     fontSize: 24,
-    fontFamily: "Arial",
     fontWeight: 700,
-  });
-  const [productNameZHStyle, setProductNameZHStyle] = useState<iTextStyle>({
-    color: "#000000",
-    fontStyle: "Normal",
-    fontSize: 24,
+    fontStyle: "normal",
     fontFamily: "Arial",
-    fontWeight: 700,
-  });
+  };
+  const [productNameENStyle, setProductNameENStyle] = useState<iTextStyle>(defaultHeaderStyle);
+  const [productNameZHStyle, setProductNameZHStyle] = useState<iTextStyle>(defaultHeaderStyle);
 
   useEffect(() => {
     // List of fields to check
@@ -174,7 +169,6 @@ const AddNew = () => {
     labelData.some((item: iLabelInfo) => item.item_code !== itemCode);
 
   const lableInput = {
-
     id: lastItem && lastItem.id + 1, // Add appropriate value
     logo: logo,
     item_code: isUniqueItemCode && itemCode, // Add appropriate value
@@ -199,19 +193,13 @@ const AddNew = () => {
     fontStyle: "normal",
     fontFamily: "Arial",
   };
-  const defaultHeaderStyle = {
-    color: "#000000",
-    fontSize: 24,
-    fontWeight: 700,
-    fontStyle: "normal",
-    fontFamily: "Arial",
-  };
+
 
   const defaultLabelStyle = {
     id: lableInput.id,
     item_code: JSON.stringify(defaultTextlStyle),
-    product_name_en: JSON.stringify(defaultHeaderStyle),
-    product_name_zh: JSON.stringify(defaultHeaderStyle),
+    product_name_en: JSON.stringify(productNameENStyle),
+    product_name_zh: JSON.stringify(productNameZHStyle),
     weight: JSON.stringify(defaultTextlStyle),
     weight_unit: JSON.stringify(defaultTextlStyle),
     case_quantity: JSON.stringify(defaultTextlStyle),
