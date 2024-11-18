@@ -41,7 +41,7 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
   if (labelError)
     return <Container>Failed to load: {labelError.message}</Container>;
 
-  if (!labelData)
+  if (!labelData|| !Array.isArray(labelData))
     return (
       <Container>
         <SkeletonTable />
@@ -98,7 +98,7 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {labelData ? (
+          {labelData && Array.isArray(labelData) ? (
             labelData.map((row: iLabelInfo) => (
               <TableRow
                 key={row.id}
