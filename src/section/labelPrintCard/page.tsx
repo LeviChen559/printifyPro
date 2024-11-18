@@ -35,7 +35,7 @@ const LabelActionCard: FC<iProps> = (prop) => {
     fetcher
   );
 
-  if (!labelStyle )
+  if (!labelStyle || !Array.isArray(labelStyle.data))
     return (
       <Container>
         <CircularProgress />
@@ -78,8 +78,8 @@ const LabelActionCard: FC<iProps> = (prop) => {
           weight={prop.selectLabelInfo.weight}
           manufacturedFor={prop.selectLabelInfo.manufactured_for}
           weightUnit={prop.selectLabelInfo.weight_unit}
-          productNameENStyle={labelStyle.data[0].product_name_en as iTextStyle}
-          productNameZHStyle={labelStyle.data[0].product_name_zh as iTextStyle}
+          // productNameENStyle={ labelStyle.data[0].product_name_en as iTextStyle}
+          // productNameZHStyle={labelStyle.data[0].product_name_zh as iTextStyle}
           defaultLabelStyle={labelStyle.data[0] as iLabelStyle}
         />
       </View>
