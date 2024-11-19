@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, Suspense, useState } from "react";
+import React, { useEffect, Suspense, useState,useRef } from "react";
 import { useSession } from "next-auth/react";
 import { PreviewContainer, EditContainer, Container } from "./style";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -167,7 +167,8 @@ const AddNew = () => {
   const isUniqueItemCode =
     labelData &&
     labelData.some((item: iLabelInfo) => item.item_code !== itemCode);
-
+    const contentRef = useRef<HTMLDivElement>(null);
+  
   const lableInput = {
     id: lastItem && lastItem.id + 1, // Add appropriate value
     logo: logo,
@@ -345,6 +346,7 @@ const AddNew = () => {
           setEditMode={setEditMode}
           logo={logo}
           setLogo={setLogo}
+          ref={contentRef}
         />
       </PreviewContainer>
       <EditContainer>
