@@ -53,7 +53,6 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
   String(bestByValue.getMonth() + 1).padStart(2, '0') + "/" + 
   bestByValue.getFullYear());
 
-
    
   return (
     <Container id="labelCard" ref={ref}>

@@ -16,7 +16,6 @@ import UserState from "@/components/userState";
 import Skeleton from "@mui/material/Skeleton";
 import SkeletonCard from "./skeletonCard";
 
-
 const BarCodeInfoTable = dynamic(() => import("@/components/labelTable"), {
   suspense: true,
 });
@@ -40,7 +39,9 @@ const MyLabels = () => {
     isLabelUpdated: false,
   });
   const [clickResetSearch, setClickResetSearch] = useState<boolean>(false);
-  const [selectLabelInfo, setSelectLabelInfo] = useState<iLabelInfo | undefined>(undefined);
+  const [selectLabelInfo, setSelectLabelInfo] = useState<
+    iLabelInfo | undefined
+  >(undefined);
   const [apiMyLabelUrl, setApiMyLabelUrl] = useState<string>(
     "/api/prisma/getMyLabels"
   );
@@ -49,22 +50,22 @@ const MyLabels = () => {
     setSearch({ ...search, searchValue: "" });
     setApiMyLabelUrl("/api/prisma/getMyLabels");
     setClickResetSearch(true);
-  },[search]);
+  }, [search]);
 
   const handleKeyPress = useCallback(
     (event: KeyboardEvent) => {
       if (event.key === "Enter") {
         // column &&
-          setApiMyLabelUrl(
-            `/api/prisma/getMyLabels?searchValue=${search.searchValue}`
-          );
+        setApiMyLabelUrl(
+          `/api/prisma/getMyLabels?searchValue=${search.searchValue}`
+        );
         setClickResetSearch(false); // Reset the flag after updating the URL
       }
       if (event.key === "Backspace") {
-        search.searchValue===""&&resetSearch();
+        search.searchValue === "" && resetSearch();
       }
     },
-    [ search.searchValue,resetSearch]
+    [search.searchValue, resetSearch]
   );
 
   useEffect(() => {
@@ -73,7 +74,7 @@ const MyLabels = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [ search.searchValue, handleKeyPress]); // Ensures useEffect runs when these values change
+  }, [search.searchValue, handleKeyPress]); // Ensures useEffect runs when these values change
 
   // Log the data to check its structure
   const { status, data: userData } = useSession();
@@ -85,7 +86,6 @@ const MyLabels = () => {
     }
   }, [status, router]);
 
-
   const selectItem = (selectLabelInfo: iLabelInfo) => {
     setSelectLabelInfo(selectLabelInfo);
     setShowCard({
@@ -95,7 +95,6 @@ const MyLabels = () => {
       isLabelUpdated: false,
     });
   };
-
 
   if (status === "loading") {
     return (
@@ -155,7 +154,7 @@ const MyLabels = () => {
             }
             required={false}
             startIcon={null}
-            sx={{ width:"100%", height: "50px" }}
+            sx={{ width: "100%", height: "50px" }}
             endIcon={
               clickResetSearch === false &&
               search.searchValue && <CancelIcon onClick={resetSearch} />
@@ -166,14 +165,14 @@ const MyLabels = () => {
           selectItem={selectItem}
           apiMyLabelUrl={apiMyLabelUrl}
           isLabelUpdated={showCard.isLabelUpdated}
-
         />
       </div>
-      {showCard.labelActionCard && (
-        selectLabelInfo?
-        <LabelActionCard setShowCard={setShowCard} />
-        :<SkeletonCard/>
-      )}
+      {showCard.labelActionCard &&
+        (selectLabelInfo ? (
+          <LabelActionCard setShowCard={setShowCard} />
+        ) : (
+          <SkeletonCard />
+        ))}
       {showCard.labelPrintCard && (
         <LabelPrintCard
           selectLabelInfo={selectLabelInfo as iLabelInfo}

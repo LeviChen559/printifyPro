@@ -35,12 +35,12 @@ interface iProps {
   userRole: string;
 }
 
+
 const LabelEditCard: FC<iProps> = (prop) => {
-  const { data: labelStyle } = useSWR(
+  const { data: labelStyle,error } = useSWR(
     `/api/prisma/getLabelStyle?id=${prop.selectLabelInfo.id}`,
     fetcher
   );
-  console.log("labelStyle", labelStyle);
   const router = useRouter();
   const contentRef = useRef<HTMLDivElement>(null);
   const [isLabelUpdating, setIsLabelUpdating] = useState<boolean>(false);
@@ -56,27 +56,24 @@ const LabelEditCard: FC<iProps> = (prop) => {
   const [productNameEN, setProductNameEN] = useState<string>(
     prop.selectLabelInfo.product_name_en
   );
-  const [productNameENStyle, setProductNameENStyle] = useState<iTextStyle>(
-  {
-        color: "#000000",
-        fontStyle: "Normal",
-        fontSize: 24,
-        fontFamily: "Arial",
-        fontWeight: 700,
-      }
-  );
+  const [productNameENStyle, setProductNameENStyle] = useState<iTextStyle>({
+    color: "#000000",
+    fontStyle: "Normal",
+    fontSize: 24,
+    fontFamily: "Arial",
+    fontWeight: 700,
+  });
   const [productNameZH, setProductNameZH] = useState<string>(
     prop.selectLabelInfo.product_name_zh
   );
-  const [productNameZHStyle, setProductNameZHStyle] = useState<iTextStyle>(
-    {
-      color: "#000000",
-      fontStyle: "Normal",
-      fontSize: 24,
-      fontFamily: "Arial",
-      fontWeight: 700,
-    }
-  );
+  const [productNameZHStyle, setProductNameZHStyle] = useState<iTextStyle>({
+    color: "#000000",
+    fontStyle: "Normal",
+    fontSize: 24,
+    fontFamily: "Arial",
+    fontWeight: 700,
+  });
+  
   const [weight, setWeight] = useState<number>(
     Number(prop.selectLabelInfo.weight)
   );
@@ -112,6 +109,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
     message: "",
     locale: "",
   });
+
   const labelInput = {
     id: prop.selectLabelInfo.id,
     logo: logo,
@@ -227,34 +225,41 @@ const LabelEditCard: FC<iProps> = (prop) => {
     submitClicked,
   ]);
   useEffect(() => {
-    if (labelStyle?.data?.[0]?.product_name_en) {
-      setProductNameENStyle({
-        color: labelStyle.data[0].product_name_en.color ?? "#000000",
-        fontStyle: labelStyle.data[0].product_name_en.fontStyle ?? "Normal",
-        fontSize: labelStyle.data[0].product_name_en.fontSize ?? 24,
-        fontFamily: labelStyle.data[0].product_name_en.fontFamily ?? "Arial",
-        fontWeight: labelStyle.data[0].product_name_en.fontWeight ?? 700,
-      });
-      setProductNameZHStyle({
-        color: labelStyle.data[0].product_name_zh.color ?? "#000000",
-        fontStyle: labelStyle.data[0].product_name_zh.fontStyle ?? "Normal",
-        fontSize: labelStyle.data[0].product_name_zh.fontSize ?? 24,
-        fontFamily: labelStyle.data[0].product_name_zh.fontFamily ?? "Arial",
-        fontWeight: labelStyle.data[0].product_name_zh.fontWeight ?? 700,
-      });
+    if (labelStyle?.data?.[0]) {
+      const { product_name_en, product_name_zh } = labelStyle.data[0];
+      const productNameEn = JSON.parse(product_name_en);
+      const productNameZh = JSON.parse(product_name_zh);
+      setProductNameENStyle(prevStyle => ({
+        ...prevStyle,
+        color: productNameEn?.color,
+        fontStyle: productNameEn?.fontStyle,
+        fontSize: productNameEn?.fontSize,
+        fontFamily: productNameEn?.fontFamily,
+        fontWeight: productNameEn?.fontWeight,
+      }));
+      setProductNameZHStyle(prevStyle => ({
+        ...prevStyle,
+        color: productNameZh?.color ,
+        fontStyle: productNameZh?.fontStyle ,
+        fontSize: productNameZh?.fontSize ,
+        fontFamily: productNameZh?.fontFamily ,
+        fontWeight: productNameZh?.fontWeight,
+      }));
     }
   }, [labelStyle]);
+  console.log("Label Style:", labelStyle);
+  console.log("ProductNameENStyle", productNameENStyle);
 
-  const defaultText={
+  const defaultText = {
     color: "#000000",
     fontStyle: "Normal",
     fontSize: 14,
     fontFamily: "Arial",
     fontWeight: 400,
-  }
+  };
   const labelStyleuUpdates = {
     id: prop.selectLabelInfo.id,
-    item_code: labelStyle?labelStyle.data[0].item_code:defaultText,
+    item_code: labelStyle ? labelStyle.data[0].item_code : defaultText,
     product_name_en: JSON.stringify({
       color: productNameENStyle.color,
       fontStyle: productNameENStyle.fontStyle,
@@ -269,14 +274,20 @@ const LabelEditCard: FC<iProps> = (prop) => {
       fontFamily: productNameZHStyle.fontFamily,
       fontWeight: productNameZHStyle.fontWeight,
     }),
-    ingredient_info: labelStyle?labelStyle.data[0].ingredient_info:defaultText,
-    weight: labelStyle?labelStyle.data[0].weight:defaultText,
-    weight_unit: labelStyle?labelStyle.data[0].weight_unit:defaultText,
-    storage_requirements: labelStyle?labelStyle.data[0].storage_requirements:defaultText,
-    manufactured_for: labelStyle?labelStyle.data[0].manufactured_for:defaultText,
-    case_quantity: labelStyle?labelStyle.data[0].case_quantity:defaultText,
-    case_unit: labelStyle?labelStyle.data[0].case_unit: defaultText,
-    shelf_life: labelStyle?labelStyle.data[0].shelf_life:defaultText,
+    ingredient_info: labelStyle
+      ? labelStyle.data[0].ingredient_info
+      : defaultText,
+    weight: labelStyle ? labelStyle.data[0].weight : defaultText,
+    weight_unit: labelStyle ? labelStyle.data[0].weight_unit : defaultText,
+    storage_requirements: labelStyle
+      ? labelStyle.data[0].storage_requirements
+      : defaultText,
+    manufactured_for: labelStyle
+      ? labelStyle.data[0].manufactured_for
+      : defaultText,
+    case_quantity: labelStyle ? labelStyle.data[0].case_quantity : defaultText,
+    case_unit: labelStyle ? labelStyle.data[0].case_unit : defaultText,
+    shelf_life: labelStyle ? labelStyle.data[0].shelf_life : defaultText,
   };
 
   const updateLabel = async (
@@ -403,6 +414,9 @@ const LabelEditCard: FC<iProps> = (prop) => {
         />
       </Container>
     );
+  }
+  if (error) {
+    console.error("Failed to fetch label style:", error);
   }
   if (labelStyle === undefined || !Array.isArray(labelStyle.data)) {
     return (

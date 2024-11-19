@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 import LabelCard4_4 from "@/section/labelCard/4_4";
 import LabelCard4_6 from "@/section/labelCard/4_6";
 import LabelCard4_8 from "@/section/labelCard/4_8";
@@ -15,7 +15,7 @@ interface iProps {
   showProductNameZH?: boolean;
   showProductNameEN?: boolean;
   isEditedMode?: boolean;
-  ref?: React.RefObject<HTMLDivElement> | undefined;
+  ref: React.RefObject<HTMLDivElement>;
   setProductNameEN?: (value: string) => void;
   setProductNameZH?: (value: string) => void;
   productNameEN?: string;
@@ -37,7 +37,7 @@ interface iProps {
   productNameZHStyle?: iTextStyle;
   defaultLabelStyle: iLabelStyle;
 }
-const LabelCard: FC<iProps> = (prop) => {
+const LabelCard = (prop:iProps) => {
   return prop.type === "4x4" ? (
     <LabelCard4_4
       labelInfo={prop.labelInput}
@@ -89,7 +89,7 @@ const LabelCard: FC<iProps> = (prop) => {
       ref={prop.ref}
 
     />
-  ) : prop.type === "4x8" ? (
+  ) :  (
     <LabelCard4_8
       labelInfo={prop.labelInput}
       isEditedMode={prop.isEditedMode}
@@ -115,7 +115,7 @@ const LabelCard: FC<iProps> = (prop) => {
       ref={prop.ref}
 
     />
-  ) : null;
+  ) 
 };
 
 export default LabelCard;

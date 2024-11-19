@@ -21,7 +21,7 @@ interface iProp {
   showProductNameZH?: boolean;
   showProductNameEN?: boolean;
   isEditedMode?: boolean;
-  ref: React.RefObject<HTMLDivElement> | undefined;
+  ref: React.RefObject<HTMLDivElement> ;
   setProductNameEN?: (value: string) => void;
   setProductNameZH?: (value: string) => void;
   productNameEN?: string;
