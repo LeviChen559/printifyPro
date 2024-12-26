@@ -35,9 +35,8 @@ interface iProps {
   userRole: string;
 }
 
-
 const LabelEditCard: FC<iProps> = (prop) => {
-  const { data: labelStyle,error } = useSWR(
+  const { data: labelStyle, error } = useSWR(
     `/api/prisma/getLabelStyle?id=${prop.selectLabelInfo.id}`,
     fetcher
   );
@@ -73,13 +72,29 @@ const LabelEditCard: FC<iProps> = (prop) => {
     fontFamily: "Arial",
     fontWeight: 700,
   });
-  
+
   const [weight, setWeight] = useState<number>(
     Number(prop.selectLabelInfo.weight)
   );
+
+  const [weightStyle, setWeightStyle] = useState<iTextStyle>({
+    color: "#000000",
+    fontStyle: "Normal",
+    fontSize: 14,
+    fontFamily: "Arial",
+    fontWeight: 400,
+  });
+
   const [weightUnit, setWeightUnit] = useState<string>(
     prop.selectLabelInfo.weight_unit
   );
+  const [weightUnitStyle, setWeightUnitStyle] = useState<iTextStyle>({
+    color: "#000000",
+    fontStyle: "Normal",
+    fontSize: 14,
+    fontFamily: "Arial",
+    fontWeight: 400,
+  });
   const [caseQuantity, setCaseQuantity] = useState<number>(
     prop.selectLabelInfo.case_quantity
   );
@@ -89,6 +104,14 @@ const LabelEditCard: FC<iProps> = (prop) => {
   const [storageRequirements, setStorageRequirements] = useState<string>(
     prop.selectLabelInfo.storage_requirements
   );
+  const [storageRequirementsStyle, setStorageRequirementsStyle] =
+    useState<iTextStyle>({
+      color: "#000000",
+      fontStyle: "Normal",
+      fontSize: 14,
+      fontFamily: "Arial",
+      fontWeight: 400,
+    });
   const [shelfLife, setShelfLife] = useState<number>(
     prop.selectLabelInfo.shelf_life
   );
@@ -98,9 +121,23 @@ const LabelEditCard: FC<iProps> = (prop) => {
   const [ingredientInfo, setIngredientInfo] = useState<string>(
     prop.selectLabelInfo.ingredient_info
   );
+  const [ingredientInfoStyle, setIngredientInfoStyle] = useState<iTextStyle>({
+    color: "#000000",
+    fontStyle: "Normal",
+    fontSize: 14,
+    fontFamily: "Arial",
+    fontWeight: 400,
+  });
   const [manufacturedFor, setManufacturedFor] = useState<string>(
     prop.selectLabelInfo.manufactured_for
   );
+  const [manufacturedForStyle, setManufacturedForStyle] = useState<iTextStyle>({
+    color: "#000000",
+    fontStyle: "Normal",
+    fontSize: 14,
+    fontFamily: "Arial",
+    fontWeight: 400,
+  });
   const [editMode, setEditMode] = useState<iEditedMode>(iEditedMode.empty);
   const [submitClicked, setSubmitClicked] = useState<boolean>(false);
 
@@ -226,29 +263,80 @@ const LabelEditCard: FC<iProps> = (prop) => {
   ]);
   useEffect(() => {
     if (labelStyle?.data?.[0]) {
-      const { product_name_en, product_name_zh } = labelStyle.data[0];
-      const productNameEn = JSON.parse(product_name_en);
-      const productNameZh = JSON.parse(product_name_zh);
-      setProductNameENStyle(prevStyle => ({
+      const {
+        product_name_en,
+        product_name_zh,
+        weight,
+        weight_unit,
+        ingredient_info,
+        manufactured_for,
+        storage_requirements,
+      } = labelStyle.data[0];
+      const productNameEnObj = product_name_en;
+      const productNameZhObj = product_name_zh;
+      const weightObj = weight;
+      const ingredientInfoObj = ingredient_info;
+      const manufacturedForObj = manufactured_for;
+      const storageRequirementsObj = storage_requirements;
+      const weightUnitObj = weight_unit;
+
+      setProductNameENStyle((prevStyle) => ({
         ...prevStyle,
-        color: productNameEn?.color,
-        fontStyle: productNameEn?.fontStyle,
-        fontSize: productNameEn?.fontSize,
-        fontFamily: productNameEn?.fontFamily,
-        fontWeight: productNameEn?.fontWeight,
+        color: productNameEnObj?.color,
+        fontStyle: productNameEnObj?.fontStyle,
+        fontSize: productNameEnObj?.fontSize,
+        fontFamily: productNameEnObj?.fontFamily,
+        fontWeight: productNameEnObj?.fontWeight,
       }));
-      setProductNameZHStyle(prevStyle => ({
+      setProductNameZHStyle((prevStyle) => ({
         ...prevStyle,
-        color: productNameZh?.color ,
-        fontStyle: productNameZh?.fontStyle ,
-        fontSize: productNameZh?.fontSize ,
-        fontFamily: productNameZh?.fontFamily ,
-        fontWeight: productNameZh?.fontWeight,
+        color: productNameZhObj?.color,
+        fontStyle: productNameZhObj?.fontStyle,
+        fontSize: productNameZhObj?.fontSize,
+        fontFamily: productNameZhObj?.fontFamily,
+        fontWeight: productNameZhObj?.fontWeight,
+      }));
+      setWeightStyle((prevStyle) => ({
+        ...prevStyle,
+        color: weightObj?.color,
+        fontStyle: weightObj?.fontStyle,
+        fontSize: weightObj?.fontSize,
+        fontFamily: weightObj?.fontFamily,
+        fontWeight: weightObj?.fontWeight,
+      }));
+      setIngredientInfoStyle((prevStyle) => ({
+        ...prevStyle,
+        color: ingredientInfoObj?.color,
+        fontStyle: ingredientInfoObj?.fontStyle,
+        fontSize: ingredientInfoObj?.fontSize,
+        fontFamily: ingredientInfoObj?.fontFamily,
+        fontWeight: ingredientInfoObj?.fontWeight,
+      }));
+      setManufacturedForStyle((prevStyle) => ({
+        ...prevStyle,
+        color: manufacturedForObj?.color,
+        fontStyle: manufacturedForObj?.fontStyle,
+        fontSize: manufacturedForObj?.fontSize,
+        fontFamily: manufacturedForObj?.fontFamily,
+        fontWeight: manufacturedForObj?.fontWeight,
+      }));
+      setStorageRequirementsStyle((prevStyle) => ({
+        ...prevStyle,
+        color: storageRequirementsObj?.color,
+        fontStyle: storageRequirementsObj?.fontStyle,
+        fontSize: storageRequirementsObj?.fontSize,
+        fontFamily: storageRequirementsObj?.fontFamily,
+        fontWeight: storageRequirementsObj?.fontWeight,
+      }));
+      setWeightUnitStyle((prevStyle) => ({
+        ...prevStyle,
+        color: weightUnitObj?.color,
+        fontStyle: weightUnitObj?.fontStyle,
+        fontSize: weightUnitObj?.fontSize,
+        fontFamily: weightUnitObj?.fontFamily,
       }));
     }
   }, [labelStyle]);
-  console.log("Label Style:", labelStyle);
-  console.log("ProductNameENStyle", productNameENStyle);
 
   const defaultText = {
     color: "#000000",
@@ -257,38 +345,26 @@ const LabelEditCard: FC<iProps> = (prop) => {
     fontFamily: "Arial",
     fontWeight: 400,
   };
-  const labelStyleuUpdates = {
-    id: prop.selectLabelInfo.id,
-    item_code: labelStyle ? labelStyle.data[0].item_code : defaultText,
-    product_name_en: JSON.stringify({
-      color: productNameENStyle.color,
-      fontStyle: productNameENStyle.fontStyle,
-      fontSize: productNameENStyle.fontSize,
-      fontFamily: productNameENStyle.fontFamily,
-      fontWeight: productNameENStyle.fontWeight,
-    }),
-    product_name_zh: JSON.stringify({
-      color: productNameZHStyle.color,
-      fontStyle: productNameZHStyle.fontStyle,
-      fontSize: productNameZHStyle.fontSize,
-      fontFamily: productNameZHStyle.fontFamily,
-      fontWeight: productNameZHStyle.fontWeight,
-    }),
-    ingredient_info: labelStyle
-      ? labelStyle.data[0].ingredient_info
-      : defaultText,
-    weight: labelStyle ? labelStyle.data[0].weight : defaultText,
-    weight_unit: labelStyle ? labelStyle.data[0].weight_unit : defaultText,
-    storage_requirements: labelStyle
-      ? labelStyle.data[0].storage_requirements
-      : defaultText,
-    manufactured_for: labelStyle
-      ? labelStyle.data[0].manufactured_for
-      : defaultText,
-    case_quantity: labelStyle ? labelStyle.data[0].case_quantity : defaultText,
-    case_unit: labelStyle ? labelStyle.data[0].case_unit : defaultText,
-    shelf_life: labelStyle ? labelStyle.data[0].shelf_life : defaultText,
-  };
+  console.log("labelStyle",labelStyle)
+  const labelStyleuUpdates: iLabelStyle = {
+      id: prop.selectLabelInfo.id,
+      item_code: labelStyle ? labelStyle.data[0]?.item_code : defaultText,
+      product_name_en: productNameENStyle,
+      product_name_zh: productNameZHStyle,
+      ingredient_info: labelStyle? labelStyle.data[0]?.ingredient_info
+        : defaultText,
+      weight: labelStyle ? labelStyle.data[0]?.weight : defaultText,
+      weight_unit: labelStyle ? labelStyle.data[0]?.weight_unit : defaultText,
+      storage_requirements: labelStyle
+        ? labelStyle.data[0]?.storage_requirements
+        : defaultText,
+      manufactured_for: labelStyle
+        ? labelStyle.data[0]?.manufactured_for
+        : defaultText,
+      case_quantity: labelStyle ? labelStyle.data[0]?.case_quantity : defaultText,
+      case_unit: labelStyle ? labelStyle.data[0]?.case_unit : defaultText,
+      shelf_life: labelStyle ? labelStyle.data[0]?.shelf_life : defaultText,
+    };
 
   const updateLabel = async (
     labelInfo: iLabelInfo,
@@ -402,7 +478,60 @@ const LabelEditCard: FC<iProps> = (prop) => {
         ...prevStyle,
         [styleType]: value, // Dynamically update the style property based on styleType
       }));
+    } else if (dataType === iEditedMode.weight) {
+      const value =
+        styleType === iTextStyleMode.fontSize ||
+        styleType === iTextStyleMode.fontWeight
+          ? Number(event.target.value) // Convert to number for fontSize or fontWeight
+          : event.target.value; // Keep as string for other properties
+
+      setWeightStyle((prevStyle) => ({
+       ...prevStyle,
+        [styleType]: value, // Dynamically update the style property based on styleType
+      }));
+    } else if (dataType === iEditedMode.weightUnit) {
+      const value =
+        styleType === iTextStyleMode.fontSize ||
+        styleType === iTextStyleMode.fontWeight
+          ? Number(event.target.value) // Convert to number for fontSize or fontWeight
+          : event.target.value; // Keep as string for other properties
+          setWeightUnitStyle((prevStyle) => ({
+        ...prevStyle, 
+        [styleType]: value, // Dynamically update the style property based on styleType
+      }));
+    } else if (dataType === iEditedMode.ingredientInfo) {
+      const value =
+        styleType === iTextStyleMode.fontSize ||
+        styleType === iTextStyleMode.fontWeight
+          ? Number(event.target.value) // Convert to number for fontSize or fontWeight
+          : event.target.value; // Keep as string for other properties
+
+      setIngredientInfoStyle((prevStyle) => ({
+       ...prevStyle,
+        [styleType]: value, // Dynamically update the style property based on styleType
+      }));
+    } else if (dataType === iEditedMode.storageRequirements) {
+      const value =
+        styleType === iTextStyleMode.fontSize ||
+        styleType === iTextStyleMode.fontWeight
+          ? Number(event.target.value) // Convert to number for fontSize or fontWeight
+          : event.target.value; // Keep as string for other properties
+          setStorageRequirementsStyle((prevStyle) => ({
+       ...prevStyle,
+        [styleType]: value, // Dynamically update the style property based on styleType
+      }));
+    } else if (dataType === iEditedMode.manufacturedFor) {
+      const value =
+        styleType === iTextStyleMode.fontSize ||
+        styleType === iTextStyleMode.fontWeight
+          ? Number(event.target.value) // Convert to number for fontSize or fontWeight
+          : event.target.value; // Keep as string for other properties
+          setManufacturedForStyle((prevStyle) => ({
+       ...prevStyle,
+        [styleType]: value, // Dynamically update the style property based on styleType
+      }));
     }
+      
   };
 
   if (isLabelDeleted) {
@@ -453,6 +582,11 @@ const LabelEditCard: FC<iProps> = (prop) => {
           isEditMode={editMode}
           productNameENStyle={productNameENStyle}
           productNameZHStyle={productNameZHStyle}
+          weightStyle={weightStyle}
+          weightUnitStyle={weightUnitStyle}
+          ingredientInfoStyle={ingredientInfoStyle}
+          manufacturedForStyle={manufacturedForStyle}
+          storageRequirementsStyle={storageRequirementsStyle}
           handleChange={handleChange}
         />
 
@@ -484,6 +618,11 @@ const LabelEditCard: FC<iProps> = (prop) => {
             setEditMode={setEditMode}
             productNameENStyle={productNameENStyle}
             productNameZHStyle={productNameZHStyle}
+            weightStyle={weightStyle}
+            ingredientInfoStyle={ingredientInfoStyle}
+            manufacturedForStyle={manufacturedForStyle}
+            storageRequirementsStyle={storageRequirementsStyle}
+            weightUnitStyle={weightUnitStyle}
             defaultLabelStyle={labelStyle.data[0] as iLabelStyle}
           />
         )}

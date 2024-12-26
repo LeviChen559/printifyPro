@@ -1,7 +1,7 @@
-import React from "react";
-import LabelCard4_4 from "@/section/labelCard/4_4";
-import LabelCard4_6 from "@/section/labelCard/4_6";
-import LabelCard4_8 from "@/section/labelCard/4_8";
+import React,{ forwardRef } from "react";
+import LabelCard4_4_a from "@/section/labelCard/4_4_a";
+import LabelCard4_6_a from "@/section/labelCard/4_6_a";
+import LabelCard4_4_b from "@/section/labelCard/4_4_b";
 import {
   iLabelInfo,
   iTextStyle,
@@ -35,11 +35,18 @@ interface iProps {
   setLogo?: React.Dispatch<React.SetStateAction<string>>;
   productNameENStyle?: iTextStyle;
   productNameZHStyle?: iTextStyle;
+  weightStyle?: iTextStyle;
+  ingredientInfoStyle?: iTextStyle;
+  manufacturedForStyle?: iTextStyle;
+  storageRequirementsStyle?: iTextStyle;
+  weightUnitStyle?: iTextStyle;
   defaultLabelStyle: iLabelStyle;
 }
-const LabelCard = (prop:iProps) => {
-  return prop.type === "4x4" ? (
-    <LabelCard4_4
+
+export type Ref = HTMLDivElement;
+const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
+  return prop.type === "4x4_a" ? (
+    <LabelCard4_4_a
       labelInfo={prop.labelInput}
       isEditedMode={prop.isEditedMode}
       setProductNameEN={prop.setProductNameEN}
@@ -58,13 +65,19 @@ const LabelCard = (prop:iProps) => {
       defaultLabelStyle={prop.defaultLabelStyle}
       productNameENStyle={prop.productNameENStyle}
       productNameZHStyle={prop.productNameZHStyle}
+      weightStyle={prop.weightStyle}
+      ingredientInfoStyle={prop.ingredientInfoStyle}
+      manufacturedForStyle={prop.manufacturedForStyle}
+      storageRequirementsStyle={prop.storageRequirementsStyle}
+      weightUnitStyle={prop.weightUnitStyle}
       editMode={prop.editMode}
       setEditMode={prop.setEditMode}
       logo={prop.logo}
-      ref={prop.ref}
+      ref={ref}
+      
     />
-  ) : prop.type === "4x6" ? (
-    <LabelCard4_6
+  ) : prop.type === "4x6_a" ? (
+    <LabelCard4_6_a
       labelInfo={prop.labelInput}
       isEditedMode={prop.isEditedMode}
       setProductNameEN={prop.setProductNameEN}
@@ -83,14 +96,20 @@ const LabelCard = (prop:iProps) => {
       defaultLabelStyle={prop.defaultLabelStyle}
       productNameENStyle={prop.productNameENStyle}
       productNameZHStyle={prop.productNameZHStyle}
+      weightStyle={prop.weightStyle}
+      ingredientInfoStyle={prop.ingredientInfoStyle}
+      manufacturedForStyle={prop.manufacturedForStyle}
+      storageRequirementsStyle={prop.storageRequirementsStyle}
+      weightUnitStyle={prop.weightUnitStyle}
       editMode={prop.editMode}
       setEditMode={prop.setEditMode}
       logo={prop.logo}
-      ref={prop.ref}
+      ref={ref}
+   
 
     />
   ) :  (
-    <LabelCard4_8
+    <LabelCard4_4_b
       labelInfo={prop.labelInput}
       isEditedMode={prop.isEditedMode}
       setProductNameEN={prop.setProductNameEN}
@@ -109,13 +128,19 @@ const LabelCard = (prop:iProps) => {
       defaultLabelStyle={prop.defaultLabelStyle}
       productNameENStyle={prop.productNameENStyle}
       productNameZHStyle={prop.productNameZHStyle}
+      weightStyle={prop.weightStyle}
+      ingredientInfoStyle={prop.ingredientInfoStyle}
+      manufacturedForStyle={prop.manufacturedForStyle}
+      storageRequirementsStyle={prop.storageRequirementsStyle}
+      weightUnitStyle={prop.weightUnitStyle}
       editMode={prop.editMode}
       setEditMode={prop.setEditMode}
       logo={prop.logo}
-      ref={prop.ref}
+      ref={ref}
 
     />
-  ) 
-};
+  );
+});
 
+LabelCard.displayName = "LabelCard";
 export default LabelCard;

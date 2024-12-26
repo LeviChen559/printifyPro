@@ -53,7 +53,7 @@ const commonTextFieldStyles = {
   background: "#ffffff40",
 };
 const LabelForm: FC<iProps> = (prop) => {
-  console.log("logo",prop.logo);
+
   return (
     <Form onSubmit={prop.isEditedView ? prop.updateLabel : prop.createNewLabel}>
       <Column height="85%">

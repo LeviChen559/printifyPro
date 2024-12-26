@@ -93,7 +93,7 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
               Manufactured For
             </TableCell>
             <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
-              Label Size
+              Label Type
             </TableCell>
           </TableRow>
         </TableHead>

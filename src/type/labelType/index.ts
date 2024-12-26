@@ -5,6 +5,7 @@ export const enum iEditedMode {
     "weight" = "weight",
     "manufacturedFor" = "manufacturedFor",
     "weightUnit" = "weightUnit",
+    "storageRequirements" = "storageRequirements",
     "empty" = "empty",
   }
   
@@ -25,17 +26,17 @@ export const enum iEditedMode {
   
   export interface iLabelStyle {
     id: number;
-    item_code: string;
-    product_name_en: string;
-    product_name_zh: string;
-    ingredient_info: string;
-    weight: string;
-    weight_unit: string;
-    storage_requirements: string;
-    manufactured_for: string;
-    case_quantity: string;
-    case_unit: string;
-    shelf_life: string;
+    item_code: iTextStyle;
+    product_name_en: iTextStyle;
+    product_name_zh: iTextStyle;
+    ingredient_info: iTextStyle;
+    weight: iTextStyle;
+    weight_unit: iTextStyle;
+    storage_requirements: iTextStyle;
+    manufactured_for: iTextStyle;
+    case_quantity: iTextStyle;
+    case_unit: iTextStyle;
+    shelf_life: iTextStyle;
   }
 
   export interface formState {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, Suspense, useState,useRef } from "react";
+import React, { useEffect, Suspense, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { PreviewContainer, EditContainer, Container } from "./style";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -22,7 +22,7 @@ import {
   formState,
 } from "@/type/labelType";
 import LabelForm from "@/section/labelForm";
-import {fetcher} from "@/utils/lib/fetcher";
+import { fetcher } from "@/utils/lib/fetcher";
 
 const AddNew = () => {
   // Log the data to check its structure
@@ -34,7 +34,7 @@ const AddNew = () => {
   });
   const router = useRouter();
   const [logo, setLogo] = useState<string>("001");
-  const [labelSize, setLabelSize] = useState<string>("4x6");
+  const [labelSize, setLabelSize] = useState<string>("4x4_a");
   const [itemCode, setItemCode] = useState<string>("");
   const [productNameEN, setProductNameEN] = useState<string>("");
   const [productNameZH, setProductNameZH] = useState<string>("");
@@ -57,8 +57,26 @@ const AddNew = () => {
     fontStyle: "normal",
     fontFamily: "Arial",
   };
-  const [productNameENStyle, setProductNameENStyle] = useState<iTextStyle>(defaultHeaderStyle);
-  const [productNameZHStyle, setProductNameZHStyle] = useState<iTextStyle>(defaultHeaderStyle);
+  const defaultTextStyle = {
+    color: "#000000",
+    fontSize: 14,
+    fontWeight: 400,
+    fontStyle: "normal",
+    fontFamily: "Arial",
+  };
+  const [productNameENStyle, setProductNameENStyle] =
+    useState<iTextStyle>(defaultHeaderStyle);
+  const [productNameZHStyle, setProductNameZHStyle] =
+    useState<iTextStyle>(defaultHeaderStyle);
+  const [ingredientInfoStyle, setIngredientInfoStyle] =
+    useState<iTextStyle>(defaultTextStyle);
+  const [manufacturedForStyle, setManufacturedForStyle] =
+    useState<iTextStyle>(defaultTextStyle);
+  const [weightStyle, setWeightStyle] = useState<iTextStyle>(defaultTextStyle);
+  const [weightUnitStyle, setWeightUnitStyle] =
+    useState<iTextStyle>(defaultTextStyle);
+  const [storageRequirementsStyle, setStorageRequirementsStyle] =
+    useState<iTextStyle>(defaultTextStyle);
 
   useEffect(() => {
     // List of fields to check
@@ -157,8 +175,6 @@ const AddNew = () => {
     submitClicked,
   ]);
 
-
-
   const { data: labelData, error: labelError } = useSWR(
     "/api/prisma/getMyLabels",
     fetcher
@@ -167,8 +183,8 @@ const AddNew = () => {
   const isUniqueItemCode =
     labelData &&
     labelData.some((item: iLabelInfo) => item.item_code !== itemCode);
-    const contentRef = useRef<HTMLDivElement>(null);
-  
+  const contentRef = useRef<HTMLDivElement>(null);
+
   const lableInput = {
     id: lastItem && lastItem.id + 1, // Add appropriate value
     logo: logo,
@@ -187,29 +203,20 @@ const AddNew = () => {
     label_size: labelSize,
   };
 
-  const defaultTextlStyle = {
-    color: "#000000",
-    fontSize: 14,
-    fontWeight: 400,
-    fontStyle: "normal",
-    fontFamily: "Arial",
-  };
-
-
   const defaultLabelStyle = {
     id: lableInput.id,
-    item_code: JSON.stringify(defaultTextlStyle),
-    product_name_en: JSON.stringify(productNameENStyle),
-    product_name_zh: JSON.stringify(productNameZHStyle),
-    weight: JSON.stringify(defaultTextlStyle),
-    weight_unit: JSON.stringify(defaultTextlStyle),
-    case_quantity: JSON.stringify(defaultTextlStyle),
-    case_unit: JSON.stringify(defaultTextlStyle),
-    storage_requirements: JSON.stringify(defaultTextlStyle),
-    shelf_life: JSON.stringify(defaultTextlStyle),
-    case_gtin: JSON.stringify(defaultTextlStyle),
-    ingredient_info: JSON.stringify(defaultTextlStyle),
-    manufactured_for: JSON.stringify(defaultTextlStyle),
+    item_code: defaultTextStyle,
+    product_name_en: productNameENStyle,
+    product_name_zh: productNameZHStyle,
+    weight: weightStyle,
+   weight_unit: weightUnitStyle,
+    case_quantity: defaultTextStyle,
+    case_unit: defaultTextStyle,
+    storage_requirements: defaultTextStyle,
+    shelf_life: defaultTextStyle,
+    case_gtin: defaultTextStyle,
+    ingredient_info: ingredientInfoStyle,
+    manufactured_for: manufacturedForStyle
   };
 
   useEffect(() => {
@@ -223,7 +230,10 @@ const AddNew = () => {
     setSubmitClicked(true);
     if (formError.error) return;
     try {
-      const response = await axios.post("/api/prisma/addNewLabel", {lableInput, defaultLabelStyle});
+      const response = await axios.post("/api/prisma/addNewLabel", {
+        lableInput,
+        defaultLabelStyle,
+      });
       console.log("response", response.data);
       console.log("lableInput", lableInput);
       // Directly access the data property from Axios response
@@ -275,6 +285,61 @@ const AddNew = () => {
         ...prevStyle,
         [styleType]: value, // Dynamically update the style property based on styleType
       }));
+    } else if (dataType === iEditedMode.ingredientInfo) {
+      const value =
+        styleType === iTextStyleMode.fontSize ||
+        styleType === iTextStyleMode.fontWeight
+          ? Number(event.target.value) // Convert to number for fontSize or fontWeight
+          : event.target.value; // Keep as string for other properties
+
+      setIngredientInfoStyle((prevStyle: iTextStyle) => ({
+        ...prevStyle,
+        [styleType]: value, // Dynamically update the style property based on styleType
+      }));
+    } else if (dataType === iEditedMode.weight) {
+      const value =
+        styleType === iTextStyleMode.fontSize ||
+        styleType === iTextStyleMode.fontWeight
+          ? Number(event.target.value) // Convert to number for fontSize or fontWeight
+          : event.target.value; // Keep as string for other properties
+
+      setWeightStyle((prevStyle: iTextStyle) => ({
+        ...prevStyle,
+        [styleType]: value, // Dynamically update the style property based on styleType
+      }));
+    } else if (dataType === iEditedMode.weightUnit) {
+      const value =
+        styleType === iTextStyleMode.fontSize ||
+        styleType === iTextStyleMode.fontWeight
+          ? Number(event.target.value) // Convert to number for fontSize or fontWeight
+          : event.target.value; // Keep as string for other properties
+
+      setWeightUnitStyle((prevStyle: iTextStyle) => ({
+        ...prevStyle,
+        [styleType]: value, // Dynamically update the style property based on styleType
+      }));
+    } else if (dataType === iEditedMode.manufacturedFor) {
+      const value =
+        styleType === iTextStyleMode.fontSize ||
+        styleType === iTextStyleMode.fontWeight
+          ? Number(event.target.value) // Convert to number for fontSize or fontWeight
+          : event.target.value; // Keep as string for other properties
+
+      setManufacturedForStyle((prevStyle: iTextStyle) => ({
+        ...prevStyle,
+        [styleType]: value, // Dynamically update the style property based on styleType
+      }));
+    } else if (dataType === iEditedMode.storageRequirements) {
+      const value =
+        styleType === iTextStyleMode.fontSize ||
+        styleType === iTextStyleMode.fontWeight
+          ? Number(event.target.value) // Convert to number for fontSize or fontWeight
+          : event.target.value; // Keep as string for other properties
+
+      setStorageRequirementsStyle((prevStyle: iTextStyle) => ({
+        ...prevStyle,
+        [styleType]: value, // Dynamically update the style property based on styleType
+      }));
     }
   };
 
@@ -320,11 +385,16 @@ const AddNew = () => {
           isEditMode={editMode}
           productNameENStyle={productNameENStyle}
           productNameZHStyle={productNameZHStyle}
+          weightStyle={weightStyle}
+          weightUnitStyle={weightUnitStyle}
+          ingredientInfoStyle={ingredientInfoStyle}
+          manufacturedForStyle={manufacturedForStyle}
+          storageRequirementsStyle={storageRequirementsStyle}
           handleChange={handleChange}
         />
         <LabelCard
-        type={labelSize}
-        labelInput={lableInput}
+          type={labelSize}
+          labelInput={lableInput}
           isEditedMode
           setProductNameEN={setProductNameEN}
           setProductNameZH={setProductNameZH}
@@ -342,6 +412,11 @@ const AddNew = () => {
           defaultLabelStyle={defaultLabelStyle}
           productNameENStyle={productNameENStyle}
           productNameZHStyle={productNameZHStyle}
+          weightStyle={weightStyle}
+          weightUnitStyle={weightUnitStyle}
+          ingredientInfoStyle={ingredientInfoStyle}
+          manufacturedForStyle={manufacturedForStyle}
+          storageRequirementsStyle={storageRequirementsStyle}
           editMode={editMode}
           setEditMode={setEditMode}
           logo={logo}
@@ -364,7 +439,7 @@ const AddNew = () => {
             <Skeleton variant="text" sx={{ fontSize: "2rem", width: "100%" }} />
           )}
         </Suspense>
-        <LabelForm 
+        <LabelForm
           isEditedView={false}
           logo={logo}
           setLogo={setLogo}

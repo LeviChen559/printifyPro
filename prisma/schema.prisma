@@ -60,7 +60,7 @@ model users {
   name       String   @db.VarChar
   password   String   @db.VarChar
   role       String   @db.VarChar
-  createDate DateTime @db.Date
+  created_at DateTime @db.Date
 }
 
 enum mylabels_case_unit {

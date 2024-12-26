@@ -20,6 +20,7 @@ interface iProps {
   helperText?: string;
   width?: string;
   isOnLabeCard?: boolean;
+  onEditMode?: ()=>void;
 }
 
 const DropdownMenu: FC<iProps> = (prop) => {
@@ -44,11 +45,11 @@ const DropdownMenu: FC<iProps> = (prop) => {
     "g_piece",
     "ml_bottle",
   ];
-  console.log("readOnly", prop.readOnly);
+
 
   const caseUnitList = ["tray", "bag", "container", "piece", "bottle"];
   const logoList = ["001", "002", "003", "004"];
-  const labelSizeList = ["4x4", "4x6", "4x8"];
+  const labelTypeList = ["4x4_a","4x4_b","4x6_a"];
   const formControlStyle = {
     background: "#ffffff80",
     height: prop.readOnly?24:prop.isOnLabeCard ? 28 : 40,
@@ -83,10 +84,11 @@ const DropdownMenu: FC<iProps> = (prop) => {
             onChange={handleWeightChange}
             error={prop.error}
             sx={MuiInputBaseStyle}
+            onClick={prop.onEditMode}
           >
             {weightUnitList.map((item) => {
               return (
-                <MenuItem value={item} key={item}>
+                <MenuItem value={item} key={item}  >
                   {item}
                 </MenuItem>
               );
@@ -128,7 +130,7 @@ const DropdownMenu: FC<iProps> = (prop) => {
             onChange={handleLabelSizeChange}
             sx={MuiInputBaseStyle}
           >
-            {labelSizeList.map((item) => {
+            {labelTypeList.map((item) => {
               return (
                 <MenuItem value={item} key={item}>
                   {item}

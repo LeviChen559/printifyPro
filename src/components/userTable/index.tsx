@@ -19,7 +19,7 @@ export interface iUser {
   name: string;
   password: string;
   role: string;
-  createDate: string;
+  created_at: string;
 }
 
 interface iProps {
@@ -106,7 +106,7 @@ const UserTable: FC<iProps> = () => {
                 </TableCell>
 
                 <TableCell align="left" sx={{ width: "50px" }}>
-                  {row.createDate}
+                  {row.created_at}
                 </TableCell>
               </TableRow>
             ))

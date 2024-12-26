@@ -5,7 +5,7 @@ interface iProps {
 }
 
 export const  Container =styled.div({
-    width:768,
+    width:384,
     height:384,
     display:"flex",
     flexDirection:"column",
