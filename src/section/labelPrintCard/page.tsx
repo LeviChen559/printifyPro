@@ -3,7 +3,7 @@ import { useReactToPrint } from "react-to-print";
 import { Container, View, Print, Options } from "./style";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { iLabelInfo } from "@/type/labelType";
-import LabelCard from "@/section/labelCard/";
+import LabelCard from "@/section/labelCards";
 import Button from "@/components/button";
 import { CircularProgress, TextField } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";

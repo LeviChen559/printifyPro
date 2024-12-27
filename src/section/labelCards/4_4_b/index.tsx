@@ -21,7 +21,7 @@ interface iProp {
   showProductNameZH?: boolean;
   showProductNameEN?: boolean;
   isEditedMode?: boolean;
-  ref: React.RefObject<HTMLDivElement> | undefined;
+  ref: React.RefObject<HTMLDivElement>;
   setProductNameEN?: (value: string) => void;
   setProductNameZH?: (value: string) => void;
   productNameEN?: string;
@@ -50,16 +50,12 @@ interface iProp {
 export type Ref = HTMLDivElement;
 
 const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
-  const now = new Date();
-  const bestByValue = new Date(
-    now.getTime() + prop.labelInfo.shelf_life * 24 * 60 * 60 * 1000
-  );
-  const formattedDate =
-    String(bestByValue.getDate()).padStart(2, "0") +
-    "/" +
-    String(bestByValue.getMonth() + 1).padStart(2, "0") +
-    "/" +
-    bestByValue.getFullYear();
+  // const now = new Date();
+  // const bestByValue = new Date(now.getTime() + (prop.labelInfo.shelf_life * 24 * 60 * 60 * 1000))
+  // const formattedDate =
+  // String(bestByValue.getDate()).padStart(2, '0') + "/" +
+  // String(bestByValue.getMonth() + 1).padStart(2, '0') + "/" +
+  // bestByValue.getFullYear();
 
   return (
     <Container id="labelCard" ref={ref}>
@@ -73,8 +69,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             }
             name="product_name_en"
             style={{
-              display: "flex",
-              alignItems: "center",
+              display:"block",
               padding: "0px",
               background: "transparent",
               fontSize: prop.productNameENStyle
@@ -93,7 +88,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               fontWeight: prop.productNameENStyle
                 ? prop.productNameENStyle.fontWeight
                 : prop.defaultLabelStyle &&
-                 prop.defaultLabelStyle.product_name_en.fontWeight,
+                  prop.defaultLabelStyle.product_name_en.fontWeight,
               overflow: "hidden", // Hide scrollbar for a clean look
               whiteSpace: "pre-wrap", // Allows text to wrap to the next line
               overflowWrap: "break-word", // Breaks long words if necessary
@@ -117,8 +112,6 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             name="product_name_zh"
             style={{
               padding: "0px",
-              display: "flex",
-              alignItems: "center",
               background: "transparent",
               fontSize: prop.productNameZHStyle
                 ? prop.productNameZHStyle.fontSize
@@ -152,34 +145,26 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
         <div style={{ width: "100%", overflow: "hidden", height: 64 }}>
           <EditTextarea
             readonly={!prop.isEditedMode}
-            onEditMode={() =>
-              prop.setEditMode && prop.setEditMode(iEditedMode.ingredientInfo)
-            }
             style={{
               width: "100%",
               height: "100%",
               padding: "0px",
               margin: "0px",
-              fontSize: prop.ingredientInfoStyle
-                ? prop.ingredientInfoStyle.fontSize
-                : prop.defaultLabelStyle &&
-                 prop.defaultLabelStyle.ingredient_info.fontSize,
-              fontFamily: prop.ingredientInfoStyle
-                ? prop.ingredientInfoStyle.fontFamily
-                : prop.defaultLabelStyle &&
-                 prop.defaultLabelStyle.ingredient_info.fontFamily,
-              color: prop.ingredientInfoStyle
-                ? prop.ingredientInfoStyle.color
-                : prop.defaultLabelStyle &&
-                 prop.defaultLabelStyle.ingredient_info.color,
-              fontStyle: prop.ingredientInfoStyle
-                ? prop.ingredientInfoStyle.fontStyle
-                : prop.defaultLabelStyle &&
-                 prop.defaultLabelStyle.ingredient_info.fontStyle,
-              fontWeight: prop.ingredientInfoStyle
-                ? prop.ingredientInfoStyle.fontWeight
-                : prop.defaultLabelStyle &&
-                 prop.defaultLabelStyle.ingredient_info.fontWeight,
+              fontSize:
+                prop.defaultLabelStyle &&
+                prop.defaultLabelStyle.ingredient_info.fontSize,
+              fontFamily:
+                prop.defaultLabelStyle &&
+                prop.defaultLabelStyle.ingredient_info.fontFamily,
+              color:
+                prop.defaultLabelStyle &&
+                prop.defaultLabelStyle.ingredient_info.color,
+              fontStyle:
+                prop.defaultLabelStyle &&
+                prop.defaultLabelStyle.ingredient_info.fontStyle,
+              fontWeight:
+                prop.defaultLabelStyle &&
+                prop.defaultLabelStyle.ingredient_info.fontWeight,
               background: "transparent",
               overflow: "hidden", // Hide scrollbar for a clean look
               whiteSpace: "pre-line", // Ensures text wraps correctly
@@ -195,6 +180,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             onChange={(e) => {
               prop.setIngredientInfo && prop.setIngredientInfo(e.target.value);
             }}
+            onEditMode={() => console.log("edit mode")}
           />
         </div>
       </Ingredients>
@@ -213,26 +199,20 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               style={{
                 display: "flex",
                 alignItems: "center",
-                fontSize: prop.weightStyle
-                  ? prop.weightStyle.fontSize
-                  : prop.defaultLabelStyle &&
-                   prop.defaultLabelStyle.weight.fontSize,
-                fontFamily: prop.weightStyle
-                  ? prop.weightStyle.fontFamily
-                  : prop.defaultLabelStyle &&
-                   prop.defaultLabelStyle.weight.fontFamily,
-                color: prop.weightStyle
-                  ? prop.weightStyle.color
-                  : prop.defaultLabelStyle &&
-                   prop.defaultLabelStyle.weight.color,
-                fontStyle: prop.weightStyle
-                  ? prop.weightStyle.fontStyle
-                  : prop.defaultLabelStyle &&
-                   prop.defaultLabelStyle.weight.fontStyle,
-                fontWeight: prop.weightStyle
-                  ? prop.weightStyle.fontWeight
-                  : prop.defaultLabelStyle &&
-                   prop.defaultLabelStyle.weight.fontWeight,
+                fontSize:
+                  prop.defaultLabelStyle &&
+                  prop.defaultLabelStyle.weight.fontSize,
+                fontFamily:
+                  prop.defaultLabelStyle &&
+                  prop.defaultLabelStyle.weight.fontFamily,
+                color:
+                  prop.defaultLabelStyle && prop.defaultLabelStyle.weight.color,
+                fontStyle:
+                  prop.defaultLabelStyle &&
+                  prop.defaultLabelStyle.weight.fontStyle,
+                fontWeight:
+                  prop.defaultLabelStyle &&
+                  prop.defaultLabelStyle.weight.fontWeight,
                 background: "transparent",
                 width: 85,
                 minHeight: 24,
@@ -243,9 +223,6 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               onChange={(e) =>
                 prop.setWeight && prop.setWeight(Number(e.target.value))
               }
-              onEditMode={() =>
-                prop.setEditMode && prop.setEditMode(iEditedMode.weight)
-              }
             />
             <DropdownMenu
               type="weight_unit"
@@ -253,10 +230,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               setWeightUnit={prop.setWeightUnit}
               width="40%"
               readOnly={!prop.isEditedMode}
-              isOnLabeCard={true}
-              onEditMode={() =>
-                prop.setEditMode && prop.setEditMode(iEditedMode.weightUnit)
-              }
+              isOnLabelCard={true}
             />
           </Row>
           <Row>
@@ -267,31 +241,21 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
                 height: "100%",
                 margin: 0,
                 padding: "4px 0",
-                fontSize: prop.storageRequirementsStyle
-                  ? prop.storageRequirementsStyle.fontSize
-                  : prop.defaultLabelStyle &&
-                    prop.defaultLabelStyle.storage_requirements
-                      .fontSize,
-                fontFamily: prop.storageRequirementsStyle
-                  ? prop.storageRequirementsStyle.fontFamily
-                  : prop.defaultLabelStyle &&
-                    prop.defaultLabelStyle.storage_requirements
-                      .fontFamily,
-                color: prop.storageRequirementsStyle
-                  ? prop.storageRequirementsStyle.color
-                  : prop.defaultLabelStyle &&
-                    prop.defaultLabelStyle.storage_requirements
-                      .color,
-                fontStyle: prop.storageRequirementsStyle
-                  ? prop.storageRequirementsStyle.fontStyle
-                  : prop.defaultLabelStyle &&
-                    prop.defaultLabelStyle.storage_requirements
-                      .fontStyle,
-                fontWeight: prop.storageRequirementsStyle
-                  ? prop.storageRequirementsStyle.fontWeight
-                  : prop.defaultLabelStyle &&
-                    prop.defaultLabelStyle.storage_requirements
-                      .fontWeight,
+                fontSize:
+                  prop.defaultLabelStyle &&
+                  prop.defaultLabelStyle.storage_requirements.fontSize,
+                fontFamily:
+                  prop.defaultLabelStyle &&
+                  prop.defaultLabelStyle.storage_requirements.fontFamily,
+                color:
+                  prop.defaultLabelStyle &&
+                  prop.defaultLabelStyle.storage_requirements.color,
+                fontStyle:
+                  prop.defaultLabelStyle &&
+                  prop.defaultLabelStyle.storage_requirements.fontStyle,
+                fontWeight:
+                  prop.defaultLabelStyle &&
+                  prop.defaultLabelStyle.storage_requirements.fontWeight,
                 background: "transparent",
                 overflow: "hidden", // Hide scrollbar for a clean look
                 whiteSpace: "pre-line", // Ensures text wraps correctly
@@ -307,9 +271,6 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
                 prop.setStorageRequirements &&
                 prop.setStorageRequirements(e.target.value)
               }
-              onEditMode={() =>
-                prop.setEditMode && prop.setEditMode(iEditedMode.storageRequirements)
-              }
             />
           </Row>
           <Typography variant="body2">Manufactured For:</Typography>
@@ -321,30 +282,21 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
                 height: "100%",
                 margin: 0,
                 padding: 0,
-                fontSize: prop.manufacturedForStyle
-                  ? prop.manufacturedForStyle.fontSize
-                  : prop.defaultLabelStyle &&
-                    prop.defaultLabelStyle.manufactured_for
-                      .fontSize,
-                fontFamily: prop.manufacturedForStyle
-                  ? prop.manufacturedForStyle.fontFamily
-                  : prop.defaultLabelStyle &&
-                    prop.defaultLabelStyle.manufactured_for
-                      .fontFamily,
-                color: prop.manufacturedForStyle
-                  ? prop.manufacturedForStyle.color
-                  : prop.defaultLabelStyle &&
-                    prop.defaultLabelStyle.manufactured_for.color,
-                fontStyle: prop.manufacturedForStyle
-                  ? prop.manufacturedForStyle.fontStyle
-                  : prop.defaultLabelStyle &&
-                    prop.defaultLabelStyle.manufactured_for
-                      .fontStyle,
-                fontWeight: prop.manufacturedForStyle
-                  ? prop.manufacturedForStyle.fontWeight
-                  : prop.defaultLabelStyle &&
-                    prop.defaultLabelStyle.manufactured_for
-                      .fontWeight,
+                fontSize:
+                  prop.defaultLabelStyle &&
+                  prop.defaultLabelStyle.manufactured_for.fontSize,
+                fontFamily:
+                  prop.defaultLabelStyle &&
+                  prop.defaultLabelStyle.manufactured_for.fontFamily,
+                color:
+                  prop.defaultLabelStyle &&
+                  prop.defaultLabelStyle.manufactured_for.color,
+                fontStyle:
+                  prop.defaultLabelStyle &&
+                  prop.defaultLabelStyle.manufactured_for.fontStyle,
+                fontWeight:
+                  prop.defaultLabelStyle &&
+                  prop.defaultLabelStyle.manufactured_for.fontWeight,
                 background: "transparent",
                 overflow: "hidden", // Hide scrollbar for a clean look
                 whiteSpace: "pre-line", // Ensures text wraps correctly
@@ -361,25 +313,29 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
                 prop.setManufacturedFor &&
                 prop.setManufacturedFor(e.target.value)
               }
-              onEditMode={() =>
-                prop.setEditMode &&
-                prop.setEditMode(iEditedMode.manufacturedFor)
-              }
             />
           </div>
         </InfomationColumn>
         <InfomationColumn flex={1}>
-          <Typography variant="body2">
+          {/* <Typography variant="body2">
             LOT #{prop.labelInfo.item_code}
           </Typography>
-          <Typography variant="body2">BEST BY : {formattedDate}</Typography>
-          <Barcode
-            value={prop.labelInfo.case_gtin.substring(0, 11) ?? "111111111111"}
-            width={2}
-            height={50}
-            fontSize={14}
-            format="UPC"
-          />
+          <Typography variant="body2">BEST BY : {formattedDate}</Typography> */}
+          <div
+            style={{
+              transform: "rotate(270deg) translateY(-35px) translateX(-30px)",
+            }}
+          >
+            <Barcode
+              value={
+                prop.labelInfo.case_gtin.substring(0, 11) ?? "111111111111"
+              }
+              width={1.25}
+              height={50}
+              fontSize={14}
+              format="UPC"
+            />
+          </div>
         </InfomationColumn>
       </InfomationWrapper>
     </Container>

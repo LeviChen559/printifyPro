@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import Skeleton from "@mui/material/Skeleton";
 import UserState from "@/components/userState";
 import useSWR from "swr";
-import LabelCard from "@/section/labelCard";
+import LabelCard from "@/section/labelCards";
 import axios from "axios";
 import LottieAnimation from "@/components/lottie/send";
 import AnimationJson from "@/components/lottie/send.json";
@@ -42,7 +42,7 @@ const AddNew = () => {
   const [weightUnit, setWeightUnit] = useState<string>("g_tray");
   const [caseQuantity, setCaseQuantity] = useState<number>(0);
   const [caseUnit, setCaseUnit] = useState<string>("tray");
-  const [storageRequirements, setStorageRequirements] = useState<string>("");
+  const [storageRequirements, setStorageRequirements] = useState<string>("Freezer");
   const [shelfLife, setShelfLife] = useState<number>(1);
   const [caseGtin, setCaseGtin] = useState<string>("000000000000");
   const [ingredientInfo, setIngredientInfo] = useState<string>("");
@@ -409,6 +409,11 @@ const AddNew = () => {
           manufacturedFor={manufacturedFor}
           setWeightUnit={setWeightUnit}
           weightUnit={weightUnit}
+          caseQuantity={caseQuantity}
+          setCaseQuantity={setCaseQuantity}
+          caseUnit={caseUnit}
+          setCaseUnit={setCaseUnit}
+          storageRequirements={storageRequirements}
           defaultLabelStyle={defaultLabelStyle}
           productNameENStyle={productNameENStyle}
           productNameZHStyle={productNameZHStyle}

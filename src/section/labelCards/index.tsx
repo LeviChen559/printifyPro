@@ -1,7 +1,7 @@
 import React,{ forwardRef } from "react";
-import LabelCard4_4_a from "@/section/labelCard/4_4_a";
-import LabelCard4_6_a from "@/section/labelCard/4_6_a";
-import LabelCard4_4_b from "@/section/labelCard/4_4_b";
+import LabelCard4_4_a from "@/section/labelCards/4_4_a";
+import LabelCard4_6_a from "@/section/labelCards/4_6_a";
+import LabelCard4_4_b from "@/section/labelCards/4_4_b";
 import {
   iLabelInfo,
   iTextStyle,
@@ -12,6 +12,8 @@ import {
 interface iProps {
   type: string;
   labelInput: iLabelInfo;
+  itemCode?: string;
+  setItemCode?: (value: string) => void;
   showProductNameZH?: boolean;
   showProductNameEN?: boolean;
   isEditedMode?: boolean;
@@ -25,9 +27,14 @@ interface iProps {
   setWeight?: (value: number) => void;
   weight?: number;
   setManufacturedFor?: (value: string) => void;
+  caseQuantity?: number;
+  setCaseQuantity?: (value: number) => void;
+  caseUnit?:string;
+  setCaseUnit?: React.Dispatch<React.SetStateAction<string>>;
   manufacturedFor?: string;
   setWeightUnit?: React.Dispatch<React.SetStateAction<string>>;
-  setStorageRequirements?: (value: string) => void;
+  storageRequirements?: string;
+  setStorageRequirements?: React.Dispatch<React.SetStateAction<string>>;
   weightUnit?: string;
   editMode?: string;
   setEditMode?: (value: iEditedMode) => void;
@@ -49,6 +56,8 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
     <LabelCard4_4_a
       labelInfo={prop.labelInput}
       isEditedMode={prop.isEditedMode}
+      itemCode={prop.itemCode}
+      setItemCode={prop.setItemCode}
       setProductNameEN={prop.setProductNameEN}
       setProductNameZH={prop.setProductNameZH}
       productNameEN={prop.productNameEN}
@@ -58,6 +67,11 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       setWeight={prop.setWeight}
       weight={prop.weight}
       setManufacturedFor={prop.setManufacturedFor}
+      caseQuantity={prop.caseQuantity}
+      setCaseQuantity={prop.setCaseQuantity}
+      caseUnit={prop.caseUnit}
+      setCaseUnit={prop.setCaseUnit}
+      storageRequirements={prop.storageRequirements}
       setStorageRequirements={prop.setStorageRequirements}
       manufacturedFor={prop.manufacturedFor}
       setWeightUnit={prop.setWeightUnit}

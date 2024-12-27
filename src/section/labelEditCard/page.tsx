@@ -3,7 +3,7 @@ import React, { FC, useState, useRef, useEffect } from "react";
 import { Container, View, Print } from "./style";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { iLabelInfo } from "@/type/labelType";
-import LabelCard from "@/section/labelCard";
+import LabelCard from "@/section/labelCards";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useRouter } from "next/navigation";
@@ -597,6 +597,8 @@ const LabelEditCard: FC<iProps> = (prop) => {
             type={labelSize}
             ref={contentRef}
             logo={logo}
+            itemCode={itemCode}
+            setItemCode={setItemCode}
             setLogo={setLogo}
             labelInput={labelInput}
             showProductNameEN={true}
@@ -610,6 +612,12 @@ const LabelEditCard: FC<iProps> = (prop) => {
             ingredientInfo={ingredientInfo}
             setWeight={setWeight}
             weight={weight}
+            caseQuantity={caseQuantity}
+            setCaseQuantity={setCaseQuantity}
+            caseUnit={caseUnit}
+            setCaseUnit={setCaseUnit}
+            storageRequirements={storageRequirements}
+          setStorageRequirements={setStorageRequirements}
             setManufacturedFor={setManufacturedFor}
             manufacturedFor={manufacturedFor}
             setWeightUnit={setWeightUnit}
