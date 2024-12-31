@@ -7,6 +7,8 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { iTextStyleMode, iEditedMode, iTextStyle } from "@/type/labelType";
 import { Typography } from "@mui/material";
+import Slider from "@mui/material/Slider";
+
 interface iProps {
   isEditMode: iEditedMode;
   productNameENStyle: iTextStyle;
@@ -24,8 +26,12 @@ interface iProps {
 }
 const StylePanel: FC<iProps> = (prop) => {
   const textStyle = {
-    fontSize: 14,
-    height: 24,
+    "& .MuiFormControlLabel-label": {
+      fontSize: 14,
+      height: 24,
+      display: "flex",
+      alignItems: "center",
+    },
   };
 
   const modeConverter = (mode: iEditedMode) => {
@@ -137,10 +143,9 @@ const StylePanel: FC<iProps> = (prop) => {
         break;
       default:
         fontWeight = null; // Or provide a default value
-  
-        }
+    }
     return fontWeight;
-  }
+  };
   const fontSizeConverter = (mode: iEditedMode) => {
     let fontSize;
     switch (mode) {
@@ -166,12 +171,86 @@ const StylePanel: FC<iProps> = (prop) => {
         fontSize = prop.storageRequirementsStyle.fontSize;
         break;
       default:
-        fontSize = null; // Or provide a default value
-  
-        }
-    return fontSize;;
-  }
+        fontSize = 14; // Or provide a default value
+    }
+    return fontSize;
+  };
+  const RowsConverter = (mode: iEditedMode) => {
+    let rows;
+    switch (mode) {
+      case iEditedMode.productNameEn:
+        rows = prop.productNameENStyle.rows;
+        break;
+      case iEditedMode.productNameZh:
+        rows = prop.productNameZHStyle.rows;
+        break;
+      case iEditedMode.ingredientInfo:
+        rows = prop.ingredientInfoStyle.rows;
+        break;
 
+      case iEditedMode.manufacturedFor:
+        rows = prop.manufacturedForStyle.rows;
+
+        break;
+      default:
+        rows = 2; // Or provide a default value
+    }
+    return rows;
+  };
+  const LineHeightConverter = (mode: iEditedMode) => {
+    let lineHeight;
+    switch (mode) {
+      case iEditedMode.productNameEn:
+        lineHeight = prop.productNameENStyle.lineHeight;
+        break;
+      case iEditedMode.productNameZh:
+        lineHeight = prop.productNameZHStyle.lineHeight;
+        break;
+      case iEditedMode.ingredientInfo:
+        lineHeight = prop.ingredientInfoStyle.lineHeight;
+        break;
+
+      case iEditedMode.manufacturedFor:
+        lineHeight = prop.manufacturedForStyle.lineHeight;
+
+        break;
+      default:
+        lineHeight = 1; // Or provide a default value
+    }
+    return lineHeight;
+  };
+  function valuetext(value: number) {
+    return `${value}px`;
+  }
+  const FontSizemarks = [
+    {
+      value: 14,
+      label: "14px",
+    },
+    {
+      value: 20,
+      label: "20px",
+    },
+    {
+      value: 28,
+      label: "28px",
+    },
+  ];
+
+  const Rowsmarks = [
+    {
+      value: 1,
+      label: "1",
+    },
+    {
+      value: 2,
+      label: "2",
+    },
+    {
+      value: 3,
+      label: "3",
+    },
+  ];
 
   return prop.isEditMode !== iEditedMode.empty ? (
     <Container>
@@ -192,13 +271,17 @@ const StylePanel: FC<iProps> = (prop) => {
           >
             <FormControlLabel
               value="Normal"
-              control={<Radio size="small" sx={{ color: "#bcbcbc" }} />}
+              control={
+                <Radio size="small" sx={{ color: "#bcbcbc", padding: "5px" }} />
+              }
               label="Normal"
               sx={textStyle}
             />
             <FormControlLabel
               value="Italic"
-              control={<Radio size="small" sx={{ color: "#bcbcbc" }} />}
+              control={
+                <Radio size="small" sx={{ color: "#bcbcbc", padding: "5px" }} />
+              }
               label="Italic"
               sx={textStyle}
             />
@@ -210,9 +293,7 @@ const StylePanel: FC<iProps> = (prop) => {
           </FormLabel>
           <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
-            value={
-              fontFamilyConverter(prop.isEditMode)
-            }
+            value={fontFamilyConverter(prop.isEditMode)}
             onChange={(e) =>
               prop.handleChange(e, prop.isEditMode, iTextStyleMode.fontFamily)
             }
@@ -221,13 +302,17 @@ const StylePanel: FC<iProps> = (prop) => {
           >
             <FormControlLabel
               value="Arial"
-              control={<Radio size="small" sx={{ color: "#bcbcbc" }} />}
+              control={
+                <Radio size="small" sx={{ color: "#bcbcbc", padding: "5px" }} />
+              }
               label="Arial"
               sx={textStyle}
             />
             <FormControlLabel
               value="Lato"
-              control={<Radio size="small" sx={{ color: "#bcbcbc" }} />}
+              control={
+                <Radio size="small" sx={{ color: "#bcbcbc", padding: "5px" }} />
+              }
               label="Lato"
               sx={textStyle}
             />
@@ -239,9 +324,7 @@ const StylePanel: FC<iProps> = (prop) => {
           </FormLabel>
           <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
-            value={
-              fontWeightConverter(prop.isEditMode)
-            }
+            value={fontWeightConverter(prop.isEditMode)}
             onChange={(e) =>
               prop.handleChange(e, prop.isEditMode, iTextStyleMode.fontWeight)
             }
@@ -250,23 +333,42 @@ const StylePanel: FC<iProps> = (prop) => {
           >
             <FormControlLabel
               value={400}
-              control={<Radio size="small" sx={{ color: "#bcbcbc" }} />}
+              control={
+                <Radio size="small" sx={{ color: "#bcbcbc", padding: "5px" }} />
+              }
               label="Normal"
               sx={textStyle}
             />
             <FormControlLabel
               value={700}
-              control={<Radio size="small" sx={{ color: "#bcbcbc" }} />}
+              control={
+                <Radio size="small" sx={{ color: "#bcbcbc", padding: "5px" }} />
+              }
               label="Bold"
               sx={textStyle}
             />
           </RadioGroup>
         </FormControl>
-        <FormControl sx={{ height: "auto", padding: 1 }}>
+        <FormControl sx={{ height: "auto", padding: 1, width: 125 }}>
           <FormLabel id="demo-radio-buttons-group-label" sx={textStyle}>
             Font Size
           </FormLabel>
-          <RadioGroup
+          <Slider
+            defaultValue={14}
+            aria-label="Custom marks"
+            valueLabelDisplay="auto"
+            step={2}
+            marks={FontSizemarks}
+            min={14}
+            max={28}
+            onChange={(e: any) =>
+              prop.handleChange(e, prop.isEditMode, iTextStyleMode.fontSize)
+            }
+            getAriaValueText={valuetext}
+            value={fontSizeConverter(prop.isEditMode)}
+            color="primary"
+          />
+          {/* <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
             value={
               fontSizeConverter(prop.isEditMode)
@@ -279,24 +381,88 @@ const StylePanel: FC<iProps> = (prop) => {
           >
             <FormControlLabel
               value={14}
-              control={<Radio size="small" sx={{ color: "#bcbcbc" }} />}
+              control={<Radio size="small" sx={{ color: "#bcbcbc",padding:"5px" }} />}
               label="14px"
               sx={textStyle}
             />
             <FormControlLabel
               value={18}
-              control={<Radio size="small" sx={{ color: "#bcbcbc" }} />}
+              control={<Radio size="small" sx={{ color: "#bcbcbc",padding:"5px" }} />}
               label="18px"
               sx={textStyle}
             />
             <FormControlLabel
               value={24}
-              control={<Radio size="small" sx={{ color: "#bcbcbc" }} />}
+              control={<Radio size="small" sx={{ color: "#bcbcbc",padding:"5px" }} />}
               label="24px"
               sx={textStyle}
             />
-          </RadioGroup>
+          </RadioGroup> */}
         </FormControl>
+        {(iEditedMode.productNameEn ||
+          iEditedMode.productNameZh ||
+          iEditedMode.manufacturedFor ||
+          iEditedMode.ingredientInfo) && (
+          <FormControl
+            sx={{
+              height: "auto",
+              padding: "8px 8px 8px 16px",
+              width: 141,
+              boxSizing: "border-box",
+            }}
+          >
+            <FormLabel id="demo-radio-buttons-group-label" sx={textStyle}>
+              Rows
+            </FormLabel>
+            <Slider
+              defaultValue={2}
+              aria-label="Custom marks"
+              valueLabelDisplay="auto"
+              step={.25}
+              marks={Rowsmarks}
+              min={1}
+              max={3}
+              onChange={(e: any) =>
+                prop.handleChange(e, prop.isEditMode, iTextStyleMode.rows)
+              }
+              getAriaValueText={valuetext}
+              value={RowsConverter(prop.isEditMode)}
+              color="primary"
+            />
+          </FormControl>
+        )}
+        {(iEditedMode.productNameEn ||
+          iEditedMode.productNameZh ||
+          iEditedMode.manufacturedFor ||
+          iEditedMode.ingredientInfo) && (
+          <FormControl
+            sx={{
+              height: "auto",
+              padding: "8px 8px 8px 16px",
+              width: 141,
+              boxSizing: "border-box",
+            }}
+          >
+            <FormLabel id="demo-radio-buttons-group-label" sx={textStyle}>
+              Line Height
+            </FormLabel>
+            <Slider
+              defaultValue={1.2}
+              aria-label="Custom marks"
+              valueLabelDisplay="auto"
+              step={0.1}
+              marks={Rowsmarks}
+              min={1}
+              max={2}
+              onChange={(e: any) =>
+                prop.handleChange(e, prop.isEditMode, iTextStyleMode.lineHeight)
+              }
+              getAriaValueText={valuetext}
+              value={LineHeightConverter(prop.isEditMode)}
+              color="primary"
+            />
+          </FormControl>
+        )}
       </Content>
     </Container>
   ) : null;

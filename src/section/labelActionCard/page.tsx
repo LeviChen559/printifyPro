@@ -2,7 +2,10 @@ import React, { FC } from "react";
 import { Container } from "./style";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import Button from "@/components/button";
-
+import { useRouter } from "next/navigation";
+import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded";
+import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
+import LocalPrintshopRoundedIcon from "@mui/icons-material/LocalPrintshopRounded";
 
 interface iProps {
   setShowCard: React.Dispatch<
@@ -13,6 +16,7 @@ interface iProps {
       isLabelUpdated: boolean;
     }>
   >;
+  duplicatedLabel: string;
 }
 enum CardType {
   LabelEdit = "labelEditCard",
@@ -22,16 +26,14 @@ enum CardType {
 }
 
 const LabelActionCard: FC<iProps> = (prop) => {
-
+  const router = useRouter();
   const switchCard = (type: CardType) => {
-    console.log("open:" + type);
     prop.setShowCard(() => ({
       labelActionCard: false,
-      isLabelUpdated:false,
+      isLabelUpdated: false,
       labelEditCard: type === CardType.LabelEdit,
       labelPrintCard: type === CardType.LabelPrint,
     }));
-
   };
   return (
     <Container>
@@ -45,18 +47,34 @@ const LabelActionCard: FC<iProps> = (prop) => {
             color: "#bcbcbc",
           },
         }}
-        onClick={() =>{
-        switchCard(CardType.empty)}}
+        onClick={() => {
+          switchCard(CardType.empty);
+        }}
       />
       <Button
         btnText="Edit this Label"
-          onClick={() => switchCard(CardType.LabelEdit)}
+        onClick={() => switchCard(CardType.LabelEdit)}
         type="button"
+        width={"200px"}
+        startIcon={<EditNoteRoundedIcon color="secondary" />}
+      />
+      <Button
+        btnText="Duplicate this Label"
+        onClick={() =>
+          router.push(
+            `/dashboard/add-new?duplicatedLabel=${prop.duplicatedLabel}`
+          )
+        }
+        type="button"
+        width={"200px"}
+        startIcon={<ContentCopyRoundedIcon color="secondary" />}
       />
       <Button
         btnText="Print this Label"
         onClick={() => switchCard(CardType.LabelPrint)}
         type="button"
+        width={"200px"}
+        startIcon={<LocalPrintshopRoundedIcon color="secondary" />}
       />
     </Container>
   );

@@ -95,6 +95,22 @@ const MyLabels = () => {
       isLabelUpdated: false,
     });
   };
+  const safelyStringifyData = (data: any) => {
+    try {
+      return JSON.stringify(data, (key, value) => {
+        if (typeof value === 'string') {
+          // Escape any quotes or special characters
+          return value.replace(/"/g, '\\"');
+        }
+        return value;
+      });
+    } catch (error) {
+      console.error('Error stringifying data:', error);
+      return '';
+    }
+  };
+
+  console.log("selectLabelInfo:", selectLabelInfo);
 
   if (status === "loading") {
     return (
@@ -169,7 +185,7 @@ const MyLabels = () => {
       </div>
       {showCard.labelActionCard &&
         (selectLabelInfo ? (
-          <LabelActionCard setShowCard={setShowCard} />
+          <LabelActionCard setShowCard={setShowCard} duplicatedLabel={safelyStringifyData(selectLabelInfo)}/>
         ) : (
           <SkeletonCard />
         ))}

@@ -52,6 +52,12 @@ const LabelEditCard: FC<iProps> = (prop) => {
   const [itemCode, setItemCode] = useState<string>(
     prop.selectLabelInfo.item_code
   );
+  const [customerItemCode, setCustomerItemCode] = useState<string>(
+    prop.selectLabelInfo.customer_item_code
+  );
+  const [lotNumber, setLotNumber] = useState<string>(
+    prop.selectLabelInfo.lot_number
+  );
   const [productNameEN, setProductNameEN] = useState<string>(
     prop.selectLabelInfo.product_name_en
   );
@@ -61,6 +67,8 @@ const LabelEditCard: FC<iProps> = (prop) => {
     fontSize: 24,
     fontFamily: "Arial",
     fontWeight: 700,
+    rows: 2,
+    lineHeight: 1.2,
   });
   const [productNameZH, setProductNameZH] = useState<string>(
     prop.selectLabelInfo.product_name_zh
@@ -71,6 +79,8 @@ const LabelEditCard: FC<iProps> = (prop) => {
     fontSize: 24,
     fontFamily: "Arial",
     fontWeight: 700,
+    rows: 2,
+    lineHeight: 1.2,
   });
 
   const [weight, setWeight] = useState<number>(
@@ -151,6 +161,8 @@ const LabelEditCard: FC<iProps> = (prop) => {
     id: prop.selectLabelInfo.id,
     logo: logo,
     item_code: itemCode, // Add appropriate value
+    customer_item_code: customerItemCode,
+    lot_number: lotNumber, // Add appropriate value
     product_name_en: productNameEN,
     product_name_zh: productNameZH,
     weight: weight,
@@ -164,6 +176,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
     manufactured_for: manufacturedFor,
     label_size: labelSize,
   };
+
 
   useEffect(() => {
     // List of fields to check
@@ -287,6 +300,8 @@ const LabelEditCard: FC<iProps> = (prop) => {
         fontSize: productNameEnObj?.fontSize,
         fontFamily: productNameEnObj?.fontFamily,
         fontWeight: productNameEnObj?.fontWeight,
+        rows: productNameEnObj?.rows,
+        lineHeight: productNameEnObj?.lineHeight,
       }));
       setProductNameZHStyle((prevStyle) => ({
         ...prevStyle,
@@ -295,6 +310,8 @@ const LabelEditCard: FC<iProps> = (prop) => {
         fontSize: productNameZhObj?.fontSize,
         fontFamily: productNameZhObj?.fontFamily,
         fontWeight: productNameZhObj?.fontWeight,
+        rows: productNameZhObj?.rows,
+        lineHeight: productNameZhObj?.lineHeight,
       }));
       setWeightStyle((prevStyle) => ({
         ...prevStyle,
@@ -311,6 +328,8 @@ const LabelEditCard: FC<iProps> = (prop) => {
         fontSize: ingredientInfoObj?.fontSize,
         fontFamily: ingredientInfoObj?.fontFamily,
         fontWeight: ingredientInfoObj?.fontWeight,
+        rows: ingredientInfoObj?.rows,
+        lineHeight: ingredientInfoObj?.lineHeight,
       }));
       setManufacturedForStyle((prevStyle) => ({
         ...prevStyle,
@@ -319,6 +338,8 @@ const LabelEditCard: FC<iProps> = (prop) => {
         fontSize: manufacturedForObj?.fontSize,
         fontFamily: manufacturedForObj?.fontFamily,
         fontWeight: manufacturedForObj?.fontWeight,
+        rows: manufacturedForObj?.rows,
+        lineHeight: manufacturedForObj?.lineHeight,
       }));
       setStorageRequirementsStyle((prevStyle) => ({
         ...prevStyle,
@@ -345,26 +366,31 @@ const LabelEditCard: FC<iProps> = (prop) => {
     fontFamily: "Arial",
     fontWeight: 400,
   };
-  console.log("labelStyle",labelStyle)
+  console.log("labelStyle.data[0]", labelStyle);
   const labelStyleuUpdates: iLabelStyle = {
-      id: prop.selectLabelInfo.id,
-      item_code: labelStyle ? labelStyle.data[0]?.item_code : defaultText,
-      product_name_en: productNameENStyle,
-      product_name_zh: productNameZHStyle,
-      ingredient_info: labelStyle? labelStyle.data[0]?.ingredient_info
-        : defaultText,
-      weight: labelStyle ? labelStyle.data[0]?.weight : defaultText,
-      weight_unit: labelStyle ? labelStyle.data[0]?.weight_unit : defaultText,
-      storage_requirements: labelStyle
-        ? labelStyle.data[0]?.storage_requirements
-        : defaultText,
-      manufactured_for: labelStyle
-        ? labelStyle.data[0]?.manufactured_for
-        : defaultText,
-      case_quantity: labelStyle ? labelStyle.data[0]?.case_quantity : defaultText,
-      case_unit: labelStyle ? labelStyle.data[0]?.case_unit : defaultText,
-      shelf_life: labelStyle ? labelStyle.data[0]?.shelf_life : defaultText,
-    };
+    id: prop.selectLabelInfo.id,
+    item_code: labelStyle ? labelStyle.data[0]?.item_code : defaultText,
+    customer_item_code: labelStyle
+      ? labelStyle.data[0]?.customer_item_code
+      : defaultText,
+      lot_number: labelStyle ? labelStyle.data[0]?.lot_number : defaultText,
+    product_name_en: productNameENStyle,
+    product_name_zh: productNameZHStyle,
+    ingredient_info: labelStyle
+      ? labelStyle.data[0]?.ingredient_info
+      : defaultText,
+    weight: labelStyle ? labelStyle.data[0]?.weight : defaultText,
+    weight_unit: labelStyle ? labelStyle.data[0]?.weight_unit : defaultText,
+    storage_requirements: labelStyle
+      ? labelStyle.data[0]?.storage_requirements
+      : defaultText,
+    manufactured_for: labelStyle
+      ? labelStyle.data[0]?.manufactured_for
+      : defaultText,
+    case_quantity: labelStyle ? labelStyle.data[0]?.case_quantity : defaultText,
+    case_unit: labelStyle ? labelStyle.data[0]?.case_unit : defaultText,
+    shelf_life: labelStyle ? labelStyle.data[0]?.shelf_life : defaultText,
+  };
 
   const updateLabel = async (
     labelInfo: iLabelInfo,
@@ -401,6 +427,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
             labelActionCard: false,
             labelPrintCard: false,
             labelEditCard: false,
+            labelDuplicateCard: false,
             isLabelUpdated: true,
           }));
           router.push("/dashboard/mylabels");
@@ -441,6 +468,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
             labelActionCard: false,
             labelPrintCard: false,
             labelEditCard: false,
+            labelDuplicateCard: false,
             isLabelUpdated: true,
           }));
           router.push("/dashboard/mylabels");
@@ -459,10 +487,11 @@ const LabelEditCard: FC<iProps> = (prop) => {
     if (dataType === iEditedMode.productNameEn) {
       const value =
         styleType === iTextStyleMode.fontSize ||
-        styleType === iTextStyleMode.fontWeight
+        styleType === iTextStyleMode.fontWeight ||
+        styleType === iTextStyleMode.rows ||
+        styleType === iTextStyleMode.lineHeight
           ? Number(event.target.value) // Convert to number for fontSize or fontWeight
           : event.target.value; // Keep as string for other properties
-
       setProductNameENStyle((prevStyle) => ({
         ...prevStyle,
         [styleType]: value, // Dynamically update the style property based on styleType
@@ -470,7 +499,9 @@ const LabelEditCard: FC<iProps> = (prop) => {
     } else if (dataType === iEditedMode.productNameZh) {
       const value =
         styleType === iTextStyleMode.fontSize ||
-        styleType === iTextStyleMode.fontWeight
+        styleType === iTextStyleMode.fontWeight ||
+        styleType === iTextStyleMode.rows ||
+        styleType === iTextStyleMode.lineHeight
           ? Number(event.target.value) // Convert to number for fontSize or fontWeight
           : event.target.value; // Keep as string for other properties
 
@@ -486,7 +517,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
           : event.target.value; // Keep as string for other properties
 
       setWeightStyle((prevStyle) => ({
-       ...prevStyle,
+        ...prevStyle,
         [styleType]: value, // Dynamically update the style property based on styleType
       }));
     } else if (dataType === iEditedMode.weightUnit) {
@@ -495,19 +526,20 @@ const LabelEditCard: FC<iProps> = (prop) => {
         styleType === iTextStyleMode.fontWeight
           ? Number(event.target.value) // Convert to number for fontSize or fontWeight
           : event.target.value; // Keep as string for other properties
-          setWeightUnitStyle((prevStyle) => ({
-        ...prevStyle, 
+      setWeightUnitStyle((prevStyle) => ({
+        ...prevStyle,
         [styleType]: value, // Dynamically update the style property based on styleType
       }));
     } else if (dataType === iEditedMode.ingredientInfo) {
       const value =
         styleType === iTextStyleMode.fontSize ||
-        styleType === iTextStyleMode.fontWeight
+        styleType === iTextStyleMode.fontWeight ||
+        styleType === iTextStyleMode.rows ||
+        styleType === iTextStyleMode.lineHeight
           ? Number(event.target.value) // Convert to number for fontSize or fontWeight
           : event.target.value; // Keep as string for other properties
-
       setIngredientInfoStyle((prevStyle) => ({
-       ...prevStyle,
+        ...prevStyle,
         [styleType]: value, // Dynamically update the style property based on styleType
       }));
     } else if (dataType === iEditedMode.storageRequirements) {
@@ -516,22 +548,23 @@ const LabelEditCard: FC<iProps> = (prop) => {
         styleType === iTextStyleMode.fontWeight
           ? Number(event.target.value) // Convert to number for fontSize or fontWeight
           : event.target.value; // Keep as string for other properties
-          setStorageRequirementsStyle((prevStyle) => ({
-       ...prevStyle,
+      setStorageRequirementsStyle((prevStyle) => ({
+        ...prevStyle,
         [styleType]: value, // Dynamically update the style property based on styleType
       }));
     } else if (dataType === iEditedMode.manufacturedFor) {
       const value =
         styleType === iTextStyleMode.fontSize ||
-        styleType === iTextStyleMode.fontWeight
+        styleType === iTextStyleMode.fontWeight ||
+        styleType === iTextStyleMode.rows ||
+        styleType === iTextStyleMode.lineHeight
           ? Number(event.target.value) // Convert to number for fontSize or fontWeight
           : event.target.value; // Keep as string for other properties
-          setManufacturedForStyle((prevStyle) => ({
-       ...prevStyle,
+      setManufacturedForStyle((prevStyle) => ({
+        ...prevStyle,
         [styleType]: value, // Dynamically update the style property based on styleType
       }));
     }
-      
   };
 
   if (isLabelDeleted) {
@@ -573,6 +606,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
             labelActionCard: false,
             labelPrintCard: false,
             labelEditCard: false,
+            labelDuplicateCard: false,
             isLabelUpdated: false,
           }))
         }
@@ -599,6 +633,10 @@ const LabelEditCard: FC<iProps> = (prop) => {
             logo={logo}
             itemCode={itemCode}
             setItemCode={setItemCode}
+            customerItemCode={customerItemCode}
+            setCustomerItemCode={setCustomerItemCode}
+            lotNumber={lotNumber}
+            setLotNumber={setLotNumber}
             setLogo={setLogo}
             labelInput={labelInput}
             showProductNameEN={true}
@@ -617,7 +655,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
             caseUnit={caseUnit}
             setCaseUnit={setCaseUnit}
             storageRequirements={storageRequirements}
-          setStorageRequirements={setStorageRequirements}
+            setStorageRequirements={setStorageRequirements}
             setManufacturedFor={setManufacturedFor}
             manufacturedFor={manufacturedFor}
             setWeightUnit={setWeightUnit}
@@ -643,6 +681,10 @@ const LabelEditCard: FC<iProps> = (prop) => {
           setLogo={setLogo}
           itemCode={itemCode}
           setItemCode={setItemCode}
+          customerItemCode={customerItemCode}
+            setCustomerItemCode={setCustomerItemCode}
+            lotNumber={lotNumber}
+            setLotNumber={setLotNumber}
           productNameEN={productNameEN}
           setProductNameEN={setProductNameEN}
           productNameZH={productNameZH}

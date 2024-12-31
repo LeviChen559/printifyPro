@@ -4,7 +4,7 @@ export const Container = styled.div({
 width:"auto",
 height:"auto",
 display:"flex",
-flexDirection:"row",
+flexDirection:"column",
 alignItems:"center",
 justifyContent:"center",
 padding:75,

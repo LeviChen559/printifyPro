@@ -22,7 +22,7 @@ model mylabels {
   product_name_en      String                @db.VarChar(100)
   product_name_zh      String?               @db.VarChar(100)
   weight               Decimal?              @db.Decimal(10, 0)
-  weight_unit          mylabels_weight_unit? @default(g_tray)
+  weight_unit          mylabels_weight_unit? @default("g/tray")
   case_quantity        Int?                  
   case_unit            mylabels_case_unit?   @default(tray)
   storage_requirements String?               @db.VarChar(150)

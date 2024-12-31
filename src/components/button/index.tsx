@@ -5,6 +5,7 @@ import { Typography } from "@mui/material";
 interface iProps {
   btnText: string;
   endIcon?: React.ReactNode;
+  startIcon?: React.ReactNode;
   width?: string;
   onClick?: () => void;
   formAction?: () => void;
@@ -16,12 +17,14 @@ const index: FC<iProps> = (props) => {
   return (
     <Button
       variant="contained"
+      startIcon={props.startIcon}
       endIcon={props.endIcon}
       sx={{ width: props.width, padding: 2, borderRadius: 2,backgroundColor: props.backgroundColor}}
       formAction={props.formAction}
       onClick={props.onClick}
       type={props.type}
-    >
+    > 
+    
       <Typography color="textSecondary" sx={{ textTransform: "capitalize" }}>
         {props.btnText}
       </Typography>

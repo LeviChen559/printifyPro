@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef,Dispatch,SetStateAction } from "react";
 import {
   Container,
   Header,
@@ -22,18 +22,22 @@ interface iProp {
   showProductNameEN?: boolean;
   isEditedMode?: boolean;
   ref: React.RefObject<HTMLDivElement> | undefined;
-  setProductNameEN?: (value: string) => void;
-  setProductNameZH?: (value: string) => void;
+  setProductNameEN?: Dispatch<SetStateAction<string>>;
+  setProductNameZH?: Dispatch<SetStateAction<string>>;
   productNameEN?: string;
   productNameZH?: string;
-  setIngredientInfo?: (value: string) => void;
+  setIngredientInfo?: Dispatch<SetStateAction<string>>;
   ingredientInfo?: string;
-  setWeight?: (value: number) => void;
+  setWeight?: Dispatch<SetStateAction<number>>;
   weight?: number;
-  setManufacturedFor?: (value: string) => void;
+  setManufacturedFor?: Dispatch<SetStateAction<string>>;
+  caseQuantity?: number;
+  setCaseQuantity?: Dispatch<SetStateAction<number>>;
+  caseUnit?: string;
+  setCaseUnit?: Dispatch<SetStateAction<string>>;
   manufacturedFor?: string;
-  setWeightUnit?: React.Dispatch<React.SetStateAction<string>>;
-  setStorageRequirements?: (value: string) => void;
+  setWeightUnit?: Dispatch<SetStateAction<string>>;
+  setStorageRequirements?: Dispatch<SetStateAction<string>>;
   weightUnit?: string;
   editMode?: string;
   setEditMode?: (value: iEditedMode) => void;
@@ -65,7 +69,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
     <Container id="labelCard" ref={ref}>
       <Header>
         <LabelLogo logo={prop.logo} fontSize={48} />
-        <div style={{ height: "auto", width: "60%" }}>
+        <div style={{ height: "auto", width: "55%" }}>
           <EditTextarea
             readonly={!prop.isEditedMode}
             onEditMode={() =>
@@ -108,7 +112,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             }}
           />
         </div>
-        <div style={{ height: "auto", width: "40%" }}>
+        <div style={{ height: "auto", width: "30%" }}>
           <EditTextarea
             readonly={!prop.isEditedMode}
             onEditMode={() =>
@@ -190,7 +194,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               borderRadius: prop.isEditedMode ? "4px" : "none",
             }}
             rows={2}
-            placeholder="I am an editable textarea"
+            placeholder="ingredientInfo"
             value={prop.ingredientInfo}
             onChange={(e) => {
               prop.setIngredientInfo && prop.setIngredientInfo(e.target.value);
@@ -200,9 +204,9 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
       </Ingredients>
       <InfomationWrapper>
         <InfomationColumn flex={1.75}>
-          <Typography variant="body2">
+          {/* <Typography variant="body2">
             Contains :&quot;&quot;&quot;&quot;
-          </Typography>
+          </Typography> */}
           <Row>
             <Typography variant="body2" noWrap>
               Net Weight :
@@ -234,7 +238,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
                   : prop.defaultLabelStyle &&
                    prop.defaultLabelStyle.weight.fontWeight,
                 background: "transparent",
-                width: 85,
+                width: 50,
                 minHeight: 24,
                 border: prop.isEditedMode ? "1px solid #bcbcbc80" : "none",
                 borderRadius: prop.isEditedMode ? "4px" : "none",
@@ -249,17 +253,58 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             />
             <DropdownMenu
               type="weight_unit"
-              weightUnit={prop.weightUnit}
-              setWeightUnit={prop.setWeightUnit}
-              width="40%"
+              value={prop.weightUnit as string}
+              onChange={prop.setWeightUnit as (value: string) => void}
+              width="50px"
               readOnly={!prop.isEditedMode}
               isOnLabelCard={true}
               onEditMode={() =>
                 prop.setEditMode && prop.setEditMode(iEditedMode.weightUnit)
               }
             />
+              <EditText
+          name="case_quantity"
+          type="number"
+          style={{
+            fontSize:
+              prop.defaultLabelStyle &&
+              prop.defaultLabelStyle.case_quantity.fontSize,
+            fontFamily:
+              prop.defaultLabelStyle &&
+              prop.defaultLabelStyle.case_quantity.fontFamily,
+            color:
+              prop.defaultLabelStyle &&
+              prop.defaultLabelStyle.case_quantity.color,
+            fontStyle:
+              prop.defaultLabelStyle &&
+              prop.defaultLabelStyle.case_quantity.fontStyle,
+            fontWeight:
+              prop.defaultLabelStyle &&
+              prop.defaultLabelStyle.case_quantity.fontWeight,
+            background: "transparent",
+            width: prop.isEditedMode ? 55 : "auto",
+            minHeight: 24,
+            border: prop.isEditedMode ? "1px solid #bcbcbc80" : "none",
+            borderRadius: prop.isEditedMode ? "4px" : "none",
+          }}
+          value={prop.caseQuantity ? prop.caseQuantity.toString() : "0"}
+          onChange={(e) =>
+            prop.setWeight && prop.setWeight(Number(e.target.value))
+          }
+        />
+        <DropdownMenu
+          type="case_unit"
+          value={prop.caseUnit as string}
+          onChange={prop.setCaseUnit as (value: string) => void}
+          width={prop.isEditedMode ? "85px" : "50px"}
+          readOnly={!prop.isEditedMode}
+          isOnLabelCard={true}
+        />
           </Row>
           <Row>
+            <Typography variant="body2" noWrap>
+           Storage Requirements :
+            </Typography>
             <EditText
               readonly={!prop.isEditedMode}
               style={{
@@ -301,7 +346,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
                 border: prop.isEditedMode ? "1px solid #bcbcbc80" : "none",
                 borderRadius: prop.isEditedMode ? "4px" : "none",
               }}
-              placeholder="I am an editable textarea"
+              placeholder="storage_requirements"
               value={prop.labelInfo.storage_requirements}
               onChange={(e) =>
                 prop.setStorageRequirements &&

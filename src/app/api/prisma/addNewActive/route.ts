@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ success: true, data: newActivety });
   } catch (error) {
-    console.error("Error creating label:", error);
+    console.error("Error creating label_activety:", error);
     return NextResponse.json({
       success: false,
       message: "Error fetching labels",

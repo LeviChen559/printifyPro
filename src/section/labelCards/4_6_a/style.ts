@@ -11,12 +11,12 @@ export const  Container =styled.div({
     flexDirection:"column",
     alignItems:"center",
     justifyContent:"space-between",
-    padding:16,
-    borderRadius:16,
+    padding:4,
+    borderRadius:4,
     backgroundColor:"#ffffff",
     boxShadow:"0px 4px 4px 0px #bcbcbc",
     border:"1px solid #bcbcbc80",
-    gap:8,
+    gap:4,
     position:"relative"
 })
 

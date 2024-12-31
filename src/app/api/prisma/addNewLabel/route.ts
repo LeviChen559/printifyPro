@@ -8,24 +8,34 @@ export async function POST(req: NextRequest) {
     // Parse JSON data from the request body
     const data = await req.json();
 
+    if (!data ) {
+      console.log("Missing required data",data)
+
+
+
+      return NextResponse.json({
+        success: false,
+        message: "Missing required data",
+      }, { status: 400 });
+    }
     // Fetch data from the mylabels table using Prisma
     const newLabel: mylabels = await prisma.mylabels.create({
       data: {
-        id: data.lableInput.id,
-        item_code: data.lableInput.item_code,
-        product_name_en: data.lableInput.product_name_en,
-        product_name_zh: data.lableInput.product_name_zh,
-        weight: data.lableInput.weight,
-        weight_unit: data.lableInput.weight_unit,
-        case_quantity: data.lableInput.case_quantity,
-        case_unit: data.lableInput.case_unit,
-        storage_requirements: data.lableInput.storage_requirements,
-        shelf_life: data.lableInput.shelf_life,
-        case_gtin: data.lableInput.case_gtin,
-        ingredient_info: data.lableInput.ingredient_info,
-        manufactured_for: data.lableInput.manufactured_for,
-        label_size: data.lableInput.label_size,
-        logo: data.lableInput.logo
+        id: data.labelInput.id,
+        item_code: data.labelInput.item_code,
+        product_name_en: data.labelInput.product_name_en,
+        product_name_zh: data.labelInput.product_name_zh,
+        weight: data.labelInput.weight,
+        weight_unit: data.labelInput.weight_unit,
+        case_quantity: data.labelInput.case_quantity,
+        case_unit: data.labelInput.case_unit,
+        storage_requirements: data.labelInput.storage_requirements,
+        shelf_life: data.labelInput.shelf_life,
+        case_gtin: data.labelInput.case_gtin,
+        ingredient_info: data.labelInput.ingredient_info,
+        manufactured_for: data.labelInput.manufactured_for,
+        label_size: data.labelInput.label_size,
+        logo: data.labelInput.logo
       },
     });
     const newLabelStyle:labelstyle = await prisma.labelstyle.create({
@@ -43,10 +53,12 @@ export async function POST(req: NextRequest) {
         ingredient_info: data.defaultLabelStyle.ingredient_info,
         manufactured_for: data.defaultLabelStyle.manufactured_for,
     }});
+  
 
     return NextResponse.json({ success: true, data: {newLabel,newLabelStyle} });
   } catch (error) {
-    console.error("Error creating label:", error);
+    console.log("error",error);
+    console.error("Error creating label_label:", error);
     return NextResponse.json({
       success: false,
       message: "Error fetching labels",

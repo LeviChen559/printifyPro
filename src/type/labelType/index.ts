@@ -3,6 +3,7 @@ export const enum iEditedMode {
     "productNameZh" = "productNameZh",
     "ingredientInfo" = "ingredientInfo",
     "weight" = "weight",
+    "caseQuantity" = "caseQuantity",
     "manufacturedFor" = "manufacturedFor",
     "weightUnit" = "weightUnit",
     "storageRequirements" = "storageRequirements",
@@ -15,6 +16,8 @@ export const enum iEditedMode {
     "fontWeight" = "fontWeight",
     "fontSize" = "fontSize",
     "color" = "color",
+    "rows" = "rows",
+    "lineHeight" = "lineHeight",
   }
   export interface iTextStyle {
     color: string;
@@ -22,11 +25,15 @@ export const enum iEditedMode {
     fontSize: number;
     fontFamily: string;
     fontWeight: number;
+    rows?: number;
+    lineHeight?: number;
   }
   
   export interface iLabelStyle {
     id: number;
     item_code: iTextStyle;
+    customer_item_code: iTextStyle;
+    lot_number: iTextStyle;
     product_name_en: iTextStyle;
     product_name_zh: iTextStyle;
     ingredient_info: iTextStyle;
@@ -49,6 +56,8 @@ export const enum iEditedMode {
     id: number;
     logo: string;
     item_code: string;
+    customer_item_code: string;
+    lot_number: string;
     product_name_en: string;
     product_name_zh: string;
     weight: number;
@@ -65,6 +74,8 @@ export const enum iEditedMode {
   export interface iLabelInfoStyle {
     id: number;
     item_code: string;
+    custom_item_code: string;
+    lot_number: string;
     product_name_en: string;
     product_name_zh: string;
     weight: number;

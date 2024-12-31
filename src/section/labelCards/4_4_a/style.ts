@@ -6,7 +6,9 @@ interface iProps {
     justifyContent?:string,
     height?:string,
     alignItems?:string,
-    gap?:number
+    gap?:number,
+    zIndex?:number,
+    background?:string
 }
 
 export const  Container =styled.div({
@@ -23,6 +25,7 @@ export const  Container =styled.div({
     border:"1px solid #bcbcbc80",
     gap:4,
     position:"relative",
+    overflow:"hidden",
 })
 
 export const Header = styled.div({
@@ -49,13 +52,14 @@ export const InfomationColumn = styled.div<iProps>({
     flexDirection:"column",
     justifyContent:"flex-start",
     alignItems:"flex-start",
-    gap:12,
+    gap:8,
     width:"100%",
     height:"100%",
     position:"relative" 
 },props=>({
     flex: props.flex,
     width:props.width,
+    zIndex:props.zIndex
 }))
 
 export const Ingredients = styled.div<iProps>({
@@ -79,7 +83,9 @@ export const Row = styled.div<iProps>({
 },props=>({
     alignItems:props.alignItems,
     height:props.height,
-    gap:props.gap
+    gap:props.gap,
+    zIndex:props.zIndex,
+    background:props.background,
 
 }))
 

@@ -22,6 +22,7 @@ export const Content =styled.div({
     alignItems:"flex-start",
     boxSizing:"border-box",
     width:"100%",
+    gap:16
 
     
 })

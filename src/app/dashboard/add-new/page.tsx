@@ -1,11 +1,10 @@
 "use client";
-
 import React, { useEffect, Suspense, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { PreviewContainer, EditContainer, Container } from "./style";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Typography } from "@mui/material";
-import { useRouter } from "next/navigation";
+import { useRouter ,useSearchParams} from "next/navigation";
 import Skeleton from "@mui/material/Skeleton";
 import UserState from "@/components/userState";
 import useSWR from "swr";
@@ -24,6 +23,7 @@ import {
 import LabelForm from "@/section/labelForm";
 import { fetcher } from "@/utils/lib/fetcher";
 
+
 const AddNew = () => {
   // Log the data to check its structure
   const { data: userData, status } = useSession();
@@ -33,13 +33,19 @@ const AddNew = () => {
     locale: "",
   });
   const router = useRouter();
+  const searchParams = useSearchParams()
+ 
+  const duplicatedLabel = searchParams.get('duplicatedLabel')
+  
   const [logo, setLogo] = useState<string>("001");
   const [labelSize, setLabelSize] = useState<string>("4x4_a");
   const [itemCode, setItemCode] = useState<string>("");
+  const [customerItemCode, setCustomerItemCode] = useState<string>("");
+  const [lotNumber, setLotNumber] = useState<string>("");
   const [productNameEN, setProductNameEN] = useState<string>("");
   const [productNameZH, setProductNameZH] = useState<string>("");
   const [weight, setWeight] = useState<number>(0);
-  const [weightUnit, setWeightUnit] = useState<string>("g_tray");
+  const [weightUnit, setWeightUnit] = useState<string>("g/tray");
   const [caseQuantity, setCaseQuantity] = useState<number>(0);
   const [caseUnit, setCaseUnit] = useState<string>("tray");
   const [storageRequirements, setStorageRequirements] = useState<string>("Freezer");
@@ -50,6 +56,24 @@ const AddNew = () => {
   const [sendAnewLabel, setSendAnewLabel] = useState<boolean>(false);
   const [editMode, setEditMode] = useState<iEditedMode>(iEditedMode.empty);
   const [submitClicked, setSubmitClicked] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (duplicatedLabel) {
+      const parsedData = JSON.parse(duplicatedLabel);
+      
+      setProductNameEN(parsedData.product_name_en || "");
+      setProductNameZH(parsedData.product_name_zh || "");
+      setIngredientInfo(parsedData.ingredient_info || "");
+      setWeight(parsedData.weight || "");
+      setWeightUnit(parsedData.weight_unit || "");
+      setManufacturedFor(parsedData.manufactured_for || "");
+      setStorageRequirements(parsedData.storage_requirements || "");
+      setCaseQuantity(parsedData.case_quantity || "");
+      setCaseUnit(parsedData.case_unit || "");
+      setLogo(parsedData.logo || "");
+    }
+  }, [duplicatedLabel]);
+  
   const defaultHeaderStyle = {
     color: "#000000",
     fontSize: 24,
@@ -183,12 +207,16 @@ const AddNew = () => {
   const isUniqueItemCode =
     labelData &&
     labelData.some((item: iLabelInfo) => item.item_code !== itemCode);
+
+  
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const lableInput = {
+  const labelInput = {
     id: lastItem && lastItem.id + 1, // Add appropriate value
     logo: logo,
     item_code: isUniqueItemCode && itemCode, // Add appropriate value
+    customer_item_code: customerItemCode,
+    lot_number:lotNumber,
     product_name_en: productNameEN,
     product_name_zh: productNameZH,
     weight: weight,
@@ -202,10 +230,13 @@ const AddNew = () => {
     manufactured_for: manufacturedFor,
     label_size: labelSize,
   };
+  console.log("labelInput", labelInput);
 
   const defaultLabelStyle = {
-    id: lableInput.id,
+    id: lastItem && lastItem.id + 1,
     item_code: defaultTextStyle,
+    customer_item_code: defaultTextStyle,
+    lot_number: defaultTextStyle,
     product_name_en: productNameENStyle,
     product_name_zh: productNameZHStyle,
     weight: weightStyle,
@@ -231,11 +262,11 @@ const AddNew = () => {
     if (formError.error) return;
     try {
       const response = await axios.post("/api/prisma/addNewLabel", {
-        lableInput,
+        labelInput,
         defaultLabelStyle,
       });
       console.log("response", response.data);
-      console.log("lableInput", lableInput);
+      console.log("lableInput", labelInput);
       // Directly access the data property from Axios response
       if (response.data.success) {
         await axios.post("/api/prisma/addNewActive", {
@@ -251,10 +282,10 @@ const AddNew = () => {
           router.push("/dashboard/mylabels");
         }, 3000);
       } else {
-        console.error("Error creating label:", response.data.message);
+        console.error("Error creating label1:", response.data.message);
       }
     } catch (error) {
-      console.error("Error creating label:", error);
+      console.error("Error creating label2:", error);
     }
   };
 
@@ -392,42 +423,48 @@ const AddNew = () => {
           storageRequirementsStyle={storageRequirementsStyle}
           handleChange={handleChange}
         />
-        <LabelCard
-          type={labelSize}
-          labelInput={lableInput}
-          isEditedMode
-          setProductNameEN={setProductNameEN}
-          setProductNameZH={setProductNameZH}
-          productNameEN={productNameEN}
-          productNameZH={productNameZH}
-          setIngredientInfo={setIngredientInfo}
-          ingredientInfo={ingredientInfo}
-          setWeight={setWeight}
-          weight={weight}
-          setManufacturedFor={setManufacturedFor}
-          setStorageRequirements={setStorageRequirements}
-          manufacturedFor={manufacturedFor}
-          setWeightUnit={setWeightUnit}
-          weightUnit={weightUnit}
-          caseQuantity={caseQuantity}
-          setCaseQuantity={setCaseQuantity}
-          caseUnit={caseUnit}
-          setCaseUnit={setCaseUnit}
-          storageRequirements={storageRequirements}
-          defaultLabelStyle={defaultLabelStyle}
-          productNameENStyle={productNameENStyle}
-          productNameZHStyle={productNameZHStyle}
-          weightStyle={weightStyle}
-          weightUnitStyle={weightUnitStyle}
-          ingredientInfoStyle={ingredientInfoStyle}
-          manufacturedForStyle={manufacturedForStyle}
-          storageRequirementsStyle={storageRequirementsStyle}
-          editMode={editMode}
-          setEditMode={setEditMode}
-          logo={logo}
-          setLogo={setLogo}
-          ref={contentRef}
-        />
+       <LabelCard
+  type={labelSize}
+  labelInput={labelInput}
+  isEditedMode
+  itemCode={itemCode}
+  customerItemCode={customerItemCode}
+  setCustomerItemCode={setCustomerItemCode}
+  lotNumber={lotNumber}
+  setLotNumber={setLotNumber}
+  setItemCode={setItemCode}
+  setProductNameEN={setProductNameEN}
+  setProductNameZH={setProductNameZH}
+  productNameEN={ productNameEN}
+  productNameZH={ productNameZH}
+  setIngredientInfo={setIngredientInfo}
+  ingredientInfo={ ingredientInfo}
+  setWeight={setWeight}
+  weight={ weight}
+  setManufacturedFor={setManufacturedFor}
+  setStorageRequirements={setStorageRequirements}
+  manufacturedFor={ manufacturedFor}
+  setWeightUnit={setWeightUnit}
+  weightUnit={ weightUnit}
+  caseQuantity={ caseQuantity}
+  setCaseQuantity={setCaseQuantity}
+  caseUnit={ caseUnit}
+  setCaseUnit={setCaseUnit}
+  storageRequirements={ storageRequirements}
+  defaultLabelStyle={defaultLabelStyle}
+  productNameENStyle={productNameENStyle}
+  productNameZHStyle={productNameZHStyle}
+  weightStyle={weightStyle}
+  weightUnitStyle={weightUnitStyle}
+  ingredientInfoStyle={ingredientInfoStyle}
+  manufacturedForStyle={manufacturedForStyle}
+  storageRequirementsStyle={storageRequirementsStyle}
+  editMode={editMode}
+  setEditMode={setEditMode}
+  logo={ logo}
+  setLogo={setLogo}
+  ref={contentRef}
+/>
       </PreviewContainer>
       <EditContainer>
         <Suspense
@@ -444,11 +481,15 @@ const AddNew = () => {
             <Skeleton variant="text" sx={{ fontSize: "2rem", width: "100%" }} />
           )}
         </Suspense>
-        <LabelForm
+          <LabelForm
           isEditedView={false}
           logo={logo}
           setLogo={setLogo}
           itemCode={itemCode}
+          customerItemCode={customerItemCode}
+          setCustomerItemCode={setCustomerItemCode}
+          lotNumber={lotNumber}
+          setLotNumber={setLotNumber}
           setItemCode={setItemCode}
           productNameEN={productNameEN}
           setProductNameEN={setProductNameEN}

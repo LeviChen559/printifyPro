@@ -1,4 +1,4 @@
-import React, { FC, FormEvent } from "react";
+import React, { FC, FormEvent,Dispatch,SetStateAction } from "react";
 import FormPropsTextFields from "@/components/FormPropsTextFields";
 import { Column, Form } from "./style";
 import Button from "@/components/button";
@@ -12,39 +12,43 @@ interface iProps {
   deleteLabel?: (id: number) => void;
   id?: number;
   logo: string;
-  setLogo: React.Dispatch<React.SetStateAction<string>>;
+  setLogo: Dispatch<SetStateAction<string>>;
   itemCode: string;
-  setItemCode: (value: string) => void;
+  setItemCode: Dispatch<SetStateAction<string>>;
+  customerItemCode: string;
+  setCustomerItemCode: Dispatch<SetStateAction<string>>;
+  lotNumber: string;
+  setLotNumber: Dispatch<SetStateAction<string>>;
   formError: {
     error: boolean;
     locale: string;
     message: string;
   };
   productNameEN: string;
-  setProductNameEN: (value: string) => void;
+  setProductNameEN: Dispatch<SetStateAction<string>>;
   productNameZH: string;
-  setProductNameZH: (value: string) => void;
+  setProductNameZH: Dispatch<SetStateAction<string>>;
   ingredientInfo: string;
-  setIngredientInfo: (value: string) => void;
+  setIngredientInfo: Dispatch<SetStateAction<string>>;
   weight: number;
-  setWeight: (value: number) => void;
+  setWeight: Dispatch<SetStateAction<number>>;
   weightUnit: string;
-  setWeightUnit: React.Dispatch<React.SetStateAction<string>>;
+  setWeightUnit: Dispatch<SetStateAction<string>>;
   caseQuantity: number;
-  setCaseQuantity: (value: number) => void;
+  setCaseQuantity: Dispatch<SetStateAction<number>>;
   caseUnit: string;
-  setCaseUnit: React.Dispatch<React.SetStateAction<string>>;
+  setCaseUnit: Dispatch<SetStateAction<string>>;
   caseGtin: string;
-  setCaseGtin: (value: string) => void;
+  setCaseGtin: Dispatch<SetStateAction<string>>;
   manufacturedFor: string;
-  setManufacturedFor: (value: string) => void;
+  setManufacturedFor: Dispatch<SetStateAction<string>>;
   storageRequirements: string;
-  setStorageRequirements: (value: string) => void;
+  setStorageRequirements: Dispatch<SetStateAction<string>>;
   shelfLife: number;
-  setShelfLife: (value: number) => void;
+  setShelfLife: Dispatch<SetStateAction<number>>;
   isEditedView: boolean;
   labelSize: string;
-  setLabelSize: React.Dispatch<React.SetStateAction<string>>;
+  setLabelSize: Dispatch<SetStateAction<string>>;
 }
 const commonTextFieldStyles = {
   width: "100%",
@@ -66,8 +70,8 @@ const LabelForm: FC<iProps> = (prop) => {
         >
            <DropdownMenu
           type="labelSize"
-          labelSize={prop.labelSize}
-          setLabelSize={prop.setLabelSize}
+          value={prop.labelSize}
+          onChange={prop.setLabelSize}
           error={prop.formError.error && prop.formError.locale === "labelSize"}
           helperText={
             prop.formError.error && prop.formError.locale === "labelSize"
@@ -78,8 +82,8 @@ const LabelForm: FC<iProps> = (prop) => {
         />
         <DropdownMenu
           type="logo"
-          logo={prop.logo}
-          setLogo={prop.setLogo}
+          value={prop.logo}
+          onChange={prop.setLogo}
           error={prop.formError.error && prop.formError.locale === "logo"}
           helperText={
             prop.formError.error && prop.formError.locale === "logo"
@@ -89,6 +93,12 @@ const LabelForm: FC<iProps> = (prop) => {
           width="100%"
         />
         </Box>
+        <Box
+         display={"flex"}
+         flexDirection={"row"}
+         flexWrap={"nowrap"}
+         gap={1}
+         alignItems={"center"}>
         <FormPropsTextFields
           id="item_code"
           label="item_code"
@@ -107,6 +117,43 @@ const LabelForm: FC<iProps> = (prop) => {
           }
           sx={commonTextFieldStyles}
         />
+         <FormPropsTextFields
+          id="Customer_item_code"
+          label="Customer_item_code"
+          value={prop.customerItemCode}
+          required={true}
+          type="text"
+          placeholder="customer_item_code"
+          background="#ffffff40"
+          onChange={(e) => prop.setCustomerItemCode(e.target.value.toString())}
+          startIcon={null}
+          error={prop.formError.error && prop.formError.locale === "Customer_item_code"}
+          helperText={
+            prop.formError.error && prop.formError.locale === "Customer_item_code"
+              ? prop.formError.message
+              : ""
+          }
+          sx={commonTextFieldStyles}
+        />
+         <FormPropsTextFields
+          id="Lot_number"
+          label="Lot_number"
+          value={prop.lotNumber}
+          required={true}
+          type="text"
+          placeholder="lot_Number"
+          background="#ffffff40"
+          onChange={(e) => prop.setLotNumber(e.target.value.toString())}
+          startIcon={null}
+          error={prop.formError.error && prop.formError.locale === "Lot_number"}
+          helperText={
+            prop.formError.error && prop.formError.locale === "Lot_number"
+              ? prop.formError.message
+              : ""
+          }
+          sx={commonTextFieldStyles}
+        />
+        </Box>
         <FormPropsTextFields
           id="product_name_en"
           label="Product Name (English)"
@@ -176,8 +223,8 @@ const LabelForm: FC<iProps> = (prop) => {
           />
           <DropdownMenu
             type="weight_unit"
-            weightUnit={prop.weightUnit}
-            setWeightUnit={prop.setWeightUnit}
+            value={prop.weightUnit}
+            onChange={prop.setWeightUnit}
             error={
               prop.formError.error && prop.formError.locale === "weight_unit"
             }
@@ -218,8 +265,8 @@ const LabelForm: FC<iProps> = (prop) => {
           />
           <DropdownMenu
             type="case_unit"
-            caseUnit={prop.caseUnit}
-            setCaseUnit={prop.setCaseUnit}
+            value={prop.caseUnit}
+            onChange={prop.setCaseUnit}
             error={
               prop.formError.error && prop.formError.locale === "case_unit"
             }
@@ -232,27 +279,19 @@ const LabelForm: FC<iProps> = (prop) => {
           />
         </Box>
         <Box display={"flex"} flexDirection={"row"} flexWrap={"nowrap"} gap={1}>
-          <FormPropsTextFields
-            id="storage_requirements"
-            label="Storage Requirements"
+        <DropdownMenu
+            type="storage_requirements"
             value={prop.storageRequirements}
-            required={true}
-            type="text"
-            background="#ffffff40"
-            placeholder="Storage Requirements"
-            onChange={(e) => prop.setStorageRequirements(e.target.value)}
-            startIcon={null}
+            onChange={prop.setStorageRequirements}
             error={
-              prop.formError.error &&
-              prop.formError.locale === "storage_requirements"
+              prop.formError.error && prop.formError.locale === "storage_requirements"
             }
             helperText={
-              prop.formError.error &&
-              prop.formError.locale === "storage_requirements"
+              prop.formError.error && prop.formError.locale === "storage_requirements"
                 ? prop.formError.message
                 : ""
             }
-            sx={commonTextFieldStyles}
+            width="60%"
           />
           <FormPropsTextFields
             id="shelf_life"

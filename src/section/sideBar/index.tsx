@@ -49,8 +49,8 @@ const SideBar = () => {
           margin: "16px 0",
         }}
       >
-        <LocalPrintshopIcon />{" "}
-        <Typography variant="h5" fontFamily={kanit.style.fontFamily}>
+        <LocalPrintshopIcon />
+        <Typography  fontFamily={kanit.style.fontFamily}>
           Printify Pro
         </Typography>
       </Box>

@@ -8,7 +8,7 @@ import Button from "@/components/button";
 import { CircularProgress, TextField } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import { iLabelStyle } from "@/type/labelType";
+import { iLabelStyle,iTextStyle } from "@/type/labelType";
 import useSWR from "swr";
 import { fetcher } from "@/utils/lib/fetcher";
 
@@ -59,6 +59,7 @@ const LabelPrintCard: FC<iProps> = (prop) => {
             labelActionCard: false,
             labelPrintCard: false,
             labelEditCard: false,
+            labelDuplicateCard: false,
             isLabelUpdated: false,
           }))
         }
@@ -75,11 +76,14 @@ const LabelPrintCard: FC<iProps> = (prop) => {
           productNameEN={prop.selectLabelInfo.product_name_en}
           productNameZH={prop.selectLabelInfo.product_name_zh}
           ingredientInfo={prop.selectLabelInfo.ingredient_info}
+          caseUnit={prop.selectLabelInfo.case_unit}
+          caseQuantity={prop.selectLabelInfo.case_quantity}
           weight={prop.selectLabelInfo.weight}
           manufacturedFor={prop.selectLabelInfo.manufactured_for}
+          storageRequirements={prop.selectLabelInfo.storage_requirements}
           weightUnit={prop.selectLabelInfo.weight_unit}
-          // productNameENStyle={ labelStyle.data[0].product_name_en as iTextStyle}
-          // productNameZHStyle={labelStyle.data[0].product_name_zh as iTextStyle}
+          productNameENStyle={ labelStyle.data[0].product_name_en as iTextStyle}
+          productNameZHStyle={labelStyle.data[0].product_name_zh as iTextStyle}
           defaultLabelStyle={labelStyle.data[0] as iLabelStyle}
         />
       </View>

@@ -1,4 +1,4 @@
-import React,{ forwardRef } from "react";
+import React,{ forwardRef,Dispatch,SetStateAction } from "react";
 import LabelCard4_4_a from "@/section/labelCards/4_4_a";
 import LabelCard4_6_a from "@/section/labelCards/4_6_a";
 import LabelCard4_4_b from "@/section/labelCards/4_4_b";
@@ -13,33 +13,37 @@ interface iProps {
   type: string;
   labelInput: iLabelInfo;
   itemCode?: string;
-  setItemCode?: (value: string) => void;
+  setItemCode?: Dispatch<SetStateAction<string>>;
+  customerItemCode?: string;
+  setCustomerItemCode?: Dispatch<SetStateAction<string>>;
+  lotNumber?: string;
+  setLotNumber?: Dispatch<SetStateAction<string>>;
   showProductNameZH?: boolean;
   showProductNameEN?: boolean;
   isEditedMode?: boolean;
   ref: React.RefObject<HTMLDivElement>;
-  setProductNameEN?: (value: string) => void;
-  setProductNameZH?: (value: string) => void;
+  setProductNameEN?: Dispatch<SetStateAction<string>>;
+  setProductNameZH?: Dispatch<SetStateAction<string>>;
   productNameEN?: string;
   productNameZH?: string;
-  setIngredientInfo?: (value: string) => void;
+  setIngredientInfo?: Dispatch<SetStateAction<string>>;
   ingredientInfo?: string;
-  setWeight?: (value: number) => void;
+  setWeight?: Dispatch<SetStateAction<number>>;
   weight?: number;
-  setManufacturedFor?: (value: string) => void;
+  setManufacturedFor?: Dispatch<SetStateAction<string>>;
   caseQuantity?: number;
-  setCaseQuantity?: (value: number) => void;
+  setCaseQuantity?: Dispatch<SetStateAction<number>>;
   caseUnit?:string;
-  setCaseUnit?: React.Dispatch<React.SetStateAction<string>>;
+  setCaseUnit?: Dispatch<SetStateAction<string>>;
   manufacturedFor?: string;
-  setWeightUnit?: React.Dispatch<React.SetStateAction<string>>;
+  setWeightUnit?: Dispatch<SetStateAction<string>>;
   storageRequirements?: string;
-  setStorageRequirements?: React.Dispatch<React.SetStateAction<string>>;
+  setStorageRequirements?: Dispatch<SetStateAction<string>>;
   weightUnit?: string;
   editMode?: string;
-  setEditMode?: (value: iEditedMode) => void;
+  setEditMode?:Dispatch<SetStateAction<iEditedMode>>;
   logo: string;
-  setLogo?: React.Dispatch<React.SetStateAction<string>>;
+  setLogo?: Dispatch<SetStateAction<string>>;
   productNameENStyle?: iTextStyle;
   productNameZHStyle?: iTextStyle;
   weightStyle?: iTextStyle;
@@ -52,11 +56,16 @@ interface iProps {
 
 export type Ref = HTMLDivElement;
 const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
+  
   return prop.type === "4x4_a" ? (
     <LabelCard4_4_a
       labelInfo={prop.labelInput}
       isEditedMode={prop.isEditedMode}
       itemCode={prop.itemCode}
+      customerItemCode={prop.customerItemCode}
+      setCustomerItemCode={prop.setCustomerItemCode}
+      lotNumber={prop.lotNumber}
+      setLotNumber={prop.setLotNumber}
       setItemCode={prop.setItemCode}
       setProductNameEN={prop.setProductNameEN}
       setProductNameZH={prop.setProductNameZH}
@@ -107,6 +116,10 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       manufacturedFor={prop.manufacturedFor}
       setWeightUnit={prop.setWeightUnit}
       weightUnit={prop.weightUnit}
+      caseQuantity={prop.caseQuantity}
+      setCaseQuantity={prop.setCaseQuantity}
+      caseUnit={prop.caseUnit}
+      setCaseUnit={prop.setCaseUnit}
       defaultLabelStyle={prop.defaultLabelStyle}
       productNameENStyle={prop.productNameENStyle}
       productNameZHStyle={prop.productNameZHStyle}
