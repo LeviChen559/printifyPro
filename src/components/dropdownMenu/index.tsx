@@ -48,7 +48,7 @@ interface iProps {
   readOnly?: boolean;
   error?: boolean;
   helperText?: string;
-  width?: string;
+  width?: number|string;
   isOnLabelCard?: boolean;
   onEditMode?: () => void;
 }

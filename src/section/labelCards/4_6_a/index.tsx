@@ -255,7 +255,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               type="weight_unit"
               value={prop.weightUnit as string}
               onChange={prop.setWeightUnit as (value: string) => void}
-              width="50px"
+              width={50}
               readOnly={!prop.isEditedMode}
               isOnLabelCard={true}
               onEditMode={() =>
@@ -296,7 +296,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           type="case_unit"
           value={prop.caseUnit as string}
           onChange={prop.setCaseUnit as (value: string) => void}
-          width={prop.isEditedMode ? "85px" : "50px"}
+          width={prop.isEditedMode ? 85 : 50}
           readOnly={!prop.isEditedMode}
           isOnLabelCard={true}
         />

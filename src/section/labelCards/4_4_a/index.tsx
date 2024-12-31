@@ -97,8 +97,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
         return 64;
     }
   };
-  console.log(" prop.defaultLabelStyle", 
-    prop.defaultLabelStyle);
+  console.log(" prop.defaultLabelStyle", prop.defaultLabelStyle);
 
   return (
     <Container id="labelCard" ref={ref}>
@@ -248,9 +247,12 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               border: prop.isEditedMode ? "1px solid #bcbcbc80" : "none",
               borderRadius: prop.isEditedMode ? "4px" : "none",
             }}
-            value={prop.customerItemCode ? prop.customerItemCode.toString() : "0"}
+            value={
+              prop.customerItemCode ? prop.customerItemCode.toString() : "0"
+            }
             onChange={(e) =>
-              prop.setCustomerItemCode && prop.setCustomerItemCode(e.target.value)
+              prop.setCustomerItemCode &&
+              prop.setCustomerItemCode(e.target.value)
             }
           />
         </Col>
@@ -331,7 +333,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           type="weight_unit"
           value={prop.weightUnit as string}
           onChange={prop.setWeightUnit as (value: string) => void}
-          width={prop.isEditedMode ? "75px" : "auto"}
+          width={prop.isEditedMode ? 75 : "auto"}
           readOnly={!prop.isEditedMode}
           isOnLabelCard={true}
         />
@@ -369,7 +371,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           type="case_unit"
           value={prop.caseUnit as string}
           onChange={prop.setCaseUnit as (value: string) => void}
-          width={prop.isEditedMode ? "85px" : "50px"}
+          width={prop.isEditedMode ? 85 : 50}
           readOnly={!prop.isEditedMode}
           isOnLabelCard={true}
         />
@@ -413,15 +415,14 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               placeholder="lot number"
               value={prop.labelInfo.lot_number}
               onChange={(e) =>
-                prop.setLotNumber &&
-                prop.setLotNumber(e.target.value)
+                prop.setLotNumber && prop.setLotNumber(e.target.value)
               }
             />
             <DropdownMenu
               type="storage_requirements"
               value={prop.storageRequirements as string}
               onChange={prop.setStorageRequirements as (value: string) => void}
-              width={"120px"}
+              width={120}
               readOnly={!prop.isEditedMode}
               isOnLabelCard={true}
             />
