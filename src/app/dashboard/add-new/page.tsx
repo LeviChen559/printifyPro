@@ -38,20 +38,20 @@ const AddNew = () => {
   const duplicatedLabel = searchParams.get('duplicatedLabel')
   
   const [logo, setLogo] = useState<string>("001");
-  const [labelSize, setLabelSize] = useState<string>("4x4_a");
+  const [labelTemp, setLabelTemp] = useState<string>("4x4_a");
   const [itemCode, setItemCode] = useState<string>("");
   const [customerItemCode, setCustomerItemCode] = useState<string>("");
   const [lotNumber, setLotNumber] = useState<string>("");
   const [productNameEN, setProductNameEN] = useState<string>("");
   const [productNameZH, setProductNameZH] = useState<string>("");
-  const [weight, setWeight] = useState<number>(0);
-  const [weightUnit, setWeightUnit] = useState<string>("g/tray");
+  const [weight, setWeight] = useState<string>("");
+  const [allergen, setAllergen] = useState<string>("");
   const [caseQuantity, setCaseQuantity] = useState<number>(0);
   const [caseUnit, setCaseUnit] = useState<string>("tray");
-  const [storageRequirements, setStorageRequirements] = useState<string>("Freezer");
-  const [shelfLife, setShelfLife] = useState<number>(1);
+  const [storage, setStorage] = useState<string>("Freezer");
+  const [shelfLife, setShelfLife] = useState<string>("");
   const [caseGtin, setCaseGtin] = useState<string>("000000000000");
-  const [ingredientInfo, setIngredientInfo] = useState<string>("");
+  const [ingredient, setIngredient] = useState<string>("");
   const [manufacturedFor, setManufacturedFor] = useState<string>("");
   const [sendAnewLabel, setSendAnewLabel] = useState<boolean>(false);
   const [editMode, setEditMode] = useState<iEditedMode>(iEditedMode.empty);
@@ -63,11 +63,10 @@ const AddNew = () => {
       
       setProductNameEN(parsedData.product_name_en || "");
       setProductNameZH(parsedData.product_name_zh || "");
-      setIngredientInfo(parsedData.ingredient_info || "");
+      setIngredient(parsedData.ingredient || "");
       setWeight(parsedData.weight || "");
-      setWeightUnit(parsedData.weight_unit || "");
-      setManufacturedFor(parsedData.manufactured_for || "");
-      setStorageRequirements(parsedData.storage_requirements || "");
+      setManufacturedFor(parsedData.manufactured || "");
+      setStorage(parsedData.storage || "");
       setCaseQuantity(parsedData.case_quantity || "");
       setCaseUnit(parsedData.case_unit || "");
       setLogo(parsedData.logo || "");
@@ -92,14 +91,14 @@ const AddNew = () => {
     useState<iTextStyle>(defaultHeaderStyle);
   const [productNameZHStyle, setProductNameZHStyle] =
     useState<iTextStyle>(defaultHeaderStyle);
-  const [ingredientInfoStyle, setIngredientInfoStyle] =
+  const [ingredientStyle, setingredientStyle] =
     useState<iTextStyle>(defaultTextStyle);
   const [manufacturedForStyle, setManufacturedForStyle] =
     useState<iTextStyle>(defaultTextStyle);
   const [weightStyle, setWeightStyle] = useState<iTextStyle>(defaultTextStyle);
-  const [weightUnitStyle, setWeightUnitStyle] =
+  const [allergenStyle, setAllergenStyle] =
     useState<iTextStyle>(defaultTextStyle);
-  const [storageRequirementsStyle, setStorageRequirementsStyle] =
+  const [storageStyle, setStorageStyle] =
     useState<iTextStyle>(defaultTextStyle);
 
   useEffect(() => {
@@ -123,11 +122,6 @@ const AddNew = () => {
       },
       { field: weight, message: "Net Weight is required", locale: "weight" },
       {
-        field: weightUnit,
-        message: "Weight Unit is required",
-        locale: "weight_unit",
-      },
-      {
         field: caseQuantity,
         message: "Case Quantity is required",
         locale: "case_quantity",
@@ -138,9 +132,9 @@ const AddNew = () => {
         locale: "case_unit",
       },
       {
-        field: storageRequirements,
+        field: storage,
         message: "Storage Requirements is required",
-        locale: "storage_requirements",
+        locale: "storage",
       },
       {
         field: shelfLife,
@@ -148,14 +142,14 @@ const AddNew = () => {
         locale: "shelf_life",
       },
       {
-        field: ingredientInfo,
+        field: ingredient,
         message: "Ingredient Info is required",
-        locale: "ingredient_info",
+        locale: "ingredient",
       },
       {
         field: manufacturedFor,
         message: "Manufactured For is required",
-        locale: "manufactured_for",
+        locale: "manufactured",
       },
       {
         field: caseGtin,
@@ -188,13 +182,12 @@ const AddNew = () => {
     productNameEN,
     productNameZH,
     weight,
-    weightUnit,
     caseQuantity,
     caseUnit,
-    storageRequirements,
+    storage,
     shelfLife,
     caseGtin,
-    ingredientInfo,
+    ingredient,
     manufacturedFor,
     submitClicked,
   ]);
@@ -220,17 +213,17 @@ const AddNew = () => {
     product_name_en: productNameEN,
     product_name_zh: productNameZH,
     weight: weight,
-    weight_unit: weightUnit,
     case_quantity: caseQuantity,
     case_unit: caseUnit,
-    storage_requirements: storageRequirements,
+    storage: storage,
     shelf_life: shelfLife,
     case_gtin: caseGtin,
-    ingredient_info: ingredientInfo,
-    manufactured_for: manufacturedFor,
-    label_size: labelSize,
+    ingredient: ingredient,
+    manufactured: manufacturedFor,
+    label_temp: labelTemp,
+    allergen: allergen
   };
-  console.log("labelInput", labelInput);
+
 
   const defaultLabelStyle = {
     id: lastItem && lastItem.id + 1,
@@ -240,14 +233,14 @@ const AddNew = () => {
     product_name_en: productNameENStyle,
     product_name_zh: productNameZHStyle,
     weight: weightStyle,
-   weight_unit: weightUnitStyle,
+    allergen: allergenStyle,
     case_quantity: defaultTextStyle,
     case_unit: defaultTextStyle,
-    storage_requirements: defaultTextStyle,
+    storage: defaultTextStyle,
     shelf_life: defaultTextStyle,
     case_gtin: defaultTextStyle,
-    ingredient_info: ingredientInfoStyle,
-    manufactured_for: manufacturedForStyle
+    ingredient: ingredientStyle,
+    manufactured: manufacturedForStyle
   };
 
   useEffect(() => {
@@ -316,14 +309,14 @@ const AddNew = () => {
         ...prevStyle,
         [styleType]: value, // Dynamically update the style property based on styleType
       }));
-    } else if (dataType === iEditedMode.ingredientInfo) {
+    } else if (dataType === iEditedMode.ingredient) {
       const value =
         styleType === iTextStyleMode.fontSize ||
         styleType === iTextStyleMode.fontWeight
           ? Number(event.target.value) // Convert to number for fontSize or fontWeight
           : event.target.value; // Keep as string for other properties
 
-      setIngredientInfoStyle((prevStyle: iTextStyle) => ({
+      setingredientStyle((prevStyle: iTextStyle) => ({
         ...prevStyle,
         [styleType]: value, // Dynamically update the style property based on styleType
       }));
@@ -338,14 +331,14 @@ const AddNew = () => {
         ...prevStyle,
         [styleType]: value, // Dynamically update the style property based on styleType
       }));
-    } else if (dataType === iEditedMode.weightUnit) {
+    } else if (dataType === iEditedMode.allergen) {
       const value =
         styleType === iTextStyleMode.fontSize ||
         styleType === iTextStyleMode.fontWeight
           ? Number(event.target.value) // Convert to number for fontSize or fontWeight
           : event.target.value; // Keep as string for other properties
 
-      setWeightUnitStyle((prevStyle: iTextStyle) => ({
+      setAllergenStyle((prevStyle: iTextStyle) => ({
         ...prevStyle,
         [styleType]: value, // Dynamically update the style property based on styleType
       }));
@@ -360,14 +353,14 @@ const AddNew = () => {
         ...prevStyle,
         [styleType]: value, // Dynamically update the style property based on styleType
       }));
-    } else if (dataType === iEditedMode.storageRequirements) {
+    } else if (dataType === iEditedMode.storage) {
       const value =
         styleType === iTextStyleMode.fontSize ||
         styleType === iTextStyleMode.fontWeight
           ? Number(event.target.value) // Convert to number for fontSize or fontWeight
           : event.target.value; // Keep as string for other properties
 
-      setStorageRequirementsStyle((prevStyle: iTextStyle) => ({
+      setStorageStyle((prevStyle: iTextStyle) => ({
         ...prevStyle,
         [styleType]: value, // Dynamically update the style property based on styleType
       }));
@@ -417,14 +410,14 @@ const AddNew = () => {
           productNameENStyle={productNameENStyle}
           productNameZHStyle={productNameZHStyle}
           weightStyle={weightStyle}
-          weightUnitStyle={weightUnitStyle}
-          ingredientInfoStyle={ingredientInfoStyle}
+          ingredientStyle={ingredientStyle}
           manufacturedForStyle={manufacturedForStyle}
-          storageRequirementsStyle={storageRequirementsStyle}
+          storageStyle={storageStyle}
           handleChange={handleChange}
+          allergenStyle={allergenStyle}
         />
        <LabelCard
-  type={labelSize}
+  type={labelTemp}
   labelInput={labelInput}
   isEditedMode
   itemCode={itemCode}
@@ -437,28 +430,28 @@ const AddNew = () => {
   setProductNameZH={setProductNameZH}
   productNameEN={ productNameEN}
   productNameZH={ productNameZH}
-  setIngredientInfo={setIngredientInfo}
-  ingredientInfo={ ingredientInfo}
+  setIngredient={setIngredient}
+  ingredient={ ingredient}
   setWeight={setWeight}
   weight={ weight}
+  allergen={allergen}
+  setAllergen={setAllergen}
   setManufacturedFor={setManufacturedFor}
-  setStorageRequirements={setStorageRequirements}
+  setStorage={setStorage}
   manufacturedFor={ manufacturedFor}
-  setWeightUnit={setWeightUnit}
-  weightUnit={ weightUnit}
   caseQuantity={ caseQuantity}
   setCaseQuantity={setCaseQuantity}
   caseUnit={ caseUnit}
   setCaseUnit={setCaseUnit}
-  storageRequirements={ storageRequirements}
+  storage={ storage}
   defaultLabelStyle={defaultLabelStyle}
   productNameENStyle={productNameENStyle}
   productNameZHStyle={productNameZHStyle}
   weightStyle={weightStyle}
-  weightUnitStyle={weightUnitStyle}
-  ingredientInfoStyle={ingredientInfoStyle}
+  allergenStyle={allergenStyle}
+  ingredientStyle={ingredientStyle}
   manufacturedForStyle={manufacturedForStyle}
-  storageRequirementsStyle={storageRequirementsStyle}
+  storageStyle={storageStyle}
   editMode={editMode}
   setEditMode={setEditMode}
   logo={ logo}
@@ -495,12 +488,10 @@ const AddNew = () => {
           setProductNameEN={setProductNameEN}
           productNameZH={productNameZH}
           setProductNameZH={setProductNameZH}
-          ingredientInfo={ingredientInfo}
-          setIngredientInfo={setIngredientInfo}
+          ingredient={ingredient}
+          setIngredient={setIngredient}
           weight={weight}
           setWeight={setWeight}
-          weightUnit={weightUnit}
-          setWeightUnit={setWeightUnit}
           caseQuantity={caseQuantity}
           setCaseQuantity={setCaseQuantity}
           caseUnit={caseUnit}
@@ -509,14 +500,16 @@ const AddNew = () => {
           setCaseGtin={setCaseGtin}
           manufacturedFor={manufacturedFor}
           setManufacturedFor={setManufacturedFor}
-          storageRequirements={storageRequirements}
-          setStorageRequirements={setStorageRequirements}
+          storage={storage}
+          setStorage={setStorage}
           shelfLife={shelfLife}
           setShelfLife={setShelfLife}
           formError={formError}
           createNewLabel={createNewLabel}
-          setLabelSize={setLabelSize}
-          labelSize={labelSize}
+          setLabelTemp={setLabelTemp}
+          labelTemp={labelTemp}
+          allergen={allergen}
+          setAllergen={setAllergen}
         />
       </EditContainer>
       {sendAnewLabel && (

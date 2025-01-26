@@ -20,39 +20,41 @@ model activities {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model labelstyle {
-  id                   Int   @id @db.SmallInt
-  item_code            Json  @db.Json
-  product_name_en      Json  @db.Json
-  product_name_zh      Json  @db.Json
-  ingredient_info      Json  @db.Json
-  weight               Json  @db.Json
-  weight_unit          Json  @db.Json
-  storage_requirements Json  @db.Json
-  manufactured_for     Json  @db.Json
-  case_quantity        Json  @db.Json
-  case_unit            Json  @db.Json
-  best_before          Json  @db.Json
-  customer_item_code   Json? @db.Json
-  lot_number           Json? @db.Json
+  id              Int   @id @db.SmallInt
+  item_code       Json  @db.Json
+  lot_number      Json? @db.Json
+  product_name_en Json  @db.Json
+  product_name_zh Json  @db.Json
+  ingredient      Json  @db.Json
+  weight          Json  @db.Json
+  storage         Json  @db.Json
+  manufactured    Json  @db.Json
+  case_quantity   Json  @db.Json
+  case_unit       Json  @db.Json
+  best_before     Json  @db.Json
+  allergen        Json  @db.Json
+  shelf_life      Json  @default("{\"fontStyle\":\"Normal\",\"color\":\"#000000\",\"fontSize\":14,\"fontFamily\":\"Arial\",\"fontWeight\":400,\"rows\":1,\"lineHeight\":1.2}") @db.Json
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model mylabels {
-  id                   Int     @id @default(autoincrement())
-  item_code            String  @db.VarChar(255)
-  product_name_en      String  @db.VarChar(255)
-  product_name_zh      String  @db.VarChar(255)
-  weight               Int     @db.SmallInt
-  weight_unit          String  @db.VarChar(50)
-  case_quantity        Int     @db.SmallInt
-  case_unit            String  @db.VarChar(50)
-  storage_requirements String  @db.VarChar(255)
-  shelf_life           Int     @db.SmallInt
-  case_gtin            String  @db.VarChar(255)
-  ingredient_info      String? @db.VarChar(500)
-  manufactured_for     String? @db.VarChar(255)
-  logo                 String? @default("001") @db.VarChar(255)
-  label_size           String? @default("4x6") @db.VarChar(50)
+  id              Int     @id @default(autoincrement())
+  logo            String? @default("1") @db.VarChar(50)
+  item_code       String  @db.VarChar(50)
+  lot_number      String? @db.VarChar(50)
+  label_temp      String? @default("4x4_a") @db.VarChar(50)
+  product_name_en String  @db.VarChar(255)
+  product_name_zh String  @db.VarChar(255)
+  weight          String  @db.VarChar(100)
+  case_quantity   Int     @db.SmallInt
+  case_unit       String  @db.VarChar(50)
+  storage         String  @db.VarChar(50)
+  shelf_life      String? @db.VarChar(50)
+  case_gtin       String? @db.VarChar(50)
+  ingredient      String? @db.VarChar(1500)
+  allergen        String? @db.VarChar(100)
+  manufactured    String? @db.VarChar(255)
+  barcode         String? @default("1") @db.VarChar(50)
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.

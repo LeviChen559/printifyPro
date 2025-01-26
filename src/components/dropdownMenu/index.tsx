@@ -9,7 +9,7 @@ type DropdownType =
   | "logo"
   | "labelSize"
   | "case_unit"
-  | "storage_requirements";
+  | "storage";
 
 export enum CaseUnitType {
   "tray" = "tray",
@@ -36,7 +36,7 @@ export enum StorageType {
 const DROPDOWN_OPTIONS = {
   weight_unit: Object.values(WeightUnitType),
   case_unit: Object.values(CaseUnitType),
-  storage_requirements: Object.values(StorageType),
+  storage: Object.values(StorageType),
   logo: ["001", "002", "003", "004"],
   labelSize: ["4x4_a", "4x4_b", "4x6_a"],
 } as const;

@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     // Fetch data from the mylabels table using Prisma
     const newActivety: iActivities = await prisma.activities.create({
       data:{
-        // id: lastActivity.id + 1,
+        id: data.id + 1,
         event: data.event,
         label_code: data.label_code,
         username: data.username,

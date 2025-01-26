@@ -35,13 +35,12 @@ export async function PATCH(req: NextRequest) {
         ...(labelInfo.product_name_en && { product_name_en: labelInfo.product_name_en }),
         ...(labelInfo.product_name_zh && { product_name_zh: labelInfo.product_name_zh }),
         ...(labelInfo.weight && { weight: labelInfo.weight }),
-        ...(labelInfo.weight_unit && { weight_unit: labelInfo.weight_unit }),
         ...(labelInfo.case_quantity && { case_quantity: labelInfo.case_quantity }),
-        ...(labelInfo.storage_requirements && { storage_requirements: labelInfo.storage_requirements }),
+        ...(labelInfo.storage && { storage: labelInfo.storage }),
         ...(labelInfo.shelf_life && { shelf_life: labelInfo.shelf_life }),
         ...(labelInfo.case_gtin && { case_gtin: labelInfo.case_gtin }),
-        ...(labelInfo.ingredient_info && { ingredient_info: labelInfo.ingredient_info }),
-        ...(labelInfo.label_size && { label_size: labelInfo.label_size }),
+        ...(labelInfo.ingredient && { ingredient: labelInfo.ingredient }),
+        ...(labelInfo.label_temp && { label_temp: labelInfo.label_temp }),
         ...(labelInfo.logo && { logo: labelInfo.logo }),
       };
     
@@ -57,13 +56,10 @@ export async function PATCH(req: NextRequest) {
     const styleFieldsToUpdate = {
         ...(labelStyle.product_name_en && { product_name_en: labelStyle.product_name_en }),
         ...(labelStyle.product_name_zh && { product_name_zh: labelStyle.product_name_zh }),
-        // ...(labelStyle.weight && { weight: labelStyle.weight }),
-        // ...(labelStyle.weight_unit && { weight_unit: labelStyle.weight_unit }),
-        // ...(labelStyle.case_quantity && { case_quantity: labelStyle.case_quantity }),
-        // ...(labelStyle.storage_requirements && { storage_requirements: labelStyle.storage_requirements }),
-        // ...(labelStyle.shelf_life && { shelf_life: labelStyle.shelf_life }),
-        // ...(labelStyle.case_gtin && { case_gtin: labelStyle.case_gtin }),
-        // ...(labelStyle.ingredient_info && { ingredient_info: labelStyle.ingredient_info }),
+        ...(labelStyle.ingredient && { ingredient: labelStyle.ingredient }),
+        ...(labelStyle.allergen && { allergen: labelStyle.allergen }),
+        ...(labelStyle.manufactured && { manufactured: labelStyle.manufactured }),
+
       };
   
       // Check if there are fields to update in labelStyle
@@ -73,7 +69,7 @@ export async function PATCH(req: NextRequest) {
           { status: 400 }
         );
       }
-    //   console.log("styleFieldsToUpdate",styleFieldsToUpdate)
+      console.log("styleFieldsToUpdate",styleFieldsToUpdate)
     try {
         const updatedLabel = await prisma.mylabels.update({
             where: { id:labelInfo.id },

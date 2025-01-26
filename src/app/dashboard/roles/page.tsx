@@ -56,7 +56,6 @@ const AdminDashboard = () => {
     );
   }
   
-  console.log("userData", userData);
   if (userData.user?.role !== "admin") {
     setTimeout(() => {
       router.push("/dashboard/mylabels");

@@ -14,7 +14,7 @@ const options = [
   "Product_ZH",
   "Item_Code",
   "Case_Gtin",
-  "Ingredient_info",
+  "ingredient",
 ];
 interface iPeops {
   setSearch: (searchProps: iCustomerSearchProps) => void;

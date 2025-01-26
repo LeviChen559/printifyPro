@@ -6,6 +6,7 @@ import { Box } from "@mui/material";
 import DropdownMenu from "@/components/dropdownMenu";
 
 
+
 interface iProps {
   createNewLabel?: (event: FormEvent<HTMLFormElement>) => void;
   updateLabel?: (event: FormEvent<HTMLFormElement>) => void;
@@ -28,12 +29,10 @@ interface iProps {
   setProductNameEN: Dispatch<SetStateAction<string>>;
   productNameZH: string;
   setProductNameZH: Dispatch<SetStateAction<string>>;
-  ingredientInfo: string;
-  setIngredientInfo: Dispatch<SetStateAction<string>>;
-  weight: number;
-  setWeight: Dispatch<SetStateAction<number>>;
-  weightUnit: string;
-  setWeightUnit: Dispatch<SetStateAction<string>>;
+  ingredient: string;
+  setIngredient: Dispatch<SetStateAction<string>>;
+  weight: string;
+  setWeight: Dispatch<SetStateAction<string>>;
   caseQuantity: number;
   setCaseQuantity: Dispatch<SetStateAction<number>>;
   caseUnit: string;
@@ -42,13 +41,15 @@ interface iProps {
   setCaseGtin: Dispatch<SetStateAction<string>>;
   manufacturedFor: string;
   setManufacturedFor: Dispatch<SetStateAction<string>>;
-  storageRequirements: string;
-  setStorageRequirements: Dispatch<SetStateAction<string>>;
-  shelfLife: number;
-  setShelfLife: Dispatch<SetStateAction<number>>;
+  storage: string;
+  setStorage: Dispatch<SetStateAction<string>>;
+  shelfLife: string;
+  setShelfLife: Dispatch<SetStateAction<string>>;
   isEditedView: boolean;
-  labelSize: string;
-  setLabelSize: Dispatch<SetStateAction<string>>;
+  labelTemp: string;
+  setLabelTemp: Dispatch<SetStateAction<string>>;
+  allergen:string
+  setAllergen:Dispatch<SetStateAction<string>>;
 }
 const commonTextFieldStyles = {
   width: "100%",
@@ -70,8 +71,8 @@ const LabelForm: FC<iProps> = (prop) => {
         >
            <DropdownMenu
           type="labelSize"
-          value={prop.labelSize}
-          onChange={prop.setLabelSize}
+          value={prop.labelTemp}
+          onChange={prop.setLabelTemp}
           error={prop.formError.error && prop.formError.locale === "labelSize"}
           helperText={
             prop.formError.error && prop.formError.locale === "labelSize"
@@ -121,7 +122,7 @@ const LabelForm: FC<iProps> = (prop) => {
           id="Customer_item_code"
           label="Customer_item_code"
           value={prop.customerItemCode}
-          required={true}
+          required={false}
           type="text"
           placeholder="customer_item_code"
           background="#ffffff40"
@@ -139,7 +140,7 @@ const LabelForm: FC<iProps> = (prop) => {
           id="Lot_number"
           label="Lot_number"
           value={prop.lotNumber}
-          required={true}
+          required={false}
           type="text"
           placeholder="lot_Number"
           background="#ffffff40"
@@ -204,12 +205,12 @@ const LabelForm: FC<iProps> = (prop) => {
           <FormPropsTextFields
             id="Net_Weight"
             label="Net Weight"
-            value={prop.weight.toString()}
+            value={prop.weight}
             required={true}
-            type="number"
+            type="text"
             background="#ffffff40"
             placeholder="Net Weight"
-            onChange={(e) => prop.setWeight(Number(e.target.value))}
+            onChange={(e) => prop.setWeight(e.target.value)}
             startIcon={null}
             error={
               prop.formError.error && prop.formError.locale === "Net_Weight"
@@ -221,7 +222,7 @@ const LabelForm: FC<iProps> = (prop) => {
             }
             sx={commonTextFieldStyles}
           />
-          <DropdownMenu
+          {/* <DropdownMenu
             type="weight_unit"
             value={prop.weightUnit}
             onChange={prop.setWeightUnit}
@@ -234,7 +235,7 @@ const LabelForm: FC<iProps> = (prop) => {
                 : ""
             }
             width="60%"
-          />
+          /> */}
         </Box>
         <Box
           display={"flex"}
@@ -262,8 +263,28 @@ const LabelForm: FC<iProps> = (prop) => {
                 : ""
             }
             sx={commonTextFieldStyles}
-          />
-          <DropdownMenu
+          /> 
+          <FormPropsTextFields
+          id="case_unit"
+          label="Case Unit"
+          value={prop.caseUnit}
+          required={true}
+          type="string"
+          background="#ffffff40"
+          placeholder="Shelf Life"
+          onChange={(e) => prop.setCaseUnit(e.target.value)}
+          startIcon={null}
+          error={
+            prop.formError.error && prop.formError.locale === "case_unit"
+          }
+          helperText={
+            prop.formError.error && prop.formError.locale === "case_unit"
+              ? prop.formError.message
+              : ""
+          }
+          sx={commonTextFieldStyles}
+        />
+          {/* <DropdownMenu
             type="case_unit"
             value={prop.caseUnit}
             onChange={prop.setCaseUnit}
@@ -276,32 +297,52 @@ const LabelForm: FC<iProps> = (prop) => {
                 : ""
             }
             width="60%"
-          />
+          /> */}
         </Box>
         <Box display={"flex"} flexDirection={"row"} flexWrap={"nowrap"} gap={1}>
-        <DropdownMenu
-            type="storage_requirements"
-            value={prop.storageRequirements}
-            onChange={prop.setStorageRequirements}
+        <FormPropsTextFields
+          id="storage"
+          label="Storage"
+          value={prop.storage}
+          required={true}
+          type="string"
+          background="#ffffff40"
+          placeholder="Freezer/Coooler"
+          onChange={(e) => prop.setStorage(e.target.value)}
+          startIcon={null}
+          error={
+            prop.formError.error && prop.formError.locale === "case_unit"
+          }
+          helperText={
+            prop.formError.error && prop.formError.locale === "case_unit"
+              ? prop.formError.message
+              : ""
+          }
+          sx={commonTextFieldStyles}
+        /> 
+        {/* <DropdownMenu
+            type="storage"
+            value={prop.storage}
+            onChange={prop.setStorage}
             error={
-              prop.formError.error && prop.formError.locale === "storage_requirements"
+              prop.formError.error && prop.formError.locale === "storage"
             }
             helperText={
-              prop.formError.error && prop.formError.locale === "storage_requirements"
+              prop.formError.error && prop.formError.locale === "storage"
                 ? prop.formError.message
                 : ""
             }
             width="60%"
-          />
+          /> */}
           <FormPropsTextFields
             id="shelf_life"
             label="Shelf Life"
-            value={prop.shelfLife.toString()}
+            value={prop.shelfLife}
             required={true}
-            type="number"
+            type="string"
             background="#ffffff40"
             placeholder="Shelf Life"
-            onChange={(e) => prop.setShelfLife(Number(e.target.value))}
+            onChange={(e) => prop.setShelfLife(e.target.value)}
             startIcon={null}
             error={
               prop.formError.error && prop.formError.locale === "shelf_life"
@@ -333,21 +374,42 @@ const LabelForm: FC<iProps> = (prop) => {
           sx={commonTextFieldStyles}
         />
         <FormPropsTextFields
-          id="ingredient_info"
-          label="ingredient_info"
-          value={prop.ingredientInfo}
+          id="ingredient"
+          label="ingredient"
+          value={prop.ingredient}
           required={true}
           type="text"
-          rows={10.5}
+          rows={8}
           background="#ffffff80"
           placeholder="Case GTIN"
-          onChange={(e) => prop.setIngredientInfo(e.target.value)}
+          onChange={(e) => prop.setIngredient(e.target.value)}
           startIcon={null}
           error={
-            prop.formError.error && prop.formError.locale === "ingredient_info"
+            prop.formError.error && prop.formError.locale === "ingredient"
           }
           helperText={
-            prop.formError.error && prop.formError.locale === "ingredient_info"
+            prop.formError.error && prop.formError.locale === "ingredient"
+              ? prop.formError.message
+              : ""
+          }
+          sx={{ width: "100%", padding: 0 }}
+        />
+         <FormPropsTextFields
+          id="allergen"
+          label="allergen"
+          value={prop.allergen}
+          required={false}
+          type="text"
+          rows={2}
+          background="#ffffff80"
+          placeholder="allergen"
+          onChange={(e) => prop.setAllergen(e.target.value)}
+          startIcon={null}
+          error={
+            prop.formError.error && prop.formError.locale === "manufacturedFor"
+          }
+          helperText={
+            prop.formError.error && prop.formError.locale === "manufacturedFor"
               ? prop.formError.message
               : ""
           }
@@ -357,9 +419,9 @@ const LabelForm: FC<iProps> = (prop) => {
           id="manufacturedFor"
           label="ManufacturedFor"
           value={prop.manufacturedFor}
-          required={true}
+          required={false}
           type="text"
-          rows={3}
+          rows={2}
           background="#ffffff80"
           placeholder="addresses"
           onChange={(e) => prop.setManufacturedFor(e.target.value)}

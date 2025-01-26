@@ -15,6 +15,7 @@ import "react-edit-text/dist/index.css";
 import DropdownMenu from "@/components/dropdownMenu";
 import { iEditedMode, iLabelStyle, iTextStyle } from "@/type/labelType";
 import LabelLogo from "@/components/logo";
+import {rowHeightConverter} from "../index"
 
 interface iProp {
   labelInfo: iLabelInfo;
@@ -26,10 +27,10 @@ interface iProp {
   setProductNameZH?: Dispatch<SetStateAction<string>>;
   productNameEN?: string;
   productNameZH?: string;
-  setIngredientInfo?: Dispatch<SetStateAction<string>>;
-  ingredientInfo?: string;
-  setWeight?: Dispatch<SetStateAction<number>>;
-  weight?: number;
+  setIngredient?: Dispatch<SetStateAction<string>>;
+  ingredient?: string;
+  setWeight?: Dispatch<SetStateAction<string>>;
+  weight?: string;
   setManufacturedFor?: Dispatch<SetStateAction<string>>;
   caseQuantity?: number;
   setCaseQuantity?: Dispatch<SetStateAction<number>>;
@@ -37,16 +38,16 @@ interface iProp {
   setCaseUnit?: Dispatch<SetStateAction<string>>;
   manufacturedFor?: string;
   setWeightUnit?: Dispatch<SetStateAction<string>>;
-  setStorageRequirements?: Dispatch<SetStateAction<string>>;
+  setStorage?: Dispatch<SetStateAction<string>>;
   weightUnit?: string;
   editMode?: string;
   setEditMode?: (value: iEditedMode) => void;
   productNameENStyle?: iTextStyle;
   productNameZHStyle?: iTextStyle;
   weightStyle?: iTextStyle;
-  ingredientInfoStyle?: iTextStyle;
+  ingredientStyle?: iTextStyle;
   manufacturedForStyle?: iTextStyle;
-  storageRequirementsStyle?: iTextStyle;
+  storageStyle?: iTextStyle;
   weightUnitStyle?: iTextStyle;
   defaultLabelStyle: iLabelStyle;
   logo: string;
@@ -54,16 +55,16 @@ interface iProp {
 export type Ref = HTMLDivElement;
 
 const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
-  const now = new Date();
-  const bestByValue = new Date(
-    now.getTime() + prop.labelInfo.shelf_life * 24 * 60 * 60 * 1000
-  );
-  const formattedDate =
-    String(bestByValue.getDate()).padStart(2, "0") +
-    "/" +
-    String(bestByValue.getMonth() + 1).padStart(2, "0") +
-    "/" +
-    bestByValue.getFullYear();
+  // const now = new Date();
+  // const bestByValue = new Date(
+  //   now.getTime() + prop.labelInfo.shelf_life * 24 * 60 * 60 * 1000
+  // );
+  // const formattedDate =
+  //   String(bestByValue.getDate()).padStart(2, "0") +
+  //   "/" +
+  //   String(bestByValue.getMonth() + 1).padStart(2, "0") +
+  //   "/" +
+  //   bestByValue.getFullYear();
 
   return (
     <Container id="labelCard" ref={ref}>
@@ -80,6 +81,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               display: "flex",
               alignItems: "center",
               padding: "0px",
+              height:32,
               background: "transparent",
               fontSize: prop.productNameENStyle
                 ? prop.productNameENStyle.fontSize
@@ -143,6 +145,12 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
                   prop.defaultLabelStyle.product_name_zh.fontWeight,
               border: prop.isEditedMode ? "1px solid #bcbcbc80" : "none",
               borderRadius: prop.isEditedMode ? "4px" : "none",
+              overflow: "hidden", // Hide scrollbar for a clean look
+              whiteSpace: "pre-wrap", // Allows text to wrap to the next line
+              overflowWrap: "break-word", // Breaks long words if necessary
+              resize: "none", // Prevents resizing to maintain consistent font size view
+              lineHeight: prop.productNameENStyle?.lineHeight, // Adjust for consistent spacing
+              height: rowHeightConverter(prop.productNameENStyle?.rows ?? 2),
             }}
             value={prop.productNameZH}
             onChange={(e) =>
@@ -153,37 +161,37 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
       </Header>
       <Ingredients>
         <Typography width={"100%"}>Ingredients:</Typography>
-        <div style={{ width: "100%", overflow: "hidden", height: 64 }}>
+        <div style={{ width: "100%", overflow: "hidden", height: "100%" }}>
           <EditTextarea
             readonly={!prop.isEditedMode}
             onEditMode={() =>
-              prop.setEditMode && prop.setEditMode(iEditedMode.ingredientInfo)
+              prop.setEditMode && prop.setEditMode(iEditedMode.ingredient)
             }
             style={{
               width: "100%",
               height: "100%",
               padding: "0px",
               margin: "0px",
-              fontSize: prop.ingredientInfoStyle
-                ? prop.ingredientInfoStyle.fontSize
+              fontSize: prop.ingredientStyle
+                ? prop.ingredientStyle.fontSize
                 : prop.defaultLabelStyle &&
-                 prop.defaultLabelStyle.ingredient_info.fontSize,
-              fontFamily: prop.ingredientInfoStyle
-                ? prop.ingredientInfoStyle.fontFamily
+                 prop.defaultLabelStyle.ingredient.fontSize,
+              fontFamily: prop.ingredientStyle
+                ? prop.ingredientStyle.fontFamily
                 : prop.defaultLabelStyle &&
-                 prop.defaultLabelStyle.ingredient_info.fontFamily,
-              color: prop.ingredientInfoStyle
-                ? prop.ingredientInfoStyle.color
+                 prop.defaultLabelStyle.ingredient.fontFamily,
+              color: prop.ingredientStyle
+                ? prop.ingredientStyle.color
                 : prop.defaultLabelStyle &&
-                 prop.defaultLabelStyle.ingredient_info.color,
-              fontStyle: prop.ingredientInfoStyle
-                ? prop.ingredientInfoStyle.fontStyle
+                 prop.defaultLabelStyle.ingredient.color,
+              fontStyle: prop.ingredientStyle
+                ? prop.ingredientStyle.fontStyle
                 : prop.defaultLabelStyle &&
-                 prop.defaultLabelStyle.ingredient_info.fontStyle,
-              fontWeight: prop.ingredientInfoStyle
-                ? prop.ingredientInfoStyle.fontWeight
+                 prop.defaultLabelStyle.ingredient.fontStyle,
+              fontWeight: prop.ingredientStyle
+                ? prop.ingredientStyle.fontWeight
                 : prop.defaultLabelStyle &&
-                 prop.defaultLabelStyle.ingredient_info.fontWeight,
+                 prop.defaultLabelStyle.ingredient.fontWeight,
               background: "transparent",
               overflow: "hidden", // Hide scrollbar for a clean look
               whiteSpace: "pre-line", // Ensures text wraps correctly
@@ -193,11 +201,11 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               border: prop.isEditedMode ? "1px solid #bcbcbc80" : "none",
               borderRadius: prop.isEditedMode ? "4px" : "none",
             }}
-            rows={2}
-            placeholder="ingredientInfo"
-            value={prop.ingredientInfo}
+            rows={prop.ingredientStyle?.rows??4}
+            placeholder="ingredient"
+            value={prop.ingredient}
             onChange={(e) => {
-              prop.setIngredientInfo && prop.setIngredientInfo(e.target.value);
+              prop.setIngredient && prop.setIngredient(e.target.value);
             }}
           />
         </div>
@@ -245,7 +253,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               }}
               value={prop.weight ? prop.weight.toString() : "0"}
               onChange={(e) =>
-                prop.setWeight && prop.setWeight(Number(e.target.value))
+                prop.setWeight && prop.setWeight(e.target.value)
               }
               onEditMode={() =>
                 prop.setEditMode && prop.setEditMode(iEditedMode.weight)
@@ -289,7 +297,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           }}
           value={prop.caseQuantity ? prop.caseQuantity.toString() : "0"}
           onChange={(e) =>
-            prop.setWeight && prop.setWeight(Number(e.target.value))
+            prop.setCaseQuantity && prop.setCaseQuantity(Number(e.target.value))
           }
         />
         <DropdownMenu
@@ -312,30 +320,30 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
                 height: "100%",
                 margin: 0,
                 padding: "4px 0",
-                fontSize: prop.storageRequirementsStyle
-                  ? prop.storageRequirementsStyle.fontSize
+                fontSize: prop.storageStyle
+                  ? prop.storageStyle.fontSize
                   : prop.defaultLabelStyle &&
-                    prop.defaultLabelStyle.storage_requirements
+                    prop.defaultLabelStyle.storage
                       .fontSize,
-                fontFamily: prop.storageRequirementsStyle
-                  ? prop.storageRequirementsStyle.fontFamily
+                fontFamily: prop.storageStyle
+                  ? prop.storageStyle.fontFamily
                   : prop.defaultLabelStyle &&
-                    prop.defaultLabelStyle.storage_requirements
+                    prop.defaultLabelStyle.storage
                       .fontFamily,
-                color: prop.storageRequirementsStyle
-                  ? prop.storageRequirementsStyle.color
+                color: prop.storageStyle
+                  ? prop.storageStyle.color
                   : prop.defaultLabelStyle &&
-                    prop.defaultLabelStyle.storage_requirements
+                    prop.defaultLabelStyle.storage
                       .color,
-                fontStyle: prop.storageRequirementsStyle
-                  ? prop.storageRequirementsStyle.fontStyle
+                fontStyle: prop.storageStyle
+                  ? prop.storageStyle.fontStyle
                   : prop.defaultLabelStyle &&
-                    prop.defaultLabelStyle.storage_requirements
+                    prop.defaultLabelStyle.storage
                       .fontStyle,
-                fontWeight: prop.storageRequirementsStyle
-                  ? prop.storageRequirementsStyle.fontWeight
+                fontWeight: prop.storageStyle
+                  ? prop.storageStyle.fontWeight
                   : prop.defaultLabelStyle &&
-                    prop.defaultLabelStyle.storage_requirements
+                    prop.defaultLabelStyle.storage
                       .fontWeight,
                 background: "transparent",
                 overflow: "hidden", // Hide scrollbar for a clean look
@@ -346,14 +354,14 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
                 border: prop.isEditedMode ? "1px solid #bcbcbc80" : "none",
                 borderRadius: prop.isEditedMode ? "4px" : "none",
               }}
-              placeholder="storage_requirements"
-              value={prop.labelInfo.storage_requirements}
+              placeholder="storage"
+              value={prop.labelInfo.storage}
               onChange={(e) =>
-                prop.setStorageRequirements &&
-                prop.setStorageRequirements(e.target.value)
+                prop.setStorage &&
+                prop.setStorage(e.target.value)
               }
               onEditMode={() =>
-                prop.setEditMode && prop.setEditMode(iEditedMode.storageRequirements)
+                prop.setEditMode && prop.setEditMode(iEditedMode.storage)
               }
             />
           </Row>
@@ -369,26 +377,26 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
                 fontSize: prop.manufacturedForStyle
                   ? prop.manufacturedForStyle.fontSize
                   : prop.defaultLabelStyle &&
-                    prop.defaultLabelStyle.manufactured_for
+                    prop.defaultLabelStyle.manufactured
                       .fontSize,
                 fontFamily: prop.manufacturedForStyle
                   ? prop.manufacturedForStyle.fontFamily
                   : prop.defaultLabelStyle &&
-                    prop.defaultLabelStyle.manufactured_for
+                    prop.defaultLabelStyle.manufactured
                       .fontFamily,
                 color: prop.manufacturedForStyle
                   ? prop.manufacturedForStyle.color
                   : prop.defaultLabelStyle &&
-                    prop.defaultLabelStyle.manufactured_for.color,
+                    prop.defaultLabelStyle.manufactured.color,
                 fontStyle: prop.manufacturedForStyle
                   ? prop.manufacturedForStyle.fontStyle
                   : prop.defaultLabelStyle &&
-                    prop.defaultLabelStyle.manufactured_for
+                    prop.defaultLabelStyle.manufactured
                       .fontStyle,
                 fontWeight: prop.manufacturedForStyle
                   ? prop.manufacturedForStyle.fontWeight
                   : prop.defaultLabelStyle &&
-                    prop.defaultLabelStyle.manufactured_for
+                    prop.defaultLabelStyle.manufactured
                       .fontWeight,
                 background: "transparent",
                 overflow: "hidden", // Hide scrollbar for a clean look
@@ -417,7 +425,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           <Typography variant="body2">
             LOT #{prop.labelInfo.item_code}
           </Typography>
-          <Typography variant="body2">BEST BY : {formattedDate}</Typography>
+          {/* <Typography variant="body2">BEST BY : {formattedDate}</Typography> */}
           <Barcode
             value={prop.labelInfo.case_gtin.substring(0, 11) ?? "111111111111"}
             width={2}

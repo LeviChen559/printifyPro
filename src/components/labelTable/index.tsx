@@ -14,8 +14,6 @@ import { fetcher } from "@/utils/lib/fetcher";
 import LabelLogo from "../logo";
 import { iLabelInfo } from "@/type/labelType";
 
-
-
 interface iTable {
   selectItem: (selectLabelInfo: iLabelInfo) => void;
   apiMyLabelUrl: string;
@@ -40,7 +38,7 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
   if (labelError)
     return <Container>Failed to load: {labelError.message}</Container>;
 
-  if (!labelData|| !Array.isArray(labelData))
+  if (!labelData || !Array.isArray(labelData))
     return (
       <Container>
         <SkeletonTable />
@@ -50,7 +48,12 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
   return (
     <TableContainer
       component={Paper}
-      sx={{ borderRadius: 2, height: "auto", width: "100%",background: "#bcbcbc1A" }}
+      sx={{
+        borderRadius: 2,
+        height: "auto",
+        width: "100%",
+        background: "#bcbcbc1A",
+      }}
     >
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -92,7 +95,7 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
               Manufactured For
             </TableCell>
             <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
-              Label Type
+              Label Temp
             </TableCell>
           </TableRow>
         </TableHead>
@@ -117,12 +120,16 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
                 </TableCell>
                 <TableCell align="left">{row.item_code}</TableCell>
                 <TableCell align="left">
-                  <LabelLogo logo={row.logo} fontSize={18}/>
+                  <LabelLogo logo={row.logo} fontSize={18} />
                 </TableCell>
-                <TableCell align="left">{row.product_name_en}</TableCell>
-                <TableCell align="left">{row.product_name_zh}</TableCell>
-                <TableCell align="left">
-                  {row.weight} {row.weight_unit}
+                <TableCell align="left" sx={{ width: "50px" }}>
+                  {row.product_name_en}
+                </TableCell>
+                <TableCell align="left" sx={{ width: "50px" }}>
+                  {row.product_name_zh}
+                </TableCell>
+                <TableCell align="left" sx={{ padding: 1, width: "50px" }}>
+                  {row.weight}
                 </TableCell>
                 <TableCell align="left" sx={{ width: "50px", padding: 1 }}>
                   {row.case_quantity} {row.case_unit}
@@ -137,7 +144,7 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
                     padding: 1,
                   }}
                 >
-                  {row.storage_requirements}
+                  {row.storage}
                 </TableCell>
                 <TableCell align="left" sx={{ padding: 1, width: "50px" }}>
                   {row.shelf_life} days
@@ -145,14 +152,14 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
                 <TableCell align="left" sx={{ width: "75px", padding: 1 }}>
                   {row.case_gtin}
                 </TableCell>
-                <TableCell align="left" sx={{ width: "150px", padding: 1 }}>
-                  {row.ingredient_info}
+                <TableCell align="left" sx={{ width: "250px", padding: 1 }}>
+                  {row.ingredient&&row.ingredient.slice(0,75)+" ..."}
                 </TableCell>
                 <TableCell align="left" sx={{ width: "150px", padding: 1 }}>
-                  {row.manufactured_for}
+                  {row.manufactured}
                 </TableCell>
                 <TableCell align="left" sx={{ width: "50px", padding: 1 }}>
-                  {row.label_size}
+                  {row.label_temp}
                 </TableCell>
               </TableRow>
             ))

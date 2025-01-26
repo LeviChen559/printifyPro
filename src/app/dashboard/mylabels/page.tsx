@@ -95,7 +95,7 @@ const MyLabels = () => {
       isLabelUpdated: false,
     });
   };
-  const safelyStringifyData = (data: any) => {
+  const safelyStringifyData = (data: iLabelInfo) => {
     try {
       return JSON.stringify(data, (key, value) => {
         if (typeof value === 'string') {
@@ -110,7 +110,6 @@ const MyLabels = () => {
     }
   };
 
-  console.log("selectLabelInfo:", selectLabelInfo);
 
   if (status === "loading") {
     return (

@@ -25,11 +25,11 @@ model mylabels {
   weight_unit          mylabels_weight_unit? @default("g/tray")
   case_quantity        Int?                  
   case_unit            mylabels_case_unit?   @default(tray)
-  storage_requirements String?               @db.VarChar(150)
+  storage String?               @db.VarChar(150)
   shelf_life           String?               @db.VarChar(50)
   case_gtin            String?               @unique(map: "case_gtin") @db.Char(14)
-  ingredient_info      String?               @db.Text
-  manufactured_for     String?               @default("1234 Maple Street Vancouver, BC V5K 1A1 Canada") @db.VarChar(100)
+  ingredient      String?               @db.Text
+  manufactured     String?               @default("1234 Maple Street Vancouver, BC V5K 1A1 Canada") @db.VarChar(100)
 }
 
 model activities {
@@ -46,11 +46,11 @@ model labelstyle {
   item_code            Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',14,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',400,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))
   product_name_en      Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',24,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',700,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))
   product_name_zh      Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',24,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',700,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))
-  ingredient_info      Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',14,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',400,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))
+  ingredient      Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',14,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',400,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))
   weight               Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',14,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',400,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))
   weight_unit          Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',14,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',400,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))
-  storage_requirements Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',14,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',400,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))
-  manufactured_for     Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',14,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',400,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))
+  storage Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',14,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',400,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))
+  manufactured     Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',14,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',400,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))
   case_quantity        Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',14,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',400,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))
   case_unit            Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',14,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',400,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))
   best_before          Json? @default(dbgenerated("(json_object(_utf8mb4\\'fontSize\\',14,_utf8mb4\\'fontStyle\\',_utf8mb4\\'normal\\',_utf8mb4\\'fontWeight\\',400,_utf8mb4\\'color\\',_utf8mb4\\'#000000\\',_utf8mb4\\'fontFamily\\',_utf8mb4\\'Arial\\'))"))

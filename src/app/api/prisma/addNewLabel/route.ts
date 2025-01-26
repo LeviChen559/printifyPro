@@ -26,15 +26,15 @@ export async function POST(req: NextRequest) {
         product_name_en: data.labelInput.product_name_en,
         product_name_zh: data.labelInput.product_name_zh,
         weight: data.labelInput.weight,
-        weight_unit: data.labelInput.weight_unit,
         case_quantity: data.labelInput.case_quantity,
         case_unit: data.labelInput.case_unit,
-        storage_requirements: data.labelInput.storage_requirements,
+        storage: data.labelInput.storage,
         shelf_life: data.labelInput.shelf_life,
         case_gtin: data.labelInput.case_gtin,
-        ingredient_info: data.labelInput.ingredient_info,
-        manufactured_for: data.labelInput.manufactured_for,
-        label_size: data.labelInput.label_size,
+        ingredient: data.labelInput.ingredient,
+        manufactured: data.labelInput.manufactured,
+        label_temp: data.labelInput.label_temp,
+        allergen: data.labelInput.allergen,
         logo: data.labelInput.logo
       },
     });
@@ -45,13 +45,13 @@ export async function POST(req: NextRequest) {
         product_name_en: data.defaultLabelStyle.product_name_en,
         product_name_zh: data.defaultLabelStyle.product_name_zh,
         weight: data.defaultLabelStyle.weight,
-        weight_unit: data.defaultLabelStyle.weight_unit,
         case_quantity: data.defaultLabelStyle.case_quantity,
         case_unit: data.defaultLabelStyle.case_unit,
-        storage_requirements: data.defaultLabelStyle.storage_requirements,
+        storage: data.defaultLabelStyle.storage,
         best_before: data.defaultLabelStyle.shelf_life,
-        ingredient_info: data.defaultLabelStyle.ingredient_info,
-        manufactured_for: data.defaultLabelStyle.manufactured_for,
+        ingredient: data.defaultLabelStyle.ingredient,
+        manufactured: data.defaultLabelStyle.manufactured,
+        allergen: data.defaultLabelStyle.allergens,
     }});
   
 

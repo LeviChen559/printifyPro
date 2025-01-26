@@ -26,10 +26,12 @@ interface iProps {
   setProductNameZH?: Dispatch<SetStateAction<string>>;
   productNameEN?: string;
   productNameZH?: string;
-  setIngredientInfo?: Dispatch<SetStateAction<string>>;
-  ingredientInfo?: string;
-  setWeight?: Dispatch<SetStateAction<number>>;
-  weight?: number;
+  setIngredient?: Dispatch<SetStateAction<string>>;
+  ingredient?: string;
+  setWeight?: Dispatch<SetStateAction<string>>;
+  allergen?: string;
+  setAllergen?: Dispatch<SetStateAction<string>>;
+  weight?: string;
   setManufacturedFor?: Dispatch<SetStateAction<string>>;
   caseQuantity?: number;
   setCaseQuantity?: Dispatch<SetStateAction<number>>;
@@ -37,8 +39,8 @@ interface iProps {
   setCaseUnit?: Dispatch<SetStateAction<string>>;
   manufacturedFor?: string;
   setWeightUnit?: Dispatch<SetStateAction<string>>;
-  storageRequirements?: string;
-  setStorageRequirements?: Dispatch<SetStateAction<string>>;
+  storage?: string;
+  setStorage?: Dispatch<SetStateAction<string>>;
   weightUnit?: string;
   editMode?: string;
   setEditMode?:Dispatch<SetStateAction<iEditedMode>>;
@@ -47,15 +49,54 @@ interface iProps {
   productNameENStyle?: iTextStyle;
   productNameZHStyle?: iTextStyle;
   weightStyle?: iTextStyle;
-  ingredientInfoStyle?: iTextStyle;
+  ingredientStyle?: iTextStyle;
   manufacturedForStyle?: iTextStyle;
-  storageRequirementsStyle?: iTextStyle;
+  storageStyle?: iTextStyle;
   weightUnitStyle?: iTextStyle;
+  allergenStyle?: iTextStyle;
   defaultLabelStyle: iLabelStyle;
 }
-
+ export const rowHeightConverter = (rows: number) => {
+    switch (rows) {
+      case .25:
+        return 22;
+      case .5:
+        return 28;
+      case .75:
+        return 34;
+      case 1:
+        return 40;
+      case 1.25:
+        return 46;
+      case 1.5:
+        return 52;
+      case 1.75:
+        return 58;
+      case 2:
+        return 64;
+      case 2.25:
+        return 70;
+      case 2.5:
+        return 76;
+      case 2.75:
+        return 82;
+      case 3:
+        return 88;
+      case 3.25:
+        return 94;
+        case 3.5:
+        return 100;
+        case 3.75:
+        return 106;
+        case 4:
+        return 112;
+      default:
+        return 64;
+    }
+  };
 export type Ref = HTMLDivElement;
 const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
+    console.log("prop", prop);
   
   return prop.type === "4x4_a" ? (
     <LabelCard4_4_a
@@ -71,8 +112,8 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       setProductNameZH={prop.setProductNameZH}
       productNameEN={prop.productNameEN}
       productNameZH={prop.productNameZH}
-      setIngredientInfo={prop.setIngredientInfo}
-      ingredientInfo={prop.ingredientInfo}
+      setIngredient={prop.setIngredient}
+      ingredient={prop.ingredient}
       setWeight={prop.setWeight}
       weight={prop.weight}
       setManufacturedFor={prop.setManufacturedFor}
@@ -80,23 +121,25 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       setCaseQuantity={prop.setCaseQuantity}
       caseUnit={prop.caseUnit}
       setCaseUnit={prop.setCaseUnit}
-      storageRequirements={prop.storageRequirements}
-      setStorageRequirements={prop.setStorageRequirements}
+      storage={prop.storage}
+      setStorage={prop.setStorage}
       manufacturedFor={prop.manufacturedFor}
       setWeightUnit={prop.setWeightUnit}
       weightUnit={prop.weightUnit}
       defaultLabelStyle={prop.defaultLabelStyle}
       productNameENStyle={prop.productNameENStyle}
       productNameZHStyle={prop.productNameZHStyle}
+      allergenStyle={prop.allergenStyle}
       weightStyle={prop.weightStyle}
-      ingredientInfoStyle={prop.ingredientInfoStyle}
+      ingredientStyle={prop.ingredientStyle}
       manufacturedForStyle={prop.manufacturedForStyle}
-      storageRequirementsStyle={prop.storageRequirementsStyle}
-      weightUnitStyle={prop.weightUnitStyle}
+      storageStyle={prop.storageStyle}
       editMode={prop.editMode}
       setEditMode={prop.setEditMode}
       logo={prop.logo}
       ref={ref}
+      allergen={prop.allergen}
+      setAllergen={prop.setAllergen}
       
     />
   ) : prop.type === "4x6_a" ? (
@@ -107,12 +150,12 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       setProductNameZH={prop.setProductNameZH}
       productNameEN={prop.productNameEN}
       productNameZH={prop.productNameZH}
-      setIngredientInfo={prop.setIngredientInfo}
-      ingredientInfo={prop.ingredientInfo}
+      setIngredient={prop.setIngredient}
+      ingredient={prop.ingredient}
       setWeight={prop.setWeight}
       weight={prop.weight}
       setManufacturedFor={prop.setManufacturedFor}
-      setStorageRequirements={prop.setStorageRequirements}
+      setStorage={prop.setStorage}
       manufacturedFor={prop.manufacturedFor}
       setWeightUnit={prop.setWeightUnit}
       weightUnit={prop.weightUnit}
@@ -124,9 +167,9 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       productNameENStyle={prop.productNameENStyle}
       productNameZHStyle={prop.productNameZHStyle}
       weightStyle={prop.weightStyle}
-      ingredientInfoStyle={prop.ingredientInfoStyle}
+      ingredientStyle={prop.ingredientStyle}
       manufacturedForStyle={prop.manufacturedForStyle}
-      storageRequirementsStyle={prop.storageRequirementsStyle}
+      storageStyle={prop.storageStyle}
       weightUnitStyle={prop.weightUnitStyle}
       editMode={prop.editMode}
       setEditMode={prop.setEditMode}
@@ -143,12 +186,12 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       setProductNameZH={prop.setProductNameZH}
       productNameEN={prop.productNameEN}
       productNameZH={prop.productNameZH}
-      setIngredientInfo={prop.setIngredientInfo}
-      ingredientInfo={prop.ingredientInfo}
+      setIngredient={prop.setIngredient}
+      ingredient={prop.ingredient}
       setWeight={prop.setWeight}
       weight={prop.weight}
       setManufacturedFor={prop.setManufacturedFor}
-      setStorageRequirements={prop.setStorageRequirements}
+      setStorage={prop.setStorage}
       manufacturedFor={prop.manufacturedFor}
       setWeightUnit={prop.setWeightUnit}
       weightUnit={prop.weightUnit}
@@ -156,9 +199,9 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       productNameENStyle={prop.productNameENStyle}
       productNameZHStyle={prop.productNameZHStyle}
       weightStyle={prop.weightStyle}
-      ingredientInfoStyle={prop.ingredientInfoStyle}
+      ingredientStyle={prop.ingredientStyle}
       manufacturedForStyle={prop.manufacturedForStyle}
-      storageRequirementsStyle={prop.storageRequirementsStyle}
+      storageStyle={prop.storageStyle}
       weightUnitStyle={prop.weightUnitStyle}
       editMode={prop.editMode}
       setEditMode={prop.setEditMode}

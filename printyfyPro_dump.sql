@@ -31,10 +31,10 @@ CREATE TABLE `mylabels` (
   `weight_unit` enum('g/tray','g/bag','pcs/tray','container','g/piece','ml/bottle') DEFAULT 'g/tray',
   `case_quantity` int unsigned DEFAULT NULL,
   `case_unit` enum('tray','bag','piece','container','bottle') DEFAULT 'tray',
-  `storage_requirements` varchar(150) DEFAULT NULL,
+  `storage` varchar(150) DEFAULT NULL,
   `shelf_life` varchar(50) DEFAULT NULL,
   `case_gtin` char(14) DEFAULT NULL,
-  `ingredient_info` text,
+  `ingredient` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `item_code` (`item_code`),
   UNIQUE KEY `case_gtin` (`case_gtin`)

@@ -11,14 +11,14 @@ export const Container =styled.div<iProps>({
     justifyContent: "flex-start",
     height: "100%",
     width: "100%",
-    flex:"1 1 200px",
+    flex:"1 1 175px",
     backgroundColor: "#f5f5f5",
     padding:16,
     fontFamily: "Arial, sans-serif",
     color: "#000000",
     boxSizing: "border-box",
     gap:16,
-    minWidth: 200,
+    minWidth: 175,
 
 },props=>({
     background:props.background

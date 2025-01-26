@@ -86,6 +86,8 @@ export const Row = styled.div<iProps>({
     gap:props.gap,
     zIndex:props.zIndex,
     background:props.background,
+    width:props.width,  
+    justifyContent:props.justifyContent
 
 }))
 
@@ -101,6 +103,7 @@ export const Col = styled.div<iProps>({
     width:props.width,
     justifyContent:props.justifyContent,
     height:props.height,
-    alignItems:props.alignItems
+    alignItems:props.alignItems,
+    gap:props.gap,
 
 }))

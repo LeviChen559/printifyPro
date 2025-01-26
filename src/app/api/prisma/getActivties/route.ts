@@ -25,7 +25,7 @@ export async function GET(req: Request) {
       "product_name_zh",
       "item_code",
       "case_gtin",
-      "ingredient_info"
+      "ingredient"
     ];
     // If a valid column and search value are provided, add a WHERE clause
     const filter = searchValue

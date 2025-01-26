@@ -22,8 +22,6 @@ const SignupCard:FC<iProps> = () => {
       email: "",
       password: "",
     })
-    console.log("formData",formData)
-
     
     const handleFormSubmit=async() =>{
  

@@ -6,6 +6,7 @@ import {
   InfomationColumn,
   Ingredients,
   Row,
+  Col,
 } from "./style";
 import { iLabelInfo } from "@/type/labelType";
 import { Typography } from "@mui/material";
@@ -22,27 +23,38 @@ interface iProp {
   showProductNameEN?: boolean;
   isEditedMode?: boolean;
   ref: React.RefObject<HTMLDivElement>;
+  itemCode?: string;
+  setItemCode?: (value: string) => void;
+  customerItemCode?: string;
+  setCustomerItemCode?: (value: string) => void;
+  lotNumber?: string;
+  setLotNumber?: (value: string) => void;
   setProductNameEN?: (value: string) => void;
   setProductNameZH?: (value: string) => void;
   productNameEN?: string;
   productNameZH?: string;
-  setIngredientInfo?: (value: string) => void;
-  ingredientInfo?: string;
-  setWeight?: (value: number) => void;
-  weight?: number;
+  setIngredient?: (value: string) => void;
+  ingredient?: string;
+  setWeight?: (value: string) => void;
+  weight?: string;
   setManufacturedFor?: (value: string) => void;
+  caseUnit?: string;
+  setCaseUnit?: React.Dispatch<React.SetStateAction<string>>;
+  caseQuantity?: number;
+  setCaseQuantity?: (value: number) => void;
   manufacturedFor?: string;
   setWeightUnit?: React.Dispatch<React.SetStateAction<string>>;
-  setStorageRequirements?: (value: string) => void;
+  storage?: string;
+  setStorage?: React.Dispatch<React.SetStateAction<string>>;
   weightUnit?: string;
   editMode?: string;
   setEditMode?: (value: iEditedMode) => void;
   productNameENStyle?: iTextStyle;
   productNameZHStyle?: iTextStyle;
   weightStyle?: iTextStyle;
-  ingredientInfoStyle?: iTextStyle;
+  ingredientStyle?: iTextStyle;
   manufacturedForStyle?: iTextStyle;
-  storageRequirementsStyle?: iTextStyle;
+  storageStyle?: iTextStyle;
   weightUnitStyle?: iTextStyle;
   defaultLabelStyle: iLabelStyle;
   logo: string;
@@ -51,17 +63,48 @@ export type Ref = HTMLDivElement;
 
 const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
   // const now = new Date();
-  // const bestByValue = new Date(now.getTime() + (prop.labelInfo.shelf_life * 24 * 60 * 60 * 1000))
+  // const bestByValue = new Date(
+  //   now.getTime() + prop.labelInfo.shelf_life * 24 * 60 * 60 * 1000
+  // );
   // const formattedDate =
-  // String(bestByValue.getDate()).padStart(2, '0') + "/" +
-  // String(bestByValue.getMonth() + 1).padStart(2, '0') + "/" +
-  // bestByValue.getFullYear();
+  //   String(bestByValue.getDate()).padStart(2, "0") +
+  //   "/" +
+  //   String(bestByValue.getMonth() + 1).padStart(2, "0") +
+  //   "/" +
+  //   bestByValue.getFullYear();
+
+  const rowHeightConverter = (rows: number) => {
+    switch (rows) {
+      case 1:
+        return 32;
+      case 1.25:
+        return 46;
+      case 1.5:
+        return 52;
+      case 1.75:
+        return 58;
+      case 2:
+        return 64;
+      case 2.25:
+        return 70;
+      case 2.5:
+        return 76;
+      case 2.75:
+        return 82;
+      case 3:
+        return 88;
+      default:
+        return 64;
+    }
+  };
 
   return (
     <Container id="labelCard" ref={ref}>
       <Header>
         <LabelLogo logo={prop.logo} fontSize={48} />
-        <div style={{ height: "auto", width: "60%" }}>
+        <div
+          style={{ display: "flex", flexDirection: "column", width: "100%" }}
+        >
           <EditTextarea
             readonly={!prop.isEditedMode}
             onEditMode={() =>
@@ -69,7 +112,6 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             }
             name="product_name_en"
             style={{
-              display:"block",
               padding: "0px",
               background: "transparent",
               fontSize: prop.productNameENStyle
@@ -93,17 +135,17 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               whiteSpace: "pre-wrap", // Allows text to wrap to the next line
               overflowWrap: "break-word", // Breaks long words if necessary
               resize: "none", // Prevents resizing to maintain consistent font size view
-              lineHeight: "1.2", // Adjust for consistent spacing
+              lineHeight: prop.productNameENStyle?.lineHeight, // Adjust for consistent spacing
               border: prop.isEditedMode ? "1px solid #bcbcbc80" : "none",
               borderRadius: prop.isEditedMode ? "4px" : "none",
+              height: rowHeightConverter(prop.productNameENStyle?.rows ?? 2),
             }}
+            rows={prop.productNameENStyle?.rows ?? 2}
             value={prop.productNameEN}
             onChange={(e) => {
               prop.setProductNameEN && prop.setProductNameEN(e.target.value);
             }}
           />
-        </div>
-        <div style={{ height: "auto", width: "40%" }}>
           <EditTextarea
             readonly={!prop.isEditedMode}
             onEditMode={() =>
@@ -111,6 +153,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             }
             name="product_name_zh"
             style={{
+              display: "block",
               padding: "0px",
               background: "transparent",
               fontSize: prop.productNameZHStyle
@@ -132,7 +175,11 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
                   prop.defaultLabelStyle.product_name_zh.fontWeight,
               border: prop.isEditedMode ? "1px solid #bcbcbc80" : "none",
               borderRadius: prop.isEditedMode ? "4px" : "none",
+              lineHeight: prop.productNameZHStyle?.lineHeight,
+              height: rowHeightConverter(prop.productNameZHStyle?.rows ?? 2),
+              overflow: "hidden",
             }}
+            rows={prop.productNameZHStyle?.rows ?? 2}
             value={prop.productNameZH}
             onChange={(e) =>
               prop.setProductNameZH && prop.setProductNameZH(e.target.value)
@@ -141,121 +188,220 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
         </div>
       </Header>
       <Ingredients>
-        <Typography width={"100%"}>Ingredients:</Typography>
-        <div style={{ width: "100%", overflow: "hidden", height: 64 }}>
+        <Col width="auto" justifyContent="space-evenly" height="76px">
+          <EditText
+            name="Item_Code"
+            type="text"
+            style={{
+              margin: "0px",
+              fontSize:
+                prop.defaultLabelStyle &&
+                prop.defaultLabelStyle.item_code.fontSize,
+              fontFamily:
+                prop.defaultLabelStyle &&
+                prop.defaultLabelStyle.item_code.fontFamily,
+              color:
+                prop.defaultLabelStyle &&
+                prop.defaultLabelStyle.item_code.color,
+              fontStyle:
+                prop.defaultLabelStyle &&
+                prop.defaultLabelStyle.item_code.fontStyle,
+              fontWeight:
+                prop.defaultLabelStyle &&
+                prop.defaultLabelStyle.item_code.fontWeight,
+              background: "transparent",
+              width: 60,
+              minHeight: 24,
+              border: prop.isEditedMode ? "1px solid #bcbcbc80" : "none",
+              borderRadius: prop.isEditedMode ? "4px" : "none",
+            }}
+            value={prop.itemCode ? prop.itemCode.toString() : "0"}
+            onChange={(e) =>
+              prop.setItemCode && prop.setItemCode(e.target.value)
+            }
+          />
+          <EditText
+            name="Customer_Item_Code"
+            type="text"
+            style={{
+              margin: "0px",
+              fontSize:
+                prop.defaultLabelStyle &&
+                prop.defaultLabelStyle.item_code.fontSize,
+              fontFamily:
+                prop.defaultLabelStyle &&
+                prop.defaultLabelStyle.item_code.fontFamily,
+              color:
+                prop.defaultLabelStyle &&
+                prop.defaultLabelStyle.item_code.color,
+              fontStyle:
+                prop.defaultLabelStyle &&
+                prop.defaultLabelStyle.item_code.fontStyle,
+              fontWeight:
+                prop.defaultLabelStyle &&
+                prop.defaultLabelStyle.item_code.fontWeight,
+              background: "transparent",
+              width: 60,
+              minHeight: 24,
+              border: prop.isEditedMode ? "1px solid #bcbcbc80" : "none",
+              borderRadius: prop.isEditedMode ? "4px" : "none",
+            }}
+            value={
+              prop.customerItemCode ? prop.customerItemCode.toString() : "0"
+            }
+            onChange={(e) =>
+              prop.setCustomerItemCode &&
+              prop.setCustomerItemCode(e.target.value)
+            }
+          />
+        </Col>
+        <Col>
           <EditTextarea
             readonly={!prop.isEditedMode}
             style={{
               width: "100%",
-              height: "100%",
+              height: 70,
               padding: "0px",
               margin: "0px",
               fontSize:
                 prop.defaultLabelStyle &&
-                prop.defaultLabelStyle.ingredient_info.fontSize,
+                prop.defaultLabelStyle.ingredient.fontSize,
               fontFamily:
                 prop.defaultLabelStyle &&
-                prop.defaultLabelStyle.ingredient_info.fontFamily,
+                prop.defaultLabelStyle.ingredient.fontFamily,
               color:
                 prop.defaultLabelStyle &&
-                prop.defaultLabelStyle.ingredient_info.color,
+                prop.defaultLabelStyle.ingredient.color,
               fontStyle:
                 prop.defaultLabelStyle &&
-                prop.defaultLabelStyle.ingredient_info.fontStyle,
+                prop.defaultLabelStyle.ingredient.fontStyle,
               fontWeight:
                 prop.defaultLabelStyle &&
-                prop.defaultLabelStyle.ingredient_info.fontWeight,
+                prop.defaultLabelStyle.ingredient.fontWeight,
               background: "transparent",
               overflow: "hidden", // Hide scrollbar for a clean look
               whiteSpace: "pre-line", // Ensures text wraps correctly
               overflowWrap: "break-word", // Breaks long words if necessary
               resize: "none", // Prevents resizing to maintain consistent font size view
-              lineHeight: "1.35", // Adjust for consistent spacing
+              lineHeight: "1", // Adjust for consistent spacing
               border: prop.isEditedMode ? "1px solid #bcbcbc80" : "none",
               borderRadius: prop.isEditedMode ? "4px" : "none",
             }}
-            rows={2}
-            placeholder="I am an editable textarea"
-            value={prop.ingredientInfo}
+            rows={2.5}
+            placeholder="ingredient"
+            value={prop.ingredient}
             onChange={(e) => {
-              prop.setIngredientInfo && prop.setIngredientInfo(e.target.value);
+              prop.setIngredient && prop.setIngredient(e.target.value);
             }}
             onEditMode={() => console.log("edit mode")}
           />
-        </div>
+        </Col>
       </Ingredients>
+      <Row zIndex={2} background="#ffffff">
+        <Typography variant="body2" noWrap width={"auto"}>
+          Net Weight :
+        </Typography>
+        <EditText
+          name="weight"
+          type="text"
+          style={{
+            fontSize:
+              prop.defaultLabelStyle && prop.defaultLabelStyle.weight.fontSize,
+            fontFamily:
+              prop.defaultLabelStyle &&
+              prop.defaultLabelStyle.weight.fontFamily,
+            color:
+              prop.defaultLabelStyle && prop.defaultLabelStyle.weight.color,
+            fontStyle:
+              prop.defaultLabelStyle && prop.defaultLabelStyle.weight.fontStyle,
+            fontWeight:
+              prop.defaultLabelStyle &&
+              prop.defaultLabelStyle.weight.fontWeight,
+            background: "transparent",
+            width: prop.isEditedMode ? 55 : "auto",
+            minHeight: 24,
+            border: prop.isEditedMode ? "1px solid #bcbcbc80" : "none",
+            borderRadius: prop.isEditedMode ? "4px" : "none",
+          }}
+          value={prop.weight ? prop.weight.toString() : "0"}
+          onChange={(e) =>
+            prop.setWeight && prop.setWeight(e.target.value)
+          }
+        />
+        <DropdownMenu
+          type="weight_unit"
+          value={prop.weightUnit as string}
+          onChange={prop.setWeightUnit as (value: string) => void}
+          width={prop.isEditedMode ? 75 : "auto"}
+          readOnly={!prop.isEditedMode}
+          isOnLabelCard={true}
+        />
+        <EditText
+          name="case_quantity"
+          type="number"
+          style={{
+            fontSize:
+              prop.defaultLabelStyle &&
+              prop.defaultLabelStyle.case_quantity.fontSize,
+            fontFamily:
+              prop.defaultLabelStyle &&
+              prop.defaultLabelStyle.case_quantity.fontFamily,
+            color:
+              prop.defaultLabelStyle &&
+              prop.defaultLabelStyle.case_quantity.color,
+            fontStyle:
+              prop.defaultLabelStyle &&
+              prop.defaultLabelStyle.case_quantity.fontStyle,
+            fontWeight:
+              prop.defaultLabelStyle &&
+              prop.defaultLabelStyle.case_quantity.fontWeight,
+            background: "transparent",
+            width: prop.isEditedMode ? 55 : "auto",
+            minHeight: 24,
+            border: prop.isEditedMode ? "1px solid #bcbcbc80" : "none",
+            borderRadius: prop.isEditedMode ? "4px" : "none",
+          }}
+          value={prop.caseQuantity ? prop.caseQuantity.toString() : "0"}
+          onChange={(e) =>
+            prop.setCaseQuantity && prop.setCaseQuantity(Number(e.target.value))
+          }
+        />
+        <DropdownMenu
+          type="case_unit"
+          value={prop.caseUnit as string}
+          onChange={prop.setCaseUnit as (value: string) => void}
+          width={prop.isEditedMode ? 85 : 50}
+          readOnly={!prop.isEditedMode}
+          isOnLabelCard={true}
+        />
+      </Row>
       <InfomationWrapper>
-        <InfomationColumn flex={1.75}>
-          <Typography variant="body2">
-            Contains :&quot;&quot;&quot;&quot;
-          </Typography>
-          <Row>
-            <Typography variant="body2" noWrap>
-              Net Weight :
+        <InfomationColumn width={"75%"}>
+          <Row height="auto">
+            <Typography variant="body2" width="auto" noWrap>
+              LOT :
             </Typography>
-            <EditText
-              name="weight"
-              type="number"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                fontSize:
-                  prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.weight.fontSize,
-                fontFamily:
-                  prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.weight.fontFamily,
-                color:
-                  prop.defaultLabelStyle && prop.defaultLabelStyle.weight.color,
-                fontStyle:
-                  prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.weight.fontStyle,
-                fontWeight:
-                  prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.weight.fontWeight,
-                background: "transparent",
-                width: 85,
-                minHeight: 24,
-                border: prop.isEditedMode ? "1px solid #bcbcbc80" : "none",
-                borderRadius: prop.isEditedMode ? "4px" : "none",
-              }}
-              value={prop.weight ? prop.weight.toString() : "0"}
-              onChange={(e) =>
-                prop.setWeight && prop.setWeight(Number(e.target.value))
-              }
-            />
-            <DropdownMenu
-              type="weight_unit"
-              weightUnit={prop.weightUnit}
-              setWeightUnit={prop.setWeightUnit}
-              width="40%"
-              readOnly={!prop.isEditedMode}
-              isOnLabelCard={true}
-            />
-          </Row>
-          <Row>
             <EditText
               readonly={!prop.isEditedMode}
               style={{
-                width: "100%",
+                width: 100,
                 height: "100%",
                 margin: 0,
-                padding: "4px 0",
                 fontSize:
                   prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.storage_requirements.fontSize,
+                  prop.defaultLabelStyle.lot_number?.fontSize,
                 fontFamily:
                   prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.storage_requirements.fontFamily,
+                  prop.defaultLabelStyle.lot_number?.fontFamily,
                 color:
                   prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.storage_requirements.color,
+                  prop.defaultLabelStyle.lot_number?.color,
                 fontStyle:
                   prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.storage_requirements.fontStyle,
+                  prop.defaultLabelStyle.lot_number?.fontStyle,
                 fontWeight:
                   prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.storage_requirements.fontWeight,
+                  prop.defaultLabelStyle.lot_number?.fontWeight,
                 background: "transparent",
                 overflow: "hidden", // Hide scrollbar for a clean look
                 whiteSpace: "pre-line", // Ensures text wraps correctly
@@ -265,38 +411,86 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
                 border: prop.isEditedMode ? "1px solid #bcbcbc80" : "none",
                 borderRadius: prop.isEditedMode ? "4px" : "none",
               }}
-              placeholder="I am an editable textarea"
-              value={prop.labelInfo.storage_requirements}
+              placeholder="lot number"
+              value={prop.labelInfo.lot_number}
               onChange={(e) =>
-                prop.setStorageRequirements &&
-                prop.setStorageRequirements(e.target.value)
+                prop.setLotNumber && prop.setLotNumber(e.target.value)
               }
             />
+            <DropdownMenu
+              type="storage"
+              value={prop.storage as string}
+              onChange={prop.setStorage as (value: string) => void}
+              width={120}
+              readOnly={!prop.isEditedMode}
+              isOnLabelCard={true}
+            />
           </Row>
-          <Typography variant="body2">Manufactured For:</Typography>
-          <div style={{ width: "100%", height: 44 }}>
+          <Row height="100%" alignItems="flex-start" gap={8}>
+            <Col alignItems="flex-start" width="95px">
+              <Typography variant="body2" width={"100%"}>
+                Best Before :
+              </Typography>
+              <EditText
+                readonly={!prop.isEditedMode}
+                style={{
+                  width: 85,
+                  height: 25,
+                  margin: 0,
+                  fontSize:
+                    prop.defaultLabelStyle &&
+                    prop.defaultLabelStyle.storage.fontSize,
+                  fontFamily:
+                    prop.defaultLabelStyle &&
+                    prop.defaultLabelStyle.storage.fontFamily,
+                  color:
+                    prop.defaultLabelStyle &&
+                    prop.defaultLabelStyle.storage.color,
+                  fontStyle:
+                    prop.defaultLabelStyle &&
+                    prop.defaultLabelStyle.storage.fontStyle,
+                  fontWeight:
+                    prop.defaultLabelStyle &&
+                    prop.defaultLabelStyle.storage.fontWeight,
+                  background: "transparent",
+                  overflow: "hidden", // Hide scrollbar for a clean look
+                  whiteSpace: "nowrap", // Ensures text wraps correctly
+                  overflowWrap: "break-word", // Breaks long words if necessary
+                  resize: "none", // Prevents resizing to maintain consistent font size view
+                  lineHeight: "1", // Adjust for consistent spacing
+                  border: prop.isEditedMode ? "1px solid #bcbcbc80" : "none",
+                  borderRadius: prop.isEditedMode ? "4px" : "none",
+                }}
+                placeholder=""
+                value={""}
+                onChange={(e) =>
+                  prop.setStorage &&
+                  prop.setStorage(e.target.value)
+                }
+              />
+            </Col>
             <EditTextarea
               readonly={!prop.isEditedMode}
               style={{
                 width: "100%",
-                height: "100%",
+                height: 64,
                 margin: 0,
                 padding: 0,
                 fontSize:
                   prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.manufactured_for.fontSize,
+                  prop.defaultLabelStyle.manufactured.fontSize,
                 fontFamily:
                   prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.manufactured_for.fontFamily,
+                  prop.defaultLabelStyle.manufactured.fontFamily,
                 color:
                   prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.manufactured_for.color,
+                  prop.defaultLabelStyle.manufactured.color,
                 fontStyle:
                   prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.manufactured_for.fontStyle,
+                  prop.defaultLabelStyle.manufactured.fontStyle,
                 fontWeight:
                   prop.defaultLabelStyle &&
-                  prop.defaultLabelStyle.manufactured_for.fontWeight,
+                  prop.defaultLabelStyle.manufactured.fontWeight,
                 background: "transparent",
                 overflow: "hidden", // Hide scrollbar for a clean look
                 whiteSpace: "pre-line", // Ensures text wraps correctly
@@ -306,31 +500,27 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
                 border: prop.isEditedMode ? "1px solid #bcbcbc80" : "none",
                 borderRadius: prop.isEditedMode ? "4px" : "none",
               }}
-              placeholder="I am an editable textarea"
-              rows={1.25}
+              placeholder="manufactured"
+              rows={2}
               value={prop.manufacturedFor}
               onChange={(e) =>
                 prop.setManufacturedFor &&
                 prop.setManufacturedFor(e.target.value)
               }
             />
-          </div>
+          </Row>
         </InfomationColumn>
-        <InfomationColumn flex={1}>
-          {/* <Typography variant="body2">
-            LOT #{prop.labelInfo.item_code}
-          </Typography>
-          <Typography variant="body2">BEST BY : {formattedDate}</Typography> */}
+        <InfomationColumn width={"25%"} zIndex={0}>
           <div
             style={{
-              transform: "rotate(270deg) translateY(-35px) translateX(-30px)",
+              transform: "rotate(270deg) translateY(-36px) translateX(6px)",
             }}
           >
             <Barcode
               value={
                 prop.labelInfo.case_gtin.substring(0, 11) ?? "111111111111"
               }
-              width={1.25}
+              width={1.1}
               height={50}
               fontSize={14}
               format="UPC"

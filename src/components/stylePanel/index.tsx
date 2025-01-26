@@ -14,12 +14,13 @@ interface iProps {
   productNameENStyle: iTextStyle;
   productNameZHStyle: iTextStyle;
   weightStyle: iTextStyle;
-  ingredientInfoStyle: iTextStyle;
+  ingredientStyle: iTextStyle;
   manufacturedForStyle: iTextStyle;
-  storageRequirementsStyle: iTextStyle;
-  weightUnitStyle: iTextStyle;
+  storageStyle: iTextStyle;
+  allergenStyle: iTextStyle;
   handleChange: (
-    e: ChangeEvent<HTMLInputElement>,
+    e: ChangeEvent<HTMLInputElement>
+    ,
     dataType: iEditedMode,
     styleType: iTextStyleMode
   ) => void;
@@ -40,15 +41,15 @@ const StylePanel: FC<iProps> = (prop) => {
         return "Product Name (English)";
       case iEditedMode.productNameZh:
         return "Product Name (Chinese)";
-      case iEditedMode.ingredientInfo:
+      case iEditedMode.ingredient:
         return "Ingredient Info";
       case iEditedMode.weight:
         return "Weight";
-      case iEditedMode.weightUnit:
-        return "Weight Unit";
+      case iEditedMode.allergen:
+        return "Allergen";
       case iEditedMode.manufacturedFor:
         return "Manufactured For";
-      case iEditedMode.storageRequirements:
+      case iEditedMode.storage:
         return "Storage Requirements";
       default:
         return "";
@@ -65,20 +66,20 @@ const StylePanel: FC<iProps> = (prop) => {
       case iEditedMode.productNameZh:
         fontStyle = prop.productNameZHStyle.fontStyle;
         break;
-      case iEditedMode.ingredientInfo:
-        fontStyle = prop.ingredientInfoStyle.fontStyle;
+      case iEditedMode.ingredient:
+        fontStyle = prop.ingredientStyle.fontStyle;
         break;
       case iEditedMode.weight:
         fontStyle = prop.weightStyle.fontStyle;
         break;
-      case iEditedMode.weightUnit:
-        fontStyle = prop.weightUnitStyle.fontStyle;
-        break;
       case iEditedMode.manufacturedFor:
         fontStyle = prop.manufacturedForStyle.fontStyle;
         break;
-      case iEditedMode.storageRequirements:
-        fontStyle = prop.storageRequirementsStyle.fontStyle;
+      case iEditedMode.storage:
+        fontStyle = prop.storageStyle.fontStyle;
+        break;
+      case iEditedMode.allergen:
+        fontStyle = prop.allergenStyle.fontStyle;
         break;
       default:
         fontStyle = null; // Or provide a default value
@@ -96,20 +97,20 @@ const StylePanel: FC<iProps> = (prop) => {
       case iEditedMode.productNameZh:
         fontFamily = prop.productNameZHStyle.fontFamily;
         break;
-      case iEditedMode.ingredientInfo:
-        fontFamily = prop.ingredientInfoStyle.fontFamily;
+      case iEditedMode.ingredient:
+        fontFamily = prop.ingredientStyle.fontFamily;
         break;
       case iEditedMode.weight:
         fontFamily = prop.weightStyle.fontFamily;
         break;
-      case iEditedMode.weightUnit:
-        fontFamily = prop.weightUnitStyle.fontFamily;
-        break;
       case iEditedMode.manufacturedFor:
         fontFamily = prop.manufacturedForStyle.fontFamily;
         break;
-      case iEditedMode.storageRequirements:
-        fontFamily = prop.storageRequirementsStyle.fontFamily;
+      case iEditedMode.storage:
+        fontFamily = prop.storageStyle.fontFamily;
+        break;
+      case iEditedMode.allergen:
+        fontFamily = prop.allergenStyle.fontFamily;
         break;
       default:
         fontFamily = null; // Or provide a default value
@@ -126,20 +127,20 @@ const StylePanel: FC<iProps> = (prop) => {
       case iEditedMode.productNameZh:
         fontWeight = prop.productNameZHStyle.fontWeight;
         break;
-      case iEditedMode.ingredientInfo:
-        fontWeight = prop.ingredientInfoStyle.fontWeight;
+      case iEditedMode.ingredient:
+        fontWeight = prop.ingredientStyle.fontWeight;
         break;
       case iEditedMode.weight:
         fontWeight = prop.weightStyle.fontWeight;
         break;
-      case iEditedMode.weightUnit:
-        fontWeight = prop.weightUnitStyle.fontWeight;
-        break;
       case iEditedMode.manufacturedFor:
         fontWeight = prop.manufacturedForStyle.fontWeight;
         break;
-      case iEditedMode.storageRequirements:
-        fontWeight = prop.storageRequirementsStyle.fontWeight;
+      case iEditedMode.storage:
+        fontWeight = prop.storageStyle.fontWeight;
+        break;
+      case iEditedMode.allergen:
+        fontWeight = prop.allergenStyle.fontWeight;
         break;
       default:
         fontWeight = null; // Or provide a default value
@@ -155,20 +156,20 @@ const StylePanel: FC<iProps> = (prop) => {
       case iEditedMode.productNameZh:
         fontSize = prop.productNameZHStyle.fontSize;
         break;
-      case iEditedMode.ingredientInfo:
-        fontSize = prop.ingredientInfoStyle.fontSize;
+      case iEditedMode.ingredient:
+        fontSize = prop.ingredientStyle.fontSize;
         break;
       case iEditedMode.weight:
         fontSize = prop.weightStyle.fontSize;
         break;
-      case iEditedMode.weightUnit:
-        fontSize = prop.weightUnitStyle.fontSize;
-        break;
       case iEditedMode.manufacturedFor:
         fontSize = prop.manufacturedForStyle.fontSize;
         break;
-      case iEditedMode.storageRequirements:
-        fontSize = prop.storageRequirementsStyle.fontSize;
+      case iEditedMode.storage:
+        fontSize = prop.storageStyle.fontSize;
+        break;
+      case iEditedMode.allergen:
+        fontSize = prop.allergenStyle.fontSize;
         break;
       default:
         fontSize = 14; // Or provide a default value
@@ -184,13 +185,15 @@ const StylePanel: FC<iProps> = (prop) => {
       case iEditedMode.productNameZh:
         rows = prop.productNameZHStyle.rows;
         break;
-      case iEditedMode.ingredientInfo:
-        rows = prop.ingredientInfoStyle.rows;
+      case iEditedMode.ingredient:
+        rows = prop.ingredientStyle.rows;
         break;
 
       case iEditedMode.manufacturedFor:
         rows = prop.manufacturedForStyle.rows;
 
+      case iEditedMode.allergen:
+        rows = prop.allergenStyle.rows;
         break;
       default:
         rows = 2; // Or provide a default value
@@ -206,14 +209,16 @@ const StylePanel: FC<iProps> = (prop) => {
       case iEditedMode.productNameZh:
         lineHeight = prop.productNameZHStyle.lineHeight;
         break;
-      case iEditedMode.ingredientInfo:
-        lineHeight = prop.ingredientInfoStyle.lineHeight;
+      case iEditedMode.ingredient:
+        lineHeight = prop.ingredientStyle.lineHeight;
         break;
-
       case iEditedMode.manufacturedFor:
         lineHeight = prop.manufacturedForStyle.lineHeight;
-
         break;
+      case iEditedMode.allergen:
+        lineHeight = prop.allergenStyle.lineHeight;
+        break;
+
       default:
         lineHeight = 1; // Or provide a default value
     }
@@ -224,8 +229,8 @@ const StylePanel: FC<iProps> = (prop) => {
   }
   const FontSizemarks = [
     {
-      value: 14,
-      label: "14px",
+      value: 12,
+      label: "12px",
     },
     {
       value: 20,
@@ -239,8 +244,8 @@ const StylePanel: FC<iProps> = (prop) => {
 
   const Rowsmarks = [
     {
-      value: 1,
-      label: "1",
+      value: 0.25,
+      label: ".25",
     },
     {
       value: 2,
@@ -249,6 +254,10 @@ const StylePanel: FC<iProps> = (prop) => {
     {
       value: 3,
       label: "3",
+    },
+    {
+      value: 4,
+      label: "4",
     },
   ];
 
@@ -359,11 +368,15 @@ const StylePanel: FC<iProps> = (prop) => {
             valueLabelDisplay="auto"
             step={2}
             marks={FontSizemarks}
-            min={14}
+            min={12}
             max={28}
-            onChange={(e: any) =>
-              prop.handleChange(e, prop.isEditMode, iTextStyleMode.fontSize)
-            }
+            onChange={(event: Event, value: number | number[]) => {
+              prop.handleChange(
+                { target: { value } } as unknown as React.ChangeEvent<HTMLInputElement>,
+                prop.isEditMode,
+                iTextStyleMode.rows
+              );
+            }}
             getAriaValueText={valuetext}
             value={fontSizeConverter(prop.isEditMode)}
             color="primary"
@@ -402,7 +415,8 @@ const StylePanel: FC<iProps> = (prop) => {
         {(iEditedMode.productNameEn ||
           iEditedMode.productNameZh ||
           iEditedMode.manufacturedFor ||
-          iEditedMode.ingredientInfo) && (
+          iEditedMode.ingredient ||
+          iEditedMode.allergen) && (
           <FormControl
             sx={{
               height: "auto",
@@ -418,13 +432,17 @@ const StylePanel: FC<iProps> = (prop) => {
               defaultValue={2}
               aria-label="Custom marks"
               valueLabelDisplay="auto"
-              step={.25}
+              step={0.25}
               marks={Rowsmarks}
-              min={1}
-              max={3}
-              onChange={(e: any) =>
-                prop.handleChange(e, prop.isEditMode, iTextStyleMode.rows)
-              }
+              min={0.25}
+              max={4}
+              onChange={(event: Event, value: number | number[]) => {
+                prop.handleChange(
+                  { target: { value } } as unknown as React.ChangeEvent<HTMLInputElement>,
+                  prop.isEditMode,
+                  iTextStyleMode.rows
+                );
+              }}
               getAriaValueText={valuetext}
               value={RowsConverter(prop.isEditMode)}
               color="primary"
@@ -434,7 +452,8 @@ const StylePanel: FC<iProps> = (prop) => {
         {(iEditedMode.productNameEn ||
           iEditedMode.productNameZh ||
           iEditedMode.manufacturedFor ||
-          iEditedMode.ingredientInfo) && (
+          iEditedMode.ingredient ||
+          iEditedMode.allergen) && (
           <FormControl
             sx={{
               height: "auto",
@@ -454,9 +473,13 @@ const StylePanel: FC<iProps> = (prop) => {
               marks={Rowsmarks}
               min={1}
               max={2}
-              onChange={(e: any) =>
-                prop.handleChange(e, prop.isEditMode, iTextStyleMode.lineHeight)
-              }
+              onChange={(event: Event, value: number | number[]) => {
+                prop.handleChange(
+                  { target: { value } } as unknown as React.ChangeEvent<HTMLInputElement>,
+                  prop.isEditMode,
+                  iTextStyleMode.rows
+                );
+              }}
               getAriaValueText={valuetext}
               value={LineHeightConverter(prop.isEditMode)}
               color="primary"

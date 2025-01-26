@@ -1,12 +1,13 @@
 export const enum iEditedMode {
     "productNameEn" = "productNameEn",
     "productNameZh" = "productNameZh",
-    "ingredientInfo" = "ingredientInfo",
+    "ingredient" = "ingredient",
     "weight" = "weight",
     "caseQuantity" = "caseQuantity",
     "manufacturedFor" = "manufacturedFor",
     "weightUnit" = "weightUnit",
-    "storageRequirements" = "storageRequirements",
+    "storage" = "storage",
+    "allergen"="allergen",
     "empty" = "empty",
   }
   
@@ -36,14 +37,14 @@ export const enum iEditedMode {
     lot_number: iTextStyle;
     product_name_en: iTextStyle;
     product_name_zh: iTextStyle;
-    ingredient_info: iTextStyle;
+    ingredient: iTextStyle;
     weight: iTextStyle;
-    weight_unit: iTextStyle;
-    storage_requirements: iTextStyle;
-    manufactured_for: iTextStyle;
+    storage: iTextStyle;
+    manufactured: iTextStyle;
     case_quantity: iTextStyle;
     case_unit: iTextStyle;
     shelf_life: iTextStyle;
+    allergen: iTextStyle;
   }
 
   export interface formState {
@@ -60,16 +61,16 @@ export const enum iEditedMode {
     lot_number: string;
     product_name_en: string;
     product_name_zh: string;
-    weight: number;
-    weight_unit: string;
+    weight: string;
     case_quantity: number;
     case_unit: string;
-    storage_requirements: string;
-    shelf_life: number;
+    storage: string;
+    shelf_life: string;
     case_gtin: string;
-    ingredient_info: string;
-    manufactured_for: string;
-    label_size: string;
+    ingredient: string;
+    manufactured: string;
+    label_temp: string;
+    allergen: string;
   }
   export interface iLabelInfoStyle {
     id: number;
@@ -79,12 +80,11 @@ export const enum iEditedMode {
     product_name_en: string;
     product_name_zh: string;
     weight: number;
-    weight_unit: string;
     case_quantity: number;
     case_unit: string;
-    storage_requirements: string;
+    storage: string;
     shelf_life: string;
     case_gtin: string;
-    ingredient_info: string;
-    manufactured_for: string;
+    ingredient: string;
+    manufactured: string;
   }
