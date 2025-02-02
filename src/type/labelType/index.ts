@@ -5,9 +5,13 @@ export const enum iEditedMode {
     "weight" = "weight",
     "caseQuantity" = "caseQuantity",
     "manufacturedFor" = "manufacturedFor",
-    "weightUnit" = "weightUnit",
+    "customerCode" = "customerCode",
+    "itemCode" = "itemCode",
+    "caseUnit" = "caseUnit",
     "storage" = "storage",
     "allergen"="allergen",
+    "lotNumber"="lotNumber",
+    "bestBefore"="bestBefore",
     "empty" = "empty",
   }
   

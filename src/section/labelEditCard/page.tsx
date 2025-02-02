@@ -20,6 +20,11 @@ import {
 } from "@/type/labelType";
 import LabelForm from "@/section/labelForm";
 import { fetcher } from "@/utils/lib/fetcher";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 
 interface iProps {
   selectLabelInfo: iLabelInfo;
@@ -126,7 +131,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
     fontWeight: 400,
     rows: 1,
     lineHeight: 1.2,
-  })
+  });
   const [ingredientStyle, setIngredientStyle] = useState<iTextStyle>({
     color: "#000000",
     fontStyle: "Normal",
@@ -154,8 +159,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
     message: "",
     locale: "",
   });
-
- 
+  const [showBorder, setShowBorder] = useState<boolean>(true);
   const labelInput = {
     id: prop.selectLabelInfo.id,
     logo: logo,
@@ -173,7 +177,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
     ingredient: ingredient,
     manufactured: manufacturedFor,
     label_temp: labelTemp,
-    allergen:allergen
+    allergen: allergen,
   };
 
   useEffect(() => {
@@ -270,7 +274,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
     ingredient,
     manufacturedFor,
     submitClicked,
-    allergen
+    allergen,
   ]);
   useEffect(() => {
     if (labelStyle?.data?.[0]) {
@@ -281,7 +285,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
         ingredient,
         manufactured,
         storage,
-        allergen
+        allergen,
       } = labelStyle.data[0];
       const productNameEnObj = product_name_en;
       const productNameZhObj = product_name_zh;
@@ -289,7 +293,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
       const ingredientObj = ingredient;
       const manufacturedForObj = manufactured;
       const storageObj = storage;
-      const allergenObj = allergen
+      const allergenObj = allergen;
 
       setProductNameENStyle((prevStyle) => ({
         ...prevStyle,
@@ -622,7 +626,27 @@ const LabelEditCard: FC<iProps> = (prop) => {
           allergenStyle={allergenStyle}
           handleChange={handleChange}
         />
-
+        <FormControl>
+          <FormLabel id="demo-row-radio-buttons-group-label">Border</FormLabel>
+          <RadioGroup
+            row
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            name="row-radio-buttons-group"
+            value={showBorder}
+            onChange={(event) => setShowBorder(event.target.value === "true")}
+          >
+            <FormControlLabel
+              value={true}
+              control={<Radio sx={{ color: "#e3e3e3" }} />}
+              label="turn on"
+            />
+            <FormControlLabel
+              value={false}
+              control={<Radio sx={{ color: "#e3e3e3" }} />}
+              label="turn off"
+            />
+          </RadioGroup>
+        </FormControl>
         {isLabelUpdating ? (
           <CircularProgress />
         ) : (
@@ -669,6 +693,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
             manufacturedForStyle={manufacturedForStyle}
             storageStyle={storageStyle}
             defaultLabelStyle={labelStyle.data[0] as iLabelStyle}
+            showBorder={showBorder}
           />
         )}
       </View>

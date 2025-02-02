@@ -374,7 +374,7 @@ const StylePanel: FC<iProps> = (prop) => {
               prop.handleChange(
                 { target: { value } } as unknown as React.ChangeEvent<HTMLInputElement>,
                 prop.isEditMode,
-                iTextStyleMode.rows
+                iTextStyleMode.fontSize
               );
             }}
             getAriaValueText={valuetext}
@@ -477,7 +477,7 @@ const StylePanel: FC<iProps> = (prop) => {
                 prop.handleChange(
                   { target: { value } } as unknown as React.ChangeEvent<HTMLInputElement>,
                   prop.isEditMode,
-                  iTextStyleMode.rows
+                  iTextStyleMode.lineHeight
                 );
               }}
               getAriaValueText={valuetext}
