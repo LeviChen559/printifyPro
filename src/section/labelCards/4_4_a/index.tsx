@@ -228,7 +228,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
   return (
     <Container id="labelCard" ref={ref}>
       <Header>
-        <LabelLogo logo={prop.logo} fontSize={48} />
+        <LabelLogo logo={prop.logo}  />
         <div
           style={{
             display: "flex",

@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 interface iProps {
     flex?:number,
-    width?:string | number,
+    width?:string,
     justifyContent?:string,
     height?:string,
     alignItems?:string,
@@ -86,8 +86,6 @@ export const Row = styled.div<iProps>({
     gap:props.gap,
     zIndex:props.zIndex,
     background:props.background,
-    width:props.width,  
-    justifyContent:props.justifyContent
 
 }))
 
@@ -103,7 +101,6 @@ export const Col = styled.div<iProps>({
     width:props.width,
     justifyContent:props.justifyContent,
     height:props.height,
-    alignItems:props.alignItems,
-    gap:props.gap,
+    alignItems:props.alignItems
 
 }))

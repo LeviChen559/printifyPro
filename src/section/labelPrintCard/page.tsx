@@ -85,7 +85,10 @@ const LabelPrintCard: FC<iProps> = (prop) => {
           itemCode={prop.selectLabelInfo.item_code}
           productNameENStyle={ labelStyle.data[0].product_name_en as iTextStyle}
           productNameZHStyle={labelStyle.data[0].product_name_zh as iTextStyle}
+          ingredientStyle={labelStyle.data[0].ingredient as iTextStyle}
+          manufacturedForStyle={labelStyle.data[0].manufactured as iTextStyle}
           defaultLabelStyle={labelStyle.data[0] as iLabelStyle}
+          showBorder={false}
         />
       </View>
       <Print>

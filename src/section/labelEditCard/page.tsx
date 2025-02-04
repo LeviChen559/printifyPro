@@ -47,6 +47,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
   );
   const router = useRouter();
   const contentRef = useRef<HTMLDivElement>(null);
+  const stylePannelRef = useRef<HTMLDivElement>(null);
   const [isLabelUpdating, setIsLabelUpdating] = useState<boolean>(false);
   const [isLabelDeleted, setIsLabelDeleted] = useState<boolean>(false);
   const [logo, setLogo] = useState<string>(prop.selectLabelInfo.logo);
@@ -569,6 +570,48 @@ const LabelEditCard: FC<iProps> = (prop) => {
       }));
     }
   };
+//   const handleOutsideClick = (
+//     event: MouseEvent | TouchEvent,
+//     refs: React.RefObject<HTMLElement>[], // Accept an array of refs
+//     editMode: iEditedMode,
+//     setEditMode: (editMode: iEditedMode) => void,
+// ): void => {
+//     console.log("Checking outside click");
+
+//     const isInsideAnyRef = refs.some(ref => ref.current?.contains(event.target as Node));
+
+//     if (isInsideAnyRef) {
+//         console.log("Click inside");
+//     } else {
+//         console.log("Click outside");
+//         setEditMode(iEditedMode.empty);
+//     }
+// };
+
+useEffect(() => {
+  if (!contentRef.current || !stylePannelRef.current) return; // ✅ Prevent running if refs are not ready
+
+  const handleModalClick = (event: MouseEvent) => {
+      const isInside = [contentRef, stylePannelRef].some(
+          (ref) => ref.current && ref.current.contains(event.target as Node)
+      );
+
+      if (!isInside) {
+          console.log("Click outside");
+          setEditMode(iEditedMode.empty);
+      } else {
+          console.log("Click inside");
+      }
+  };
+
+  document.addEventListener("mousedown", handleModalClick);
+
+  return () => {
+      document.removeEventListener("mousedown", handleModalClick);
+  };
+}, [contentRef, stylePannelRef, editMode]); // ✅ Use `.current` in dependencies
+
+
 
   if (isLabelDeleted) {
     return (
@@ -616,6 +659,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
       />
       <View>
         <StylePanel
+         ref={stylePannelRef}
           isEditMode={editMode}
           productNameENStyle={productNameENStyle}
           productNameZHStyle={productNameZHStyle}
@@ -627,7 +671,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
           handleChange={handleChange}
         />
         <FormControl>
-          <FormLabel id="demo-row-radio-buttons-group-label">Border</FormLabel>
+          <FormLabel id="demo-row-radio-buttons-group-label">Mode</FormLabel>
           <RadioGroup
             row
             aria-labelledby="demo-row-radio-buttons-group-label"
@@ -638,12 +682,12 @@ const LabelEditCard: FC<iProps> = (prop) => {
             <FormControlLabel
               value={true}
               control={<Radio sx={{ color: "#e3e3e3" }} />}
-              label="turn on"
+              label="Edit Mode"
             />
             <FormControlLabel
               value={false}
               control={<Radio sx={{ color: "#e3e3e3" }} />}
-              label="turn off"
+              label="Preview Mode"
             />
           </RadioGroup>
         </FormControl>

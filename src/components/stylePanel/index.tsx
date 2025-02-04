@@ -1,4 +1,4 @@
-import React, { FC, ChangeEvent } from "react";
+import React, {  ChangeEvent,forwardRef } from "react";
 import { Container, Content } from "./style";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -25,7 +25,8 @@ interface iProps {
     styleType: iTextStyleMode
   ) => void;
 }
-const StylePanel: FC<iProps> = (prop) => {
+
+const StylePanel= forwardRef<HTMLDivElement, iProps>((prop, ref) =>{
   const textStyle = {
     "& .MuiFormControlLabel-label": {
       fontSize: 14,
@@ -259,10 +260,15 @@ const StylePanel: FC<iProps> = (prop) => {
       value: 4,
       label: "4",
     },
+    {
+      value: 5,
+      label: "5",
+    },
   ];
 
+
   return prop.isEditMode !== iEditedMode.empty ? (
-    <Container>
+    <Container ref={ref}>
       <Typography>{modeConverter(prop.isEditMode)}</Typography>
       <Content>
         <FormControl sx={{ height: "auto", padding: 1 }}>
@@ -435,7 +441,7 @@ const StylePanel: FC<iProps> = (prop) => {
               step={0.25}
               marks={Rowsmarks}
               min={0.25}
-              max={4}
+              max={5}
               onChange={(event: Event, value: number | number[]) => {
                 prop.handleChange(
                   { target: { value } } as unknown as React.ChangeEvent<HTMLInputElement>,
@@ -489,6 +495,8 @@ const StylePanel: FC<iProps> = (prop) => {
       </Content>
     </Container>
   ) : null;
-};
+});
+
+StylePanel.displayName = "StylePanel";
 
 export default StylePanel;

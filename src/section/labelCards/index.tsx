@@ -97,7 +97,8 @@ export const rowHeightConverter = (rows: number) => {
 };
 export type Ref = HTMLDivElement;
 const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
-  console.log("prop", prop);
+
+  console.log("LabelCard", prop.ingredientStyle);
 
   return prop.type === "4x4_a" ? (
     <LabelCard4_4_a
@@ -183,33 +184,45 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
     />
   ) : (
     <LabelCard4_4_b
-      labelInfo={prop.labelInput}
-      isEditedMode={prop.isEditedMode}
-      setProductNameEN={prop.setProductNameEN}
-      setProductNameZH={prop.setProductNameZH}
-      productNameEN={prop.productNameEN}
-      productNameZH={prop.productNameZH}
-      setIngredient={prop.setIngredient}
-      ingredient={prop.ingredient}
-      setWeight={prop.setWeight}
-      weight={prop.weight}
-      setManufacturedFor={prop.setManufacturedFor}
-      setStorage={prop.setStorage}
-      manufacturedFor={prop.manufacturedFor}
-      setWeightUnit={prop.setWeightUnit}
-      weightUnit={prop.weightUnit}
-      defaultLabelStyle={prop.defaultLabelStyle}
-      productNameENStyle={prop.productNameENStyle}
-      productNameZHStyle={prop.productNameZHStyle}
-      weightStyle={prop.weightStyle}
-      ingredientStyle={prop.ingredientStyle}
-      manufacturedForStyle={prop.manufacturedForStyle}
-      storageStyle={prop.storageStyle}
-      weightUnitStyle={prop.weightUnitStyle}
-      editMode={prop.editMode}
-      setEditMode={prop.setEditMode}
-      logo={prop.logo}
-      ref={ref}
+    labelInfo={prop.labelInput}
+    isEditedMode={prop.isEditedMode}
+    itemCode={prop.itemCode}
+    customerItemCode={prop.customerItemCode}
+    setCustomerItemCode={prop.setCustomerItemCode}
+    lotNumber={prop.lotNumber}
+    setLotNumber={prop.setLotNumber}
+    setItemCode={prop.setItemCode}
+    setProductNameEN={prop.setProductNameEN}
+    setProductNameZH={prop.setProductNameZH}
+    productNameEN={prop.productNameEN}
+    productNameZH={prop.productNameZH}
+    setIngredient={prop.setIngredient}
+    ingredient={prop.ingredient}
+    setWeight={prop.setWeight}
+    weight={prop.weight}
+    setManufacturedFor={prop.setManufacturedFor}
+    caseQuantity={prop.caseQuantity}
+    setCaseQuantity={prop.setCaseQuantity}
+    caseUnit={prop.caseUnit}
+    setCaseUnit={prop.setCaseUnit}
+    storage={prop.storage}
+    setStorage={prop.setStorage}
+    manufacturedFor={prop.manufacturedFor}
+    defaultLabelStyle={prop.defaultLabelStyle}
+    productNameENStyle={prop.productNameENStyle}
+    productNameZHStyle={prop.productNameZHStyle}
+    allergenStyle={prop.allergenStyle}
+    weightStyle={prop.weightStyle}
+    ingredientStyle={prop.ingredientStyle}
+    manufacturedForStyle={prop.manufacturedForStyle}
+    storageStyle={prop.storageStyle}
+    editMode={prop.editMode}
+    setEditMode={prop.setEditMode}
+    logo={prop.logo}
+    ref={ref}
+    allergen={prop.allergen}
+    setAllergen={prop.setAllergen}
+    showBorder={prop.showBorder}
     />
   );
 });

@@ -12,6 +12,8 @@ export const enum iEditedMode {
     "allergen"="allergen",
     "lotNumber"="lotNumber",
     "bestBefore"="bestBefore",
+    "cardComponent"="cardComponent",
+    "stylePannel"="stylePannel",
     "empty" = "empty",
   }
   
