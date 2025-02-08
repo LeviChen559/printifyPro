@@ -34,7 +34,7 @@ export const Header = styled.div({
     display:"flex",
     justifyContent:"flex-start",
     alignItems:"center",
-    gap:8,
+    gap:12,
     borderBottom:"1px solid #bcbcbc"
 })
 

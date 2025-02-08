@@ -26,6 +26,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 
+
 interface iProps {
   selectLabelInfo: iLabelInfo;
   setShowCard: React.Dispatch<
@@ -142,10 +143,11 @@ const LabelEditCard: FC<iProps> = (prop) => {
     rows: 4,
     lineHeight: 1.2,
   });
-  const [manufacturedFor, setManufacturedFor] = useState<string>(
+  const [manufactured, setManufactured] = useState<string>(
     prop.selectLabelInfo.manufactured
   );
-  const [manufacturedForStyle, setManufacturedForStyle] = useState<iTextStyle>({
+  
+  const [manufacturedStyle, setManufacturedStyle] = useState<iTextStyle>({
     color: "#000000",
     fontStyle: "Normal",
     fontSize: 14,
@@ -176,7 +178,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
     shelf_life: shelfLife,
     case_gtin: caseGtin,
     ingredient: ingredient,
-    manufactured: manufacturedFor,
+    manufactured: manufactured,
     label_temp: labelTemp,
     allergen: allergen,
   };
@@ -232,7 +234,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
         locale: "ingredient",
       },
       {
-        field: manufacturedFor,
+        field: manufactured,
         message: "Manufactured For is required",
         locale: "manufactured",
       },
@@ -273,10 +275,11 @@ const LabelEditCard: FC<iProps> = (prop) => {
     shelfLife,
     caseGtin,
     ingredient,
-    manufacturedFor,
+    manufactured,
     submitClicked,
     allergen,
   ]);
+
   useEffect(() => {
     if (labelStyle?.data?.[0]) {
       const {
@@ -288,13 +291,28 @@ const LabelEditCard: FC<iProps> = (prop) => {
         storage,
         allergen,
       } = labelStyle.data[0];
-      const productNameEnObj = product_name_en;
-      const productNameZhObj = product_name_zh;
-      const weightObj = weight;
-      const ingredientObj = ingredient;
-      const manufacturedForObj = manufactured;
-      const storageObj = storage;
-      const allergenObj = allergen;
+    
+      // Safe JSON parsing function
+      const safeParse = (value: string) => {
+        try {
+          return JSON.parse(value);
+        } catch (error) {
+          console.error("Invalid JSON:", value, error);
+          return value; // Return original value if parsing fails
+        }
+      };
+    
+      const productNameEnObj = safeParse(product_name_en);
+      const productNameZhObj = safeParse(product_name_zh);
+      const weightObj = safeParse(weight);
+      const ingredientObj = safeParse(ingredient);
+      const manufacturedForObj = safeParse(manufactured);
+      const storageObj = safeParse(storage);
+      const allergenObj = safeParse(allergen);
+
+    console.log(labelStyle)
+      
+
 
       setProductNameENStyle((prevStyle) => ({
         ...prevStyle,
@@ -334,7 +352,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
         rows: ingredientObj?.rows,
         lineHeight: ingredientObj?.lineHeight,
       }));
-      setManufacturedForStyle((prevStyle) => ({
+      setManufacturedStyle((prevStyle) => ({
         ...prevStyle,
         color: manufacturedForObj?.color,
         fontStyle: manufacturedForObj?.fontStyle,
@@ -363,6 +381,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
         lineHeight: allergenObj?.lineHeight,
       }));
     }
+
   }, [labelStyle]);
 
   const defaultText = {
@@ -371,7 +390,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
     fontSize: 14,
     fontFamily: "Arial",
     fontWeight: 400,
-    rows: 2,
+    rows: 1,
     lineHeight: 1.2,
   };
 
@@ -387,7 +406,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
     ingredient: ingredientStyle,
     weight: labelStyle ? labelStyle.data[0]?.weight : defaultText,
     storage: storageStyle,
-    manufactured: manufacturedForStyle,
+    manufactured: manufacturedStyle,
     case_quantity: labelStyle ? labelStyle.data[0]?.case_quantity : defaultText,
     case_unit: labelStyle ? labelStyle.data[0]?.case_unit : defaultText,
     shelf_life: labelStyle ? labelStyle.data[0]?.shelf_life : defaultText,
@@ -544,7 +563,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
         ...prevStyle,
         [styleType]: value, // Dynamically update the style property based on styleType
       }));
-    } else if (dataType === iEditedMode.manufacturedFor) {
+    } else if (dataType === iEditedMode.manufactured) {
       const value =
         styleType === iTextStyleMode.fontSize ||
         styleType === iTextStyleMode.fontWeight ||
@@ -552,7 +571,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
         styleType === iTextStyleMode.lineHeight
           ? Number(event.target.value) // Convert to number for fontSize or fontWeight
           : event.target.value; // Keep as string for other properties
-      setManufacturedForStyle((prevStyle) => ({
+      setManufacturedStyle((prevStyle) => ({
         ...prevStyle,
         [styleType]: value, // Dynamically update the style property based on styleType
       }));
@@ -665,7 +684,7 @@ useEffect(() => {
           productNameZHStyle={productNameZHStyle}
           weightStyle={weightStyle}
           ingredientStyle={ingredientStyle}
-          manufacturedForStyle={manufacturedForStyle}
+          manufacturedStyle={manufacturedStyle}
           storageStyle={storageStyle}
           allergenStyle={allergenStyle}
           handleChange={handleChange}
@@ -726,15 +745,15 @@ useEffect(() => {
             setCaseUnit={setCaseUnit}
             storage={storage}
             setStorage={setStorage}
-            setManufacturedFor={setManufacturedFor}
-            manufacturedFor={manufacturedFor}
+            setManufactured={setManufactured}
+            manufacturedFor={manufactured}
             editMode={editMode}
             setEditMode={setEditMode}
             productNameENStyle={productNameENStyle}
             productNameZHStyle={productNameZHStyle}
-            weightStyle={weightStyle}
+            defaultText={defaultText}
             ingredientStyle={ingredientStyle}
-            manufacturedForStyle={manufacturedForStyle}
+            manufacturedStyle={manufacturedStyle}
             storageStyle={storageStyle}
             defaultLabelStyle={labelStyle.data[0] as iLabelStyle}
             showBorder={showBorder}
@@ -767,8 +786,8 @@ useEffect(() => {
           setCaseUnit={setCaseUnit}
           caseGtin={caseGtin}
           setCaseGtin={setCaseGtin}
-          manufacturedFor={manufacturedFor}
-          setManufacturedFor={setManufacturedFor}
+          manufacturedFor={manufactured}
+          setManufactured={setManufactured}
           storage={storage}
           setStorage={setStorage}
           shelfLife={shelfLife}

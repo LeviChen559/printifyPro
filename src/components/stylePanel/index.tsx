@@ -15,7 +15,7 @@ interface iProps {
   productNameZHStyle: iTextStyle;
   weightStyle: iTextStyle;
   ingredientStyle: iTextStyle;
-  manufacturedForStyle: iTextStyle;
+  manufacturedStyle: iTextStyle;
   storageStyle: iTextStyle;
   allergenStyle: iTextStyle;
   handleChange: (
@@ -48,7 +48,7 @@ const StylePanel= forwardRef<HTMLDivElement, iProps>((prop, ref) =>{
         return "Weight";
       case iEditedMode.allergen:
         return "Allergen";
-      case iEditedMode.manufacturedFor:
+      case iEditedMode.manufactured:
         return "Manufactured For";
       case iEditedMode.storage:
         return "Storage Requirements";
@@ -73,8 +73,8 @@ const StylePanel= forwardRef<HTMLDivElement, iProps>((prop, ref) =>{
       case iEditedMode.weight:
         fontStyle = prop.weightStyle.fontStyle;
         break;
-      case iEditedMode.manufacturedFor:
-        fontStyle = prop.manufacturedForStyle.fontStyle;
+      case iEditedMode.manufactured:
+        fontStyle = prop.manufacturedStyle.fontStyle;
         break;
       case iEditedMode.storage:
         fontStyle = prop.storageStyle.fontStyle;
@@ -104,8 +104,8 @@ const StylePanel= forwardRef<HTMLDivElement, iProps>((prop, ref) =>{
       case iEditedMode.weight:
         fontFamily = prop.weightStyle.fontFamily;
         break;
-      case iEditedMode.manufacturedFor:
-        fontFamily = prop.manufacturedForStyle.fontFamily;
+      case iEditedMode.manufactured:
+        fontFamily = prop.manufacturedStyle.fontFamily;
         break;
       case iEditedMode.storage:
         fontFamily = prop.storageStyle.fontFamily;
@@ -134,8 +134,8 @@ const StylePanel= forwardRef<HTMLDivElement, iProps>((prop, ref) =>{
       case iEditedMode.weight:
         fontWeight = prop.weightStyle.fontWeight;
         break;
-      case iEditedMode.manufacturedFor:
-        fontWeight = prop.manufacturedForStyle.fontWeight;
+      case iEditedMode.manufactured:
+        fontWeight = prop.manufacturedStyle.fontWeight;
         break;
       case iEditedMode.storage:
         fontWeight = prop.storageStyle.fontWeight;
@@ -163,8 +163,8 @@ const StylePanel= forwardRef<HTMLDivElement, iProps>((prop, ref) =>{
       case iEditedMode.weight:
         fontSize = prop.weightStyle.fontSize;
         break;
-      case iEditedMode.manufacturedFor:
-        fontSize = prop.manufacturedForStyle.fontSize;
+      case iEditedMode.manufactured:
+        fontSize = prop.manufacturedStyle.fontSize;
         break;
       case iEditedMode.storage:
         fontSize = prop.storageStyle.fontSize;
@@ -190,8 +190,8 @@ const StylePanel= forwardRef<HTMLDivElement, iProps>((prop, ref) =>{
         rows = prop.ingredientStyle.rows;
         break;
 
-      case iEditedMode.manufacturedFor:
-        rows = prop.manufacturedForStyle.rows;
+      case iEditedMode.manufactured:
+        rows = prop.manufacturedStyle.rows;
 
       case iEditedMode.allergen:
         rows = prop.allergenStyle.rows;
@@ -213,8 +213,8 @@ const StylePanel= forwardRef<HTMLDivElement, iProps>((prop, ref) =>{
       case iEditedMode.ingredient:
         lineHeight = prop.ingredientStyle.lineHeight;
         break;
-      case iEditedMode.manufacturedFor:
-        lineHeight = prop.manufacturedForStyle.lineHeight;
+      case iEditedMode.manufactured:
+        lineHeight = prop.manufacturedStyle.lineHeight;
         break;
       case iEditedMode.allergen:
         lineHeight = prop.allergenStyle.lineHeight;
@@ -420,7 +420,7 @@ const StylePanel= forwardRef<HTMLDivElement, iProps>((prop, ref) =>{
         </FormControl>
         {(iEditedMode.productNameEn ||
           iEditedMode.productNameZh ||
-          iEditedMode.manufacturedFor ||
+          iEditedMode.manufactured ||
           iEditedMode.ingredient ||
           iEditedMode.allergen) && (
           <FormControl
@@ -457,7 +457,7 @@ const StylePanel= forwardRef<HTMLDivElement, iProps>((prop, ref) =>{
         )}
         {(iEditedMode.productNameEn ||
           iEditedMode.productNameZh ||
-          iEditedMode.manufacturedFor ||
+          iEditedMode.manufactured ||
           iEditedMode.ingredient ||
           iEditedMode.allergen) && (
           <FormControl

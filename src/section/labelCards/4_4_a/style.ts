@@ -34,7 +34,7 @@ export const Header = styled.div({
     display:"flex",
     justifyContent:"flex-start",
     alignItems:"center",
-    gap:8,
+    gap:12,
     borderBottom:"1px solid #bcbcbc"
 })
 
@@ -69,7 +69,7 @@ export const Ingredients = styled.div<iProps>({
     flexDirection:"row",
     justifyContent:"flex-start",
     alignItems:"flex-start",
-    gap:8
+    gap:12
 })
 
 export const Row = styled.div<iProps>({

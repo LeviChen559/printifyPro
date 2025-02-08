@@ -40,7 +40,7 @@ interface iProps {
   caseGtin: string;
   setCaseGtin: Dispatch<SetStateAction<string>>;
   manufacturedFor: string;
-  setManufacturedFor: Dispatch<SetStateAction<string>>;
+  setManufactured: Dispatch<SetStateAction<string>>;
   storage: string;
   setStorage: Dispatch<SetStateAction<string>>;
   shelfLife: string;
@@ -424,7 +424,7 @@ const LabelForm: FC<iProps> = (prop) => {
           rows={2}
           background="#ffffff80"
           placeholder="addresses"
-          onChange={(e) => prop.setManufacturedFor(e.target.value)}
+          onChange={(e) => prop.setManufactured(e.target.value)}
           startIcon={null}
           error={
             prop.formError.error && prop.formError.locale === "manufacturedFor"

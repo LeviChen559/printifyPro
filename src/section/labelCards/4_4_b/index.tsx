@@ -1,4 +1,4 @@
-import React, { forwardRef, Dispatch, SetStateAction, useMemo } from "react";
+import React, { forwardRef, Dispatch, SetStateAction } from "react";
 import {
   Container,
   Header,
@@ -39,7 +39,7 @@ interface iProp {
   allergen?: string;
   setAllergen?: Dispatch<SetStateAction<string>>;
   weight?: string;
-  setManufacturedFor?: Dispatch<SetStateAction<string>>;
+  setManufactured?: Dispatch<SetStateAction<string>>;
   caseUnit?: string;
   setCaseUnit?: Dispatch<SetStateAction<string>>;
   caseQuantity?: number;
@@ -53,11 +53,11 @@ interface iProp {
   setEditMode?: (value: iEditedMode) => void;
   productNameENStyle?: iTextStyle;
   productNameZHStyle?: iTextStyle;
-  weightStyle?: iTextStyle;
   ingredientStyle?: iTextStyle;
-  manufacturedForStyle?: iTextStyle;
+  manufacturedStyle?: iTextStyle;
   storageStyle?: iTextStyle;
   allergenStyle?: iTextStyle;
+  defaultText?: iTextStyle;
   defaultLabelStyle: iLabelStyle;
   logo: string;
   showBorder: boolean;
@@ -191,40 +191,34 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
     prop.allergenStyle,
     prop.defaultLabelStyle?.allergen
   );
-  const manufacturedForStyle = getTextStyle(
-    prop.manufacturedForStyle,
+  const manufacturedStyle = getTextStyle(
+    prop.manufacturedStyle,
     prop.defaultLabelStyle?.manufactured
   );
-  const itemCodeStyle = useMemo(
-    () => getTextStyle(prop.defaultLabelStyle?.item_code, undefined),
-    [prop.defaultLabelStyle]
+  const itemCodeStyle =getTextStyle(
+    prop.defaultText,
   );
   // const customerItemCodeStyle = useMemo(
   //   () => getTextStyle(prop.defaultLabelStyle?.customer_item_code, undefined),
   //   [prop.defaultLabelStyle]
   // );
-  const weightStyle = useMemo(
-    () => getTextStyle(prop.defaultLabelStyle?.weight, undefined),
-    [prop.defaultLabelStyle]
+  const weightStyle = getTextStyle(
+    prop.defaultText,
   );
-  const caseUnitStyle = useMemo(
-    () => getTextStyle(prop.defaultLabelStyle?.case_unit, undefined),
-    [prop.defaultLabelStyle]
+  const caseUnitStyle = getTextStyle(
+    prop.defaultText,
   );
-  const caseQuantityStyle = useMemo(
-    () => getTextStyle(prop.defaultLabelStyle?.case_quantity, undefined),
-    [prop.defaultLabelStyle]
+  const caseQuantityStyle =getTextStyle(
+    prop.defaultText,
   );
 
-  const lotNumberStyle = useMemo(
-    () => getTextStyle(prop.defaultLabelStyle?.lot_number, undefined),
-    [prop.defaultLabelStyle]
+  const lotNumberStyle = getTextStyle(
+    prop.defaultText,
   );
-  const storageStyle = useMemo(
-    () => getTextStyle(prop.defaultLabelStyle?.storage, undefined),
-    [prop.defaultLabelStyle]
+  const storageStyle =getTextStyle(
+    prop.defaultText,
   );
-  console.log("ingredientStyle",ingredientStyle);
+
 
   return (
     <Container id="labelCard" ref={ref}>
@@ -381,14 +375,14 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             />
           </Row>
           <EditableTextareaField
-            name={iEditedMode.manufacturedFor}
+            name={iEditedMode.manufactured}
             value={prop.manufacturedFor}
-            onChange={prop.setManufacturedFor}
-            style={manufacturedForStyle}
+            onChange={prop.setManufactured}
+            style={manufacturedStyle}
             readonly={!isEditedMode}
-            rows={prop.manufacturedForStyle?.rows ?? 1}
+            rows={prop.manufacturedStyle?.rows ?? 1}
             onEditMode={() =>
-              prop.setEditMode && prop.setEditMode(iEditedMode.manufacturedFor)
+              prop.setEditMode && prop.setEditMode(iEditedMode.manufactured)
             }
           />
         </Col>

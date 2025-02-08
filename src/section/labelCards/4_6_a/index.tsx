@@ -36,7 +36,7 @@ interface iProp {
   ingredient?: string;
   setWeight?: Dispatch<SetStateAction<string>>;
   weight?: string;
-  setManufacturedFor?: Dispatch<SetStateAction<string>>;
+  setManufactured?: Dispatch<SetStateAction<string>>;
   caseQuantity?: number;
   setCaseQuantity?: Dispatch<SetStateAction<number>>;
   caseUnit?: string;
@@ -51,9 +51,9 @@ interface iProp {
   productNameZHStyle?: iTextStyle;
   weightStyle?: iTextStyle;
   ingredientStyle?: iTextStyle;
-  manufacturedForStyle?: iTextStyle;
+  manufacturedStyle?: iTextStyle;
   storageStyle?: iTextStyle;
-  weightUnitStyle?: iTextStyle;
+  defaultText?: iTextStyle;
   allergenStyle?: iTextStyle;
   defaultLabelStyle: iLabelStyle;
   logo: string;
@@ -76,7 +76,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
   return (
     <Container id="labelCard" ref={ref}>
       <Header>
-        <LabelLogo logo={prop.logo} fontSize={48} />
+        <LabelLogo logo={prop.logo}  />
            <EditTextarea
                    readonly={!prop.isEditedMode}
                    onEditMode={() =>
@@ -389,24 +389,24 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
                 height: "100%",
                 margin: 0,
                 padding: 0,
-                fontSize: prop.manufacturedForStyle
-                  ? prop.manufacturedForStyle.fontSize
+                fontSize: prop.manufacturedStyle
+                  ? prop.manufacturedStyle.fontSize
                   : prop.defaultLabelStyle &&
                     prop.defaultLabelStyle.manufactured.fontSize,
-                fontFamily: prop.manufacturedForStyle
-                  ? prop.manufacturedForStyle.fontFamily
+                fontFamily: prop.manufacturedStyle
+                  ? prop.manufacturedStyle.fontFamily
                   : prop.defaultLabelStyle &&
                     prop.defaultLabelStyle.manufactured.fontFamily,
-                color: prop.manufacturedForStyle
-                  ? prop.manufacturedForStyle.color
+                color: prop.manufacturedStyle
+                  ? prop.manufacturedStyle.color
                   : prop.defaultLabelStyle &&
                     prop.defaultLabelStyle.manufactured.color,
-                fontStyle: prop.manufacturedForStyle
-                  ? prop.manufacturedForStyle.fontStyle
+                fontStyle: prop.manufacturedStyle
+                  ? prop.manufacturedStyle.fontStyle
                   : prop.defaultLabelStyle &&
                     prop.defaultLabelStyle.manufactured.fontStyle,
-                fontWeight: prop.manufacturedForStyle
-                  ? prop.manufacturedForStyle.fontWeight
+                fontWeight: prop.manufacturedStyle
+                  ? prop.manufacturedStyle.fontWeight
                   : prop.defaultLabelStyle &&
                     prop.defaultLabelStyle.manufactured.fontWeight,
                 background: "transparent",
@@ -426,12 +426,12 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               rows={1.25}
               value={prop.manufacturedFor}
               onChange={(e) =>
-                prop.setManufacturedFor &&
-                prop.setManufacturedFor(e.target.value)
+                prop.setManufactured &&
+                prop.setManufactured(e.target.value)
               }
               onEditMode={() =>
                 prop.setEditMode &&
-                prop.setEditMode(iEditedMode.manufacturedFor)
+                prop.setEditMode(iEditedMode.manufactured)
               }
             />
           </div>

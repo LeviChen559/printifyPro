@@ -32,7 +32,7 @@ interface iProps {
   allergen?: string;
   setAllergen?: Dispatch<SetStateAction<string>>;
   weight?: string;
-  setManufacturedFor?: Dispatch<SetStateAction<string>>;
+  setManufactured?: Dispatch<SetStateAction<string>>;
   caseQuantity?: number;
   setCaseQuantity?: Dispatch<SetStateAction<number>>;
   caseUnit?: string;
@@ -48,11 +48,10 @@ interface iProps {
   setLogo?: Dispatch<SetStateAction<string>>;
   productNameENStyle?: iTextStyle;
   productNameZHStyle?: iTextStyle;
-  weightStyle?: iTextStyle;
+  defaultText: iTextStyle;
   ingredientStyle?: iTextStyle;
-  manufacturedForStyle?: iTextStyle;
+  manufacturedStyle?: iTextStyle;
   storageStyle?: iTextStyle;
-  weightUnitStyle?: iTextStyle;
   allergenStyle?: iTextStyle;
   defaultLabelStyle: iLabelStyle;
   showBorder: boolean;
@@ -98,7 +97,7 @@ export const rowHeightConverter = (rows: number) => {
 export type Ref = HTMLDivElement;
 const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
 
-  console.log("LabelCard", prop.ingredientStyle);
+
 
   return prop.type === "4x4_a" ? (
     <LabelCard4_4_a
@@ -118,7 +117,7 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       ingredient={prop.ingredient}
       setWeight={prop.setWeight}
       weight={prop.weight}
-      setManufacturedFor={prop.setManufacturedFor}
+      setManufactured={prop.setManufactured}
       caseQuantity={prop.caseQuantity}
       setCaseQuantity={prop.setCaseQuantity}
       caseUnit={prop.caseUnit}
@@ -127,12 +126,12 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       setStorage={prop.setStorage}
       manufacturedFor={prop.manufacturedFor}
       defaultLabelStyle={prop.defaultLabelStyle}
+      defaultText={prop.defaultText}
       productNameENStyle={prop.productNameENStyle}
       productNameZHStyle={prop.productNameZHStyle}
       allergenStyle={prop.allergenStyle}
-      weightStyle={prop.weightStyle}
       ingredientStyle={prop.ingredientStyle}
-      manufacturedForStyle={prop.manufacturedForStyle}
+      manufacturedStyle={prop.manufacturedStyle}
       storageStyle={prop.storageStyle}
       editMode={prop.editMode}
       setEditMode={prop.setEditMode}
@@ -158,7 +157,7 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
     ingredient={prop.ingredient}
     setWeight={prop.setWeight}
     weight={prop.weight}
-    setManufacturedFor={prop.setManufacturedFor}
+    setManufactured={prop.setManufactured}
     caseQuantity={prop.caseQuantity}
     setCaseQuantity={prop.setCaseQuantity}
     caseUnit={prop.caseUnit}
@@ -167,12 +166,12 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
     setStorage={prop.setStorage}
     manufacturedFor={prop.manufacturedFor}
     defaultLabelStyle={prop.defaultLabelStyle}
+    defaultText={prop.defaultText}
     productNameENStyle={prop.productNameENStyle}
     productNameZHStyle={prop.productNameZHStyle}
     allergenStyle={prop.allergenStyle}
-    weightStyle={prop.weightStyle}
     ingredientStyle={prop.ingredientStyle}
-    manufacturedForStyle={prop.manufacturedForStyle}
+    manufacturedStyle={prop.manufacturedStyle}
     storageStyle={prop.storageStyle}
     editMode={prop.editMode}
     setEditMode={prop.setEditMode}
@@ -200,7 +199,7 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
     ingredient={prop.ingredient}
     setWeight={prop.setWeight}
     weight={prop.weight}
-    setManufacturedFor={prop.setManufacturedFor}
+    setManufactured={prop.setManufactured}
     caseQuantity={prop.caseQuantity}
     setCaseQuantity={prop.setCaseQuantity}
     caseUnit={prop.caseUnit}
@@ -212,9 +211,9 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
     productNameENStyle={prop.productNameENStyle}
     productNameZHStyle={prop.productNameZHStyle}
     allergenStyle={prop.allergenStyle}
-    weightStyle={prop.weightStyle}
+    defaultText={prop.defaultText}
     ingredientStyle={prop.ingredientStyle}
-    manufacturedForStyle={prop.manufacturedForStyle}
+    manufacturedStyle={prop.manufacturedStyle}
     storageStyle={prop.storageStyle}
     editMode={prop.editMode}
     setEditMode={prop.setEditMode}

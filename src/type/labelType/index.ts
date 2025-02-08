@@ -4,7 +4,7 @@ export const enum iEditedMode {
     "ingredient" = "ingredient",
     "weight" = "weight",
     "caseQuantity" = "caseQuantity",
-    "manufacturedFor" = "manufacturedFor",
+    "manufactured" = "manufactured",
     "customerCode" = "customerCode",
     "itemCode" = "itemCode",
     "caseUnit" = "caseUnit",
