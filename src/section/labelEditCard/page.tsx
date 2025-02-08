@@ -39,6 +39,7 @@ interface iProps {
   >;
   userName: string;
   userRole: string;
+  defaultText: iTextStyle;
 }
 
 const LabelEditCard: FC<iProps> = (prop) => {
@@ -306,7 +307,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
       const productNameZhObj = safeParse(product_name_zh);
       const weightObj = safeParse(weight);
       const ingredientObj = safeParse(ingredient);
-      const manufacturedForObj = safeParse(manufactured);
+      const manufacturedObj = safeParse(manufactured);
       const storageObj = safeParse(storage);
       const allergenObj = safeParse(allergen);
 
@@ -354,13 +355,13 @@ const LabelEditCard: FC<iProps> = (prop) => {
       }));
       setManufacturedStyle((prevStyle) => ({
         ...prevStyle,
-        color: manufacturedForObj?.color,
-        fontStyle: manufacturedForObj?.fontStyle,
-        fontSize: manufacturedForObj?.fontSize,
-        fontFamily: manufacturedForObj?.fontFamily,
-        fontWeight: manufacturedForObj?.fontWeight,
-        rows: manufacturedForObj?.rows,
-        lineHeight: manufacturedForObj?.lineHeight,
+        color: manufacturedObj?.color,
+        fontStyle: manufacturedObj?.fontStyle,
+        fontSize: manufacturedObj?.fontSize,
+        fontFamily: manufacturedObj?.fontFamily,
+        fontWeight: manufacturedObj?.fontWeight,
+        rows: manufacturedObj?.rows,
+        lineHeight: manufacturedObj?.lineHeight,
       }));
       setStorageStyle((prevStyle) => ({
         ...prevStyle,
@@ -384,32 +385,24 @@ const LabelEditCard: FC<iProps> = (prop) => {
 
   }, [labelStyle]);
 
-  const defaultText = {
-    color: "#000000",
-    fontStyle: "Normal",
-    fontSize: 14,
-    fontFamily: "Arial",
-    fontWeight: 400,
-    rows: 1,
-    lineHeight: 1.2,
-  };
+
 
   const labelStyleuUpdates: iLabelStyle = {
     id: prop.selectLabelInfo.id,
-    item_code: labelStyle ? labelStyle.data[0]?.item_code : defaultText,
+    item_code: labelStyle ? labelStyle.data[0]?.item_code : prop.defaultText,
     customer_item_code: labelStyle
       ? labelStyle.data[0]?.customer_item_code
-      : defaultText,
-    lot_number: labelStyle ? labelStyle.data[0]?.lot_number : defaultText,
+      : prop.defaultText,
+    lot_number: labelStyle ? labelStyle.data[0]?.lot_number : prop.defaultText,
     product_name_en: productNameENStyle,
     product_name_zh: productNameZHStyle,
     ingredient: ingredientStyle,
-    weight: labelStyle ? labelStyle.data[0]?.weight : defaultText,
+    weight: labelStyle ? labelStyle.data[0]?.weight : prop.defaultText,
     storage: storageStyle,
     manufactured: manufacturedStyle,
-    case_quantity: labelStyle ? labelStyle.data[0]?.case_quantity : defaultText,
-    case_unit: labelStyle ? labelStyle.data[0]?.case_unit : defaultText,
-    shelf_life: labelStyle ? labelStyle.data[0]?.shelf_life : defaultText,
+    case_quantity: labelStyle ? labelStyle.data[0]?.case_quantity : prop.defaultText,
+    case_unit: labelStyle ? labelStyle.data[0]?.case_unit : prop.defaultText,
+    shelf_life: labelStyle ? labelStyle.data[0]?.shelf_life : prop.defaultText,
     allergen: allergenStyle,
   };
 
@@ -746,12 +739,12 @@ useEffect(() => {
             storage={storage}
             setStorage={setStorage}
             setManufactured={setManufactured}
-            manufacturedFor={manufactured}
+            manufactured={manufactured}
             editMode={editMode}
             setEditMode={setEditMode}
             productNameENStyle={productNameENStyle}
             productNameZHStyle={productNameZHStyle}
-            defaultText={defaultText}
+            defaultText={prop.defaultText}
             ingredientStyle={ingredientStyle}
             manufacturedStyle={manufacturedStyle}
             storageStyle={storageStyle}
@@ -786,7 +779,7 @@ useEffect(() => {
           setCaseUnit={setCaseUnit}
           caseGtin={caseGtin}
           setCaseGtin={setCaseGtin}
-          manufacturedFor={manufactured}
+          manufactured={manufactured}
           setManufactured={setManufactured}
           storage={storage}
           setStorage={setStorage}

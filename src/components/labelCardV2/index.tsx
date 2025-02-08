@@ -24,8 +24,8 @@ interface iProp {
   ingredientInfo?: string;
   setWeight?: (value: number) => void;
   weight?: number;
-  setManufacturedFor?: (value: string) => void;
-  manufacturedFor?: string;
+  setManufactured?: (value: string) => void;
+  manufactured?: string;
   setWeightUnit?: React.Dispatch<React.SetStateAction<string>>;
   weightUnit?: string;
 }

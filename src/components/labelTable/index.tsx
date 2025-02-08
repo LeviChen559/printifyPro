@@ -120,7 +120,7 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
                 </TableCell>
                 <TableCell align="left">{row.item_code}</TableCell>
                 <TableCell align="left">
-                  <LabelLogo logo={row.logo} fontSize={18} />
+                  <LabelLogo logo={row.logo}  />
                 </TableCell>
                 <TableCell align="left" sx={{ width: "50px" }}>
                   {row.product_name_en}

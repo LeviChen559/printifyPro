@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { PreviewContainer, EditContainer, Container } from "./style";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Typography } from "@mui/material";
-import { useRouter ,useSearchParams} from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Skeleton from "@mui/material/Skeleton";
 import UserState from "@/components/userState";
 import useSWR from "swr";
@@ -22,7 +22,11 @@ import {
 } from "@/type/labelType";
 import LabelForm from "@/section/labelForm";
 import { fetcher } from "@/utils/lib/fetcher";
-
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 
 const AddNew = () => {
   // Log the data to check its structure
@@ -33,10 +37,10 @@ const AddNew = () => {
     locale: "",
   });
   const router = useRouter();
-  const searchParams = useSearchParams()
- 
-  const duplicatedLabel = searchParams.get('duplicatedLabel')
-  
+  const searchParams = useSearchParams();
+
+  const duplicatedLabel = searchParams.get("duplicatedLabel");
+
   const [logo, setLogo] = useState<string>("001");
   const [labelTemp, setLabelTemp] = useState<string>("4x4_a");
   const [itemCode, setItemCode] = useState<string>("");
@@ -52,27 +56,28 @@ const AddNew = () => {
   const [shelfLife, setShelfLife] = useState<string>("");
   const [caseGtin, setCaseGtin] = useState<string>("000000000000");
   const [ingredient, setIngredient] = useState<string>("");
-  const [manufacturedFor, setManufacturedFor] = useState<string>("");
+  const [manufactured, setManufactured] = useState<string>("");
   const [sendAnewLabel, setSendAnewLabel] = useState<boolean>(false);
   const [editMode, setEditMode] = useState<iEditedMode>(iEditedMode.empty);
   const [submitClicked, setSubmitClicked] = useState<boolean>(false);
+  const [showBorder, setShowBorder] = useState<boolean>(true);
 
   useEffect(() => {
     if (duplicatedLabel) {
       const parsedData = JSON.parse(duplicatedLabel);
-      
+
       setProductNameEN(parsedData.product_name_en || "");
       setProductNameZH(parsedData.product_name_zh || "");
       setIngredient(parsedData.ingredient || "");
       setWeight(parsedData.weight || "");
-      setManufacturedFor(parsedData.manufactured || "");
+      setManufactured(parsedData.manufactured || "");
       setStorage(parsedData.storage || "");
       setCaseQuantity(parsedData.case_quantity || "");
       setCaseUnit(parsedData.case_unit || "");
       setLogo(parsedData.logo || "");
     }
   }, [duplicatedLabel]);
-  
+
   const defaultHeaderStyle = {
     color: "#000000",
     fontSize: 24,
@@ -93,7 +98,7 @@ const AddNew = () => {
     useState<iTextStyle>(defaultHeaderStyle);
   const [ingredientStyle, setingredientStyle] =
     useState<iTextStyle>(defaultTextStyle);
-  const [manufacturedForStyle, setManufacturedForStyle] =
+  const [manufacturedStyle, setManufacturedStyle] =
     useState<iTextStyle>(defaultTextStyle);
   const [weightStyle, setWeightStyle] = useState<iTextStyle>(defaultTextStyle);
   const [allergenStyle, setAllergenStyle] =
@@ -147,7 +152,7 @@ const AddNew = () => {
         locale: "ingredient",
       },
       {
-        field: manufacturedFor,
+        field: manufactured,
         message: "Manufactured For is required",
         locale: "manufactured",
       },
@@ -188,7 +193,7 @@ const AddNew = () => {
     shelfLife,
     caseGtin,
     ingredient,
-    manufacturedFor,
+    manufactured,
     submitClicked,
   ]);
 
@@ -201,7 +206,6 @@ const AddNew = () => {
     labelData &&
     labelData.some((item: iLabelInfo) => item.item_code !== itemCode);
 
-  
   const contentRef = useRef<HTMLDivElement>(null);
 
   const labelInput = {
@@ -209,7 +213,7 @@ const AddNew = () => {
     logo: logo,
     item_code: isUniqueItemCode && itemCode, // Add appropriate value
     customer_item_code: customerItemCode,
-    lot_number:lotNumber,
+    lot_number: lotNumber,
     product_name_en: productNameEN,
     product_name_zh: productNameZH,
     weight: weight,
@@ -219,11 +223,10 @@ const AddNew = () => {
     shelf_life: shelfLife,
     case_gtin: caseGtin,
     ingredient: ingredient,
-    manufactured: manufacturedFor,
+    manufactured: manufactured,
     label_temp: labelTemp,
-    allergen: allergen
+    allergen: allergen,
   };
-
 
   const defaultLabelStyle = {
     id: lastItem && lastItem.id + 1,
@@ -240,7 +243,7 @@ const AddNew = () => {
     shelf_life: defaultTextStyle,
     case_gtin: defaultTextStyle,
     ingredient: ingredientStyle,
-    manufactured: manufacturedForStyle
+    manufactured: manufacturedStyle,
   };
 
   useEffect(() => {
@@ -342,14 +345,14 @@ const AddNew = () => {
         ...prevStyle,
         [styleType]: value, // Dynamically update the style property based on styleType
       }));
-    } else if (dataType === iEditedMode.manufacturedFor) {
+    } else if (dataType === iEditedMode.manufactured) {
       const value =
         styleType === iTextStyleMode.fontSize ||
         styleType === iTextStyleMode.fontWeight
           ? Number(event.target.value) // Convert to number for fontSize or fontWeight
           : event.target.value; // Keep as string for other properties
 
-      setManufacturedForStyle((prevStyle: iTextStyle) => ({
+      setManufacturedStyle((prevStyle: iTextStyle) => ({
         ...prevStyle,
         [styleType]: value, // Dynamically update the style property based on styleType
       }));
@@ -411,53 +414,75 @@ const AddNew = () => {
           productNameZHStyle={productNameZHStyle}
           weightStyle={weightStyle}
           ingredientStyle={ingredientStyle}
-          manufacturedForStyle={manufacturedForStyle}
+          manufacturedStyle={manufacturedStyle}
           storageStyle={storageStyle}
           handleChange={handleChange}
           allergenStyle={allergenStyle}
         />
-       <LabelCard
-  type={labelTemp}
-  labelInput={labelInput}
-  isEditedMode
-  itemCode={itemCode}
-  customerItemCode={customerItemCode}
-  setCustomerItemCode={setCustomerItemCode}
-  lotNumber={lotNumber}
-  setLotNumber={setLotNumber}
-  setItemCode={setItemCode}
-  setProductNameEN={setProductNameEN}
-  setProductNameZH={setProductNameZH}
-  productNameEN={ productNameEN}
-  productNameZH={ productNameZH}
-  setIngredient={setIngredient}
-  ingredient={ ingredient}
-  setWeight={setWeight}
-  weight={ weight}
-  allergen={allergen}
-  setAllergen={setAllergen}
-  setManufacturedFor={setManufacturedFor}
-  setStorage={setStorage}
-  manufacturedFor={ manufacturedFor}
-  caseQuantity={ caseQuantity}
-  setCaseQuantity={setCaseQuantity}
-  caseUnit={ caseUnit}
-  setCaseUnit={setCaseUnit}
-  storage={ storage}
-  defaultLabelStyle={defaultLabelStyle}
-  productNameENStyle={productNameENStyle}
-  productNameZHStyle={productNameZHStyle}
-  weightStyle={weightStyle}
-  allergenStyle={allergenStyle}
-  ingredientStyle={ingredientStyle}
-  manufacturedForStyle={manufacturedForStyle}
-  storageStyle={storageStyle}
-  editMode={editMode}
-  setEditMode={setEditMode}
-  logo={ logo}
-  setLogo={setLogo}
-  ref={contentRef}
-/>
+         <FormControl>
+          <FormLabel id="demo-row-radio-buttons-group-label">Mode</FormLabel>
+          <RadioGroup
+            row
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            name="row-radio-buttons-group"
+            value={showBorder}
+            onChange={(event) => setShowBorder(event.target.value === "true")}
+          >
+            <FormControlLabel
+              value={true}
+              control={<Radio sx={{ color: "#e3e3e3" }} />}
+              label="Edit Mode"
+            />
+            <FormControlLabel
+              value={false}
+              control={<Radio sx={{ color: "#e3e3e3" }} />}
+              label="Preview Mode"
+            />
+          </RadioGroup>
+        </FormControl>
+        <LabelCard
+          type={labelTemp}
+          labelInput={labelInput}
+          isEditedMode
+          itemCode={itemCode}
+          customerItemCode={customerItemCode}
+          setCustomerItemCode={setCustomerItemCode}
+          lotNumber={lotNumber}
+          setLotNumber={setLotNumber}
+          setItemCode={setItemCode}
+          setProductNameEN={setProductNameEN}
+          setProductNameZH={setProductNameZH}
+          productNameEN={productNameEN}
+          productNameZH={productNameZH}
+          setIngredient={setIngredient}
+          ingredient={ingredient}
+          setWeight={setWeight}
+          weight={weight}
+          allergen={allergen}
+          setAllergen={setAllergen}
+          setManufactured={setManufactured}
+          setStorage={setStorage}
+          manufactured={manufactured}
+          caseQuantity={caseQuantity}
+          setCaseQuantity={setCaseQuantity}
+          caseUnit={caseUnit}
+          setCaseUnit={setCaseUnit}
+          storage={storage}
+          defaultLabelStyle={defaultLabelStyle}
+          productNameENStyle={productNameENStyle}
+          productNameZHStyle={productNameZHStyle}
+          defaultText={defaultTextStyle}
+          allergenStyle={allergenStyle}
+          ingredientStyle={ingredientStyle}
+          manufacturedStyle={manufacturedStyle}
+          storageStyle={storageStyle}
+          editMode={editMode}
+          setEditMode={setEditMode}
+          logo={logo}
+          setLogo={setLogo}
+          ref={contentRef}
+          showBorder={showBorder}
+        />
       </PreviewContainer>
       <EditContainer>
         <Suspense
@@ -474,7 +499,7 @@ const AddNew = () => {
             <Skeleton variant="text" sx={{ fontSize: "2rem", width: "100%" }} />
           )}
         </Suspense>
-          <LabelForm
+        <LabelForm
           isEditedView={false}
           logo={logo}
           setLogo={setLogo}
@@ -498,8 +523,8 @@ const AddNew = () => {
           setCaseUnit={setCaseUnit}
           caseGtin={caseGtin}
           setCaseGtin={setCaseGtin}
-          manufacturedFor={manufacturedFor}
-          setManufacturedFor={setManufacturedFor}
+          manufactured={manufactured}
+          setManufactured={setManufactured}
           storage={storage}
           setStorage={setStorage}
           shelfLife={shelfLife}

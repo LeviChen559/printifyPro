@@ -39,7 +39,7 @@ interface iProps {
   setCaseUnit: Dispatch<SetStateAction<string>>;
   caseGtin: string;
   setCaseGtin: Dispatch<SetStateAction<string>>;
-  manufacturedFor: string;
+  manufactured: string;
   setManufactured: Dispatch<SetStateAction<string>>;
   storage: string;
   setStorage: Dispatch<SetStateAction<string>>;
@@ -406,19 +406,19 @@ const LabelForm: FC<iProps> = (prop) => {
           onChange={(e) => prop.setAllergen(e.target.value)}
           startIcon={null}
           error={
-            prop.formError.error && prop.formError.locale === "manufacturedFor"
+            prop.formError.error && prop.formError.locale === "manufactured"
           }
           helperText={
-            prop.formError.error && prop.formError.locale === "manufacturedFor"
+            prop.formError.error && prop.formError.locale === "manufactured"
               ? prop.formError.message
               : ""
           }
           sx={{ width: "100%", padding: 0 }}
         />
         <FormPropsTextFields
-          id="manufacturedFor"
-          label="ManufacturedFor"
-          value={prop.manufacturedFor}
+          id="manufactured"
+          label="Manufactured"
+          value={prop.manufactured}
           required={false}
           type="text"
           rows={2}
@@ -427,10 +427,10 @@ const LabelForm: FC<iProps> = (prop) => {
           onChange={(e) => prop.setManufactured(e.target.value)}
           startIcon={null}
           error={
-            prop.formError.error && prop.formError.locale === "manufacturedFor"
+            prop.formError.error && prop.formError.locale === "manufactured"
           }
           helperText={
-            prop.formError.error && prop.formError.locale === "manufacturedFor"
+            prop.formError.error && prop.formError.locale === "manufactured"
               ? prop.formError.message
               : ""
           }

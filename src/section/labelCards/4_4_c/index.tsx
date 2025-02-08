@@ -37,12 +37,12 @@ interface iProp {
   ingredient?: string;
   setWeight?: (value: string) => void;
   weight?: string;
-  setManufacturedFor?: (value: string) => void;
+  setManufactured?: (value: string) => void;
   caseUnit?: string;
   setCaseUnit?: React.Dispatch<React.SetStateAction<string>>;
   caseQuantity?: number;
   setCaseQuantity?: (value: number) => void;
-  manufacturedFor?: string;
+  manufactured?: string;
   setWeightUnit?: React.Dispatch<React.SetStateAction<string>>;
   storage?: string;
   setStorage?: React.Dispatch<React.SetStateAction<string>>;
@@ -53,7 +53,7 @@ interface iProp {
   productNameZHStyle?: iTextStyle;
   weightStyle?: iTextStyle;
   ingredientStyle?: iTextStyle;
-  manufacturedForStyle?: iTextStyle;
+  manufacturedStyle?: iTextStyle;
   storageStyle?: iTextStyle;
   weightUnitStyle?: iTextStyle;
   defaultLabelStyle: iLabelStyle;
@@ -502,10 +502,10 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               }}
               placeholder="manufactured"
               rows={2}
-              value={prop.manufacturedFor}
+              value={prop.manufactured}
               onChange={(e) =>
-                prop.setManufacturedFor &&
-                prop.setManufacturedFor(e.target.value)
+                prop.setManufactured &&
+                prop.setManufactured(e.target.value)
               }
             />
           </Row>

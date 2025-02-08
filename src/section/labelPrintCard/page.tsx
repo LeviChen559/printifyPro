@@ -22,6 +22,7 @@ interface iProps {
       isLabelUpdated: boolean;
     }>
   >;
+  defaultText: iTextStyle;
 }
 
 const LabelPrintCard: FC<iProps> = (prop) => {
@@ -79,16 +80,17 @@ const LabelPrintCard: FC<iProps> = (prop) => {
           caseUnit={prop.selectLabelInfo.case_unit}
           caseQuantity={prop.selectLabelInfo.case_quantity}
           weight={prop.selectLabelInfo.weight}
-          manufacturedFor={prop.selectLabelInfo.manufactured}
+          manufactured={prop.selectLabelInfo.manufactured}
           storage={prop.selectLabelInfo.storage}
           allergen={prop.selectLabelInfo.allergen}
           itemCode={prop.selectLabelInfo.item_code}
           productNameENStyle={ labelStyle.data[0].product_name_en as iTextStyle}
           productNameZHStyle={labelStyle.data[0].product_name_zh as iTextStyle}
           ingredientStyle={labelStyle.data[0].ingredient as iTextStyle}
-          manufacturedForStyle={labelStyle.data[0].manufactured as iTextStyle}
+          manufacturedStyle={labelStyle.data[0].manufactured as iTextStyle}
           defaultLabelStyle={labelStyle.data[0] as iLabelStyle}
           showBorder={false}
+          defaultText={prop.defaultText}
         />
       </View>
       <Print>

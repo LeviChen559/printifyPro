@@ -37,7 +37,7 @@ interface iProps {
   setCaseQuantity?: Dispatch<SetStateAction<number>>;
   caseUnit?: string;
   setCaseUnit?: Dispatch<SetStateAction<string>>;
-  manufacturedFor?: string;
+  manufactured?: string;
   setWeightUnit?: Dispatch<SetStateAction<string>>;
   storage?: string;
   setStorage?: Dispatch<SetStateAction<string>>;
@@ -124,7 +124,7 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       setCaseUnit={prop.setCaseUnit}
       storage={prop.storage}
       setStorage={prop.setStorage}
-      manufacturedFor={prop.manufacturedFor}
+      manufactured={prop.manufactured}
       defaultLabelStyle={prop.defaultLabelStyle}
       defaultText={prop.defaultText}
       productNameENStyle={prop.productNameENStyle}
@@ -164,7 +164,7 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
     setCaseUnit={prop.setCaseUnit}
     storage={prop.storage}
     setStorage={prop.setStorage}
-    manufacturedFor={prop.manufacturedFor}
+    manufactured={prop.manufactured}
     defaultLabelStyle={prop.defaultLabelStyle}
     defaultText={prop.defaultText}
     productNameENStyle={prop.productNameENStyle}
@@ -206,7 +206,7 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
     setCaseUnit={prop.setCaseUnit}
     storage={prop.storage}
     setStorage={prop.setStorage}
-    manufacturedFor={prop.manufacturedFor}
+    manufactured={prop.manufactured}
     defaultLabelStyle={prop.defaultLabelStyle}
     productNameENStyle={prop.productNameENStyle}
     productNameZHStyle={prop.productNameZHStyle}

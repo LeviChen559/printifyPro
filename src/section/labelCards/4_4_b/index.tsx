@@ -44,7 +44,7 @@ interface iProp {
   setCaseUnit?: Dispatch<SetStateAction<string>>;
   caseQuantity?: number;
   setCaseQuantity?: Dispatch<SetStateAction<number>>;
-  manufacturedFor?: string;
+  manufactured?: string;
   setWeightUnit?: Dispatch<SetStateAction<string>>;
   storage?: string;
   setStorage?: Dispatch<SetStateAction<string>>;
@@ -376,7 +376,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           </Row>
           <EditableTextareaField
             name={iEditedMode.manufactured}
-            value={prop.manufacturedFor}
+            value={prop.manufactured}
             onChange={prop.setManufactured}
             style={manufacturedStyle}
             readonly={!isEditedMode}

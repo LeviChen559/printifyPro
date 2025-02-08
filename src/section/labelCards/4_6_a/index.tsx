@@ -41,7 +41,7 @@ interface iProp {
   setCaseQuantity?: Dispatch<SetStateAction<number>>;
   caseUnit?: string;
   setCaseUnit?: Dispatch<SetStateAction<string>>;
-  manufacturedFor?: string;
+  manufactured?: string;
   setStorage?: Dispatch<SetStateAction<string>>;
   allergen?: string;
   setAllergen?: Dispatch<SetStateAction<string>>;
@@ -424,7 +424,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               }}
               placeholder="I am an editable textarea"
               rows={1.25}
-              value={prop.manufacturedFor}
+              value={prop.manufactured}
               onChange={(e) =>
                 prop.setManufactured &&
                 prop.setManufactured(e.target.value)

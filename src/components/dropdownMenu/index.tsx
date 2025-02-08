@@ -92,7 +92,7 @@ const DropdownMenu: FC<iProps> = (prop) => {
           sx={MuiInputBaseStyle}
           onClick={prop.onEditMode}
         >
-          {DROPDOWN_OPTIONS[prop.type].map((item: any) => (
+          {DROPDOWN_OPTIONS[prop.type].map((item: string) => (
             <MenuItem value={item} key={item}>
               {item}
             </MenuItem>

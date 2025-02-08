@@ -67,6 +67,15 @@ const MyLabels = () => {
     },
     [search.searchValue, resetSearch]
   );
+    const defaultText = {
+      color: "#000000",
+      fontStyle: "Normal",
+      fontSize: 14,
+      fontFamily: "Arial",
+      fontWeight: 400,
+      rows: 1,
+      lineHeight: 1.2,
+    };
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyPress);
@@ -192,6 +201,7 @@ const MyLabels = () => {
         <LabelPrintCard
           selectLabelInfo={selectLabelInfo as iLabelInfo}
           setShowCard={setShowCard}
+          defaultText={defaultText}
         />
       )}
       {showCard.labelEditCard && (
@@ -200,6 +210,7 @@ const MyLabels = () => {
           setShowCard={setShowCard}
           userName={userData?.user?.name as string}
           userRole={userData?.user?.role as string}
+          defaultText={defaultText}
         />
       )}
     </Container>
