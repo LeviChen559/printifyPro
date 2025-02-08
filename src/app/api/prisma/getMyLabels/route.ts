@@ -19,15 +19,15 @@ export async function GET(req: Request) {
     ];
     // If a valid column and search value are provided, add a WHERE clause
     const filter = searchValue
-    ? {
-        OR: searchableFields.map((field) => ({
-          [field]: {
-            contains: searchValue,
-            mode: "insensitive", 
-          },
-        })),
-      }
-    : {};
+      ? {
+          OR: searchableFields.map((field) => ({
+            [field]: {
+              contains: searchValue,
+              mode: "insensitive",  // Case-insensitive search
+            },
+          })),
+        }
+      : {};  // If no searchValue, don't apply any filter
 
     console.log("filter", filter);
 

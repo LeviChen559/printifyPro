@@ -37,9 +37,7 @@ const AddNew = () => {
     locale: "",
   });
   const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const duplicatedLabel = searchParams.get("duplicatedLabel");
+  
 
   const [logo, setLogo] = useState<string>("001");
   const [labelTemp, setLabelTemp] = useState<string>("4x4_a");
@@ -62,19 +60,28 @@ const AddNew = () => {
   const [submitClicked, setSubmitClicked] = useState<boolean>(false);
   const [showBorder, setShowBorder] = useState<boolean>(true);
 
+  const searchParams = useSearchParams();
+  const duplicatedLabel = searchParams.get("duplicatedLabel");
   useEffect(() => {
     if (duplicatedLabel) {
-      const parsedData = JSON.parse(duplicatedLabel);
+      try {
+        // Safely parse the duplicatedLabel string into an object
+        const parsedData = JSON.parse(duplicatedLabel);
 
-      setProductNameEN(parsedData.product_name_en || "");
-      setProductNameZH(parsedData.product_name_zh || "");
-      setIngredient(parsedData.ingredient || "");
-      setWeight(parsedData.weight || "");
-      setManufactured(parsedData.manufactured || "");
-      setStorage(parsedData.storage || "");
-      setCaseQuantity(parsedData.case_quantity || "");
-      setCaseUnit(parsedData.case_unit || "");
-      setLogo(parsedData.logo || "");
+        // Set state from parsed data with default values in case any field is missing
+        setProductNameEN(parsedData.product_name_en || "");
+        setProductNameZH(parsedData.product_name_zh || "");
+        setIngredient(parsedData.ingredient || "");
+        setWeight(parsedData.weight || "");
+        setManufactured(parsedData.manufactured || "");
+        setStorage(parsedData.storage || "");
+        setCaseQuantity(parsedData.case_quantity || "");
+        setCaseUnit(parsedData.case_unit || "");
+        setLogo(parsedData.logo || "");
+      } catch (error) {
+        console.error("Error parsing duplicatedLabel:", error);
+        // You could also handle the error state here if you want to display something to the user
+      }
     }
   }, [duplicatedLabel]);
 
@@ -558,4 +565,12 @@ const AddNew = () => {
   );
 };
 
-export default AddNew;
+const AddNewPageWithSuspense = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AddNew />
+    </Suspense>
+  );
+};
+
+export default AddNewPageWithSuspense;
