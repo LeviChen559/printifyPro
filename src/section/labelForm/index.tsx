@@ -1,11 +1,10 @@
-import React, { FC, FormEvent,Dispatch,SetStateAction } from "react";
+import React, { FC, FormEvent, Dispatch, SetStateAction } from "react";
 import FormPropsTextFields from "@/components/FormPropsTextFields";
 import { Column, Form } from "./style";
 import Button from "@/components/button";
 import { Box } from "@mui/material";
 import DropdownMenu from "@/components/dropdownMenu";
-
-
+import { iEditedMode } from "@/type/labelType";
 
 interface iProps {
   createNewLabel?: (event: FormEvent<HTMLFormElement>) => void;
@@ -48,112 +47,134 @@ interface iProps {
   isEditedView: boolean;
   labelTemp: string;
   setLabelTemp: Dispatch<SetStateAction<string>>;
-  allergen:string
-  setAllergen:Dispatch<SetStateAction<string>>;
+  allergen: string;
+  setAllergen: Dispatch<SetStateAction<string>>;
+  editMode: iEditedMode;
+  setEditMode: Dispatch<SetStateAction<iEditedMode>>;
+  ref: React.RefObject<HTMLFormElement>;
 }
-const commonTextFieldStyles = {
-  width: "100%",
-  padding: 0,
-  height: 40,
-  background: "#ffffff40",
-};
 const LabelForm: FC<iProps> = (prop) => {
+  const commonTextFieldStyles = (mode: iEditedMode) => {
+    return {
+      width: "100%",
+      padding: 0,
+      height: 40,
+      background: mode === prop.editMode ? "pink" : "#ffffff40",
+    };
+  };
 
   return (
-    <Form onSubmit={prop.isEditedView ? prop.updateLabel : prop.createNewLabel}>
+    <Form onSubmit={prop.isEditedView ? prop.updateLabel : prop.createNewLabel} ref={prop.ref}>
       <Column height="85%">
-      <Box
+        <Box
           display={"flex"}
           flexDirection={"row"}
           flexWrap={"nowrap"}
           gap={1}
           alignItems={"center"}
         >
-           <DropdownMenu
-          type="labelSize"
-          value={prop.labelTemp}
-          onChange={prop.setLabelTemp}
-          error={prop.formError.error && prop.formError.locale === "labelSize"}
-          helperText={
-            prop.formError.error && prop.formError.locale === "labelSize"
-              ? prop.formError.message
-              : ""
-          }
-          width="100%"
-        />
-        <DropdownMenu
-          type="logo"
-          value={prop.logo}
-          onChange={prop.setLogo}
-          error={prop.formError.error && prop.formError.locale === "logo"}
-          helperText={
-            prop.formError.error && prop.formError.locale === "logo"
-              ? prop.formError.message
-              : ""
-          }
-          width="100%"
-        />
+          <DropdownMenu
+            type="labelSize"
+            value={prop.labelTemp}
+            onChange={prop.setLabelTemp}
+            error={
+              prop.formError.error && prop.formError.locale === "labelSize"
+            }
+            helperText={
+              prop.formError.error && prop.formError.locale === "labelSize"
+                ? prop.formError.message
+                : ""
+            }
+            width="100%"
+          />
+          <DropdownMenu
+            type="logo"
+            value={prop.logo}
+            onChange={prop.setLogo}
+            error={prop.formError.error && prop.formError.locale === "logo"}
+            helperText={
+              prop.formError.error && prop.formError.locale === "logo"
+                ? prop.formError.message
+                : ""
+            }
+            width="100%"
+          />
         </Box>
         <Box
-         display={"flex"}
-         flexDirection={"row"}
-         flexWrap={"nowrap"}
-         gap={1}
-         alignItems={"center"}>
-        <FormPropsTextFields
-          id="item_code"
-          label="item_code"
-          value={prop.itemCode}
-          required={true}
-          type="text"
-          placeholder="item_code"
-          background="#ffffff40"
-          onChange={(e) => prop.setItemCode(e.target.value.toString())}
-          startIcon={null}
-          error={prop.formError.error && prop.formError.locale === "item_code"}
-          helperText={
-            prop.formError.error && prop.formError.locale === "item_code"
-              ? prop.formError.message
-              : ""
-          }
-          sx={commonTextFieldStyles}
-        />
-         <FormPropsTextFields
-          id="Customer_item_code"
-          label="Customer_item_code"
-          value={prop.customerItemCode}
-          required={false}
-          type="text"
-          placeholder="customer_item_code"
-          background="#ffffff40"
-          onChange={(e) => prop.setCustomerItemCode(e.target.value.toString())}
-          startIcon={null}
-          error={prop.formError.error && prop.formError.locale === "Customer_item_code"}
-          helperText={
-            prop.formError.error && prop.formError.locale === "Customer_item_code"
-              ? prop.formError.message
-              : ""
-          }
-          sx={commonTextFieldStyles}
-        />
-         <FormPropsTextFields
-          id="Lot_number"
-          label="Lot_number"
-          value={prop.lotNumber}
-          required={false}
-          type="text"
-          placeholder="lot_Number"
-          background="#ffffff40"
-          onChange={(e) => prop.setLotNumber(e.target.value.toString())}
-          startIcon={null}
-          error={prop.formError.error && prop.formError.locale === "Lot_number"}
-          helperText={
-            prop.formError.error && prop.formError.locale === "Lot_number"
-              ? prop.formError.message
-              : ""
-          }
-          sx={commonTextFieldStyles}
-        />
+          display={"flex"}
+          flexDirection={"row"}
+          flexWrap={"nowrap"}
+          gap={1}
+          alignItems={"center"}
+        >
+          <FormPropsTextFields
+            id="item_code"
+            label="item_code"
+            value={prop.itemCode}
+            required={true}
+            type="text"
+            placeholder="item_code"
+            background="#ffffff40"
+            onChange={(e) => prop.setItemCode(e.target.value.toString())}
+            startIcon={null}
+            error={
+              prop.formError.error && prop.formError.locale === "item_code"
+            }
+            helperText={
+              prop.formError.error && prop.formError.locale === "item_code"
+                ? prop.formError.message
+                : ""
+            }
+            onClick={() => prop.setEditMode(iEditedMode.itemCode)}
+            sx={commonTextFieldStyles(iEditedMode.itemCode)}
+          />
+          <FormPropsTextFields
+            id="Customer_item_code"
+            label="Customer_item_code"
+            value={prop.customerItemCode}
+            required={false}
+            type="text"
+            placeholder="customer_item_code"
+            background="#ffffff40"
+            onChange={(e) =>
+              prop.setCustomerItemCode(e.target.value.toString())
+            }
+            startIcon={null}
+            error={
+              prop.formError.error &&
+              prop.formError.locale === "Customer_item_code"
+            }
+            helperText={
+              prop.formError.error &&
+              prop.formError.locale === "Customer_item_code"
+                ? prop.formError.message
+                : ""
+            }
+            onClick={() => prop.setEditMode(iEditedMode.customerCode)}
+            sx={commonTextFieldStyles(iEditedMode.customerCode)}
+          />
+          <FormPropsTextFields
+            id="Lot_number"
+            label="Lot_number"
+            value={prop.lotNumber}
+            required={false}
+            type="text"
+            placeholder="lot_Number"
+            background="#ffffff40"
+            onChange={(e) => prop.setLotNumber(e.target.value.toString())}
+            startIcon={null}
+            error={
+              prop.formError.error && prop.formError.locale === "Lot_number"
+            }
+            helperText={
+              prop.formError.error && prop.formError.locale === "Lot_number"
+                ? prop.formError.message
+                : ""
+            }
+            onClick={() => prop.setEditMode(iEditedMode.lotNumber)}
+            sx={commonTextFieldStyles(iEditedMode.lotNumber)}
+
+          />
         </Box>
         <FormPropsTextFields
           id="product_name_en"
@@ -165,6 +186,7 @@ const LabelForm: FC<iProps> = (prop) => {
           placeholder="Product Name (English)"
           onChange={(e) => prop.setProductNameEN(e.target.value)}
           startIcon={null}
+          onClick={() => prop.setEditMode(iEditedMode.productNameEn)}
           error={
             prop.formError.error && prop.formError.locale === "product_name_en"
           }
@@ -173,7 +195,7 @@ const LabelForm: FC<iProps> = (prop) => {
               ? prop.formError.message
               : ""
           }
-          sx={commonTextFieldStyles}
+          sx={commonTextFieldStyles(iEditedMode.productNameEn)}
         />
         <FormPropsTextFields
           id="product_name_zh"
@@ -184,6 +206,7 @@ const LabelForm: FC<iProps> = (prop) => {
           background="#ffffff40"
           placeholder="Product Name (Chinese)"
           onChange={(e) => prop.setProductNameZH(e.target.value)}
+          onClick={() => prop.setEditMode(iEditedMode.productNameZh)}
           startIcon={null}
           error={
             prop.formError.error && prop.formError.locale === "product_name_zh"
@@ -193,7 +216,8 @@ const LabelForm: FC<iProps> = (prop) => {
               ? prop.formError.message
               : ""
           }
-          sx={commonTextFieldStyles}
+          sx={commonTextFieldStyles(iEditedMode.productNameZh)}
+
         />
         <Box
           display={"flex"}
@@ -220,7 +244,8 @@ const LabelForm: FC<iProps> = (prop) => {
                 ? prop.formError.message
                 : ""
             }
-            sx={commonTextFieldStyles}
+            onClick={() => prop.setEditMode(iEditedMode.weight)}
+            sx={commonTextFieldStyles(iEditedMode.weight)}
           />
           {/* <DropdownMenu
             type="weight_unit"
@@ -262,28 +287,30 @@ const LabelForm: FC<iProps> = (prop) => {
                 ? prop.formError.message
                 : ""
             }
-            sx={commonTextFieldStyles}
-          /> 
+            onClick={() => prop.setEditMode(iEditedMode.caseQuantity)}
+            sx={commonTextFieldStyles(iEditedMode.caseQuantity)}
+          />
           <FormPropsTextFields
-          id="case_unit"
-          label="Case Unit"
-          value={prop.caseUnit}
-          required={true}
-          type="string"
-          background="#ffffff40"
-          placeholder="Shelf Life"
-          onChange={(e) => prop.setCaseUnit(e.target.value)}
-          startIcon={null}
-          error={
-            prop.formError.error && prop.formError.locale === "case_unit"
-          }
-          helperText={
-            prop.formError.error && prop.formError.locale === "case_unit"
-              ? prop.formError.message
-              : ""
-          }
-          sx={commonTextFieldStyles}
-        />
+            id="case_unit"
+            label="Case Unit"
+            value={prop.caseUnit}
+            required={true}
+            type="string"
+            background="#ffffff40"
+            placeholder="Shelf Life"
+            onChange={(e) => prop.setCaseUnit(e.target.value)}
+            startIcon={null}
+            error={
+              prop.formError.error && prop.formError.locale === "case_unit"
+            }
+            helperText={
+              prop.formError.error && prop.formError.locale === "case_unit"
+                ? prop.formError.message
+                : ""
+            }
+            onClick={() => prop.setEditMode(iEditedMode.caseUnit)}
+            sx={commonTextFieldStyles(iEditedMode.caseUnit)}
+          />
           {/* <DropdownMenu
             type="case_unit"
             value={prop.caseUnit}
@@ -300,27 +327,28 @@ const LabelForm: FC<iProps> = (prop) => {
           /> */}
         </Box>
         <Box display={"flex"} flexDirection={"row"} flexWrap={"nowrap"} gap={1}>
-        <FormPropsTextFields
-          id="storage"
-          label="Storage"
-          value={prop.storage}
-          required={true}
-          type="string"
-          background="#ffffff40"
-          placeholder="Freezer/Coooler"
-          onChange={(e) => prop.setStorage(e.target.value)}
-          startIcon={null}
-          error={
-            prop.formError.error && prop.formError.locale === "case_unit"
-          }
-          helperText={
-            prop.formError.error && prop.formError.locale === "case_unit"
-              ? prop.formError.message
-              : ""
-          }
-          sx={commonTextFieldStyles}
-        /> 
-        {/* <DropdownMenu
+          <FormPropsTextFields
+            id="storage"
+            label="Storage"
+            value={prop.storage}
+            required={true}
+            type="string"
+            background="#ffffff40"
+            placeholder="Freezer/Coooler"
+            onChange={(e) => prop.setStorage(e.target.value)}
+            startIcon={null}
+            error={
+              prop.formError.error && prop.formError.locale === "case_unit"
+            }
+            helperText={
+              prop.formError.error && prop.formError.locale === "case_unit"
+                ? prop.formError.message
+                : ""
+            }
+            onClick={() => prop.setEditMode(iEditedMode.storage)}
+            sx={commonTextFieldStyles(iEditedMode.storage)}
+          />
+          {/* <DropdownMenu
             type="storage"
             value={prop.storage}
             onChange={prop.setStorage}
@@ -383,18 +411,17 @@ const LabelForm: FC<iProps> = (prop) => {
           background="#ffffff80"
           placeholder="Case GTIN"
           onChange={(e) => prop.setIngredient(e.target.value)}
+          onClick={() => prop.setEditMode(iEditedMode.ingredient)}
           startIcon={null}
-          error={
-            prop.formError.error && prop.formError.locale === "ingredient"
-          }
+          error={prop.formError.error && prop.formError.locale === "ingredient"}
           helperText={
             prop.formError.error && prop.formError.locale === "ingredient"
               ? prop.formError.message
               : ""
           }
-          sx={{ width: "100%", padding: 0 }}
+          sx={{ width: "100%", padding: 0,background:prop.editMode === iEditedMode.ingredient ? "pink" : "#ffffff40" }}
         />
-         <FormPropsTextFields
+        <FormPropsTextFields
           id="allergen"
           label="allergen"
           value={prop.allergen}
@@ -406,14 +433,15 @@ const LabelForm: FC<iProps> = (prop) => {
           onChange={(e) => prop.setAllergen(e.target.value)}
           startIcon={null}
           error={
-            prop.formError.error && prop.formError.locale === "manufactured"
+            prop.formError.error && prop.formError.locale === "allergen"
           }
           helperText={
-            prop.formError.error && prop.formError.locale === "manufactured"
+            prop.formError.error && prop.formError.locale === "allergen"
               ? prop.formError.message
               : ""
           }
-          sx={{ width: "100%", padding: 0 }}
+          onClick={() => prop.setEditMode(iEditedMode.allergen)}
+          sx={{ width: "100%", padding: 0,background:prop.editMode === iEditedMode.allergen ? "pink" : "#ffffff40" }}
         />
         <FormPropsTextFields
           id="manufactured"
@@ -434,7 +462,8 @@ const LabelForm: FC<iProps> = (prop) => {
               ? prop.formError.message
               : ""
           }
-          sx={{ width: "100%", padding: 0 }}
+          onClick={() => prop.setEditMode(iEditedMode.manufactured)}
+          sx={{ width: "100%", padding: 0,background:prop.editMode === iEditedMode.manufactured ? "pink" : "#ffffff40" }}
         />
       </Column>
       <Column

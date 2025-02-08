@@ -37,8 +37,7 @@ const AddNew = () => {
     locale: "",
   });
   const router = useRouter();
-  
-
+  const formRef = useRef<HTMLFormElement>(null);
   const [logo, setLogo] = useState<string>("001");
   const [labelTemp, setLabelTemp] = useState<string>("4x4_a");
   const [itemCode, setItemCode] = useState<string>("");
@@ -89,14 +88,14 @@ const AddNew = () => {
     color: "#000000",
     fontSize: 24,
     fontWeight: 700,
-    fontStyle: "normal",
+    fontStyle: "Normal",
     fontFamily: "Arial",
   };
   const defaultTextStyle = {
     color: "#000000",
     fontSize: 14,
     fontWeight: 400,
-    fontStyle: "normal",
+    fontStyle: "Normal",
     fontFamily: "Arial",
   };
   const [productNameENStyle, setProductNameENStyle] =
@@ -300,7 +299,8 @@ const AddNew = () => {
     if (dataType === iEditedMode.productNameEn) {
       const value =
         styleType === iTextStyleMode.fontSize ||
-        styleType === iTextStyleMode.fontWeight
+        styleType === iTextStyleMode.fontWeight||
+        styleType === iTextStyleMode.fontStyle 
           ? Number(event.target.value) // Convert to number for fontSize or fontWeight
           : event.target.value; // Keep as string for other properties
 
@@ -542,6 +542,9 @@ const AddNew = () => {
           labelTemp={labelTemp}
           allergen={allergen}
           setAllergen={setAllergen}
+          setEditMode={setEditMode}
+          editMode={editMode}
+          ref={formRef}
         />
       </EditContainer>
       {sendAnewLabel && (

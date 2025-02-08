@@ -42,7 +42,7 @@ interface iProps {
   storage?: string;
   setStorage?: Dispatch<SetStateAction<string>>;
   weightUnit?: string;
-  editMode?: string;
+  editMode: iEditedMode;
   setEditMode?: Dispatch<SetStateAction<iEditedMode>>;
   logo: string;
   setLogo?: Dispatch<SetStateAction<string>>;
@@ -98,7 +98,7 @@ export type Ref = HTMLDivElement;
 const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
 
 
-
+console.log("editMode", prop.editMode);
   return prop.type === "4x4_a" ? (
     <LabelCard4_4_a
       labelInfo={prop.labelInput}

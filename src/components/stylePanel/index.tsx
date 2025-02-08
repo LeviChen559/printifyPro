@@ -1,11 +1,16 @@
-import React, {  ChangeEvent,forwardRef } from "react";
+import React, { ChangeEvent, forwardRef } from "react";
 import { Container, Content } from "./style";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import { iTextStyleMode, iEditedMode, iTextStyle } from "@/type/labelType";
+import {
+  iTextStyleMode,
+  iEditedMode,
+  iTextStyle,
+  iEditedModeAvailability,
+} from "@/type/labelType";
 import { Typography } from "@mui/material";
 import Slider from "@mui/material/Slider";
 
@@ -19,14 +24,13 @@ interface iProps {
   storageStyle: iTextStyle;
   allergenStyle: iTextStyle;
   handleChange: (
-    e: ChangeEvent<HTMLInputElement>
-    ,
+    e: ChangeEvent<HTMLInputElement>,
     dataType: iEditedMode,
     styleType: iTextStyleMode
   ) => void;
 }
 
-const StylePanel= forwardRef<HTMLDivElement, iProps>((prop, ref) =>{
+const StylePanel = forwardRef<HTMLDivElement, iProps>((prop, ref) => {
   const textStyle = {
     "& .MuiFormControlLabel-label": {
       fontSize: 14,
@@ -265,9 +269,13 @@ const StylePanel= forwardRef<HTMLDivElement, iProps>((prop, ref) =>{
       label: "5",
     },
   ];
+  const isStylePanelVisible =
+    prop.isEditMode &&
+    Object.values(iEditedModeAvailability).includes(
+      prop.isEditMode as unknown as iEditedModeAvailability
+    );
 
-
-  return prop.isEditMode !== iEditedMode.empty ? (
+  return isStylePanelVisible ? (
     <Container ref={ref}>
       <Typography>{modeConverter(prop.isEditMode)}</Typography>
       <Content>
@@ -378,7 +386,9 @@ const StylePanel= forwardRef<HTMLDivElement, iProps>((prop, ref) =>{
             max={28}
             onChange={(event: Event, value: number | number[]) => {
               prop.handleChange(
-                { target: { value } } as unknown as React.ChangeEvent<HTMLInputElement>,
+                {
+                  target: { value },
+                } as unknown as React.ChangeEvent<HTMLInputElement>,
                 prop.isEditMode,
                 iTextStyleMode.fontSize
               );
@@ -444,7 +454,9 @@ const StylePanel= forwardRef<HTMLDivElement, iProps>((prop, ref) =>{
               max={5}
               onChange={(event: Event, value: number | number[]) => {
                 prop.handleChange(
-                  { target: { value } } as unknown as React.ChangeEvent<HTMLInputElement>,
+                  {
+                    target: { value },
+                  } as unknown as React.ChangeEvent<HTMLInputElement>,
                   prop.isEditMode,
                   iTextStyleMode.rows
                 );
@@ -481,7 +493,9 @@ const StylePanel= forwardRef<HTMLDivElement, iProps>((prop, ref) =>{
               max={2}
               onChange={(event: Event, value: number | number[]) => {
                 prop.handleChange(
-                  { target: { value } } as unknown as React.ChangeEvent<HTMLInputElement>,
+                  {
+                    target: { value },
+                  } as unknown as React.ChangeEvent<HTMLInputElement>,
                   prop.isEditMode,
                   iTextStyleMode.lineHeight
                 );

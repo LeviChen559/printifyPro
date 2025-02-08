@@ -33,7 +33,7 @@ export const Container = styled.div<iProps>(
 
 export const PreviewContainer = styled.div({
   display: "flex",
-  flexDirection: "row",
+  flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
   overflow: "auto",

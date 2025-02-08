@@ -40,6 +40,8 @@ interface iProps {
   userName: string;
   userRole: string;
   defaultText: iTextStyle;
+  editMode: iEditedMode;
+  setEditMode: React.Dispatch<React.SetStateAction<iEditedMode>>;
 }
 
 const LabelEditCard: FC<iProps> = (prop) => {
@@ -50,6 +52,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
   const router = useRouter();
   const contentRef = useRef<HTMLDivElement>(null);
   const stylePannelRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const [isLabelUpdating, setIsLabelUpdating] = useState<boolean>(false);
   const [isLabelDeleted, setIsLabelDeleted] = useState<boolean>(false);
   const [logo, setLogo] = useState<string>(prop.selectLabelInfo.logo);
@@ -155,7 +158,6 @@ const LabelEditCard: FC<iProps> = (prop) => {
     fontFamily: "Arial",
     fontWeight: 400,
   });
-  const [editMode, setEditMode] = useState<iEditedMode>(iEditedMode.empty);
   const [submitClicked, setSubmitClicked] = useState<boolean>(false);
 
   const [formError, setFormError] = useState<formState>({
@@ -601,16 +603,16 @@ const LabelEditCard: FC<iProps> = (prop) => {
 // };
 
 useEffect(() => {
-  if (!contentRef.current || !stylePannelRef.current) return; // ✅ Prevent running if refs are not ready
+  if (!contentRef.current || !stylePannelRef.current || !formRef.current) return; // ✅ Prevent running if refs are not ready
 
   const handleModalClick = (event: MouseEvent) => {
-      const isInside = [contentRef, stylePannelRef].some(
+      const isInside = [contentRef, stylePannelRef,formRef].some(
           (ref) => ref.current && ref.current.contains(event.target as Node)
       );
 
       if (!isInside) {
           console.log("Click outside");
-          setEditMode(iEditedMode.empty);
+          prop.setEditMode(iEditedMode.empty);
       } else {
           console.log("Click inside");
       }
@@ -621,7 +623,7 @@ useEffect(() => {
   return () => {
       document.removeEventListener("mousedown", handleModalClick);
   };
-}, [contentRef, stylePannelRef, editMode]); // ✅ Use `.current` in dependencies
+}, [contentRef, stylePannelRef,formRef,  prop.editMode]); // ✅ Use `.current` in dependencies
 
 
 
@@ -670,9 +672,10 @@ useEffect(() => {
         }
       />
       <View>
-        <StylePanel
+         
+          <StylePanel
          ref={stylePannelRef}
-          isEditMode={editMode}
+          isEditMode={ prop.editMode}
           productNameENStyle={productNameENStyle}
           productNameZHStyle={productNameZHStyle}
           weightStyle={weightStyle}
@@ -740,8 +743,8 @@ useEffect(() => {
             setStorage={setStorage}
             setManufactured={setManufactured}
             manufactured={manufactured}
-            editMode={editMode}
-            setEditMode={setEditMode}
+            editMode={ prop.editMode}
+            setEditMode={ prop.setEditMode}
             productNameENStyle={productNameENStyle}
             productNameZHStyle={productNameZHStyle}
             defaultText={prop.defaultText}
@@ -755,6 +758,7 @@ useEffect(() => {
       </View>
       <Print>
         <LabelForm
+          ref={formRef}
           isEditedView={true}
           id={prop.selectLabelInfo.id}
           logo={logo}
@@ -790,6 +794,8 @@ useEffect(() => {
           allergen={allergen}
           setAllergen={setAllergen}
           formError={formError}
+          editMode={ prop.editMode}
+          setEditMode={ prop.setEditMode}
           updateLabel={(event) => {
             event.preventDefault();
             updateLabel(labelInput, labelStyleuUpdates);

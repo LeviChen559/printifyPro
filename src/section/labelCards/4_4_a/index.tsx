@@ -16,6 +16,8 @@ import "react-edit-text/dist/index.css";
 import { iEditedMode, iLabelStyle, iTextStyle } from "@/type/labelType";
 import LabelLogo from "@/components/logo";
 import { rowHeightConverter } from "../index";
+import EditableTextareaField from "@/components/editableTextareaField";
+import EditableTextField from "@/components/editableTextField";
 
 interface iProp {
   labelInfo: iLabelInfo;
@@ -49,7 +51,7 @@ interface iProp {
   storage?: string;
   setStorage?: Dispatch<SetStateAction<string>>;
   weightUnit?: string;
-  editMode?: string;
+  editMode: iEditedMode;
   setEditMode?: (value: iEditedMode) => void;
   productNameENStyle?: iTextStyle;
   productNameZHStyle?: iTextStyle;
@@ -90,88 +92,48 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
     height: rowHeightConverter(customStyle?.rows ?? 1),
   });
 
-  interface EditableTextFieldProps {
-    name: string;
-    value: string | number | undefined;
-    onChange:
-      | Dispatch<SetStateAction<string>>
-      | Dispatch<SetStateAction<number>>
-      | undefined;
-    style: React.CSSProperties;
-    readonly: boolean;
-    width: string | number;
-    height: string | number;
-  }
 
-  const EditableTextField = ({
-    name,
-    value,
-    onChange,
-    style,
-    readonly,
-    width,
-    height,
-  }: EditableTextFieldProps) => (
-    <EditText
-      name={name}
-      type="text"
-      style={{
-        ...style,
-        display: "flex",
-        alignItems: "center",
-        background: "transparent",
-        minHeight: 24,
-        border: readonly || !prop.showBorder ? "none" : "1px solid #bcbcbc80",
-        borderRadius: readonly ? "none" : "4px",
-        width: width,
-        height: height,
-      }}
-      value={value?.toString()}
-      onChange={(e) => onChange?.(e.target.value as unknown as string & number)}
-      readonly={readonly}
-    />
-  );
-  interface EditableTextareaFieldProps {
-    name: string;
-    value: string | number | undefined;
-    onChange: Dispatch<SetStateAction<string>> | undefined;
-    style: React.CSSProperties;
-    readonly: boolean;
-    rows?: number;
-    onEditMode?: () => void;
-  }
+  // interface EditableTextFieldProps {
+  //   name: string;
+  //   value: string | number | undefined;
+  //   onChange:
+  //     | Dispatch<SetStateAction<string>>
+  //     | Dispatch<SetStateAction<number>>
+  //     | undefined;
+  //   style: React.CSSProperties;
+  //   readonly: boolean;
+  //   width: string | number;
+  //   height: string | number;
+  // }
 
-  const EditableTextareaField = ({
-    name,
-    value,
-    onChange,
-    style,
-    readonly,
-    rows,
-    onEditMode,
-  }: EditableTextareaFieldProps) => (
-    <EditTextarea
-      name={name}
-      style={{
-        ...style,
-        width: "100%",
-        padding: "0px",
-        margin: "0px",
-        overflow: "hidden",
-        whiteSpace: "pre-wrap",
-        overflowWrap: "break-word",
-        background: prop.editMode === name ? "#eeeeee" : "transparent",
-        resize: "none",
-        border: readonly || !prop.showBorder ? "none" : "1px solid #bcbcbc80",
-        borderRadius: readonly ? "none" : "4px",
-      }}
-      rows={rows ?? 2}
-      value={value?.toString()}
-      onChange={(e) => onChange?.(e.target.value)}
-      readonly={readonly}
-      onEditMode={() => onEditMode && onEditMode()}
-    />
-  );
+  // const EditableTextField = ({
+  //   name,
+  //   value,
+  //   onChange,
+  //   style,
+  //   readonly,
+  //   width,
+  //   height,
+  // }: EditableTextFieldProps) => (
+  //   <EditText
+  //     name={name}
+  //     type="text"
+  //     style={{
+  //       ...style,
+  //       display: "flex",
+  //       alignItems: "center",
+  //       background: "transparent",
+  //       minHeight: 24,
+  //       border: readonly || !prop.showBorder ? "none" : "1px solid #bcbcbc80",
+  //       borderRadius: readonly ? "none" : "4px",
+  //       width: width,
+  //       height: height,
+  //     }}
+  //     value={value?.toString()}
+  //     onChange={(e) => onChange?.(e.target.value as unknown as string & number)}
+  //     readonly={readonly}
+  //   />
+  // );
   const isEditedMode = prop.isEditedMode;
 
   // Memoized styles
@@ -242,6 +204,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             onEditMode={() =>
               prop.setEditMode && prop.setEditMode(iEditedMode.productNameEn)
             }
+            editMode={prop.editMode}
           />
           <EditableTextareaField
             name={iEditedMode.productNameZh}
@@ -253,6 +216,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             onEditMode={() =>
               prop.setEditMode && prop.setEditMode(iEditedMode.productNameZh)
             }
+            editMode={prop.editMode}
           />
         </div>
       </Header>
@@ -288,6 +252,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             onEditMode={() =>
               prop.setEditMode && prop.setEditMode(iEditedMode.ingredient)
             }
+            editMode={prop.editMode}
           />
           <EditableTextareaField
             name={iEditedMode.allergen}
@@ -299,6 +264,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             onEditMode={() =>
               prop.setEditMode && prop.setEditMode(iEditedMode.allergen)
             }
+            editMode={prop.editMode}
           />
         </Col>
       </Ingredients>
@@ -393,6 +359,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             onEditMode={() =>
               prop.setEditMode && prop.setEditMode(iEditedMode.manufactured)
             }
+            editMode={prop.editMode}
           />
         </Col>
         <InfomationColumn width={"50%"} zIndex={0}>

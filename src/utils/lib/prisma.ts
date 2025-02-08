@@ -1,15 +1,15 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 
-let prisma: PrismaClient;
+const globalForPrisma = global as unknown as { prisma?: PrismaClient };
 
-if (process.env.NODE_ENV === 'production') {
-  prisma = new PrismaClient();
-} else {
-  const globalWithPrisma = global as typeof globalThis & { prisma?: PrismaClient };
-  if (!globalWithPrisma.prisma) {
-    globalWithPrisma.prisma = new PrismaClient();
-  }
-  prisma = globalWithPrisma.prisma;
+// Ensure a single Prisma instance in development mode
+export const prisma = globalForPrisma.prisma ?? new PrismaClient();
+
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma; // Store in global to prevent multiple instances in dev
 }
 
-export default prisma;
+// Gracefully close Prisma connection on process exit
+process.on("beforeExit", async () => {
+  await prisma.$disconnect();
+});

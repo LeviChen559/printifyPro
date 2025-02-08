@@ -15,6 +15,7 @@ import dynamic from "next/dynamic";
 import UserState from "@/components/userState";
 import Skeleton from "@mui/material/Skeleton";
 import SkeletonCard from "./skeletonCard";
+import { iEditedMode } from "@/type/labelType";
 
 const BarCodeInfoTable = dynamic(() => import("@/components/labelTable"), {
   suspense: true,
@@ -42,6 +43,8 @@ const MyLabels = () => {
   const [selectLabelInfo, setSelectLabelInfo] = useState<
     iLabelInfo | undefined
   >(undefined);
+  const [editMode, setEditMode] = useState<iEditedMode>(iEditedMode.empty);
+  
   const [apiMyLabelUrl, setApiMyLabelUrl] = useState<string>(
     "/api/prisma/getMyLabels"
   );
@@ -211,6 +214,8 @@ const MyLabels = () => {
           userName={userData?.user?.name as string}
           userRole={userData?.user?.role as string}
           defaultText={defaultText}
+          editMode={editMode}
+          setEditMode={setEditMode}
         />
       )}
     </Container>

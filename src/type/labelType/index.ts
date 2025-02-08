@@ -1,4 +1,4 @@
-export const enum iEditedMode {
+export  enum iEditedMode {
     "productNameEn" = "productNameEn",
     "productNameZh" = "productNameZh",
     "ingredient" = "ingredient",
@@ -14,6 +14,15 @@ export const enum iEditedMode {
     "bestBefore"="bestBefore",
     "cardComponent"="cardComponent",
     "stylePannel"="stylePannel",
+    "empty" = "empty",
+  }
+  export  enum iEditedModeAvailability {
+    "productNameEn" = "productNameEn",
+    "productNameZh" = "productNameZh",
+    "ingredient" = "ingredient",
+    "weight" = "weight",
+    "manufactured" = "manufactured",
+    "allergen"="allergen",
     "empty" = "empty",
   }
   

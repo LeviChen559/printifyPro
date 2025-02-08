@@ -50,7 +50,6 @@ const FormPropsTextFields: FC<iProps> = (prop) => {
           endAdornment: (
             <InputAdornment
               position="end"
-              onClick={prop.onClick}
               sx={{
                 "&:hover": {
                   cursor: "pointer",
@@ -62,6 +61,7 @@ const FormPropsTextFields: FC<iProps> = (prop) => {
           ),
         },
       }}
+      onClick={prop.onClick}
       onChange={prop.onChange}
       placeholder={prop.placeholder}
     />
