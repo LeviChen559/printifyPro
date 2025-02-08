@@ -11,7 +11,6 @@ import {
 import { iLabelInfo } from "@/type/labelType";
 import { Typography } from "@mui/material";
 import Barcode from "react-barcode";
-import { EditText, EditTextarea } from "react-edit-text";
 import "react-edit-text/dist/index.css";
 import { iEditedMode, iLabelStyle, iTextStyle } from "@/type/labelType";
 import LabelLogo from "@/components/logo";
