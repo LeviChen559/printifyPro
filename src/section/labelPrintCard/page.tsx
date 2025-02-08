@@ -8,7 +8,7 @@ import Button from "@/components/button";
 import { CircularProgress, TextField } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import { iLabelStyle,iTextStyle } from "@/type/labelType";
+import { iLabelStyle,iTextStyle,iEditedMode } from "@/type/labelType";
 import useSWR from "swr";
 import { fetcher } from "@/utils/lib/fetcher";
 
@@ -91,6 +91,7 @@ const LabelPrintCard: FC<iProps> = (prop) => {
           defaultLabelStyle={labelStyle.data[0] as iLabelStyle}
           showBorder={false}
           defaultText={prop.defaultText}
+          editMode={iEditedMode.empty}
         />
       </View>
       <Print>
