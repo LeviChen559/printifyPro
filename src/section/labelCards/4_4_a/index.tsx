@@ -301,14 +301,14 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
         >
           Net Weight :
         </Typography>
-        <Row  width="70%" gap={prop.isEditedMode&&prop.showBorder ? 8 : 0}>
+        <Row  width="auto" gap={prop.isEditedMode&&prop.showBorder ? 8 : 0}>
           <EditableTextField
             name={iEditedMode.weight}
             value={prop.weight}
             onChange={prop.setWeight}
             style={weightStyle}
             readonly={!isEditedMode}
-            width={ prop.showBorder?80:"fitContent"}
+            width={ 70}
             height={24}
             showBorder={prop.showBorder}
             editMode={prop.editMode}
@@ -322,7 +322,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             onChange={prop.setCaseQuantity}
             style={caseQuantityStyle}
             readonly={!isEditedMode}
-            width={ prop.showBorder?25:"fitContent"}
+            width={ 15}
             height={24}
             showBorder={prop.showBorder}
             editMode={prop.editMode}
@@ -336,7 +336,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             onChange={prop.setCaseUnit}
             style={caseUnitStyle}
             readonly={!isEditedMode}
-            width={ prop.showBorder?60:"fitContent"}
+            width={ 30}
             height={24}
             showBorder={prop.showBorder}
             editMode={prop.editMode}

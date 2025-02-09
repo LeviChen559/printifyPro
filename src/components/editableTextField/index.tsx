@@ -21,7 +21,7 @@ const EditableTextField: React.FC<EditableTextFieldProps> = ({
   onChange,
   style = {},
   readonly = false,
-  width = 'fitContent',
+  width = 'auto',
   height = '24px',
   showBorder = true,
   editMode,
