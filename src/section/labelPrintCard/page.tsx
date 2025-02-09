@@ -48,7 +48,6 @@ const LabelPrintCard: FC<iProps> = (prop) => {
     return data; // Already an object, return as is
   };
   
-  console.log("labelStyle",labelStyle);
   const productNameENStyle = parseIfNeeded(labelStyle?.data[0]?.product_name_en);
   const productNameZHStyle = parseIfNeeded(labelStyle?.data[0]?.product_name_zh);
   const ingredientStyle = parseIfNeeded(labelStyle?.data[0]?.ingredient);

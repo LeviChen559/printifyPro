@@ -76,6 +76,8 @@ const AddNew = () => {
         setStorage(parsedData.storage || "");
         setCaseQuantity(parsedData.case_quantity || "");
         setCaseUnit(parsedData.case_unit || "");
+        setShelfLife(parsedData.shelf_life || "");
+        setAllergen(parsedData.allergen || "");
         setLogo(parsedData.logo || "");
       } catch (error) {
         console.error("Error parsing duplicatedLabel:", error);
@@ -236,20 +238,20 @@ const AddNew = () => {
 
   const defaultLabelStyle = {
     id: lastItem && lastItem.id + 1,
-    item_code: JSON.stringify(JSON.stringify(defaultTextStyle)),
-    customer_item_code: JSON.stringify(defaultTextStyle),
-    lot_number: JSON.stringify(defaultTextStyle),
-    product_name_en: JSON.stringify(productNameENStyle),
-    product_name_zh: JSON.stringify(productNameZHStyle),
-    weight: JSON.stringify(weightStyle),
-    allergen:JSON.stringify(allergenStyle),
-    case_quantity: JSON.stringify(defaultTextStyle),
-    case_unit: JSON.stringify(defaultTextStyle),
-    storage: JSON.stringify(defaultTextStyle),
-    shelf_life: JSON.stringify(defaultTextStyle),
-    case_gtin: JSON.stringify(defaultTextStyle),
-    ingredient: JSON.stringify(ingredientStyle),
-    manufactured:JSON.stringify(manufacturedStyle),
+    item_code: defaultTextStyle,
+    customer_item_code: defaultTextStyle,
+    lot_number: defaultTextStyle,
+    product_name_en: productNameENStyle,
+    product_name_zh: productNameZHStyle,
+    weight: weightStyle,
+    allergen:allergenStyle,
+    case_quantity: defaultTextStyle,
+    case_unit: defaultTextStyle,
+    storage: defaultTextStyle,
+    shelf_life: defaultTextStyle,
+    case_gtin: defaultTextStyle,
+    ingredient: ingredientStyle,
+    manufactured:manufacturedStyle,
   };
 
   useEffect(() => {
@@ -376,6 +378,8 @@ const AddNew = () => {
       }));
     }
   };
+
+  console.log("productNameENStyle",productNameENStyle)
 
   if (!labelData) {
     return (

@@ -2,7 +2,7 @@
 import React, { FC, useState, useRef, useEffect } from "react";
 import { Container, View, Print } from "./style";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
-import { iLabelInfo } from "@/type/labelType";
+import { iLabelInfo, iLabelStyleInDataBase } from "@/type/labelType";
 import LabelCard from "@/section/labelCards";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -389,7 +389,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
 
 
 
-  const labelStyleuUpdates: iLabelStyle = {
+  const labelStyleuUpdates: iLabelStyleInDataBase = {
     id: prop.selectLabelInfo.id,
     item_code: labelStyle ? labelStyle.data[0]?.item_code : prop.defaultText,
     customer_item_code: labelStyle
@@ -410,7 +410,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
 
   const updateLabel = async (
     labelInfo: iLabelInfo,
-    labelStyle: iLabelStyle
+    labelStyle: iLabelStyleInDataBase
   ) => {
     setSubmitClicked(true);
     setIsLabelUpdating(true);
