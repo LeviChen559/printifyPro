@@ -52,6 +52,7 @@ const LabelPrintCard: FC<iProps> = (prop) => {
   const productNameZHStyle = parseIfNeeded(labelStyle?.data[0]?.product_name_zh);
   const ingredientStyle = parseIfNeeded(labelStyle?.data[0]?.ingredient);
   const manufacturedStyle = parseIfNeeded(labelStyle?.data[0]?.manufactured);
+  const allergenStyle = parseIfNeeded(labelStyle?.data[0]?.allergen);
   const defaultLabelStyle = labelStyle?.data[0]; // No need to parse the full object
   if (error) return <div>Error loading label style.</div>;
   if (!labelStyle || !Array.isArray(labelStyle.data)|| !labelStyle.data.length)
@@ -99,12 +100,13 @@ const LabelPrintCard: FC<iProps> = (prop) => {
           caseQuantity={prop.selectLabelInfo.case_quantity}
           weight={prop.selectLabelInfo.weight}
           manufactured={prop.selectLabelInfo.manufactured}
-          storage={prop.selectLabelInfo.storage}
           allergen={prop.selectLabelInfo.allergen}
+          storage={prop.selectLabelInfo.storage}
           itemCode={prop.selectLabelInfo.item_code}
           productNameENStyle={ productNameENStyle }
           productNameZHStyle={ productNameZHStyle }
           ingredientStyle={ ingredientStyle }
+          allergenStyle={ allergenStyle }
           manufacturedStyle={ manufacturedStyle }
           defaultLabelStyle= { defaultLabelStyle }
           showBorder={false}

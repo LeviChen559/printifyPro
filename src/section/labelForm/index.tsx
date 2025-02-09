@@ -297,7 +297,7 @@ const LabelForm: FC<iProps> = (prop) => {
             required={true}
             type="string"
             background="#ffffff40"
-            placeholder="Shelf Life"
+            placeholder="Case Unit"
             onChange={(e) => prop.setCaseUnit(e.target.value)}
             startIcon={null}
             error={
@@ -380,7 +380,7 @@ const LabelForm: FC<iProps> = (prop) => {
                 ? prop.formError.message
                 : ""
             }
-            sx={commonTextFieldStyles}
+            sx={commonTextFieldStyles(iEditedMode.storage)}
           />
         </Box>
         <FormPropsTextFields

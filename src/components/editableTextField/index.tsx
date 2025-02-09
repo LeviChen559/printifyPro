@@ -1,3 +1,4 @@
+import { iEditedMode } from '@/type/labelType';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 
 interface EditableTextFieldProps {
@@ -9,6 +10,9 @@ interface EditableTextFieldProps {
   width?: string | number;
   height?: string | number;
   showBorder?: boolean;
+  editMode?:iEditedMode
+  onEditMode?: () => void;
+
 }
 
 const EditableTextField: React.FC<EditableTextFieldProps> = ({
@@ -17,9 +21,12 @@ const EditableTextField: React.FC<EditableTextFieldProps> = ({
   onChange,
   style = {},
   readonly = false,
-  width = '100%',
+  width = 'fitContent',
   height = '24px',
-  showBorder = true
+  showBorder = true,
+  editMode,
+  onEditMode,
+
 }) => {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -37,6 +44,8 @@ const EditableTextField: React.FC<EditableTextFieldProps> = ({
 
   const handleFocus = () => {
     setIsEditing(true);
+    onEditMode?.();
+
   };
 
   const handleBlur = () => {
@@ -49,15 +58,14 @@ const EditableTextField: React.FC<EditableTextFieldProps> = ({
       type="text"
       style={{
         ...style,
-        display: 'flex',
-        alignItems: 'center',
-        background: isEditing ? '#eeeeee' : 'transparent',
+        display: "inline-block",
+        background: isEditing || editMode===name? '#eeeeee' : 'transparent',
         minHeight: '24px',
-        border: readonly || !showBorder ? 'none' : '1px solid #bcbcbc80',
-        borderRadius: readonly ? 'none' : '4px',
-        width,
-        height,
-        padding: '0 8px',
+        border: readonly && !showBorder ? 'none' : '1px solid #bcbcbc80',
+        borderRadius:  readonly && !showBorder  ? 'none' : '4px',
+        width: width,
+        height: height,
+        padding: readonly && !showBorder ?"0":'0 8px',
         outline: 'none',
       }}
       value={value?.toString() ?? ''}

@@ -23,7 +23,6 @@ export  enum iEditedMode {
     "weight" = "weight",
     "manufactured" = "manufactured",
     "allergen"="allergen",
-    "empty" = "empty",
   }
   
   export const enum iTextStyleMode {

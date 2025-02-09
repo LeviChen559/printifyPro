@@ -672,7 +672,6 @@ useEffect(() => {
         }
       />
       <View>
-         
           <StylePanel
          ref={stylePannelRef}
           isEditMode={ prop.editMode}

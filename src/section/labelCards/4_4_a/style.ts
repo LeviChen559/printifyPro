@@ -78,6 +78,8 @@ export const Row = styled.div<iProps>({
     flexDirection:"row",
     justifyContent:"flex-start",
     alignItems:"center",
+    position:"relative",
+    boxSizing:"border-box",
     gap:4,
     height:24,
 },props=>({

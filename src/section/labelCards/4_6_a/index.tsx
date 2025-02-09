@@ -21,7 +21,7 @@ interface iProp {
   showProductNameEN?: boolean;
   isEditedMode?: boolean;
   itemCode?: string;
-  lotNumber?:string
+  lotNumber?: string;
   storage?: string;
   setLotNumber?: Dispatch<SetStateAction<string>>;
   setItemCode?: Dispatch<SetStateAction<string>>;
@@ -56,6 +56,7 @@ interface iProp {
   defaultLabelStyle: iLabelStyle;
   logo: string;
   showBorder: boolean;
+
 }
 export type Ref = HTMLDivElement;
 
@@ -75,38 +76,38 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
   return (
     <Container id="labelCard" ref={ref}>
       <Header>
-        <LabelLogo logo={prop.logo}  />
+        <LabelLogo logo={prop.logo} />
         <EditableTextareaField
-            name={iEditedMode.productNameEn}
-            value={prop.productNameEN}
-            onChange={prop.setProductNameEN}
-            style={prop.productNameENStyle}
-            readonly={!isEditedMode}
-            rows={prop.productNameENStyle?.rows ?? 2}
-            onEditMode={() =>
-              prop.setEditMode && prop.setEditMode(iEditedMode.productNameEn)
-            }
-            editMode={prop.editMode}
-            showBorder={prop.showBorder}
-          />
-                 <EditableTextareaField
-            name={iEditedMode.productNameZh}
-            value={prop.productNameZH}
-            onChange={prop.setProductNameZH}
-            style={prop.productNameZHStyle}
-            readonly={!isEditedMode}
-            rows={prop.productNameZHStyle?.rows ?? 1}
-            onEditMode={() =>
-              prop.setEditMode && prop.setEditMode(iEditedMode.productNameZh)
-            }
-            editMode={prop.editMode}
-            showBorder={prop.showBorder}
-          />
+          name={iEditedMode.productNameEn}
+          value={prop.productNameEN}
+          onChange={prop.setProductNameEN}
+          style={prop.productNameENStyle}
+          readonly={!isEditedMode}
+          rows={prop.productNameENStyle?.rows ?? 2}
+          onEditMode={() =>
+            prop.setEditMode && prop.setEditMode(iEditedMode.productNameEn)
+          }
+          editMode={prop.editMode}
+          showBorder={prop.showBorder}
+        />
+        <EditableTextareaField
+          name={iEditedMode.productNameZh}
+          value={prop.productNameZH}
+          onChange={prop.setProductNameZH}
+          style={prop.productNameZHStyle}
+          readonly={!isEditedMode}
+          rows={prop.productNameZHStyle?.rows ?? 1}
+          onEditMode={() =>
+            prop.setEditMode && prop.setEditMode(iEditedMode.productNameZh)
+          }
+          editMode={prop.editMode}
+          showBorder={prop.showBorder}
+        />
       </Header>
       <Ingredients>
         <Typography width={"100%"}>Ingredients:</Typography>
         <div style={{ width: "100%", overflow: "hidden", height: "100%" }}>
-        <EditableTextareaField
+          <EditableTextareaField
             name={iEditedMode.ingredient}
             value={prop.ingredient}
             onChange={prop.setIngredient}
@@ -131,66 +132,78 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               Net Weight :
             </Typography>
             <EditableTextField
-            name={iEditedMode.weight}
-            value={prop.weight}
-            onChange={prop.setWeight}
-            style={prop.defaultText}
-            readonly={!isEditedMode}
-            width={75}
-            height={24}
-            showBorder={prop.showBorder}
-          />
-           <EditableTextField
-            name={iEditedMode.caseQuantity}
-            value={prop.caseQuantity}
-            onChange={prop.setCaseQuantity}
-            style={prop.defaultText}
-            readonly={!isEditedMode}
-            width={30}
-            height={24}
-            showBorder={prop.showBorder}
-          />
-          <EditableTextField
-            name={iEditedMode.caseUnit}
-            value={prop.caseUnit}
-            onChange={prop.setCaseUnit}
-            style={prop.defaultText}
-            readonly={!isEditedMode}
-            width={60}
-            height={24}
-            showBorder={prop.showBorder}
-          />
+              name={iEditedMode.weight}
+              value={prop.weight}
+              onChange={prop.setWeight}
+              style={prop.defaultText}
+              readonly={!isEditedMode}
+              width={75}
+              height={24}
+              showBorder={prop.showBorder}
+              editMode={prop.editMode}
+              onEditMode={() =>
+                prop.setEditMode && prop.setEditMode(iEditedMode.weight)
+              }
+            />
+            <EditableTextField
+              name={iEditedMode.caseQuantity}
+              value={prop.caseQuantity}
+              onChange={prop.setCaseQuantity}
+              style={prop.defaultText}
+              readonly={!isEditedMode}
+              width={30}
+              height={24}
+              showBorder={prop.showBorder}
+              editMode={prop.editMode}
+              onEditMode={() =>
+                prop.setEditMode && prop.setEditMode(iEditedMode.caseQuantity)
+              }
+            />
+            <EditableTextField
+              name={iEditedMode.caseUnit}
+              value={prop.caseUnit}
+              onChange={prop.setCaseUnit}
+              style={prop.defaultText}
+              readonly={!isEditedMode}
+              width={60}
+              height={24}
+              showBorder={prop.showBorder}
+              editMode={prop.editMode}
+              onEditMode={() =>
+                prop.setEditMode && prop.setEditMode(iEditedMode.caseUnit)
+              }
+            />
           </Row>
           <Row>
             <Typography variant="body2" noWrap>
               Storage Requirements :
             </Typography>
             <EditableTextField
-          name={iEditedMode.storage}
-          value={prop.storage}
-          onChange={prop.setStorage}
-          style={prop.storageStyle}
-          readonly={!isEditedMode}
-          width={120}
-          height={24}
-          showBorder={prop.showBorder}
-        />
+              name={iEditedMode.storage}
+              value={prop.storage}
+              onChange={prop.setStorage}
+              style={prop.storageStyle}
+              readonly={!isEditedMode}
+              width={120}
+              height={24}
+              showBorder={prop.showBorder}
+            />
           </Row>
           <Typography variant="body2">Manufactured For:</Typography>
           <div style={{ width: "100%", height: 44 }}>
-          <EditableTextareaField
-            name={iEditedMode.manufactured}
-            value={prop.manufactured}
-            onChange={prop.setManufactured}
-            style={prop.manufacturedStyle}
-            readonly={!isEditedMode}
-            rows={prop.manufacturedStyle?.rows ?? 1}
-            onEditMode={() =>
-              prop.setEditMode && prop.setEditMode(iEditedMode.manufactured)
-            }
-            editMode={prop.editMode}
-            showBorder={prop.showBorder}
-          />
+            <EditableTextareaField
+              name={iEditedMode.manufactured}
+              value={prop.manufactured}
+              onChange={prop.setManufactured}
+              style={prop.manufacturedStyle}
+              readonly={!isEditedMode}
+              rows={prop.manufacturedStyle?.rows ?? 1}
+              onEditMode={() =>
+                prop.setEditMode && prop.setEditMode(iEditedMode.manufactured)
+              }
+              editMode={prop.editMode}
+              showBorder={prop.showBorder}
+            />
           </div>
         </InfomationColumn>
         <InfomationColumn flex={1}>
