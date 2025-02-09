@@ -322,7 +322,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             onChange={prop.setCaseQuantity}
             style={caseQuantityStyle}
             readonly={!isEditedMode}
-            width={ 15}
+            width={ 25}
             height={24}
             showBorder={prop.showBorder}
             editMode={prop.editMode}
@@ -336,7 +336,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             onChange={prop.setCaseUnit}
             style={caseUnitStyle}
             readonly={!isEditedMode}
-            width={ 30}
+            width={ 40}
             height={24}
             showBorder={prop.showBorder}
             editMode={prop.editMode}
