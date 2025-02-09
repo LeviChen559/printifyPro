@@ -138,24 +138,24 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
   // Memoized styles
   const productNameENStyle = getTextStyle(
     prop.productNameENStyle,
-   JSON.parse(prop.defaultLabelStyle?.product_name_en)
+   prop.defaultLabelStyle?.product_name_en
   );
   const productNameZHStyle = getTextStyle(
     prop.productNameZHStyle,
-    JSON.parse(prop.defaultLabelStyle?.product_name_zh)
+    prop.defaultLabelStyle?.product_name_zh
   );
 
   const ingredientStyle = getTextStyle(
     prop.ingredientStyle,
-    JSON.parse(prop.defaultLabelStyle?.ingredient)
+    prop.defaultLabelStyle?.ingredient
   );
   const allergenStyle = getTextStyle(
     prop.allergenStyle,
-    JSON.parse(prop.defaultLabelStyle?.allergen)
+    prop.defaultLabelStyle?.allergen
   );
   const manufacturedStyle = getTextStyle(
     prop.manufacturedStyle,
-    JSON.parse(prop.defaultLabelStyle?.manufactured)
+    prop.defaultLabelStyle?.manufactured
   );
   const itemCodeStyle = getTextStyle(
     prop.defaultText,

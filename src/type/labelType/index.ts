@@ -47,19 +47,19 @@ export  enum iEditedMode {
   
   export interface iLabelStyle {
     id: number;
-    item_code: string;
-    customer_item_code: string;
-    lot_number: string;
-    product_name_en: string;
-    product_name_zh: string;
-    ingredient: string;
-    weight: string;
-    storage: string;
-    manufactured: string;
-    case_quantity: string;
-    case_unit: string;
-    shelf_life: string;
-    allergen: string;
+    item_code: iTextStyle;
+    customer_item_code: iTextStyle;
+    lot_number: iTextStyle;
+    product_name_en: iTextStyle;
+    product_name_zh: iTextStyle;
+    ingredient: iTextStyle;
+    weight: iTextStyle;
+    storage: iTextStyle;
+    manufactured: iTextStyle;
+    case_quantity: iTextStyle;
+    case_unit: iTextStyle;
+    shelf_life: iTextStyle;
+    allergen: iTextStyle;
   }
 
   export interface formState {
