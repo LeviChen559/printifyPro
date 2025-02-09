@@ -12,6 +12,7 @@ import { iLabelStyle,iTextStyle,iEditedMode } from "@/type/labelType";
 import useSWR from "swr";
 import { fetcher } from "@/utils/lib/fetcher";
 
+
 interface iProps {
   selectLabelInfo: iLabelInfo;
   setShowCard: React.Dispatch<
@@ -31,12 +32,30 @@ const LabelPrintCard: FC<iProps> = (prop) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
 
-  const { data: labelStyle } = useSWR(
+  const { data: labelStyle ,error} = useSWR(
     `/api/prisma/getLabelStyle?id=${prop.selectLabelInfo.id}`,
     fetcher
   );
-
-  if (!labelStyle || !Array.isArray(labelStyle.data))
+  const parseIfNeeded = (data: any) => {
+    if (typeof data === "string") {
+      try {
+        return JSON.parse(data);
+      } catch (error) {
+        console.error("JSON parsing failed:", data);
+        return data; // Return original data if parsing fails
+      }
+    }
+    return data; // Already an object, return as is
+  };
+  
+  console.log("labelStyle",labelStyle);
+  const productNameENStyle = parseIfNeeded(labelStyle?.data[0]?.product_name_en);
+  const productNameZHStyle = parseIfNeeded(labelStyle?.data[0]?.product_name_zh);
+  const ingredientStyle = parseIfNeeded(labelStyle?.data[0]?.ingredient);
+  const manufacturedStyle = parseIfNeeded(labelStyle?.data[0]?.manufactured);
+  const defaultLabelStyle = labelStyle?.data[0]; // No need to parse the full object
+  if (error) return <div>Error loading label style.</div>;
+  if (!labelStyle || !Array.isArray(labelStyle.data)|| !labelStyle.data.length)
     return (
       <Container>
         <CircularProgress />
@@ -84,11 +103,11 @@ const LabelPrintCard: FC<iProps> = (prop) => {
           storage={prop.selectLabelInfo.storage}
           allergen={prop.selectLabelInfo.allergen}
           itemCode={prop.selectLabelInfo.item_code}
-          productNameENStyle={ labelStyle.data[0].product_name_en as iTextStyle}
-          productNameZHStyle={labelStyle.data[0].product_name_zh as iTextStyle}
-          ingredientStyle={labelStyle.data[0].ingredient as iTextStyle}
-          manufacturedStyle={labelStyle.data[0].manufactured as iTextStyle}
-          defaultLabelStyle={labelStyle.data[0] as iLabelStyle}
+          productNameENStyle={ productNameENStyle }
+          productNameZHStyle={ productNameZHStyle }
+          ingredientStyle={ ingredientStyle }
+          manufacturedStyle={ manufacturedStyle }
+          defaultLabelStyle= { defaultLabelStyle }
           showBorder={false}
           defaultText={prop.defaultText}
           editMode={iEditedMode.empty}

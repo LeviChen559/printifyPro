@@ -86,7 +86,7 @@ const AddNew = () => {
 
   const defaultHeaderStyle = {
     color: "#000000",
-    fontSize: 24,
+    fontSize: 16,
     fontWeight: 700,
     fontStyle: "Normal",
     fontFamily: "Arial",
@@ -99,7 +99,7 @@ const AddNew = () => {
     fontFamily: "Arial",
   };
   const [productNameENStyle, setProductNameENStyle] =
-    useState<iTextStyle>(defaultHeaderStyle);
+    useState<iTextStyle>( defaultHeaderStyle);
   const [productNameZHStyle, setProductNameZHStyle] =
     useState<iTextStyle>(defaultHeaderStyle);
   const [ingredientStyle, setingredientStyle] =
@@ -236,20 +236,20 @@ const AddNew = () => {
 
   const defaultLabelStyle = {
     id: lastItem && lastItem.id + 1,
-    item_code: defaultTextStyle,
-    customer_item_code: defaultTextStyle,
-    lot_number: defaultTextStyle,
-    product_name_en: productNameENStyle,
-    product_name_zh: productNameZHStyle,
-    weight: weightStyle,
-    allergen: allergenStyle,
-    case_quantity: defaultTextStyle,
-    case_unit: defaultTextStyle,
-    storage: defaultTextStyle,
-    shelf_life: defaultTextStyle,
-    case_gtin: defaultTextStyle,
-    ingredient: ingredientStyle,
-    manufactured: manufacturedStyle,
+    item_code: JSON.stringify(JSON.stringify(defaultTextStyle)),
+    customer_item_code: JSON.stringify(defaultTextStyle),
+    lot_number: JSON.stringify(defaultTextStyle),
+    product_name_en: JSON.stringify(productNameENStyle),
+    product_name_zh: JSON.stringify(productNameZHStyle),
+    weight: JSON.stringify(weightStyle),
+    allergen:JSON.stringify(allergenStyle),
+    case_quantity: JSON.stringify(defaultTextStyle),
+    case_unit: JSON.stringify(defaultTextStyle),
+    storage: JSON.stringify(defaultTextStyle),
+    shelf_life: JSON.stringify(defaultTextStyle),
+    case_gtin: JSON.stringify(defaultTextStyle),
+    ingredient: JSON.stringify(ingredientStyle),
+    manufactured:JSON.stringify(manufacturedStyle),
   };
 
   useEffect(() => {

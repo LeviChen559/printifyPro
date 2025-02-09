@@ -138,24 +138,24 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
   // Memoized styles
   const productNameENStyle = getTextStyle(
     prop.productNameENStyle,
-    prop.defaultLabelStyle?.product_name_en
+   JSON.parse(prop.defaultLabelStyle?.product_name_en)
   );
   const productNameZHStyle = getTextStyle(
     prop.productNameZHStyle,
-    prop.defaultLabelStyle?.product_name_zh
+    JSON.parse(prop.defaultLabelStyle?.product_name_zh)
   );
 
   const ingredientStyle = getTextStyle(
     prop.ingredientStyle,
-    prop.defaultLabelStyle?.ingredient
+    JSON.parse(prop.defaultLabelStyle?.ingredient)
   );
   const allergenStyle = getTextStyle(
     prop.allergenStyle,
-    prop.defaultLabelStyle?.allergen
+    JSON.parse(prop.defaultLabelStyle?.allergen)
   );
   const manufacturedStyle = getTextStyle(
     prop.manufacturedStyle,
-    prop.defaultLabelStyle?.manufactured
+    JSON.parse(prop.defaultLabelStyle?.manufactured)
   );
   const itemCodeStyle = getTextStyle(
     prop.defaultText,
@@ -176,9 +176,8 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
   const lotNumberStyle = getTextStyle(
     prop.defaultText,
   );
-  const storageStyle = useMemo(
-    () => getTextStyle(prop.defaultLabelStyle?.storage, undefined),
-    [prop.defaultLabelStyle]
+  const storageStyle =  getTextStyle(
+    prop.defaultText,
   );
 
   return (
@@ -204,6 +203,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               prop.setEditMode && prop.setEditMode(iEditedMode.productNameEn)
             }
             editMode={prop.editMode}
+            showBorder={prop.showBorder}
           />
           <EditableTextareaField
             name={iEditedMode.productNameZh}
@@ -216,6 +216,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               prop.setEditMode && prop.setEditMode(iEditedMode.productNameZh)
             }
             editMode={prop.editMode}
+            showBorder={prop.showBorder}
           />
         </div>
       </Header>
@@ -229,6 +230,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             readonly={!isEditedMode}
             width={50}
             height={24}
+            showBorder={prop.showBorder}
           />
           <EditableTextField
             name={iEditedMode.customerCode}
@@ -238,6 +240,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             readonly={!isEditedMode}
             width={50}
             height={24}
+            showBorder={prop.showBorder}
           />
         </Col>
         <Col alignItems="flex-start" gap={4}>
@@ -252,6 +255,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               prop.setEditMode && prop.setEditMode(iEditedMode.ingredient)
             }
             editMode={prop.editMode}
+            showBorder={prop.showBorder}
           />
           <EditableTextareaField
             name={iEditedMode.allergen}
@@ -264,6 +268,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               prop.setEditMode && prop.setEditMode(iEditedMode.allergen)
             }
             editMode={prop.editMode}
+            showBorder={prop.showBorder}
           />
         </Col>
       </Ingredients>
@@ -285,6 +290,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             readonly={!isEditedMode}
             width={75}
             height={24}
+            showBorder={prop.showBorder}
           />
           <EditableTextField
             name={iEditedMode.caseQuantity}
@@ -294,6 +300,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             readonly={!isEditedMode}
             width={30}
             height={24}
+            showBorder={prop.showBorder}
           />
           <EditableTextField
             name={iEditedMode.caseUnit}
@@ -303,6 +310,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             readonly={!isEditedMode}
             width={60}
             height={24}
+            showBorder={prop.showBorder}
           />
         </Row>
         <Typography noWrap textOverflow="clip" fontWeight={700}>
@@ -321,6 +329,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           readonly={!isEditedMode}
           width={120}
           height={24}
+          showBorder={prop.showBorder}
         />
         <EditableTextField
           name={iEditedMode.storage}
@@ -330,6 +339,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           readonly={!isEditedMode}
           width={120}
           height={24}
+          showBorder={prop.showBorder}
         />
       </Row>
       <InfomationWrapper>
@@ -346,6 +356,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               readonly={!isEditedMode}
               width={95}
               height={24}
+              showBorder={prop.showBorder}
             />
           </Row>
           <EditableTextareaField
@@ -359,6 +370,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               prop.setEditMode && prop.setEditMode(iEditedMode.manufactured)
             }
             editMode={prop.editMode}
+            showBorder={prop.showBorder}
           />
         </Col>
         <InfomationColumn width={"50%"} zIndex={0}>

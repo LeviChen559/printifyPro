@@ -396,16 +396,16 @@ const LabelEditCard: FC<iProps> = (prop) => {
       ? labelStyle.data[0]?.customer_item_code
       : prop.defaultText,
     lot_number: labelStyle ? labelStyle.data[0]?.lot_number : prop.defaultText,
-    product_name_en: productNameENStyle,
-    product_name_zh: productNameZHStyle,
-    ingredient: ingredientStyle,
+    product_name_en: JSON.stringify(productNameENStyle),
+    product_name_zh: JSON.stringify(productNameZHStyle),
+    ingredient: JSON.stringify(ingredientStyle),
     weight: labelStyle ? labelStyle.data[0]?.weight : prop.defaultText,
-    storage: storageStyle,
-    manufactured: manufacturedStyle,
+    storage: JSON.stringify(storageStyle),
+    manufactured: JSON.stringify(manufacturedStyle),
     case_quantity: labelStyle ? labelStyle.data[0]?.case_quantity : prop.defaultText,
     case_unit: labelStyle ? labelStyle.data[0]?.case_unit : prop.defaultText,
     shelf_life: labelStyle ? labelStyle.data[0]?.shelf_life : prop.defaultText,
-    allergen: allergenStyle,
+    allergen: JSON.stringify(allergenStyle),
   };
 
   const updateLabel = async (
