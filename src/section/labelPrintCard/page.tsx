@@ -8,7 +8,7 @@ import Button from "@/components/button";
 import { CircularProgress, TextField } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import { iLabelStyle,iTextStyle,iEditedMode } from "@/type/labelType";
+import { iTextStyle,iEditedMode } from "@/type/labelType";
 import useSWR from "swr";
 import { fetcher } from "@/utils/lib/fetcher";
 
@@ -36,7 +36,7 @@ const LabelPrintCard: FC<iProps> = (prop) => {
     `/api/prisma/getLabelStyle?id=${prop.selectLabelInfo.id}`,
     fetcher
   );
-  const parseIfNeeded = (data: any) => {
+  const parseIfNeeded = (data: string) => {
     if (typeof data === "string") {
       try {
         return JSON.parse(data);
