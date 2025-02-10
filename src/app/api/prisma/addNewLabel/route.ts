@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     // Fetch data from the mylabels table using Prisma
     const newLabel: mylabels = await prisma.mylabels.create({
       data: {
-        id: data.labelInput.id,
+        // id: data.labelInput.id,
         item_code: data.labelInput.item_code,
         product_name_en: data.labelInput.product_name_en,
         product_name_zh: data.labelInput.product_name_zh,
@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
     });
     const newLabelStyle:labelstyle = await prisma.labelstyle.create({
       data: {
-        id: data.defaultLabelStyle.id,
+        id: newLabel.id,
         item_code: data.defaultLabelStyle.item_code,
         product_name_en: data.defaultLabelStyle.product_name_en,
         product_name_zh: data.defaultLabelStyle.product_name_zh,
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
         best_before: data.defaultLabelStyle.shelf_life,
         ingredient: data.defaultLabelStyle.ingredient,
         manufactured: data.defaultLabelStyle.manufactured,
-        allergen: data.defaultLabelStyle.allergens,
+        allergen: data.defaultLabelStyle.allergen,
     }});
   
 

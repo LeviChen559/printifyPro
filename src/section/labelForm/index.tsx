@@ -398,7 +398,7 @@ const LabelForm: FC<iProps> = (prop) => {
               ? prop.formError.message
               : ""
           }
-          sx={commonTextFieldStyles}
+          sx={commonTextFieldStyles(iEditedMode.storage)}
         />
         <FormPropsTextFields
           id="ingredient"
@@ -472,7 +472,7 @@ const LabelForm: FC<iProps> = (prop) => {
         padding="4px 0"
       >
         {prop.isEditedView ? (
-          <Button btnText="Update Label" type="submit" />
+          <Button btnText="Update Label" type="submit"  />
         ) : (
           <Button btnText="Create Label" type="submit" />
         )}

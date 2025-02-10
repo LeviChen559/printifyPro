@@ -19,13 +19,15 @@ const index: FC<iProps> = (props) => {
       variant="contained"
       startIcon={props.startIcon}
       endIcon={props.endIcon}
-      sx={{ width: props.width, padding: 2, borderRadius: 2,backgroundColor: props.backgroundColor}}
+      sx={{ width: props.width, padding: 2, borderRadius: 2,backgroundColor: props.backgroundColor,
+      }}
       formAction={props.formAction}
       onClick={props.onClick}
       type={props.type}
     > 
     
-      <Typography color="textSecondary" sx={{ textTransform: "capitalize" }}>
+      <Typography color="textThirdary" sx={{ textTransform: "capitalize",fontWeight
+        :700 }}>
         {props.btnText}
       </Typography>
     </Button>

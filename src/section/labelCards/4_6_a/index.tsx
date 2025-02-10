@@ -120,6 +120,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             }
             editMode={prop.editMode}
             showBorder={prop.showBorder}
+            wordBreak="break-all"
           />
           <EditableTextareaField
             name={iEditedMode.allergen}
@@ -188,9 +189,9 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             />
           </Row>
           <Row>
-            <Typography variant="body2" noWrap>
-              Storage Requirements :
-            </Typography>
+          <Typography variant="body2">
+            LOT: #{prop.labelInfo.item_code}
+          </Typography>
             <EditableTextField
               name={iEditedMode.storage}
               value={prop.storage}
@@ -219,14 +220,12 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           </div>
         </InfomationColumn>
         <InfomationColumn flex={1}>
-          <Typography variant="body2">
-            LOT #{prop.labelInfo.item_code}
-          </Typography>
+         
           {/* <Typography variant="body2">BEST BY : {formattedDate}</Typography> */}
           <Barcode
             value={prop.labelInfo.case_gtin.substring(0, 11) ?? "111111111111"}
             width={2}
-            height={35}
+            height={45}
             fontSize={14}
             format="UPC"
           />

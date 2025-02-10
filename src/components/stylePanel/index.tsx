@@ -238,12 +238,12 @@ const StylePanel = forwardRef<HTMLDivElement, iProps>((prop, ref) => {
       label: "12px",
     },
     {
-      value: 20,
-      label: "20px",
+      value: 24,
+      label: "24px",
     },
     {
-      value: 28,
-      label: "28px",
+      value: 32,
+      label: "32px",
     },
   ];
 
@@ -252,49 +252,29 @@ const StylePanel = forwardRef<HTMLDivElement, iProps>((prop, ref) => {
       value: 1,
       label: "1",
     },
-    {
-      value: 2,
-      label: "2",
-    },
-    {
-      value: 3,
-      label: "3",
-    },
-    {
-      value: 4,
-      label: "4",
-    },
+
     {
       value: 5,
       label: "5",
-    },
-    {
-      value: 6,
-      label: "6",
-    },
-    {
-      value: 7,
-      label: "7",
-    },
-    {
-      value: 8,
-      label: "8",
-    },
-    {
-      value: 9,
-      label: "9",
     },
     {
       value: 10,
       label: "10",
     },
     {
-      value: 11,
-      label: "11",
+      value: 15,
+      label: "15",
     },
+  ];
+  const LineheightMarks = [
     {
-      value: 12,
-      label: "12",
+      value: 1,
+      label: "1",
+    },
+
+    {
+      value: 2,
+      label: "2",
     },
   ];
   const isStylePanelVisible =
@@ -411,7 +391,7 @@ const StylePanel = forwardRef<HTMLDivElement, iProps>((prop, ref) => {
             step={2}
             marks={FontSizemarks}
             min={12}
-            max={28}
+            max={32}
             onChange={(event: Event, value: number | number[]) => {
               prop.handleChange(
                 {
@@ -479,19 +459,24 @@ const StylePanel = forwardRef<HTMLDivElement, iProps>((prop, ref) => {
               step={1}
               marks={Rowsmarks}
               min={1}
-              max={12}
-              onChange={(event: Event, value: number | number[]) => {
+              max={15}
+              onChange={(event, value) => {
+                // Ensure value is a number (handle array case)
+                const newValue = Array.isArray(value) ? value[0] : value;
+
+                // Call prop.handleChange properly
                 prop.handleChange(
                   {
-                    target: { value },
-                  } as unknown as React.ChangeEvent<HTMLInputElement>,
+                    target: { value: newValue },
+                  } as unknown as React.ChangeEvent<HTMLInputElement>, // Force correct event type
                   prop.isEditMode,
                   iTextStyleMode.rows
                 );
               }}
               getAriaValueText={valuetext}
-              value={RowsConverter(prop.isEditMode)}
+              value={RowsConverter(prop.isEditMode)} // Ensure it returns a valid number
               color="primary"
+              
             />
           </FormControl>
         )}
@@ -516,7 +501,7 @@ const StylePanel = forwardRef<HTMLDivElement, iProps>((prop, ref) => {
               aria-label="Custom marks"
               valueLabelDisplay="auto"
               step={0.1}
-              marks={Rowsmarks}
+              marks={LineheightMarks}
               min={1}
               max={2}
               onChange={(event: Event, value: number | number[]) => {

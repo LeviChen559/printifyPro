@@ -1,17 +1,11 @@
 import { NextResponse } from "next/server";
+import { activities } from "@prisma/client";
 
 import { NextRequest } from "next/server";
 import {prisma} from '@/utils/lib/prisma';
 
 
-interface iActivities{
-  id: number;
-  event: string;
-  label_code: string;
-  username: string;
-  role: string;
-  created_at: Date | null;
-}
+
 
 export async function POST(req: NextRequest) {
   try {
@@ -21,9 +15,8 @@ export async function POST(req: NextRequest) {
    
 
     // Fetch data from the mylabels table using Prisma
-    const newActivety: iActivities = await prisma.activities.create({
+    const newActivety: activities = await prisma.activities.create({
       data:{
-        id: data.id + 1,
         event: data.event,
         label_code: data.label_code,
         username: data.username,

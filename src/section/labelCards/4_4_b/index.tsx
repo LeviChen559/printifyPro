@@ -185,12 +185,13 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             onChange={prop.setIngredient}
             style={ingredientStyle}
              readonly={isEditedMode===false}
-            rows={prop.ingredientStyle?.rows ?? 4}
+            rows={prop.ingredientStyle?.rows ?? 5}
             onEditMode={() =>
               prop.setEditMode && prop.setEditMode(iEditedMode.ingredient)
             }
             editMode={prop.editMode}
             showBorder={prop.showBorder}
+            wordBreak="break-all"
           />
           <EditableTextareaField
             name={iEditedMode.allergen}

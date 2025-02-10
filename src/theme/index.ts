@@ -62,8 +62,8 @@ export const globalTheme = createTheme({
     
     text: {
       primary: "#424242",
-      secondary: "#ffffff",
-      thirdary: "#808080",
+      secondary: "#808080",
+      thirdary: "#ffffff",
     },
   },
   breakpoints: {
