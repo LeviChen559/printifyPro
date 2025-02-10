@@ -11,6 +11,7 @@ interface EditableTextareaFieldProps {
   editMode:iEditedMode
   onEditMode?: () => void;
   showBorder: boolean;
+  width?: string | number;
 }
 
 const EditableTextareaField: React.FC<EditableTextareaFieldProps> = ({
@@ -22,7 +23,8 @@ const EditableTextareaField: React.FC<EditableTextareaFieldProps> = ({
   readonly = false,
   rows = 2,
   onEditMode,
-  showBorder = true
+  showBorder = true,
+  width="100%",
 }) => {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -40,7 +42,7 @@ const EditableTextareaField: React.FC<EditableTextareaFieldProps> = ({
       name={name}
       style={{
         ...style,
-        width: '100%',
+        width: width,
         padding: '0px',
         margin: '0px',
         overflow: 'hidden',

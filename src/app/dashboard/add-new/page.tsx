@@ -37,7 +37,6 @@ const AddNew = () => {
     locale: "",
   });
   const router = useRouter();
-  const formRef = useRef<HTMLFormElement>(null);
   const [logo, setLogo] = useState<string>("001");
   const [labelTemp, setLabelTemp] = useState<string>("4x4_a");
   const [itemCode, setItemCode] = useState<string>("");
@@ -100,17 +99,18 @@ const AddNew = () => {
     fontStyle: "Normal",
     fontFamily: "Arial",
   };
+  
   const [productNameENStyle, setProductNameENStyle] =
     useState<iTextStyle>( defaultHeaderStyle);
   const [productNameZHStyle, setProductNameZHStyle] =
     useState<iTextStyle>(defaultHeaderStyle);
   const [ingredientStyle, setingredientStyle] =
-    useState<iTextStyle>(defaultTextStyle);
+    useState<iTextStyle>({...defaultTextStyle,rows:4});
   const [manufacturedStyle, setManufacturedStyle] =
     useState<iTextStyle>(defaultTextStyle);
-  const [weightStyle, setWeightStyle] = useState<iTextStyle>(defaultTextStyle);
+  const [weightStyle, setWeightStyle] = useState<iTextStyle>({...defaultTextStyle,rows:1});
   const [allergenStyle, setAllergenStyle] =
-    useState<iTextStyle>(defaultTextStyle);
+    useState<iTextStyle>({...defaultTextStyle,rows:1});
   const [storageStyle, setStorageStyle] =
     useState<iTextStyle>(defaultTextStyle);
 
@@ -379,7 +379,6 @@ const AddNew = () => {
     }
   };
 
-  console.log("productNameENStyle",productNameENStyle)
 
   if (!labelData) {
     return (
@@ -454,7 +453,7 @@ const AddNew = () => {
         <LabelCard
           type={labelTemp}
           labelInput={labelInput}
-          isEditedMode
+          isEditedMode={true}
           itemCode={itemCode}
           customerItemCode={customerItemCode}
           setCustomerItemCode={setCustomerItemCode}
@@ -548,7 +547,6 @@ const AddNew = () => {
           setAllergen={setAllergen}
           setEditMode={setEditMode}
           editMode={editMode}
-          ref={formRef}
         />
       </EditContainer>
       {sendAnewLabel && (

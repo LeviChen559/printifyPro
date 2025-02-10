@@ -56,44 +56,7 @@ interface iProps {
   defaultLabelStyle: iLabelStyle;
   showBorder: boolean;
 }
-export const rowHeightConverter = (rows: number) => {
-  switch (rows) {
-    case 0.25:
-      return 22;
-    case 0.5:
-      return 28;
-    case 0.75:
-      return 34;
-    case 1:
-      return 40;
-    case 1.25:
-      return 46;
-    case 1.5:
-      return 52;
-    case 1.75:
-      return 58;
-    case 2:
-      return 64;
-    case 2.25:
-      return 70;
-    case 2.5:
-      return 76;
-    case 2.75:
-      return 82;
-    case 3:
-      return 88;
-    case 3.25:
-      return 94;
-    case 3.5:
-      return 100;
-    case 3.75:
-      return 106;
-    case 4:
-      return 112;
-    default:
-      return 64;
-  }
-};
+
 export type Ref = HTMLDivElement;
 const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
   return prop.type === "4x4_a" ? (

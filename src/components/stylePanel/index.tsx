@@ -249,8 +249,8 @@ const StylePanel = forwardRef<HTMLDivElement, iProps>((prop, ref) => {
 
   const Rowsmarks = [
     {
-      value: 0.25,
-      label: ".25",
+      value: 1,
+      label: "1",
     },
     {
       value: 2,
@@ -267,6 +267,34 @@ const StylePanel = forwardRef<HTMLDivElement, iProps>((prop, ref) => {
     {
       value: 5,
       label: "5",
+    },
+    {
+      value: 6,
+      label: "6",
+    },
+    {
+      value: 7,
+      label: "7",
+    },
+    {
+      value: 8,
+      label: "8",
+    },
+    {
+      value: 9,
+      label: "9",
+    },
+    {
+      value: 10,
+      label: "10",
+    },
+    {
+      value: 11,
+      label: "11",
+    },
+    {
+      value: 12,
+      label: "12",
     },
   ];
   const isStylePanelVisible =
@@ -437,7 +465,7 @@ const StylePanel = forwardRef<HTMLDivElement, iProps>((prop, ref) => {
             sx={{
               height: "auto",
               padding: "8px 8px 8px 16px",
-              width: 141,
+              width: 250,
               boxSizing: "border-box",
             }}
           >
@@ -448,10 +476,10 @@ const StylePanel = forwardRef<HTMLDivElement, iProps>((prop, ref) => {
               defaultValue={2}
               aria-label="Custom marks"
               valueLabelDisplay="auto"
-              step={0.25}
+              step={1}
               marks={Rowsmarks}
-              min={0.25}
-              max={5}
+              min={1}
+              max={12}
               onChange={(event: Event, value: number | number[]) => {
                 prop.handleChange(
                   {

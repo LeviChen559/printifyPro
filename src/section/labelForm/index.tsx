@@ -51,7 +51,6 @@ interface iProps {
   setAllergen: Dispatch<SetStateAction<string>>;
   editMode: iEditedMode;
   setEditMode: Dispatch<SetStateAction<iEditedMode>>;
-  ref: React.RefObject<HTMLFormElement>;
 }
 const LabelForm: FC<iProps> = (prop) => {
   const commonTextFieldStyles = (mode: iEditedMode) => {
@@ -64,7 +63,7 @@ const LabelForm: FC<iProps> = (prop) => {
   };
 
   return (
-    <Form onSubmit={prop.isEditedView ? prop.updateLabel : prop.createNewLabel} ref={prop.ref}>
+    <Form onSubmit={prop.isEditedView ? prop.updateLabel : prop.createNewLabel} >
       <Column height="85%">
         <Box
           display={"flex"}

@@ -14,7 +14,6 @@ import Barcode from "react-barcode";
 import "react-edit-text/dist/index.css";
 import { iEditedMode, iLabelStyle, iTextStyle } from "@/type/labelType";
 import LabelLogo from "@/components/logo";
-import { rowHeightConverter } from "../index";
 import EditableTextareaField from "@/components/editableTextareaField";
 import EditableTextField from "@/components/editableTextField";
 
@@ -89,7 +88,6 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
     fontStyle: customStyle?.fontStyle ?? defaultStyle?.fontStyle,
     fontWeight: customStyle?.fontWeight ?? defaultStyle?.fontWeight,
     lineHeight: customStyle?.lineHeight ?? defaultStyle?.lineHeight,
-    height: rowHeightConverter(customStyle?.rows ?? 1),
   });
 
 
@@ -208,7 +206,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.productNameEN}
             onChange={prop.setProductNameEN}
             style={productNameENStyle}
-            readonly={!isEditedMode}
+            readonly={isEditedMode===false}
             rows={prop.productNameENStyle?.rows ?? 2}
             onEditMode={() =>
               prop.setEditMode && prop.setEditMode(iEditedMode.productNameEn)
@@ -221,7 +219,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.productNameZH}
             onChange={prop.setProductNameZH}
             style={productNameZHStyle}
-            readonly={!isEditedMode}
+            readonly={isEditedMode===false}
             rows={prop.productNameZHStyle?.rows ?? 1}
             onEditMode={() =>
               prop.setEditMode && prop.setEditMode(iEditedMode.productNameZh)
@@ -238,7 +236,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.itemCode}
             onChange={prop.setItemCode}
             style={itemCodeStyle}
-            readonly={!isEditedMode}
+            readonly={isEditedMode===false}
             width={50}
             height={24}
             showBorder={prop.showBorder}
@@ -253,7 +251,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.customerItemCode}
             onChange={prop.setCustomerItemCode}
             style={customerItemCodeStyle}
-            readonly={!isEditedMode}
+            readonly={isEditedMode===false}
             width={50}
             height={24}
             showBorder={prop.showBorder}
@@ -269,8 +267,8 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.ingredient}
             onChange={prop.setIngredient}
             style={ingredientStyle}
-            readonly={!isEditedMode}
-            rows={prop.ingredientStyle?.rows ?? 1}
+            readonly={isEditedMode===false}
+            rows={prop.ingredientStyle?.rows ?? 4}
             onEditMode={() =>
               prop.setEditMode && prop.setEditMode(iEditedMode.ingredient)
             }
@@ -282,7 +280,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.allergen}
             onChange={prop.setAllergen}
             style={allergenStyle}
-            readonly={!isEditedMode}
+            readonly={isEditedMode===false}
             rows={prop.allergenStyle?.rows ?? 1}
             onEditMode={() =>
               prop.setEditMode && prop.setEditMode(iEditedMode.allergen)
@@ -307,7 +305,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.weight}
             onChange={prop.setWeight}
             style={weightStyle}
-            readonly={!isEditedMode}
+            readonly={isEditedMode===false}
             width={ 70}
             height={24}
             showBorder={prop.showBorder}
@@ -321,7 +319,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.caseQuantity}
             onChange={prop.setCaseQuantity}
             style={caseQuantityStyle}
-            readonly={!isEditedMode}
+            readonly={isEditedMode===false}
             width={ 25}
             height={24}
             showBorder={prop.showBorder}
@@ -335,7 +333,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.caseUnit}
             onChange={prop.setCaseUnit}
             style={caseUnitStyle}
-            readonly={!isEditedMode}
+            readonly={isEditedMode===false}
             width={ 40}
             height={24}
             showBorder={prop.showBorder}
@@ -358,7 +356,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           value={prop.lotNumber}
           onChange={prop.setLotNumber}
           style={lotNumberStyle}
-          readonly={!isEditedMode}
+          readonly={isEditedMode===false}
           width={120}
           height={24}
           showBorder={prop.showBorder}
@@ -372,7 +370,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           value={prop.storage}
           onChange={prop.setStorage}
           style={storageStyle}
-          readonly={!isEditedMode}
+          readonly={isEditedMode===false}
           width={120}
           height={24}
           showBorder={prop.showBorder}
@@ -393,7 +391,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               value={""}
               onChange={prop.setStorage}
               style={storageStyle}
-              readonly={!isEditedMode}
+              readonly={isEditedMode===false}
               width={95}
               height={24}
               showBorder={prop.showBorder}
@@ -408,7 +406,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.manufactured}
             onChange={prop.setManufactured}
             style={manufacturedStyle}
-            readonly={!isEditedMode}
+            readonly={isEditedMode===false}
             rows={prop.manufacturedStyle?.rows ?? 1}
             onEditMode={() =>
               prop.setEditMode && prop.setEditMode(iEditedMode.manufactured)

@@ -88,9 +88,9 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
             <TableCell align="center" sx={{ width: "75px", padding: 1 }}>
               Case Gtin
             </TableCell>
-            <TableCell align="center" sx={{ width: "150px", padding: 1 }}>
+            {/* <TableCell align="center" sx={{ width: "150px", padding: 1 }}>
               Ingredient Information
-            </TableCell>
+            </TableCell> */}
             <TableCell align="center" sx={{ width: "150px", padding: 1 }}>
               Manufactured For
             </TableCell>
@@ -152,9 +152,9 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
                 <TableCell align="left" sx={{ width: "75px", padding: 1 }}>
                   {row.case_gtin}
                 </TableCell>
-                <TableCell align="left" sx={{ width: "250px", padding: 1 }}>
+                {/* <TableCell align="left" sx={{ width: "250px", padding: 1 }}>
                   {row.ingredient&&row.ingredient.slice(0,75)+" ..."}
-                </TableCell>
+                </TableCell> */}
                 <TableCell align="left" sx={{ width: "150px", padding: 1 }}>
                   {row.manufactured}
                 </TableCell>

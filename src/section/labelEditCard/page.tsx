@@ -49,10 +49,11 @@ const LabelEditCard: FC<iProps> = (prop) => {
     `/api/prisma/getLabelStyle?id=${prop.selectLabelInfo.id}`,
     fetcher
   );
+  console.log("labelStyle",labelStyle)
+
   const router = useRouter();
   const contentRef = useRef<HTMLDivElement>(null);
   const stylePannelRef = useRef<HTMLDivElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
   const [isLabelUpdating, setIsLabelUpdating] = useState<boolean>(false);
   const [isLabelDeleted, setIsLabelDeleted] = useState<boolean>(false);
   const [logo, setLogo] = useState<string>(prop.selectLabelInfo.logo);
@@ -102,6 +103,8 @@ const LabelEditCard: FC<iProps> = (prop) => {
     fontSize: 14,
     fontFamily: "Arial",
     fontWeight: 400,
+    rows: 1,
+    lineHeight: 1.2,
   });
   const [caseQuantity, setCaseQuantity] = useState<number>(
     prop.selectLabelInfo.case_quantity
@@ -116,6 +119,8 @@ const LabelEditCard: FC<iProps> = (prop) => {
     fontSize: 14,
     fontFamily: "Arial",
     fontWeight: 400,
+    rows: 1,
+    lineHeight: 1.2,
   });
   const [shelfLife, setShelfLife] = useState<string>(
     prop.selectLabelInfo.shelf_life
@@ -157,6 +162,8 @@ const LabelEditCard: FC<iProps> = (prop) => {
     fontSize: 14,
     fontFamily: "Arial",
     fontWeight: 400,
+    rows: 1,
+    lineHeight: 1.2,
   });
   const [submitClicked, setSubmitClicked] = useState<boolean>(false);
 
@@ -313,7 +320,6 @@ const LabelEditCard: FC<iProps> = (prop) => {
       const storageObj = safeParse(storage);
       const allergenObj = safeParse(allergen);
 
-    console.log(labelStyle)
       
 
 
@@ -603,10 +609,10 @@ const LabelEditCard: FC<iProps> = (prop) => {
 // };
 
 useEffect(() => {
-  if (!contentRef.current || !stylePannelRef.current || !formRef.current) return; // ✅ Prevent running if refs are not ready
+  if (!contentRef.current || !stylePannelRef.current ) return; // ✅ Prevent running if refs are not ready
 
   const handleModalClick = (event: MouseEvent) => {
-      const isInside = [contentRef, stylePannelRef,formRef].some(
+      const isInside = [contentRef, stylePannelRef].some(
           (ref) => ref.current && ref.current.contains(event.target as Node)
       );
 
@@ -623,7 +629,7 @@ useEffect(() => {
   return () => {
       document.removeEventListener("mousedown", handleModalClick);
   };
-}, [contentRef, stylePannelRef,formRef,  prop.editMode]); // ✅ Use `.current` in dependencies
+}, [contentRef, stylePannelRef,  prop.editMode]); // ✅ Use `.current` in dependencies
 
 
 
@@ -757,7 +763,6 @@ useEffect(() => {
       </View>
       <Print>
         <LabelForm
-          ref={formRef}
           isEditedView={true}
           id={prop.selectLabelInfo.id}
           logo={logo}
