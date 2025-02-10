@@ -91,6 +91,7 @@ const AddNew = () => {
     fontWeight: 700,
     fontStyle: "Normal",
     fontFamily: "Arial",
+    rows:2
   };
   const defaultTextStyle = {
     color: "#000000",
@@ -112,7 +113,7 @@ const AddNew = () => {
   const [allergenStyle, setAllergenStyle] =
     useState<iTextStyle>({...defaultTextStyle,rows:1});
   const [storageStyle, setStorageStyle] =
-    useState<iTextStyle>(defaultTextStyle);
+    useState<iTextStyle>({...defaultTextStyle,rows:1});
 
   useEffect(() => {
     // List of fields to check
