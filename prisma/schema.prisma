@@ -10,7 +10,7 @@ datasource db {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model activities {
-  id         Int       @id @db.SmallInt
+  id         Int       @id @default(autoincrement())
   label_code String    @db.VarChar(255)
   event      String    @db.VarChar(255)
   created_at DateTime? @default(now()) @db.Timestamptz(6)
@@ -51,7 +51,7 @@ model users {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model labelstyle {
-  id              Int   @id @db.SmallInt
+  id              Int   @id
   item_code       Json  @db.Json
   lot_number      Json? @db.Json
   product_name_en Json  @db.Json
