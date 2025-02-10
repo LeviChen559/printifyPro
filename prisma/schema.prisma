@@ -10,81 +10,59 @@ datasource db {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model activities {
-  id         Int      @id @default(autoincrement()) @db.SmallInt
-  label_code String   @db.VarChar
-  event      String   @db.VarChar
-  created_at DateTime @default(now()) @db.Timestamptz(6)
-  username   String   @db.VarChar
-  role       String   @db.VarChar
+  id         Int       @id @db.SmallInt
+  label_code String    @db.VarChar(255)
+  event      String    @db.VarChar(255)
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  username   String    @db.VarChar(255)
+  role       String    @db.VarChar(255)
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model mylabels {
-  id              Int     @id @unique @default(autoincrement()) @db.SmallInt
-  logo            String? @default("001") @db.VarChar
-  item_code       String? @db.VarChar
-  lot_number      String? @db.VarChar
-  label_temp      String? @default("4x4_a") @db.VarChar
-  product_name_en String? @db.VarChar
-  product_name_zh String? @db.VarChar
-  weight          String? @db.VarChar
-  case_quantity   Int?    @db.SmallInt
-  case_unit       String? @db.VarChar
-  storage         String  @db.VarChar
-  shelf_life      String? @db.VarChar
-  case_gtin       String? @db.VarChar
-  ingredient      String? @db.VarChar
-  allergen        String? @db.VarChar
-  manufactured    String? @default("HON'S, RICHMOND, BC V6V 2W2") @db.VarChar
-  barcode         String? @default("111111111111") @db.VarChar
+  id              Int     @id @default(autoincrement())
+  logo            String? @default("1") @db.VarChar(50)
+  item_code       String  @db.VarChar(50)
+  lot_number      String? @db.VarChar(50)
+  label_temp      String? @default("4x4_a") @db.VarChar(50)
+  product_name_en String  @db.VarChar(255)
+  product_name_zh String  @db.VarChar(255)
+  weight          String  @db.VarChar(100)
+  case_quantity   Int     @db.SmallInt
+  case_unit       String  @db.VarChar(50)
+  storage         String  @db.VarChar(50)
+  shelf_life      String? @db.VarChar(50)
+  case_gtin       String? @db.VarChar(50)
+  ingredient      String? @db.VarChar(1500)
+  allergen        String? @db.VarChar(100)
+  manufactured    String? @db.VarChar(255)
+  barcode         String? @default("1") @db.VarChar(50)
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model users {
-  id         Int      @id @default(autoincrement()) @db.SmallInt
-  email      String   @db.VarChar
-  name       String   @db.VarChar
-  password   String   @db.VarChar
-  role       String   @db.VarChar
-  createDate DateTime @db.Date
+  id         Int       @id @default(autoincrement())
+  email      String    @db.VarChar(255)
+  name       String    @db.VarChar(255)
+  password   String    @db.VarChar(255)
+  role       String?   @db.VarChar(50)
+  created_at DateTime? @db.Date
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model labelstyle {
-  id              Int   @id @unique @default(autoincrement()) @db.SmallInt
-  item_code       Json?
-  lot_number      Json?
-  product_name_en Json?
-  product_name_zh Json?
-  weight          Json?
-  case_quantity   Json?
-  case_unit       Json?
-  storage         Json?
-  best_before     Json?
-  ingredient      Json?
-  allergen        Json?
-  manufactured    Json?
-  shelf_life      Json?
-}
-
-enum mylabels_case_unit {
-  tray
-  bag
-  piece
-  container
-  bottle
-}
-
-enum mylabels_weight_unit {
-  g_tray    @map("g/tray")
-  g_bag     @map("g/bag")
-  pcs_tray  @map("pcs/tray")
-  container
-  g_piece   @map("g/piece")
-}
-
-enum users_role {
-  admin
-  user
-  guest
+  id              Int   @id @db.SmallInt
+  item_code       Json  @db.Json
+  lot_number      Json? @db.Json
+  product_name_en Json  @db.Json
+  product_name_zh Json  @db.Json
+  ingredient      Json  @db.Json
+  weight          Json  @db.Json
+  storage         Json  @db.Json
+  manufactured    Json  @db.Json
+  case_quantity   Json  @db.Json
+  case_unit       Json  @db.Json
+  best_before     Json  @db.Json
+  allergen        Json  @db.Json
+  shelf_life      Json  @default("{\"fontStyle\":\"Normal\",\"color\":\"#000000\",\"fontSize\":14,\"fontFamily\":\"Arial\",\"fontWeight\":400,\"rows\":1,\"lineHeight\":1.2}") @db.Json
 }

@@ -7,12 +7,12 @@ export async function GET() {
   try {
     // Fetch all users from the database
     const users: users[] = await prisma.users.findMany(); // Make sure you use the correct model name
-    console.log("users", users);
+    console.log("Fetched users:", users);
 
     // Send the user data as JSON response
     return NextResponse.json(users, { status: 200 });
   } catch (error: unknown) {
-    console.error(error);
+    console.error("Database error:", error);
     if (error instanceof Error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     } else {
