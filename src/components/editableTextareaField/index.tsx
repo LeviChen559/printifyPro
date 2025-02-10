@@ -50,8 +50,8 @@ const EditableTextareaField: React.FC<EditableTextareaFieldProps> = ({
         overflowWrap: 'break-word',
         background: isEditing || editMode===name ? '#eeeeee' : 'transparent',
         resize: 'none',
-        border: readonly && !showBorder  ? 'none' : '1px solid #bcbcbc80',
-        borderRadius: readonly && !showBorder   ? 'none' : '4px',
+        border: readonly || !showBorder  ? 'none' : '1px solid #bcbcbc80',
+        borderRadius: readonly || !showBorder   ? 'none' : '4px',
       }}
       rows={rows}
       value={value?.toString() ?? ''}

@@ -49,7 +49,6 @@ const LabelEditCard: FC<iProps> = (prop) => {
     `/api/prisma/getLabelStyle?id=${prop.selectLabelInfo.id}`,
     fetcher
   );
-  console.log("labelStyle",labelStyle)
 
   const router = useRouter();
   const contentRef = useRef<HTMLDivElement>(null);

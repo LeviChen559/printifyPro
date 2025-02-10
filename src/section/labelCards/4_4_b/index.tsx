@@ -133,7 +133,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             onChange={prop.setItemCode}
             style={itemCodeStyle}
              readonly={isEditedMode===false}
-            width={60}
+            width={40}
             height={24}
             editMode={prop.editMode}
             onEditMode={() =>

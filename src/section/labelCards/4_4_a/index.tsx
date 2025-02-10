@@ -237,14 +237,13 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             onChange={prop.setItemCode}
             style={itemCodeStyle}
             readonly={isEditedMode===false}
-            width={50}
+            width={40}
             height={24}
             showBorder={prop.showBorder}
             editMode={prop.editMode}
             onEditMode={() =>
               prop.setEditMode && prop.setEditMode(iEditedMode.itemCode)
             }
-
           />
           <EditableTextField
             name={iEditedMode.customerCode}
@@ -252,7 +251,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             onChange={prop.setCustomerItemCode}
             style={customerItemCodeStyle}
             readonly={isEditedMode===false}
-            width={50}
+            width={40}
             height={24}
             showBorder={prop.showBorder}
             editMode={prop.editMode}

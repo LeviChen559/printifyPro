@@ -59,13 +59,14 @@ const EditableTextField: React.FC<EditableTextFieldProps> = ({
       style={{
         ...style,
         display: "inline-block",
+        textAlign: "center",
         background: isEditing || editMode===name? '#eeeeee' : 'transparent',
         minHeight: '24px',
-        border: readonly && !showBorder ? 'none' : '1px solid #bcbcbc80',
-        borderRadius:  readonly && !showBorder  ? 'none' : '4px',
+        border: readonly || !showBorder ? 'none' : '1px solid #bcbcbc80',
+        borderRadius:  readonly || !showBorder  ? 'none' : '4px',
         width: width,
         height: height,
-        padding: readonly && !showBorder ?"0":'0 8px',
+        padding: readonly || !showBorder ?"0":'0 2px',
         outline: 'none',
       }}
       value={value?.toString() ?? ''}
