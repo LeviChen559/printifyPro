@@ -35,7 +35,8 @@ export async function POST(req: NextRequest) {
         manufactured: data.labelInput.manufactured,
         label_temp: data.labelInput.label_temp,
         allergen: data.labelInput.allergen,
-        logo: data.labelInput.logo
+        logo: data.labelInput.logo,
+        barcode: data.labelInput.barcode,
       },
     });
     const newLabelStyle:labelstyle = await prisma.labelstyle.create({
@@ -52,6 +53,8 @@ export async function POST(req: NextRequest) {
         ingredient: data.defaultLabelStyle.ingredient,
         manufactured: data.defaultLabelStyle.manufactured,
         allergen: data.defaultLabelStyle.allergen,
+        lot_number: data.defaultLabelStyle.lot_number,
+        shelf_life: data.defaultLabelStyle.shelf_life,
     }});
   
 

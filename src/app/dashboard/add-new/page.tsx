@@ -51,6 +51,7 @@ const AddNew = () => {
   const [storage, setStorage] = useState<string>("Freezer");
   const [shelfLife, setShelfLife] = useState<string>("");
   const [caseGtin, setCaseGtin] = useState<string>("000000000000");
+  const [barcode, setBarcode] = useState<string>("111111111111");
   const [ingredient, setIngredient] = useState<string>("");
   const [manufactured, setManufactured] = useState<string>("");
   const [sendAnewLabel, setSendAnewLabel] = useState<boolean>(false);
@@ -235,6 +236,7 @@ const AddNew = () => {
     manufactured: manufactured,
     label_temp: labelTemp,
     allergen: allergen,
+    barcode: barcode,
   };
 
   const defaultLabelStyle = {
@@ -479,6 +481,8 @@ const AddNew = () => {
           caseUnit={caseUnit}
           setCaseUnit={setCaseUnit}
           storage={storage}
+          barcode={barcode}
+          setBarcode={setBarcode}
           defaultLabelStyle={defaultLabelStyle}
           productNameENStyle={productNameENStyle}
           productNameZHStyle={productNameZHStyle}
@@ -534,6 +538,8 @@ const AddNew = () => {
           setCaseUnit={setCaseUnit}
           caseGtin={caseGtin}
           setCaseGtin={setCaseGtin}
+          barcode={barcode}
+          setBarcode={setBarcode}
           manufactured={manufactured}
           setManufactured={setManufactured}
           storage={storage}

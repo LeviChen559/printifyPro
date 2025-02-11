@@ -46,7 +46,7 @@ interface iProps {
   setEditMode?: Dispatch<SetStateAction<iEditedMode>>;
   logo: string;
   barcode: string;
-  setBarcode: Dispatch<SetStateAction<string>>;
+  setBarcode?: Dispatch<SetStateAction<string>>;
   setLogo?: Dispatch<SetStateAction<string>>;
   productNameENStyle?: iTextStyle;
   productNameZHStyle?: iTextStyle;
