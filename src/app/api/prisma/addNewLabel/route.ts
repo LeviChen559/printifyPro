@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     // Fetch data from the mylabels table using Prisma
     const newLabel: mylabels = await prisma.mylabels.create({
       data: {
-        // id: data.labelInput.id,
+        id: data.labelInput.id,
         item_code: data.labelInput.item_code,
         product_name_en: data.labelInput.product_name_en,
         product_name_zh: data.labelInput.product_name_zh,
