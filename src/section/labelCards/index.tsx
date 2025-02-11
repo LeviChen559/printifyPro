@@ -59,6 +59,7 @@ interface iProps {
   showBorder: boolean;
 }
 
+
 export type Ref = HTMLDivElement;
 const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
   return prop.type === "4x4_a" ? (

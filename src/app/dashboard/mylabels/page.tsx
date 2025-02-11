@@ -121,7 +121,6 @@ const MyLabels = () => {
       return '';
     }
   };
-console.log("selectLabelInfo", selectLabelInfo);
 
   if (status === "loading") {
     return (

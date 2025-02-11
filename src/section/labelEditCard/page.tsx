@@ -422,6 +422,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
     shelf_life: labelStyle ? labelStyle.data[0]?.shelf_life : prop.defaultText,
     allergen: JSON.stringify(allergenStyle),
   };
+  console.log("labelStyle", labelStyle);
 
   const updateLabel = async (
     labelInfo: iLabelInfo,
@@ -641,6 +642,7 @@ useEffect(() => {
 }, [contentRef, stylePannelRef,  prop.editMode]); // ✅ Use `.current` in dependencies
 
 
+console.log("productNameZHStyle1", productNameZHStyle);
 
   if (isLabelDeleted) {
     return (

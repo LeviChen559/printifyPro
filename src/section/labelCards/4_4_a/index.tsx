@@ -173,7 +173,6 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
 
   const lotNumberStyle = getTextStyle(prop.defaultText);
   const storageStyle = getTextStyle(prop.defaultText);
-  console.log("showBorder", prop.showBorder);
 
   return (
     <Container id="labelCard" ref={ref}>
