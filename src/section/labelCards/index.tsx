@@ -45,6 +45,8 @@ interface iProps {
   editMode: iEditedMode;
   setEditMode?: Dispatch<SetStateAction<iEditedMode>>;
   logo: string;
+  barcode: string;
+  setBarcode: Dispatch<SetStateAction<string>>;
   setLogo?: Dispatch<SetStateAction<string>>;
   productNameENStyle?: iTextStyle;
   productNameZHStyle?: iTextStyle;
@@ -84,6 +86,8 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       storage={prop.storage}
       setStorage={prop.setStorage}
       manufactured={prop.manufactured}
+      barcode={prop.barcode}
+      setBarcode={prop.setBarcode}
       defaultLabelStyle={prop.defaultLabelStyle}
       defaultText={prop.defaultText}
       productNameENStyle={prop.productNameENStyle}
@@ -123,6 +127,8 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       storage={prop.storage}
       setStorage={prop.setStorage}
       manufactured={prop.manufactured}
+      barcode={prop.barcode}
+      setBarcode={prop.setBarcode}
       defaultLabelStyle={prop.defaultLabelStyle}
       defaultText={prop.defaultText}
       productNameENStyle={prop.productNameENStyle}
@@ -164,6 +170,8 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       storage={prop.storage}
       setStorage={prop.setStorage}
       manufactured={prop.manufactured}
+      barcode={prop.barcode}
+      setBarcode={prop.setBarcode}
       defaultLabelStyle={prop.defaultLabelStyle}
       productNameENStyle={prop.productNameENStyle}
       productNameZHStyle={prop.productNameZHStyle}

@@ -43,6 +43,8 @@ interface iProp {
   setStorage?: Dispatch<SetStateAction<string>>;
   allergen?: string;
   setAllergen?: Dispatch<SetStateAction<string>>;
+  barcode?: string;
+  setBarcode?: Dispatch<SetStateAction<string>>;
   editMode: iEditedMode;
   setEditMode?: (value: iEditedMode) => void;
   productNameENStyle?: iTextStyle;
@@ -56,7 +58,6 @@ interface iProp {
   defaultLabelStyle: iLabelStyle;
   logo: string;
   showBorder: boolean;
-
 }
 export type Ref = HTMLDivElement;
 
@@ -82,7 +83,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           value={prop.productNameEN}
           onChange={prop.setProductNameEN}
           style={prop.productNameENStyle}
-           readonly={isEditedMode===false}
+          readonly={isEditedMode === false}
           rows={prop.productNameENStyle?.rows ?? 2}
           onEditMode={() =>
             prop.setEditMode && prop.setEditMode(iEditedMode.productNameEn)
@@ -96,7 +97,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           value={prop.productNameZH}
           onChange={prop.setProductNameZH}
           style={prop.productNameZHStyle}
-           readonly={isEditedMode===false}
+          readonly={isEditedMode === false}
           rows={prop.productNameZHStyle?.rows ?? 1}
           onEditMode={() =>
             prop.setEditMode && prop.setEditMode(iEditedMode.productNameZh)
@@ -108,33 +109,33 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
       </Header>
       <Ingredients>
         {/* <Typography width={"100%"}>Ingredients:</Typography> */}
-          <EditableTextareaField
-            name={iEditedMode.ingredient}
-            value={prop.ingredient}
-            onChange={prop.setIngredient}
-            style={prop.ingredientStyle}
-             readonly={isEditedMode===false}
-            rows={prop.ingredientStyle?.rows ?? 10}
-            onEditMode={() =>
-              prop.setEditMode && prop.setEditMode(iEditedMode.ingredient)
-            }
-            editMode={prop.editMode}
-            showBorder={prop.showBorder}
-            wordBreak="break-all"
-          />
-          <EditableTextareaField
-            name={iEditedMode.allergen}
-            value={prop.allergen}
-            onChange={prop.setAllergen}
-            style={prop.allergenStyle}
-             readonly={isEditedMode===false}
-            rows={prop.allergenStyle?.rows ?? 1}
-            onEditMode={() =>
-              prop.setEditMode && prop.setEditMode(iEditedMode.allergen)
-            }
-            editMode={prop.editMode}
-            showBorder={prop.showBorder}
-          />
+        <EditableTextareaField
+          name={iEditedMode.ingredient}
+          value={prop.ingredient}
+          onChange={prop.setIngredient}
+          style={prop.ingredientStyle}
+          readonly={isEditedMode === false}
+          rows={prop.ingredientStyle?.rows ?? 10}
+          onEditMode={() =>
+            prop.setEditMode && prop.setEditMode(iEditedMode.ingredient)
+          }
+          editMode={prop.editMode}
+          showBorder={prop.showBorder}
+          wordBreak="break-all"
+        />
+        <EditableTextareaField
+          name={iEditedMode.allergen}
+          value={prop.allergen}
+          onChange={prop.setAllergen}
+          style={prop.allergenStyle}
+          readonly={isEditedMode === false}
+          rows={prop.allergenStyle?.rows ?? 1}
+          onEditMode={() =>
+            prop.setEditMode && prop.setEditMode(iEditedMode.allergen)
+          }
+          editMode={prop.editMode}
+          showBorder={prop.showBorder}
+        />
       </Ingredients>
       <InfomationWrapper>
         <InfomationColumn flex={1.75}>
@@ -150,7 +151,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               value={prop.weight}
               onChange={prop.setWeight}
               style={prop.defaultText}
-               readonly={isEditedMode===false}
+              readonly={isEditedMode === false}
               width={75}
               height={24}
               showBorder={prop.showBorder}
@@ -164,7 +165,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               value={prop.caseQuantity}
               onChange={prop.setCaseQuantity}
               style={prop.defaultText}
-               readonly={isEditedMode===false}
+              readonly={isEditedMode === false}
               width={30}
               height={24}
               showBorder={prop.showBorder}
@@ -178,7 +179,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               value={prop.caseUnit}
               onChange={prop.setCaseUnit}
               style={prop.defaultText}
-               readonly={isEditedMode===false}
+              readonly={isEditedMode === false}
               width={60}
               height={24}
               showBorder={prop.showBorder}
@@ -189,15 +190,15 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             />
           </Row>
           <Row>
-          <Typography variant="body2">
-            LOT: #{prop.labelInfo.item_code}
-          </Typography>
+            <Typography variant="body2">
+              LOT: #{prop.labelInfo.item_code}
+            </Typography>
             <EditableTextField
               name={iEditedMode.storage}
               value={prop.storage}
               onChange={prop.setStorage}
               style={prop.storageStyle}
-               readonly={isEditedMode===false}
+              readonly={isEditedMode === false}
               width={120}
               height={24}
               showBorder={prop.showBorder}
@@ -209,7 +210,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               value={prop.manufactured}
               onChange={prop.setManufactured}
               style={prop.manufacturedStyle}
-               readonly={isEditedMode===false}
+              readonly={isEditedMode === false}
               rows={prop.manufacturedStyle?.rows ?? 1}
               onEditMode={() =>
                 prop.setEditMode && prop.setEditMode(iEditedMode.manufactured)
@@ -219,15 +220,22 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             />
           </div>
         </InfomationColumn>
-        <InfomationColumn flex={1}>
-         
+        <InfomationColumn
+          flex={1}
+          onClick={() =>
+            prop.setEditMode && prop.setEditMode(iEditedMode.barcode)
+          }
+        >
           {/* <Typography variant="body2">BEST BY : {formattedDate}</Typography> */}
           <Barcode
-            value={prop.labelInfo.case_gtin.substring(0, 11) ?? "111111111111"}
+            value={prop.labelInfo.barcode.substring(0, 11) ?? "111111111111"}
             width={2}
             height={45}
             fontSize={14}
             format="UPC"
+            background={
+              prop.editMode === iEditedMode.barcode ? "#eeeeee" : "#ffffff"
+            }
           />
         </InfomationColumn>
       </InfomationWrapper>

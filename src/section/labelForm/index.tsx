@@ -49,6 +49,8 @@ interface iProps {
   setLabelTemp: Dispatch<SetStateAction<string>>;
   allergen: string;
   setAllergen: Dispatch<SetStateAction<string>>;
+  barcode: string;
+  setBarcode: Dispatch<SetStateAction<string>>;
   editMode: iEditedMode;
   setEditMode: Dispatch<SetStateAction<iEditedMode>>;
 }
@@ -441,6 +443,28 @@ const LabelForm: FC<iProps> = (prop) => {
           }
           onClick={() => prop.setEditMode(iEditedMode.allergen)}
           sx={{ width: "100%", padding: 0,background:prop.editMode === iEditedMode.allergen ? "pink" : "#ffffff40" }}
+        />
+         <FormPropsTextFields
+          id="barcode"
+          label="barcode"
+          value={prop.barcode}
+          required={false}
+          type="text"
+          background="#ffffff80"
+          placeholder="barcode"
+          onChange={(e) => prop.setBarcode(e.target.value)}
+          startIcon={null}
+          onClick={() => prop.setEditMode(iEditedMode.barcode)}
+
+          error={
+            prop.formError.error && prop.formError.locale === "barcode"
+          }
+          helperText={
+            prop.formError.error && prop.formError.locale === "barcode"
+              ? prop.formError.message
+              : ""
+          }
+          sx={commonTextFieldStyles(iEditedMode.barcode)}
         />
         <FormPropsTextFields
           id="manufactured"

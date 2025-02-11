@@ -49,6 +49,8 @@ interface iProp {
   storage?: string;
   setStorage?: Dispatch<SetStateAction<string>>;
   weightUnit?: string;
+  barcode?: string;
+  setBarcode?: Dispatch<SetStateAction<string>>;
   editMode: iEditedMode;
   setEditMode?: (value: iEditedMode) => void;
   productNameENStyle?: iTextStyle;
@@ -62,7 +64,6 @@ interface iProp {
   defaultLabelStyle: iLabelStyle;
   logo: string;
   showBorder: boolean;
-
 }
 export type Ref = HTMLDivElement;
 
@@ -89,7 +90,6 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
     fontWeight: customStyle?.fontWeight ?? defaultStyle?.fontWeight,
     lineHeight: customStyle?.lineHeight ?? defaultStyle?.lineHeight,
   });
-
 
   // interface EditableTextFieldProps {
   //   name: string;
@@ -139,60 +139,46 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
   //   return JSON.parse(data);
   // }
   // return data;
-   
+
   // }
 
   // Memoized styles
   const productNameENStyle = getTextStyle(
     prop.productNameENStyle,
-     prop.defaultLabelStyle?.product_name_en
+    prop.defaultLabelStyle?.product_name_en
   );
   const productNameZHStyle = getTextStyle(
     prop.productNameZHStyle,
 
-   prop.defaultLabelStyle?.product_name_zh
+    prop.defaultLabelStyle?.product_name_zh
   );
 
   const ingredientStyle = getTextStyle(
     prop.ingredientStyle,
-      prop.defaultLabelStyle?.ingredient
+    prop.defaultLabelStyle?.ingredient
   );
   const allergenStyle = getTextStyle(
     prop.allergenStyle,
-     prop.defaultLabelStyle?.allergen
+    prop.defaultLabelStyle?.allergen
   );
   const manufacturedStyle = getTextStyle(
     prop.manufacturedStyle,
-      prop.defaultLabelStyle?.manufactured
+    prop.defaultLabelStyle?.manufactured
   );
-  const itemCodeStyle = getTextStyle(
-    prop.defaultText,
-  );
-  const customerItemCodeStyle = getTextStyle(
-    prop.defaultText,
-  );
-  const weightStyle = getTextStyle(
-    prop.defaultText,
-  );
-  const caseUnitStyle = getTextStyle(
-    prop.defaultText,
-  );
-  const caseQuantityStyle = getTextStyle(
-    prop.defaultText,
-  );
+  const itemCodeStyle = getTextStyle(prop.defaultText);
+  const customerItemCodeStyle = getTextStyle(prop.defaultText);
+  const weightStyle = getTextStyle(prop.defaultText);
+  const caseUnitStyle = getTextStyle(prop.defaultText);
+  const caseQuantityStyle = getTextStyle(prop.defaultText);
 
-  const lotNumberStyle = getTextStyle(
-    prop.defaultText,
-  );
-  const storageStyle =  getTextStyle(
-    prop.defaultText,
-  );
+  const lotNumberStyle = getTextStyle(prop.defaultText);
+  const storageStyle = getTextStyle(prop.defaultText);
   console.log("showBorder", prop.showBorder);
 
   return (
     <Container id="labelCard" ref={ref}>
       <Header>
-        <LabelLogo logo={prop.logo}  />
+        <LabelLogo logo={prop.logo} />
         <div
           style={{
             display: "flex",
@@ -206,7 +192,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.productNameEN}
             onChange={prop.setProductNameEN}
             style={productNameENStyle}
-            readonly={isEditedMode===false}
+            readonly={isEditedMode === false}
             rows={prop.productNameENStyle?.rows ?? 2}
             onEditMode={() =>
               prop.setEditMode && prop.setEditMode(iEditedMode.productNameEn)
@@ -219,7 +205,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.productNameZH}
             onChange={prop.setProductNameZH}
             style={productNameZHStyle}
-            readonly={isEditedMode===false}
+            readonly={isEditedMode === false}
             rows={prop.productNameZHStyle?.rows ?? 1}
             onEditMode={() =>
               prop.setEditMode && prop.setEditMode(iEditedMode.productNameZh)
@@ -236,7 +222,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.itemCode}
             onChange={prop.setItemCode}
             style={itemCodeStyle}
-            readonly={isEditedMode===false}
+            readonly={isEditedMode === false}
             width={40}
             height={24}
             showBorder={prop.showBorder}
@@ -250,7 +236,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.customerItemCode}
             onChange={prop.setCustomerItemCode}
             style={customerItemCodeStyle}
-            readonly={isEditedMode===false}
+            readonly={isEditedMode === false}
             width={40}
             height={24}
             showBorder={prop.showBorder}
@@ -266,7 +252,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.ingredient}
             onChange={prop.setIngredient}
             style={ingredientStyle}
-            readonly={isEditedMode===false}
+            readonly={isEditedMode === false}
             rows={prop.ingredientStyle?.rows ?? 5}
             onEditMode={() =>
               prop.setEditMode && prop.setEditMode(iEditedMode.ingredient)
@@ -280,7 +266,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.allergen}
             onChange={prop.setAllergen}
             style={allergenStyle}
-            readonly={isEditedMode===false}
+            readonly={isEditedMode === false}
             rows={prop.allergenStyle?.rows ?? 1}
             onEditMode={() =>
               prop.setEditMode && prop.setEditMode(iEditedMode.allergen)
@@ -290,7 +276,12 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           />
         </Col>
       </Ingredients>
-      <Row width="100%" zIndex={2} background="#ffffff" justifyContent="space-between">
+      <Row
+        width="100%"
+        zIndex={2}
+        background="#ffffff"
+        justifyContent="space-between"
+      >
         <Typography
           variant="caption"
           textAlign="center"
@@ -299,14 +290,14 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
         >
           Net Weight :
         </Typography>
-        <Row  width="auto" gap={prop.isEditedMode&&prop.showBorder ? 8 : 0}>
+        <Row width="auto" gap={prop.isEditedMode && prop.showBorder ? 8 : 0}>
           <EditableTextField
             name={iEditedMode.weight}
             value={prop.weight}
             onChange={prop.setWeight}
             style={weightStyle}
-            readonly={isEditedMode===false}
-            width={ 70}
+            readonly={isEditedMode === false}
+            width={70}
             height={24}
             showBorder={prop.showBorder}
             editMode={prop.editMode}
@@ -319,8 +310,8 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.caseQuantity}
             onChange={prop.setCaseQuantity}
             style={caseQuantityStyle}
-            readonly={isEditedMode===false}
-            width={ 25}
+            readonly={isEditedMode === false}
+            width={25}
             height={24}
             showBorder={prop.showBorder}
             editMode={prop.editMode}
@@ -333,8 +324,8 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.caseUnit}
             onChange={prop.setCaseUnit}
             style={caseUnitStyle}
-            readonly={isEditedMode===false}
-            width={ 40}
+            readonly={isEditedMode === false}
+            width={40}
             height={24}
             showBorder={prop.showBorder}
             editMode={prop.editMode}
@@ -356,28 +347,28 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           value={prop.lotNumber}
           onChange={prop.setLotNumber}
           style={lotNumberStyle}
-          readonly={isEditedMode===false}
+          readonly={isEditedMode === false}
           width={120}
           height={24}
           showBorder={prop.showBorder}
           editMode={prop.editMode}
-            onEditMode={() =>
-              prop.setEditMode && prop.setEditMode(iEditedMode.lotNumber)
-            }
+          onEditMode={() =>
+            prop.setEditMode && prop.setEditMode(iEditedMode.lotNumber)
+          }
         />
         <EditableTextField
           name={iEditedMode.storage}
           value={prop.storage}
           onChange={prop.setStorage}
           style={storageStyle}
-          readonly={isEditedMode===false}
+          readonly={isEditedMode === false}
           width={120}
           height={24}
           showBorder={prop.showBorder}
           editMode={prop.editMode}
-            onEditMode={() =>
-              prop.setEditMode && prop.setEditMode(iEditedMode.storage)
-            }
+          onEditMode={() =>
+            prop.setEditMode && prop.setEditMode(iEditedMode.storage)
+          }
         />
       </Row>
       <InfomationWrapper>
@@ -391,14 +382,14 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               value={""}
               onChange={prop.setStorage}
               style={storageStyle}
-              readonly={isEditedMode===false}
+              readonly={isEditedMode === false}
               width={95}
               height={24}
               showBorder={prop.showBorder}
               editMode={prop.editMode}
-            onEditMode={() =>
-              prop.setEditMode && prop.setEditMode(iEditedMode.bestBefore)
-            }
+              onEditMode={() =>
+                prop.setEditMode && prop.setEditMode(iEditedMode.bestBefore)
+              }
             />
           </Row>
           <EditableTextareaField
@@ -406,7 +397,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.manufactured}
             onChange={prop.setManufactured}
             style={manufacturedStyle}
-            readonly={isEditedMode===false}
+            readonly={isEditedMode === false}
             rows={prop.manufacturedStyle?.rows ?? 1}
             onEditMode={() =>
               prop.setEditMode && prop.setEditMode(iEditedMode.manufactured)
@@ -415,13 +406,22 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             showBorder={prop.showBorder}
           />
         </Col>
-        <InfomationColumn width={"50%"} zIndex={0}>
+        <InfomationColumn
+          width={"50%"}
+          zIndex={0}
+          onClick={() =>
+            prop.setEditMode && prop.setEditMode(iEditedMode.barcode)
+          }
+        >
           <Barcode
-            value={prop.labelInfo.case_gtin.substring(0, 11) ?? "111111111111"}
+            value={prop.labelInfo.barcode.substring(0, 11) ?? "111111111111"}
             width={1.4}
             height={35}
             fontSize={14}
             format="UPC"
+            background={
+              prop.editMode === iEditedMode.barcode ? "#000000" : "#ffffff"
+            }
           />
         </InfomationColumn>
       </InfomationWrapper>

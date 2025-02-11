@@ -12,6 +12,7 @@ export  enum iEditedMode {
     "allergen"="allergen",
     "lotNumber"="lotNumber",
     "bestBefore"="bestBefore",
+    "barcode"="barcode",
     "cardComponent"="cardComponent",
     "stylePannel"="stylePannel",
     "empty" = "empty",
@@ -101,6 +102,7 @@ export  enum iEditedMode {
     manufactured: string;
     label_temp: string;
     allergen: string;
+    barcode: string;
   }
   export interface iLabelInfoStyle {
     id: number;

@@ -151,6 +151,8 @@ const LabelEditCard: FC<iProps> = (prop) => {
     rows: 4,
     lineHeight: 1.2,
   });
+  const [barcode, setBarcode] = useState<string>(prop.selectLabelInfo.barcode);
+
   const [manufactured, setManufactured] = useState<string>(
     prop.selectLabelInfo.manufactured
   );
@@ -190,6 +192,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
     manufactured: manufactured,
     label_temp: labelTemp,
     allergen: allergen,
+    barcode: barcode,
   };
 
   useEffect(() => {
@@ -248,6 +251,12 @@ const LabelEditCard: FC<iProps> = (prop) => {
         locale: "manufactured",
       },
       {
+        field: barcode,
+        message: "Barcode For is required",
+        locale: "barcode",
+        validate: (value: string) => value?.length === 12,
+      },
+      {
         field: caseGtin,
         message: "Case GTIN is required and must be 12 characters",
         locale: "case_gtin",
@@ -287,6 +296,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
     manufactured,
     submitClicked,
     allergen,
+    barcode,
   ]);
 
   useEffect(() => {
@@ -745,6 +755,8 @@ useEffect(() => {
             setCaseUnit={setCaseUnit}
             storage={storage}
             setStorage={setStorage}
+            barcode={barcode}
+            setBarcode={setBarcode}
             setManufactured={setManufactured}
             manufactured={manufactured}
             editMode={ prop.editMode}
@@ -790,6 +802,8 @@ useEffect(() => {
           setManufactured={setManufactured}
           storage={storage}
           setStorage={setStorage}
+          barcode={barcode}
+          setBarcode={setBarcode}
           shelfLife={shelfLife}
           setShelfLife={setShelfLife}
           labelTemp={labelTemp}

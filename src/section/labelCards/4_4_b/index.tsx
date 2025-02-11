@@ -48,6 +48,8 @@ interface iProp {
   setWeightUnit?: Dispatch<SetStateAction<string>>;
   storage?: string;
   setStorage?: Dispatch<SetStateAction<string>>;
+  barcode?: string;
+  setBarcode?: Dispatch<SetStateAction<string>>;
   weightUnit?: string;
   editMode: iEditedMode;
   setEditMode?: (value: iEditedMode) => void;
@@ -61,7 +63,6 @@ interface iProp {
   defaultLabelStyle: iLabelStyle;
   logo: string;
   showBorder: boolean;
-
 }
 export type Ref = HTMLDivElement;
 
@@ -132,7 +133,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.itemCode}
             onChange={prop.setItemCode}
             style={itemCodeStyle}
-             readonly={isEditedMode===false}
+            readonly={isEditedMode === false}
             width={40}
             height={24}
             editMode={prop.editMode}
@@ -154,7 +155,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.productNameEN}
             onChange={prop.setProductNameEN}
             style={productNameENStyle}
-             readonly={isEditedMode===false}
+            readonly={isEditedMode === false}
             rows={prop.productNameENStyle?.rows ?? 2}
             onEditMode={() =>
               prop.setEditMode && prop.setEditMode(iEditedMode.productNameEn)
@@ -167,7 +168,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.productNameZH}
             onChange={prop.setProductNameZH}
             style={productNameZHStyle}
-             readonly={isEditedMode===false}
+            readonly={isEditedMode === false}
             rows={prop.productNameZHStyle?.rows ?? 1}
             onEditMode={() =>
               prop.setEditMode && prop.setEditMode(iEditedMode.productNameZh)
@@ -184,7 +185,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.ingredient}
             onChange={prop.setIngredient}
             style={ingredientStyle}
-             readonly={isEditedMode===false}
+            readonly={isEditedMode === false}
             rows={prop.ingredientStyle?.rows ?? 5}
             onEditMode={() =>
               prop.setEditMode && prop.setEditMode(iEditedMode.ingredient)
@@ -198,7 +199,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.allergen}
             onChange={prop.setAllergen}
             style={allergenStyle}
-             readonly={isEditedMode===false}
+            readonly={isEditedMode === false}
             rows={prop.allergenStyle?.rows ?? 1}
             onEditMode={() =>
               prop.setEditMode && prop.setEditMode(iEditedMode.allergen)
@@ -223,7 +224,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.weight}
             onChange={prop.setWeight}
             style={weightStyle}
-             readonly={isEditedMode===false}
+            readonly={isEditedMode === false}
             width={75}
             height={24}
             showBorder={prop.showBorder}
@@ -237,7 +238,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.caseQuantity}
             onChange={prop.setCaseQuantity}
             style={caseQuantityStyle}
-             readonly={isEditedMode===false}
+            readonly={isEditedMode === false}
             width={30}
             height={24}
             showBorder={prop.showBorder}
@@ -251,7 +252,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.caseUnit}
             onChange={prop.setCaseUnit}
             style={caseUnitStyle}
-             readonly={isEditedMode===false}
+            readonly={isEditedMode === false}
             width={60}
             height={24}
             showBorder={prop.showBorder}
@@ -274,7 +275,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           value={prop.lotNumber}
           onChange={prop.setLotNumber}
           style={lotNumberStyle}
-           readonly={isEditedMode===false}
+          readonly={isEditedMode === false}
           width={120}
           height={24}
           showBorder={prop.showBorder}
@@ -288,7 +289,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           value={prop.storage}
           onChange={prop.setStorage}
           style={storageStyle}
-           readonly={isEditedMode===false}
+          readonly={isEditedMode === false}
           width={120}
           height={24}
           showBorder={prop.showBorder}
@@ -309,7 +310,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               value={""}
               onChange={prop.setStorage}
               style={storageStyle}
-               readonly={isEditedMode===false}
+              readonly={isEditedMode === false}
               width={95}
               height={24}
               showBorder={prop.showBorder}
@@ -324,7 +325,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             value={prop.manufactured}
             onChange={prop.setManufactured}
             style={manufacturedStyle}
-             readonly={isEditedMode===false}
+            readonly={isEditedMode === false}
             rows={prop.manufacturedStyle?.rows ?? 1}
             onEditMode={() =>
               prop.setEditMode && prop.setEditMode(iEditedMode.manufactured)
@@ -333,13 +334,22 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             showBorder={prop.showBorder}
           />
         </Col>
-        <InfomationColumn width={"50%"} zIndex={0}>
+        <InfomationColumn
+          width={"50%"}
+          zIndex={0}
+          onClick={() =>
+            prop.setEditMode && prop.setEditMode(iEditedMode.barcode)
+          }
+        >
           <Barcode
-            value={prop.labelInfo.case_gtin.substring(0, 11) ?? "111111111111"}
+            value={prop.labelInfo.barcode.substring(0, 11) ?? "111111111111"}
             width={1.4}
             height={35}
             fontSize={14}
             format="UPC"
+            background={
+              prop.editMode === iEditedMode.barcode ? "#eeeeee" : "#ffffff"
+            }
           />
         </InfomationColumn>
       </InfomationWrapper>

@@ -45,7 +45,7 @@ export const InfomationWrapper = styled.div({
     height:"auto",
     justifyContent:"space-between",
     alignItems:"flex-start",
-    gap:16
+    gap:4
 })
 export const InfomationColumn = styled.div<iProps>({
     display:"flex",
