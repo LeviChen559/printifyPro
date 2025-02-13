@@ -195,6 +195,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
     barcode: barcode,
   };
 
+
   useEffect(() => {
     // List of fields to check
     if (!submitClicked) return;
@@ -312,14 +313,19 @@ const LabelEditCard: FC<iProps> = (prop) => {
       } = labelStyle.data[0];
     
       // Safe JSON parsing function
-      const safeParse = (value: string) => {
-        try {
-          return JSON.parse(value);
-        } catch (error) {
-          console.error("Invalid JSON:", value, error);
-          return value; // Return original value if parsing fails
+      const safeParse = (value: string | unknown) => {
+        // Check if the value is a string before attempting to parse it
+        if (typeof value === 'string') {
+            try {
+                return JSON.parse(value);
+            } catch (error) {
+                console.error("Invalid JSON:", value, error);
+                return value; // Return original value if parsing fails
+            }
         }
-      };
+        // If the value is not a string, just return it as is
+        return value;
+    };
     
       const productNameEnObj = safeParse(product_name_en);
       const productNameZhObj = safeParse(product_name_zh);
