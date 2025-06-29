@@ -26,7 +26,6 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 
-
 interface iProps {
   selectLabelInfo: iLabelInfo;
   setShowCard: React.Dispatch<
@@ -156,7 +155,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
   const [manufactured, setManufactured] = useState<string>(
     prop.selectLabelInfo.manufactured
   );
-  
+
   const [manufacturedStyle, setManufacturedStyle] = useState<iTextStyle>({
     color: "#000000",
     fontStyle: "Normal",
@@ -194,7 +193,6 @@ const LabelEditCard: FC<iProps> = (prop) => {
     allergen: allergen,
     barcode: barcode,
   };
-
 
   useEffect(() => {
     // List of fields to check
@@ -311,22 +309,22 @@ const LabelEditCard: FC<iProps> = (prop) => {
         storage,
         allergen,
       } = labelStyle.data[0];
-    
+
       // Safe JSON parsing function
       const safeParse = (value: string | unknown) => {
         // Check if the value is a string before attempting to parse it
-        if (typeof value === 'string') {
-            try {
-                return JSON.parse(value);
-            } catch (error) {
-                console.error("Invalid JSON:", value, error);
-                return value; // Return original value if parsing fails
-            }
+        if (typeof value === "string") {
+          try {
+            return JSON.parse(value);
+          } catch (error) {
+            console.error("Invalid JSON:", value, error);
+            return value; // Return original value if parsing fails
+          }
         }
         // If the value is not a string, just return it as is
         return value;
-    };
-    
+      };
+
       const productNameEnObj = safeParse(product_name_en);
       const productNameZhObj = safeParse(product_name_zh);
       const weightObj = safeParse(weight);
@@ -334,9 +332,6 @@ const LabelEditCard: FC<iProps> = (prop) => {
       const manufacturedObj = safeParse(manufactured);
       const storageObj = safeParse(storage);
       const allergenObj = safeParse(allergen);
-
-      
-
 
       setProductNameENStyle((prevStyle) => ({
         ...prevStyle,
@@ -405,10 +400,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
         lineHeight: allergenObj?.lineHeight,
       }));
     }
-
   }, [labelStyle]);
-
-
 
   const labelStyleuUpdates: iLabelStyleInDataBase = {
     id: prop.selectLabelInfo.id,
@@ -423,7 +415,9 @@ const LabelEditCard: FC<iProps> = (prop) => {
     weight: labelStyle ? labelStyle.data[0]?.weight : prop.defaultText,
     storage: JSON.stringify(storageStyle),
     manufactured: JSON.stringify(manufacturedStyle),
-    case_quantity: labelStyle ? labelStyle.data[0]?.case_quantity : prop.defaultText,
+    case_quantity: labelStyle
+      ? labelStyle.data[0]?.case_quantity
+      : prop.defaultText,
     case_unit: labelStyle ? labelStyle.data[0]?.case_unit : prop.defaultText,
     shelf_life: labelStyle ? labelStyle.data[0]?.shelf_life : prop.defaultText,
     allergen: JSON.stringify(allergenStyle),
@@ -606,49 +600,46 @@ const LabelEditCard: FC<iProps> = (prop) => {
       }));
     }
   };
-//   const handleOutsideClick = (
-//     event: MouseEvent | TouchEvent,
-//     refs: React.RefObject<HTMLElement>[], // Accept an array of refs
-//     editMode: iEditedMode,
-//     setEditMode: (editMode: iEditedMode) => void,
-// ): void => {
-//     console.log("Checking outside click");
+  //   const handleOutsideClick = (
+  //     event: MouseEvent | TouchEvent,
+  //     refs: React.RefObject<HTMLElement>[], // Accept an array of refs
+  //     editMode: iEditedMode,
+  //     setEditMode: (editMode: iEditedMode) => void,
+  // ): void => {
+  //     console.log("Checking outside click");
 
-//     const isInsideAnyRef = refs.some(ref => ref.current?.contains(event.target as Node));
+  //     const isInsideAnyRef = refs.some(ref => ref.current?.contains(event.target as Node));
 
-//     if (isInsideAnyRef) {
-//         console.log("Click inside");
-//     } else {
-//         console.log("Click outside");
-//         setEditMode(iEditedMode.empty);
-//     }
-// };
+  //     if (isInsideAnyRef) {
+  //         console.log("Click inside");
+  //     } else {
+  //         console.log("Click outside");
+  //         setEditMode(iEditedMode.empty);
+  //     }
+  // };
 
-useEffect(() => {
-  if (!contentRef.current || !stylePannelRef.current ) return; // ✅ Prevent running if refs are not ready
+  useEffect(() => {
+    if (!contentRef.current || !stylePannelRef.current) return; // ✅ Prevent running if refs are not ready
 
-  const handleModalClick = (event: MouseEvent) => {
+    const handleModalClick = (event: MouseEvent) => {
       const isInside = [contentRef, stylePannelRef].some(
-          (ref) => ref.current && ref.current.contains(event.target as Node)
+        (ref) => ref.current && ref.current.contains(event.target as Node)
       );
 
       if (!isInside) {
-          console.log("Click outside");
-          prop.setEditMode(iEditedMode.empty);
+        console.log("Click outside");
+        prop.setEditMode(iEditedMode.empty);
       } else {
-          console.log("Click inside");
+        console.log("Click inside");
       }
-  };
+    };
 
-  document.addEventListener("mousedown", handleModalClick);
+    document.addEventListener("mousedown", handleModalClick);
 
-  return () => {
+    return () => {
       document.removeEventListener("mousedown", handleModalClick);
-  };
-}, [contentRef, stylePannelRef,  prop.editMode]); // ✅ Use `.current` in dependencies
-
-
-console.log("productNameZHStyle1", productNameZHStyle);
+    };
+  }, [contentRef, stylePannelRef, prop.editMode, prop]); // ✅ Use `.current` in dependencies
 
   if (isLabelDeleted) {
     return (
@@ -695,9 +686,9 @@ console.log("productNameZHStyle1", productNameZHStyle);
         }
       />
       <View>
-          <StylePanel
-         ref={stylePannelRef}
-          isEditMode={ prop.editMode}
+        <StylePanel
+          ref={stylePannelRef}
+          isEditMode={prop.editMode}
           productNameENStyle={productNameENStyle}
           productNameZHStyle={productNameZHStyle}
           weightStyle={weightStyle}
@@ -767,8 +758,8 @@ console.log("productNameZHStyle1", productNameZHStyle);
             setBarcode={setBarcode}
             setManufactured={setManufactured}
             manufactured={manufactured}
-            editMode={ prop.editMode}
-            setEditMode={ prop.setEditMode}
+            editMode={prop.editMode}
+            setEditMode={prop.setEditMode}
             productNameENStyle={productNameENStyle}
             productNameZHStyle={productNameZHStyle}
             defaultText={prop.defaultText}
@@ -819,8 +810,8 @@ console.log("productNameZHStyle1", productNameZHStyle);
           allergen={allergen}
           setAllergen={setAllergen}
           formError={formError}
-          editMode={ prop.editMode}
-          setEditMode={ prop.setEditMode}
+          editMode={prop.editMode}
+          setEditMode={prop.setEditMode}
           updateLabel={(event) => {
             event.preventDefault();
             updateLabel(labelInput, labelStyleuUpdates);

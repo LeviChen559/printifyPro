@@ -7,7 +7,7 @@ import {
   Ingredients,
   Row,
   Col,
-} from "./style";
+} from "../style";
 import { iLabelInfo } from "@/type/labelType";
 import { Typography } from "@mui/material";
 import Barcode from "react-barcode";
@@ -182,7 +182,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
         </div>
       </Header>
       <Ingredients>
-        <Col alignItems="flex-start" gap={8}>
+        <Col alignItems="flex-start" gap={6}>
           <Typography variant="body2" width={200} fontWeight={700}>
             For All Ingredients:
           </Typography>

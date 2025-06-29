@@ -9,6 +9,8 @@ export  enum iEditedMode {
     "itemCode" = "itemCode",
     "caseUnit" = "caseUnit",
     "storage" = "storage",
+    "shelfLife" = "shelfLife",
+    "caseGtin" = "caseGtin",
     "allergen"="allergen",
     "lotNumber"="lotNumber",
     "bestBefore"="bestBefore",

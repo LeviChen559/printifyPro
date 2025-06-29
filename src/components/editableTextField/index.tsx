@@ -1,5 +1,4 @@
 import { iEditedMode } from "@/type/labelType";
-import { Typography } from "@mui/material";
 import React, { Dispatch, SetStateAction, useState } from "react";
 
 interface EditableTextFieldProps {
@@ -56,11 +55,7 @@ const EditableTextField: React.FC<EditableTextFieldProps> = ({
     setIsEditing(false);
   };
 
-  return readonly ? (
-    <Typography variant="body2" width="auto" noWrap>
-      {value?.toString() ?? ""}
-    </Typography>
-  ) : (
+  return (
     <input
       name={name}
       type="text"
@@ -74,7 +69,7 @@ const EditableTextField: React.FC<EditableTextFieldProps> = ({
         borderRadius: readonly || !showBorder ? "none" : "4px",
         width: width,
         height: height,
-        padding: readonly || !showBorder ? "0" : "0 2px",
+        padding: 0,
         outline: "none",
         minWidth: minWidth,
       }}

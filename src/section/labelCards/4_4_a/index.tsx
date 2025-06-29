@@ -7,7 +7,7 @@ import {
   Ingredients,
   Row,
   Col,
-} from "./style";
+} from "../style";
 import { iLabelInfo } from "@/type/labelType";
 import { Typography } from "@mui/material";
 import Barcode from "react-barcode";
@@ -175,7 +175,6 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
 
   const lotNumberStyle = getTextStyle(prop.defaultText);
   const storageStyle = getTextStyle(prop.defaultText);
-  console.log("prop", prop);
 
   return (
     <Container id="labelCard" ref={ref}>
@@ -222,7 +221,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           width="auto"
           justifyContent="space-evenly"
           height="auto"
-          gap={8}
+          gap={6}
           paddingTop={22}
         >
           <EditableTextField

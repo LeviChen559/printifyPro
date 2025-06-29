@@ -381,7 +381,7 @@ const LabelForm: FC<iProps> = (prop) => {
                 ? prop.formError.message
                 : ""
             }
-            sx={commonTextFieldStyles(iEditedMode.storage)}
+            sx={commonTextFieldStyles(iEditedMode.shelfLife)}
           />
         </Box>
         <FormPropsTextFields
@@ -400,7 +400,7 @@ const LabelForm: FC<iProps> = (prop) => {
               ? prop.formError.message
               : ""
           }
-          sx={commonTextFieldStyles(iEditedMode.storage)}
+          sx={commonTextFieldStyles(iEditedMode.caseGtin)}
         />
         <FormPropsTextFields
           id="ingredient"

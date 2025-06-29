@@ -1,5 +1,5 @@
-import { iEditedMode } from '@/type/labelType';
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import { iEditedMode } from "@/type/labelType";
+import React, { Dispatch, SetStateAction, useState } from "react";
 
 interface EditableTextareaFieldProps {
   name: string;
@@ -8,11 +8,18 @@ interface EditableTextareaFieldProps {
   style?: React.CSSProperties;
   readonly?: boolean;
   rows?: number;
-  editMode:iEditedMode
+  editMode: iEditedMode;
   onEditMode?: () => void;
   showBorder: boolean;
   width?: string | number;
-  wordBreak?: "break-all" | "break-word" | "keep-all" | "normal" | "initial" | "inherit" | "unset";
+  wordBreak?:
+    | "break-all"
+    | "break-word"
+    | "keep-all"
+    | "normal"
+    | "initial"
+    | "inherit"
+    | "unset";
 }
 
 const EditableTextareaField: React.FC<EditableTextareaFieldProps> = ({
@@ -25,8 +32,8 @@ const EditableTextareaField: React.FC<EditableTextareaFieldProps> = ({
   rows = 2,
   onEditMode,
   showBorder = true,
-  width="100%",
-  wordBreak="normal"
+  width = "100%",
+  wordBreak = "normal",
 }) => {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -45,19 +52,19 @@ const EditableTextareaField: React.FC<EditableTextareaFieldProps> = ({
       style={{
         ...style,
         width: width,
-        padding: '0px',
-        margin: '0px',
-        overflow: 'hidden',
-        whiteSpace: 'normal',
-        wordBreak:wordBreak,
-        overflowWrap: 'break-word',
-        background: isEditing || editMode===name ? '#eeeeee' : 'transparent',
-        resize: 'none',
-        border: readonly || !showBorder  ? 'none' : '1px solid #bcbcbc80',
-        borderRadius: readonly || !showBorder   ? 'none' : '4px',
+        padding: "0px",
+        margin: "0px",
+        overflow: "hidden",
+        whiteSpace: "normal",
+        wordBreak: wordBreak,
+        overflowWrap: "break-word",
+        background: isEditing || editMode === name ? "#eeeeee" : "transparent",
+        resize: "none",
+        border: readonly || !showBorder ? "none" : "1px solid #bcbcbc80",
+        borderRadius: readonly || !showBorder ? "none" : "4px",
       }}
       rows={rows}
-      value={value?.toString() ?? ''}
+      value={value?.toString() ?? ""}
       onChange={(e) => onChange?.(e.target.value)}
       readOnly={readonly}
       onFocus={handleFocus}
