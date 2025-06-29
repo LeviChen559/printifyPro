@@ -35,7 +35,8 @@ export const WorkPannel =styled.div<iProps>({
     justifyContent: "center",
     maxHeight: 1000,
     height: "90vh",
-    maxWidth: 1560,
+    maxWidth: 1920,
+    margin:"0 16px",
     width: "95vw",
     backgroundColor: "#ffffff",
     gap:0,
@@ -45,6 +46,7 @@ export const WorkPannel =styled.div<iProps>({
     borderRadius: 16,
     position: "relative",
     boxShadow: "0px 4px 4px 0px #bcbcbc80",
+    boxSizing: "border-box",
 },props=>({
     justifyContent: props.justifyContent,
     alignItems: props.alignItems,

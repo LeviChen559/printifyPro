@@ -15,6 +15,8 @@ import { iEditedMode, iLabelStyle, iTextStyle } from "@/type/labelType";
 import LabelLogo from "@/components/logo";
 import EditableTextareaField from "@/components/editableTextareaField";
 import EditableTextField from "@/components/editableTextField";
+import { autoHeight, autoWidth } from "@/utils/lib/help";
+
 interface iProp {
   labelInfo: iLabelInfo;
   showProductNameZH?: boolean;
@@ -108,7 +110,9 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
         />
       </Header>
       <Ingredients>
-        {/* <Typography width={"100%"}>Ingredients:</Typography> */}
+        <Typography variant="body2" width={200} fontWeight={700}>
+          For All Ingredients:
+        </Typography>
         <EditableTextareaField
           name={iEditedMode.ingredient}
           value={prop.ingredient}
@@ -121,7 +125,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           }
           editMode={prop.editMode}
           showBorder={prop.showBorder}
-          wordBreak="break-all"
+          wordBreak="normal"
         />
         <EditableTextareaField
           name={iEditedMode.allergen}
@@ -152,8 +156,8 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               onChange={prop.setWeight}
               style={prop.defaultText}
               readonly={isEditedMode === false}
-              width={75}
-              height={24}
+               width={autoWidth(prop.weight as string)}
+              height={autoHeight(14)}
               showBorder={prop.showBorder}
               editMode={prop.editMode}
               onEditMode={() =>
@@ -166,22 +170,25 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               onChange={prop.setCaseQuantity}
               style={prop.defaultText}
               readonly={isEditedMode === false}
-              width={30}
-              height={24}
+              width={autoWidth(prop.caseQuantity as number)}
+              height={autoHeight(14)}
               showBorder={prop.showBorder}
               editMode={prop.editMode}
               onEditMode={() =>
                 prop.setEditMode && prop.setEditMode(iEditedMode.caseQuantity)
               }
             />
+            <Typography variant="body2" fontWeight={700}>
+              x
+            </Typography>
             <EditableTextField
               name={iEditedMode.caseUnit}
               value={prop.caseUnit}
               onChange={prop.setCaseUnit}
               style={prop.defaultText}
               readonly={isEditedMode === false}
-              width={60}
-              height={24}
+              width={autoWidth(prop.caseUnit as string)}
+              height={autoHeight(14)}
               showBorder={prop.showBorder}
               editMode={prop.editMode}
               onEditMode={() =>
@@ -199,8 +206,8 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               onChange={prop.setStorage}
               style={prop.storageStyle}
               readonly={isEditedMode === false}
-              width={120}
-              height={24}
+              width={autoWidth(prop.storage as string)}
+              height={autoHeight(14)}
               showBorder={prop.showBorder}
             />
           </Row>

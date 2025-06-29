@@ -234,8 +234,12 @@ const StylePanel = forwardRef<HTMLDivElement, iProps>((prop, ref) => {
   }
   const FontSizemarks = [
     {
-      value: 12,
-      label: "12px",
+      value: 8,
+      label: "8px",
+    },
+    {
+      value: 16,
+      label: "16px",
     },
     {
       value: 24,
@@ -380,7 +384,7 @@ const StylePanel = forwardRef<HTMLDivElement, iProps>((prop, ref) => {
             />
           </RadioGroup>
         </FormControl>
-        <FormControl sx={{ height: "auto", padding: 1, width: 125 }}>
+        <FormControl sx={{ height: "auto", padding: 1, width: 175 }}>
           <FormLabel id="demo-radio-buttons-group-label" sx={textStyle}>
             Font Size
           </FormLabel>
@@ -390,7 +394,7 @@ const StylePanel = forwardRef<HTMLDivElement, iProps>((prop, ref) => {
             valueLabelDisplay="auto"
             step={2}
             marks={FontSizemarks}
-            min={12}
+            min={8}
             max={32}
             onChange={(event: Event, value: number | number[]) => {
               prop.handleChange(

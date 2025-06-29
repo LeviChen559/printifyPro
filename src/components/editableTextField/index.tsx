@@ -12,6 +12,7 @@ interface EditableTextFieldProps {
   showBorder?: boolean;
   editMode?:iEditedMode
   onEditMode?: () => void;
+  textAlign?: 'left' | 'center' | 'right';
 
 }
 
@@ -26,6 +27,7 @@ const EditableTextField: React.FC<EditableTextFieldProps> = ({
   showBorder = true,
   editMode,
   onEditMode,
+  textAlign = 'center',
 
 }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -59,15 +61,16 @@ const EditableTextField: React.FC<EditableTextFieldProps> = ({
       style={{
         ...style,
         display: "inline-block",
-        textAlign: "center",
+        textAlign: textAlign,
         background: isEditing || editMode===name? '#eeeeee' : 'transparent',
-        minHeight: '24px',
+        // minHeight: '24px',
         border: readonly || !showBorder ? 'none' : '1px solid #bcbcbc80',
         borderRadius:  readonly || !showBorder  ? 'none' : '4px',
         width: width,
         height: height,
         padding: readonly || !showBorder ?"0":'0 2px',
         outline: 'none',
+        
       }}
       value={value?.toString() ?? ''}
       onChange={handleChange}

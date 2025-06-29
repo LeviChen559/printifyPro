@@ -9,7 +9,7 @@ interface iProps {
   width?: string;
   onClick?: () => void;
   formAction?: () => void;
-  type?: "submit" | "reset" | "button" ;
+  type?: "submit" | "reset" | "button";
   backgroundColor?: string;
 }
 
@@ -19,15 +19,23 @@ const index: FC<iProps> = (props) => {
       variant="contained"
       startIcon={props.startIcon}
       endIcon={props.endIcon}
-      sx={{ width: props.width, padding: 2, borderRadius: 2,backgroundColor: props.backgroundColor,
+      sx={{
+        width: props.width,
+        padding: 2,
+        borderRadius: 2,
+        backgroundColor: props.backgroundColor,
+        textWrap: "nowrap",
+        display: "flex",
+        justifyContent: "flex-start",
       }}
       formAction={props.formAction}
       onClick={props.onClick}
       type={props.type}
-    > 
-    
-      <Typography color="textThirdary" sx={{ textTransform: "capitalize",fontWeight
-        :700 }}>
+    >
+      <Typography
+        color="textThirdary"
+        sx={{ textTransform: "capitalize", fontWeight: 700 }}
+      >
         {props.btnText}
       </Typography>
     </Button>

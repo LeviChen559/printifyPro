@@ -17,13 +17,13 @@ export const  Container =styled.div({
     display:"flex",
     flexDirection:"column",
     alignItems:"center",
-    justifyContent:"space-around",
+    justifyContent:"flex-start",
     padding:8,
     borderRadius:4,
     backgroundColor:"#ffffff",
     boxShadow:"0px 4px 4px 0px #bcbcbc",
     border:"1px solid #bcbcbc80",
-    gap:4,
+    gap:8,
     position:"relative",
     overflow:"hidden",
 })
@@ -72,26 +72,17 @@ export const Ingredients = styled.div<iProps>({
     gap:12
 })
 
-export const Row = styled.div<iProps>({
-    width:"100%",
-    display:"flex",
-    flexDirection:"row",
-    justifyContent:"flex-start",
-    alignItems:"center",
-    position:"relative",
-    boxSizing:"border-box",
-    gap:4,
-    height:24,
-},props=>({
-    alignItems:props.alignItems,
-    height:props.height,
-    gap:props.gap,
-    zIndex:props.zIndex,
-    background:props.background,
-    width:props.width,  
-    justifyContent:props.justifyContent
-
-}))
+export const Row = styled.div<iProps>(props => ({
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: props.justifyContent ?? "flex-start",
+  alignItems: props.alignItems ?? "center",
+  gap: props.gap ?? 4,
+  height: props.height ?? 24,
+  zIndex: props.zIndex,
+  background: props.background,
+  width: props.width ?? "100%", // Set default via prop fallback
+}));
 
 export const Col = styled.div<iProps>({
     width:"100%",

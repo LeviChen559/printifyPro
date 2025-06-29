@@ -10,13 +10,13 @@ export const  Container =styled.div({
     display:"flex",
     flexDirection:"column",
     alignItems:"center",
-    justifyContent:"space-between",
+    justifyContent:"flex-start",
     padding:4,
     borderRadius:4,
     backgroundColor:"#ffffff",
     boxShadow:"0px 4px 4px 0px #bcbcbc",
     border:"1px solid #bcbcbc80",
-    gap:4,
+    gap:8,
     position:"relative"
 })
 
@@ -27,6 +27,7 @@ export const Header = styled.div({
     justifyContent:"flex-start",
     alignItems:"center",
     gap:8,
+    paddingBottom:4,
     borderBottom:"1px solid #bcbcbc"
 })
 

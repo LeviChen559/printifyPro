@@ -183,7 +183,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             display: "flex",
             flexDirection: "column",
             width: "100%",
-            gap: 4,
+            gap: 2,
           }}
         >
           <EditableTextareaField
@@ -246,6 +246,9 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           />
         </Col>
         <Col alignItems="flex-start" gap={4}>
+          <Typography variant="body2" width={200} fontWeight={700}>
+            For All Ingredients:
+          </Typography>
           <EditableTextareaField
             name={iEditedMode.ingredient}
             value={prop.ingredient}
@@ -279,17 +282,18 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
         width="100%"
         zIndex={2}
         background="#ffffff"
-        justifyContent="space-between"
+        justifyContent="flex-start"
       >
         <Typography
           variant="caption"
           textAlign="center"
           fontWeight={700}
-          width="50px"
+          width="auto"
+          noWrap
         >
           Net Weight :
         </Typography>
-        <Row width="auto" gap={prop.isEditedMode && prop.showBorder ? 8 : 0}>
+        <Row width="auto" gap={4}>
           <EditableTextField
             name={iEditedMode.weight}
             value={prop.weight}
@@ -304,6 +308,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               prop.setEditMode && prop.setEditMode(iEditedMode.weight)
             }
           />
+
           <EditableTextField
             name={iEditedMode.caseQuantity}
             value={prop.caseQuantity}
@@ -318,6 +323,9 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               prop.setEditMode && prop.setEditMode(iEditedMode.caseQuantity)
             }
           />
+          <Typography variant="body2" fontWeight={700}>
+            x
+          </Typography>
           <EditableTextField
             name={iEditedMode.caseUnit}
             value={prop.caseUnit}
@@ -333,7 +341,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             }
           />
         </Row>
-        <Typography noWrap textOverflow="clip" fontWeight={700}>
+        <Typography noWrap textOverflow="clip" fontWeight={700} variant="body2">
           MADE IN CANADA
         </Typography>
       </Row>
