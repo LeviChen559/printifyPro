@@ -61,40 +61,40 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
             <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
               Id
             </TableCell>
-            <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
+            <TableCell align="left" sx={{ width: "65px", padding: 1 }}>
               Item Code
             </TableCell>
             <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
               Logo
             </TableCell>
-            <TableCell align="center" sx={{ width: "100px", padding: 1 }}>
+            <TableCell align="left" sx={{ width: "100px", padding: 1 }}>
               Product_EN
             </TableCell>
-            <TableCell align="center" sx={{ width: "100px", padding: 1 }}>
+            <TableCell align="left" sx={{ width: "100px", padding: 1 }}>
               Product_ZH
             </TableCell>
-            <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
+            <TableCell align="left" sx={{ width: "50px", padding: 1 }}>
               Weight
             </TableCell>
-            <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
+            <TableCell align="left" sx={{ width: "50px", padding: 1 }}>
               Case
             </TableCell>
-            <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
+            <TableCell align="left" sx={{ width: "50px", padding: 1 }}>
               Storage
             </TableCell>
-            <TableCell align="center" sx={{ width: "75px", padding: 1 }}>
+            <TableCell align="left" sx={{ width: "75px", padding: 1 }}>
               Shelf Life
             </TableCell>
-            <TableCell align="center" sx={{ width: "75px", padding: 1 }}>
+            <TableCell align="left" sx={{ width: "75px", padding: 1 }}>
               Case Gtin
             </TableCell>
             {/* <TableCell align="center" sx={{ width: "150px", padding: 1 }}>
               Ingredient Information
             </TableCell> */}
-            <TableCell align="center" sx={{ width: "150px", padding: 1 }}>
+            <TableCell align="left" sx={{ width: "150px", padding: 1 }}>
               Manufactured For
             </TableCell>
-            <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
+            <TableCell align="left" sx={{ width: "70px", padding: 1 }}>
               Label Temp
             </TableCell>
           </TableRow>
@@ -118,14 +118,16 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
                 >
                   {row.id}
                 </TableCell>
-                <TableCell align="left">{row.item_code}</TableCell>
-                <TableCell align="left">
-                  <LabelLogo logo={row.logo}  />
+                <TableCell align="left" sx={{ padding: 1 }}>
+                  {row.item_code}
                 </TableCell>
-                <TableCell align="left" sx={{ width: "50px" }}>
+                <TableCell align="center" sx={{ padding: 1, display: "flex", justifyContent: "center" }}>
+                  <LabelLogo logo={row.logo} />
+                </TableCell>
+                <TableCell align="left" sx={{ width: "50px", padding: 1 }}>
                   {row.product_name_en}
                 </TableCell>
-                <TableCell align="left" sx={{ width: "50px" }}>
+                <TableCell align="left" sx={{ width: "50px", padding: 1 }}>
                   {row.product_name_zh}
                 </TableCell>
                 <TableCell align="left" sx={{ padding: 1, width: "50px" }}>

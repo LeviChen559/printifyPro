@@ -16,6 +16,7 @@ import { iEditedMode, iLabelStyle, iTextStyle } from "@/type/labelType";
 import LabelLogo from "@/components/logo";
 import EditableTextareaField from "@/components/editableTextareaField";
 import EditableTextField from "@/components/editableTextField";
+import { autoHeight, autoWidth } from "@/utils/lib/help";
 
 interface iProp {
   labelInfo: iLabelInfo;
@@ -64,6 +65,7 @@ interface iProp {
   defaultLabelStyle: iLabelStyle;
   logo: string;
   showBorder: boolean;
+  showLotNumber?: boolean;
 }
 export type Ref = HTMLDivElement;
 
@@ -173,6 +175,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
 
   const lotNumberStyle = getTextStyle(prop.defaultText);
   const storageStyle = getTextStyle(prop.defaultText);
+  console.log("prop", prop);
 
   return (
     <Container id="labelCard" ref={ref}>
@@ -215,15 +218,22 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
         </div>
       </Header>
       <Ingredients>
-        <Col width="auto" justifyContent="space-evenly" height="76px">
+        <Col
+          width="auto"
+          justifyContent="space-evenly"
+          height="auto"
+          gap={8}
+          paddingTop={22}
+        >
           <EditableTextField
             name={iEditedMode.itemCode}
             value={prop.itemCode}
             onChange={prop.setItemCode}
             style={itemCodeStyle}
             readonly={isEditedMode === false}
-            width={40}
-            height={24}
+            width={autoWidth(Number(prop.itemCode) ?? "00000")}
+            height={autoHeight(14)}
+            minWidth={40}
             showBorder={prop.showBorder}
             editMode={prop.editMode}
             onEditMode={() =>
@@ -236,8 +246,13 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             onChange={prop.setCustomerItemCode}
             style={customerItemCodeStyle}
             readonly={isEditedMode === false}
-            width={40}
-            height={24}
+            width={
+              prop.customerItemCode
+                ? autoWidth(Number(prop.customerItemCode))
+                : 40
+            }
+            minWidth={40}
+            height={autoHeight(14)}
             showBorder={prop.showBorder}
             editMode={prop.editMode}
             onEditMode={() =>
@@ -300,8 +315,8 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             onChange={prop.setWeight}
             style={weightStyle}
             readonly={isEditedMode === false}
-            width={70}
-            height={24}
+            width={autoWidth(prop.weight as string)}
+            height={autoHeight(14)}
             showBorder={prop.showBorder}
             editMode={prop.editMode}
             onEditMode={() =>
@@ -315,8 +330,8 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             onChange={prop.setCaseQuantity}
             style={caseQuantityStyle}
             readonly={isEditedMode === false}
-            width={25}
-            height={24}
+            width={autoWidth(prop.caseQuantity as number)}
+            height={autoHeight(14)}
             showBorder={prop.showBorder}
             editMode={prop.editMode}
             onEditMode={() =>
@@ -332,8 +347,8 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             onChange={prop.setCaseUnit}
             style={caseUnitStyle}
             readonly={isEditedMode === false}
-            width={40}
-            height={24}
+            width={autoWidth(prop.caseUnit as string)}
+            height={autoHeight(14)}
             showBorder={prop.showBorder}
             editMode={prop.editMode}
             onEditMode={() =>
@@ -346,33 +361,40 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
         </Typography>
       </Row>
       <Row height="auto">
-        <Typography variant="body2" width="auto" noWrap fontWeight={700}>
-          LOT :
-        </Typography>
-        <EditableTextField
-          name={iEditedMode.lotNumber}
-          value={prop.lotNumber}
-          onChange={prop.setLotNumber}
-          style={lotNumberStyle}
-          readonly={isEditedMode === false}
-          width={120}
-          height={24}
-          showBorder={prop.showBorder}
-          editMode={prop.editMode}
-          onEditMode={() =>
-            prop.setEditMode && prop.setEditMode(iEditedMode.lotNumber)
-          }
-        />
+        {prop.showLotNumber && (
+          <>
+            <Typography variant="body2" width="auto" noWrap fontWeight={700}>
+              LOT :
+            </Typography>
+
+            <EditableTextField
+              name={iEditedMode.lotNumber}
+              value={prop.lotNumber}
+              onChange={prop.setLotNumber}
+              style={lotNumberStyle}
+              readonly={isEditedMode === false}
+              width={prop.lotNumber ? autoWidth(prop.lotNumber) : 40}
+              minWidth={40}
+              height={autoHeight(14)}
+              showBorder={prop.showBorder}
+              editMode={prop.editMode}
+              onEditMode={() =>
+                prop.setEditMode && prop.setEditMode(iEditedMode.lotNumber)
+              }
+            />
+          </>
+        )}
         <EditableTextField
           name={iEditedMode.storage}
           value={prop.storage}
           onChange={prop.setStorage}
           style={storageStyle}
           readonly={isEditedMode === false}
-          width={120}
-          height={24}
+          width={autoWidth(prop.storage as string)}
+          height={autoHeight(14)}
           showBorder={prop.showBorder}
           editMode={prop.editMode}
+          textAlign="left"
           onEditMode={() =>
             prop.setEditMode && prop.setEditMode(iEditedMode.storage)
           }
@@ -391,7 +413,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               style={storageStyle}
               readonly={isEditedMode === false}
               width={95}
-              height={24}
+              height={autoHeight(14)}
               showBorder={prop.showBorder}
               editMode={prop.editMode}
               onEditMode={() =>
@@ -429,6 +451,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             background={
               prop.editMode === iEditedMode.barcode ? "#000000" : "#ffffff"
             }
+            marginTop={-4}
           />
         </InfomationColumn>
       </InfomationWrapper>

@@ -27,8 +27,9 @@ interface iProps {
 }
 
 const LabelPrintCard: FC<iProps> = (prop) => {
-  const [showProductNameZH, setshowProductNameZH] = useState<boolean>(true);
-  const [showProductNameEN, setshowProductNameEN] = useState<boolean>(true);
+  // const [showProductNameZH, setshowProductNameZH] = useState<boolean>(true);
+  // const [showProductNameEN, setshowProductNameEN] = useState<boolean>(true);
+  const [showLotNumber, setshowLotNumber] = useState<boolean>(true);
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
 
@@ -87,8 +88,9 @@ const LabelPrintCard: FC<iProps> = (prop) => {
       <View>
         <LabelCard
           labelInput={prop.selectLabelInfo}
-          showProductNameZH={showProductNameZH}
-          showProductNameEN={showProductNameEN}
+          // showProductNameZH={showProductNameZH}
+          // showProductNameEN={showProductNameEN}
+          showLotNumber={showLotNumber}
           ref={contentRef}
           isEditedMode={false}
           type={prop.selectLabelInfo.label_temp}
@@ -117,12 +119,12 @@ const LabelPrintCard: FC<iProps> = (prop) => {
       </View>
       <Print>
         <Options>
-          <FormControlLabel
+          {/* <FormControlLabel
             control={<Checkbox defaultChecked />}
             label="Print All Info"
             sx={{ height: 18 }}
-          />
-          <FormControlLabel
+          /> */}
+          {/* <FormControlLabel
             onChange={() => setshowProductNameEN(!showProductNameEN)}
             control={<Checkbox defaultChecked />}
             label="Product Name (English)"
@@ -143,8 +145,8 @@ const LabelPrintCard: FC<iProps> = (prop) => {
             control={<Checkbox defaultChecked />}
             label="Contains:"
             sx={{ height: 18 }}
-          />
-          <FormControlLabel
+          /> */}
+          {/* <FormControlLabel
             control={<Checkbox defaultChecked />}
             label="Net Weight:"
             sx={{ height: 18 }}
@@ -153,18 +155,20 @@ const LabelPrintCard: FC<iProps> = (prop) => {
             control={<Checkbox defaultChecked />}
             label="Storage Requirements"
             sx={{ height: 18 }}
-          />
-          <FormControlLabel
+          /> */}
+          {/* <FormControlLabel
             control={<Checkbox defaultChecked />}
             label="Manufactured For:"
             sx={{ height: 18 }}
-          />
+          /> */}
           <FormControlLabel
             control={<Checkbox defaultChecked />}
             label="LOT #:"
             sx={{ height: 18 }}
+            onChange={() => setshowLotNumber(!showLotNumber)}
+            value={showLotNumber}
           />
-          <FormControlLabel
+          {/* <FormControlLabel
             control={<Checkbox defaultChecked />}
             label="BEST BY:"
             sx={{ height: 18 }}
@@ -173,7 +177,7 @@ const LabelPrintCard: FC<iProps> = (prop) => {
             control={<Checkbox defaultChecked />}
             label="Barcode:"
             sx={{ height: 18 }}
-          />
+          /> */}
         </Options>
         <TextField
           id="standard-number"

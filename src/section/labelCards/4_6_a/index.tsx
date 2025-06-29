@@ -60,6 +60,7 @@ interface iProp {
   defaultLabelStyle: iLabelStyle;
   logo: string;
   showBorder: boolean;
+  showLotNumber?: boolean;
 }
 export type Ref = HTMLDivElement;
 
@@ -156,7 +157,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               onChange={prop.setWeight}
               style={prop.defaultText}
               readonly={isEditedMode === false}
-               width={autoWidth(prop.weight as string)}
+              width={autoWidth(prop.weight as string)}
               height={autoHeight(14)}
               showBorder={prop.showBorder}
               editMode={prop.editMode}
@@ -197,9 +198,20 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             />
           </Row>
           <Row>
-            <Typography variant="body2">
-              LOT: #{prop.labelInfo.item_code}
+            {prop.showLotNumber && <>
+            <Typography variant="body2" width="auto" noWrap fontWeight={700}>
+              LOT: #
             </Typography>
+            <EditableTextField
+              name={iEditedMode.lotNumber}
+              value={prop.lotNumber}
+              onChange={prop.setLotNumber}
+              style={prop.defaultText}
+              readonly={isEditedMode === false}
+              width={prop.lotNumber ? autoWidth(prop.lotNumber as string) : 40}
+              height={autoHeight(14)}
+              minWidth={40}
+            /></>}
             <EditableTextField
               name={iEditedMode.storage}
               value={prop.storage}
@@ -237,12 +249,13 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           <Barcode
             value={prop.labelInfo.barcode.substring(0, 11) ?? "111111111111"}
             width={2}
-            height={45}
+            height={58}
             fontSize={14}
             format="UPC"
             background={
               prop.editMode === iEditedMode.barcode ? "#eeeeee" : "#ffffff"
             }
+             marginTop={-4}
           />
         </InfomationColumn>
       </InfomationWrapper>

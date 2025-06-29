@@ -9,6 +9,7 @@ interface iProps {
     gap?:number,
     zIndex?:number,
     background?:string
+    paddingTop?:number
 }
 
 export const  Container =styled.div({
@@ -98,5 +99,6 @@ export const Col = styled.div<iProps>({
     height:props.height,
     alignItems:props.alignItems,
     gap:props.gap,
+    paddingTop:props.paddingTop,
 
 }))

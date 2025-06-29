@@ -1,19 +1,22 @@
-import { iEditedMode } from '@/type/labelType';
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import { iEditedMode } from "@/type/labelType";
+import { Typography } from "@mui/material";
+import React, { Dispatch, SetStateAction, useState } from "react";
 
 interface EditableTextFieldProps {
   name: string;
   value: string | number | undefined;
-  onChange?: Dispatch<SetStateAction<string>> | Dispatch<SetStateAction<number>>;
+  onChange?:
+    | Dispatch<SetStateAction<string>>
+    | Dispatch<SetStateAction<number>>;
   style?: React.CSSProperties;
   readonly?: boolean;
   width?: string | number;
   height?: string | number;
   showBorder?: boolean;
-  editMode?:iEditedMode
+  editMode?: iEditedMode;
   onEditMode?: () => void;
-  textAlign?: 'left' | 'center' | 'right';
-
+  textAlign?: "left" | "center" | "right";
+  minWidth?: string | number;
 }
 
 const EditableTextField: React.FC<EditableTextFieldProps> = ({
@@ -22,22 +25,22 @@ const EditableTextField: React.FC<EditableTextFieldProps> = ({
   onChange,
   style = {},
   readonly = false,
-  width = 'auto',
-  height = '24px',
+  width = "auto",
+  height = "24px",
   showBorder = true,
   editMode,
   onEditMode,
-  textAlign = 'center',
-
+  textAlign = "center",
+  minWidth,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!onChange) return;
-    
+
     const newValue = e.target.value;
     // Type guard to handle both string and number setState functions
-    if (typeof value === 'number') {
+    if (typeof value === "number") {
       (onChange as Dispatch<SetStateAction<number>>)(Number(newValue) || 0);
     } else {
       (onChange as Dispatch<SetStateAction<string>>)(newValue);
@@ -47,14 +50,17 @@ const EditableTextField: React.FC<EditableTextFieldProps> = ({
   const handleFocus = () => {
     setIsEditing(true);
     onEditMode?.();
-
   };
 
   const handleBlur = () => {
     setIsEditing(false);
   };
 
-  return (
+  return readonly ? (
+    <Typography variant="body2" width="auto" noWrap>
+      {value?.toString() ?? ""}
+    </Typography>
+  ) : (
     <input
       name={name}
       type="text"
@@ -62,17 +68,17 @@ const EditableTextField: React.FC<EditableTextFieldProps> = ({
         ...style,
         display: "inline-block",
         textAlign: textAlign,
-        background: isEditing || editMode===name? '#eeeeee' : 'transparent',
+        background: isEditing || editMode === name ? "#eeeeee" : "transparent",
         // minHeight: '24px',
-        border: readonly || !showBorder ? 'none' : '1px solid #bcbcbc80',
-        borderRadius:  readonly || !showBorder  ? 'none' : '4px',
+        border: readonly || !showBorder ? "none" : "1px solid #bcbcbc80",
+        borderRadius: readonly || !showBorder ? "none" : "4px",
         width: width,
         height: height,
-        padding: readonly || !showBorder ?"0":'0 2px',
-        outline: 'none',
-        
+        padding: readonly || !showBorder ? "0" : "0 2px",
+        outline: "none",
+        minWidth: minWidth,
       }}
-      value={value?.toString() ?? ''}
+      value={value?.toString() ?? ""}
       onChange={handleChange}
       readOnly={readonly}
       onFocus={handleFocus}

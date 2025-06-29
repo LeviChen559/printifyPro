@@ -57,6 +57,7 @@ interface iProps {
   allergenStyle?: iTextStyle;
   defaultLabelStyle: iLabelStyle;
   showBorder: boolean;
+  showLotNumber?: boolean;
 }
 
 
@@ -104,6 +105,7 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       allergen={prop.allergen}
       setAllergen={prop.setAllergen}
       showBorder={prop.showBorder}
+      showLotNumber={prop.showLotNumber ?? true}
     />
   ) : prop.type === "4x6_a" ? (
     <LabelCard4_6_a
@@ -145,6 +147,7 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       allergen={prop.allergen}
       setAllergen={prop.setAllergen}
       showBorder={prop.showBorder}
+      showLotNumber={prop.showLotNumber ?? true}
     />
   ) : (
     <LabelCard4_4_b
@@ -188,6 +191,7 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       allergen={prop.allergen}
       setAllergen={prop.setAllergen}
       showBorder={prop.showBorder}
+      showLotNumber={prop.showLotNumber ?? true}
     />
   );
 });
