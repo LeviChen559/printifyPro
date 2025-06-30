@@ -157,7 +157,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               onChange={prop.setWeight}
               style={prop.defaultText}
               readonly={isEditedMode === false}
-              width={autoWidth(prop.weight as string)}
+              width={prop.weight ? autoWidth(prop.weight as string) : 40}
               height={autoHeight(14)}
               showBorder={prop.showBorder}
               editMode={prop.editMode}
@@ -171,7 +171,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               onChange={prop.setCaseQuantity}
               style={prop.defaultText}
               readonly={isEditedMode === false}
-              width={autoWidth(prop.caseQuantity as number)}
+              width={prop.caseQuantity ? autoWidth(prop.caseQuantity as number) : 40}
               height={autoHeight(14)}
               showBorder={prop.showBorder}
               editMode={prop.editMode}
@@ -188,7 +188,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               onChange={prop.setCaseUnit}
               style={prop.defaultText}
               readonly={isEditedMode === false}
-              width={autoWidth(prop.caseUnit as string)}
+              width={prop.caseUnit ? autoWidth(prop.caseUnit as string) : 40}
               height={autoHeight(14)}
               showBorder={prop.showBorder}
               editMode={prop.editMode}

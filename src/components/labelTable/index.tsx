@@ -14,7 +14,9 @@ import { fetcher } from "@/utils/lib/fetcher";
 import LabelLogo from "../logo";
 import { iLabelInfo } from "@/type/labelType";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+
 interface iTable {
   selectItem: (selectLabelInfo: iLabelInfo) => void;
   apiMyLabelUrl: string;
@@ -85,8 +87,6 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
     }));
   };
 
-  console.log("sortType", sortType);
-
   if (labelError)
     return <Container>Failed to load: {labelError.message}</Container>;
 
@@ -96,6 +96,18 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
         <SkeletonTable />
       </Container>
     );
+  const tableCellStyle = (width: number, cursor: string | undefined) => {
+    const style: React.CSSProperties = {
+      width: width,
+      padding: 1,
+      height: "65px ! important",
+      boxSizing: "border-box",
+    };
+    if (cursor) {
+      style.cursor = cursor;
+    }
+    return style;
+  };
 
   return (
     <TableContainer
@@ -110,7 +122,7 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow sx={{ background: "#bcbcbc80" }}>
-            <TableCell align="center" onClick={() => handleSort("id")}>
+            <TableCell align="center" onClick={() => handleSort("id")}sx={tableCellStyle(50, "pointer")}>
               <Box
                 display="flex"
                 alignItems="center"
@@ -119,7 +131,11 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
               >
                 Id
                 {sortType.type === "id" ? (
-                  <ArrowDropDownIcon fontSize="small" />
+                  sortType.order === "asc" ? (
+                    <ArrowDropDownIcon fontSize="small" />
+                  ) : (
+                    <ArrowDropUpIcon fontSize="small" />
+                  )
                 ) : (
                   <ArrowRightIcon fontSize="small" />
                 )}
@@ -127,7 +143,7 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
             </TableCell>
             <TableCell
               align="left"
-              sx={{ width: "90px", padding: 1, cursor: "pointer" }}
+              sx={tableCellStyle(50, "pointer")}
               onClick={() => handleSort("item_code")}
             >
               <Box
@@ -138,29 +154,37 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
               >
                 Item Code
                 {sortType.type === "item_code" ? (
-                  <ArrowDropDownIcon fontSize="small" />
+                  sortType.order === "asc" ? (
+                    <ArrowDropDownIcon fontSize="small" />
+                  ) : (
+                    <ArrowDropUpIcon fontSize="small" />
+                  )
                 ) : (
                   <ArrowRightIcon fontSize="small" />
                 )}
               </Box>
             </TableCell>
-            <TableCell align="center" sx={{ width: "50px", padding: 1 }}>
+            <TableCell align="center" sx={tableCellStyle(50, undefined)}>
               Logo
             </TableCell>
             <TableCell
               align="left"
-              sx={{ width: "100px", padding: 1, cursor: "pointer" }}
+              sx={tableCellStyle(180,"pointer")}
               onClick={() => handleSort("product_name_en")}
             >
               <Box
                 display="flex"
                 alignItems="center"
-                justifyContent="center"
+                justifyContent="flex-start"
                 gap={0.5}
               >
                 Product_EN
                 {sortType.type === "product_name_en" ? (
-                  <ArrowDropDownIcon fontSize="small" />
+                  sortType.order === "asc" ? (
+                    <ArrowDropDownIcon fontSize="small" />
+                  ) : (
+                    <ArrowDropUpIcon fontSize="small" />
+                  )
                 ) : (
                   <ArrowRightIcon fontSize="small" />
                 )}
@@ -168,43 +192,47 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
             </TableCell>
             <TableCell
               align="left"
-              sx={{ width: "100px", padding: 1, cursor: "pointer" }}
+              sx={tableCellStyle(100, "pointer")}
               onClick={() => handleSort("product_name_zh")}
             >
               <Box
                 display="flex"
                 alignItems="center"
-                justifyContent="center"
+                justifyContent="flex-start"
                 gap={0.5}
               >
                 Product_ZH
                 {sortType.type === "product_name_zh" ? (
-                  <ArrowDropDownIcon fontSize="small" />
+                  sortType.order === "asc" ? (
+                    <ArrowDropDownIcon fontSize="small" />
+                  ) : (
+                    <ArrowDropUpIcon fontSize="small" />
+                  )
                 ) : (
                   <ArrowRightIcon fontSize="small" />
                 )}
               </Box>
             </TableCell>
-            <TableCell align="left" sx={{ width: "50px", padding: 1 }}>
+            <TableCell align="left" sx={tableCellStyle(50, undefined)}>
               Weight
             </TableCell>
-            <TableCell align="left" sx={{ width: "50px", padding: 1 }}>
+            <TableCell align="left" sx={tableCellStyle(50, undefined)}>
               Case
             </TableCell>
-            <TableCell align="left" sx={{ width: "50px", padding: 1 }}>
+            <TableCell align="left" sx={tableCellStyle(50, undefined)}>
               Storage
             </TableCell>
-            <TableCell align="left" sx={{ width: "75px", padding: 1 }}>
+            <TableCell align="left" sx={tableCellStyle(110, undefined)}>
               Shelf Life
             </TableCell>
-            <TableCell align="left" sx={{ width: "75px", padding: 1 }}>
+            <TableCell align="left" sx={tableCellStyle(75, undefined)}>
               Case Gtin
             </TableCell>
-            <TableCell align="left" sx={{ width: "150px", padding: 1 }}>
+            <TableCell align="left" sx={tableCellStyle(150, undefined)}>
               Manufactured For
             </TableCell>
-            <TableCell align="left" sx={{ width: "70px", padding: 1 }}>
-              Label Temp
+            <TableCell align="left" sx={tableCellStyle(60, undefined)}>
+              Temp
             </TableCell>
           </TableRow>
         </TableHead>
@@ -215,20 +243,16 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
               <TableRow
                 key={row.id}
                 sx={{
+                 
                   "&:last-child td, &:last-child th": { border: 0 },
                   "&:hover": { background: "#bcbcbc40", cursor: "pointer" },
                 }}
                 onClick={() => labelSelect(row.id)}
               >
-                <TableCell
-                  component="th"
-                  scope="row"
-                  align="center"
-                  sx={{ width: "50px", padding: 1 }}
-                >
+                <TableCell component="th" scope="row" align="center" sx={tableCellStyle(50,undefined)}>
                   {row.id}
                 </TableCell>
-                <TableCell align="left" sx={{ padding: 1 }}>
+                <TableCell align="left" sx={tableCellStyle(50,undefined)}>
                   {row.item_code}
                 </TableCell>
                 <TableCell
@@ -237,20 +261,19 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
                     padding: 1,
                     display: "flex",
                     justifyContent: "center",
+                    height: 65,
+                    overflow: "hidden",
+                    boxSizing: "border-box",
                   }}
                 >
                   <LabelLogo logo={row.logo} />
                 </TableCell>
-                <TableCell align="left" sx={{ width: "50px", padding: 1 }}>
+                <TableCell align="left" sx={tableCellStyle(125,undefined)}>
                   {row.product_name_en}
                 </TableCell>
-                <TableCell align="left" sx={{ width: "50px", padding: 1 }}>
-                  {row.product_name_zh}
-                </TableCell>
-                <TableCell align="left" sx={{ padding: 1, width: "50px" }}>
-                  {row.weight}
-                </TableCell>
-                <TableCell align="left" sx={{ width: "50px", padding: 1 }}>
+                <TableCell align="left" sx={tableCellStyle(125,undefined)}>{row.product_name_zh}</TableCell>
+                <TableCell align="left" sx={tableCellStyle(50,undefined)}>{row.weight}</TableCell>
+                <TableCell align="left" sx={tableCellStyle(50,undefined)}>
                   {row.case_quantity} {row.case_unit}
                 </TableCell>
                 <TableCell
@@ -265,21 +288,10 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
                 >
                   {row.storage}
                 </TableCell>
-                <TableCell align="left" sx={{ padding: 1, width: "50px" }}>
-                  {row.shelf_life} days
-                </TableCell>
-                <TableCell align="left" sx={{ width: "75px", padding: 1 }}>
-                  {row.case_gtin}
-                </TableCell>
-                {/* <TableCell align="left" sx={{ width: "250px", padding: 1 }}>
-                  {row.ingredient&&row.ingredient.slice(0,75)+" ..."}
-                </TableCell> */}
-                <TableCell align="left" sx={{ width: "150px", padding: 1 }}>
-                  {row.manufactured}
-                </TableCell>
-                <TableCell align="left" sx={{ width: "50px", padding: 1 }}>
-                  {row.label_temp}
-                </TableCell>
+                <TableCell align="left" sx={tableCellStyle(110,undefined)}>{row.shelf_life} days</TableCell>
+                <TableCell align="left" sx={tableCellStyle(50,undefined)}>{row.case_gtin}</TableCell>
+                <TableCell align="left" sx={tableCellStyle(50,undefined)}>{row.manufactured}</TableCell>
+                <TableCell align="left" sx={tableCellStyle(50,undefined)}>{row.label_temp}</TableCell>
               </TableRow>
             ))
           ) : (

@@ -185,7 +185,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             display: "flex",
             flexDirection: "column",
             width: "100%",
-            gap: 2,
+            gap: 6,
           }}
         >
           <EditableTextareaField
@@ -314,7 +314,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             onChange={prop.setWeight}
             style={weightStyle}
             readonly={isEditedMode === false}
-            width={autoWidth(prop.weight as string)}
+            width={prop.weight ? autoWidth(prop.weight) : 40}
             height={autoHeight(14)}
             showBorder={prop.showBorder}
             editMode={prop.editMode}
@@ -329,7 +329,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             onChange={prop.setCaseQuantity}
             style={caseQuantityStyle}
             readonly={isEditedMode === false}
-            width={autoWidth(prop.caseQuantity as number)}
+            width={prop.caseQuantity ? autoWidth(prop.caseQuantity) : 40}
             height={autoHeight(14)}
             showBorder={prop.showBorder}
             editMode={prop.editMode}
@@ -346,7 +346,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             onChange={prop.setCaseUnit}
             style={caseUnitStyle}
             readonly={isEditedMode === false}
-            width={autoWidth(prop.caseUnit as string)}
+            width={prop.caseUnit ? autoWidth(prop.caseUnit) : 40}
             height={autoHeight(14)}
             showBorder={prop.showBorder}
             editMode={prop.editMode}
