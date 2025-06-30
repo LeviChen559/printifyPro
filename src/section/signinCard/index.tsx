@@ -67,6 +67,7 @@ const SignInCard: FC<iProps> = (prop) => {
           endIcon={<SendIcon  sx={{color:"#ffffff"}}/>}
           onClick={() => prop.onSubmit}
           type="submit"
+          justifyContent="center"
         />
         <Link href="/forgetpassward" >
         <Typography variant="body2" color="textPrimary"> Forget passward</Typography>

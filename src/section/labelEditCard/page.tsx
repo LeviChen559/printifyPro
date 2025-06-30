@@ -261,6 +261,12 @@ const LabelEditCard: FC<iProps> = (prop) => {
         locale: "case_gtin",
         validate: (value: string) => value?.length === 12,
       },
+       {
+        field: lotNumber,
+        message: "Lot Number",
+        locale: "lot_number",
+        validate: (value: string) => value?.length > 0 || value === "",
+      },
     ];
 
     // Loop through each validation rule
@@ -296,6 +302,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
     submitClicked,
     allergen,
     barcode,
+    lotNumber,
   ]);
 
   useEffect(() => {
@@ -422,7 +429,6 @@ const LabelEditCard: FC<iProps> = (prop) => {
     shelf_life: labelStyle ? labelStyle.data[0]?.shelf_life : prop.defaultText,
     allergen: JSON.stringify(allergenStyle),
   };
-  console.log("labelStyle", labelStyle);
 
   const updateLabel = async (
     labelInfo: iLabelInfo,

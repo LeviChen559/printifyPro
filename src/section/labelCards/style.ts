@@ -28,6 +28,7 @@ export const Container = styled.div<iProps>((props) => ({
   gap: 6,
   position: "relative",
   overflow: "hidden",
+  
 }));
 
 export const Header = styled.div({
@@ -38,6 +39,7 @@ export const Header = styled.div({
   alignItems: "center",
   gap: 12,
   borderBottom: "1px solid #bcbcbc",
+  paddingBottom:4
 });
 
 export const InfomationWrapper = styled.div({

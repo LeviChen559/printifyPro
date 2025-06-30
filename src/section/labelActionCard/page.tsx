@@ -35,6 +35,26 @@ const LabelActionCard: FC<iProps> = (prop) => {
       labelPrintCard: type === CardType.LabelPrint,
     }));
   };
+
+  const features =[
+    {
+      text: "Edit this Label",
+      icon: <EditNoteRoundedIcon color="secondary" />,
+      action: () => switchCard(CardType.LabelEdit),
+    },
+    {
+      text: "Duplicate this Label",
+      icon: <ContentCopyRoundedIcon color="secondary" />,
+      action: () =>
+        router.push(`/dashboard/add-new?duplicatedLabel=${prop.duplicatedLabel}`),
+    },
+    {
+      text: "Print this Label",
+      icon: <LocalPrintshopRoundedIcon color="secondary" />,
+      action: () => switchCard(CardType.LabelPrint),
+    },
+  ] 
+
   return (
     <Container>
       <CancelRoundedIcon
@@ -51,31 +71,20 @@ const LabelActionCard: FC<iProps> = (prop) => {
           switchCard(CardType.empty);
         }}
       />
-      <Button
-        btnText="Edit this Label"
-        onClick={() => switchCard(CardType.LabelEdit)}
-        type="button"
-        width={"200px"}
-        startIcon={<EditNoteRoundedIcon color="secondary" />}
-      />
-      <Button
-        btnText="Duplicate this Label"
-        onClick={() =>
-          router.push(
-            `/dashboard/add-new?duplicatedLabel=${prop.duplicatedLabel}`
-          )
-        }
-        type="button"
-        width={"200px"}
-        startIcon={<ContentCopyRoundedIcon color="secondary" />}
-      />
-      <Button
-        btnText="Print this Label"
-        onClick={() => switchCard(CardType.LabelPrint)}
-        type="button"
-        width={"200px"}
-        startIcon={<LocalPrintshopRoundedIcon color="secondary" />}
-      />
+      {
+        features.map((feature, index) => (
+          <Button
+            key={index}
+            btnText={feature.text}
+            onClick={feature.action}
+            type="button"
+            width={"100%"}
+            startIcon={feature.icon}
+            gap={2}
+            justifyContent="flex-start"
+          />
+        ))
+      }
     </Container>
   );
 };

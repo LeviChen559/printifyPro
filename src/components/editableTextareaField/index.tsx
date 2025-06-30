@@ -45,23 +45,25 @@ const EditableTextareaField: React.FC<EditableTextareaFieldProps> = ({
   const handleBlur = () => {
     setIsEditing(false);
   };
-
+  console.log("isEditing", isEditing);
   return (
     <textarea
       name={name}
       style={{
         ...style,
         width: width,
-        padding: "0px",
-        margin: "0px",
+        margin: 0,
+        padding:
+           showBorder ? "0px" : "1px",
         overflow: "hidden",
         whiteSpace: "normal",
         wordBreak: wordBreak,
         overflowWrap: "break-word",
-        background: isEditing || editMode === name ? "#eeeeee" : "transparent",
+        background: isEditing && editMode === name ? "#eeeeee" : "transparent",
         resize: "none",
         border: readonly || !showBorder ? "none" : "1px solid #bcbcbc80",
         borderRadius: readonly || !showBorder ? "none" : "4px",
+        boxSizing: "border-box",
       }}
       rows={rows}
       value={value?.toString() ?? ""}

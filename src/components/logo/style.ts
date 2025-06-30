@@ -7,6 +7,6 @@ export const Container = styled.div({
     alignItems: "center",
     justifyContent: "center",
     width: 60,
-    height: 60,
+    height: "auto",
     position: "relative",
 })

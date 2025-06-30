@@ -128,7 +128,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
   return (
     <Container id="labelCard" ref={ref}>
       <Header>
-        <Col width={60} alignItems="center">
+        <Col width={60} alignItems="center" gap={8}>
           <LabelLogo logo={prop.logo} />
           <EditableTextField
             name={iEditedMode.itemCode}
@@ -279,7 +279,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
         {prop.showLotNumber && (
           <>
             <Typography variant="body2" width="auto" noWrap fontWeight={700}>
-              LOT :
+              LOT :#
             </Typography>
             <EditableTextField
               name={iEditedMode.lotNumber}

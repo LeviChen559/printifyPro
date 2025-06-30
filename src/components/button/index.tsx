@@ -11,6 +11,14 @@ interface iProps {
   formAction?: () => void;
   type?: "submit" | "reset" | "button";
   backgroundColor?: string;
+  justifyContent?:
+    | "flex-start"
+    | "center"
+    | "flex-end"
+    | "space-between"
+    | "space-around"
+    | "space-evenly";
+    gap?: number;
 }
 
 const index: FC<iProps> = (props) => {
@@ -26,7 +34,9 @@ const index: FC<iProps> = (props) => {
         backgroundColor: props.backgroundColor,
         textWrap: "nowrap",
         display: "flex",
-        justifyContent: "flex-start",
+        flexDirection: "row",
+        justifyContent: props.justifyContent,
+        gap:props.gap? props.gap : 4,
       }}
       formAction={props.formAction}
       onClick={props.onClick}

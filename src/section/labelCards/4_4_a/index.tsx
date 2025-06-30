@@ -275,7 +275,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             }
             editMode={prop.editMode}
             showBorder={prop.showBorder}
-            wordBreak="break-all"
+            wordBreak="normal"
           />
           <EditableTextareaField
             name={iEditedMode.allergen}
@@ -363,7 +363,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
         {prop.showLotNumber && (
           <>
             <Typography variant="body2" width="auto" noWrap fontWeight={700}>
-              LOT :
+              LOT :#
             </Typography>
 
             <EditableTextField

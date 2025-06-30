@@ -20,23 +20,24 @@ model activities {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model mylabels {
-  id              Int     @id @unique @default(autoincrement()) @db.SmallInt
-  logo            String  @default("001") @db.VarChar
-  item_code       String  @db.VarChar
-  lot_number      String? @db.VarChar
-  label_temp      String  @default("4x4_a") @db.VarChar
-  product_name_en String  @db.VarChar
-  product_name_zh String  @db.VarChar
-  weight          String  @db.VarChar
-  case_quantity   Int     @db.SmallInt
-  case_unit       String  @db.VarChar
-  storage         String  @db.VarChar
-  shelf_life      String? @db.VarChar
-  case_gtin       String? @db.VarChar
-  ingredient      String  @db.VarChar
-  allergen        String  @db.VarChar
-  manufactured    String  @default("HON'S, RICHMOND, BC V6V 2W2") @db.VarChar
-  barcode         String  @default("111111111111") @db.VarChar
+  id                 Int     @id @unique @default(autoincrement()) @db.SmallInt
+  logo               String
+  item_code          String
+  lot_number         String?
+  label_temp         String
+  product_name_en    String
+  product_name_zh    String
+  weight             String
+  case_quantity      Int     @db.SmallInt
+  case_unit          String
+  storage            String
+  shelf_life         String?
+  case_gtin          String?
+  ingredient         String
+  allergen           String
+  manufactured       String
+  barcode            String
+  customer_item_code String?
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.

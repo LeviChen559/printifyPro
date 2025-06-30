@@ -42,6 +42,8 @@ export async function PATCH(req: NextRequest) {
         ...(labelInfo.ingredient && { ingredient: labelInfo.ingredient }),
         ...(labelInfo.label_temp && { label_temp: labelInfo.label_temp }),
         ...(labelInfo.logo && { logo: labelInfo.logo }),
+        ...(labelInfo.lot_number && { lot_number: labelInfo.lot_number }),
+        ...(labelInfo.customer_item_code && { customer_item_code: labelInfo.customer_item_code }),
       };
     
     
