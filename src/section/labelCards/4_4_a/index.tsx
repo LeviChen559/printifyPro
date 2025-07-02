@@ -389,7 +389,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           onChange={prop.setStorage}
           style={storageStyle}
           readonly={isEditedMode === false}
-          width={prop.storage?autoWidth(prop.storage):40}
+          width={prop.storage?autoWidth(prop.storage,"storage"):40}
           height={autoHeight(14)}
           showBorder={prop.showBorder}
           editMode={prop.editMode}

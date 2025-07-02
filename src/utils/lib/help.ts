@@ -1,4 +1,4 @@
-export const autoWidth = (text: string | number) => {
+export const autoWidth = (text: string | number,type?:string) => {
   if (typeof text !== "string") {
     return text.toString().length + 1 + "ch"; // Fallback for non-string input
   }
@@ -6,7 +6,13 @@ export const autoWidth = (text: string | number) => {
   const textLength = text.length;
 
   const baseWidth = 2; // Base width for the input field
+
   const charWidth = 8; // Approximate width of each character in pixels
+
+  if(text.includes("/")&&type==="storage"){
+  return `${(baseWidth + textLength * charWidth)-18}px`;
+
+  }
   return `${baseWidth + textLength * charWidth}px`;
 };
 
