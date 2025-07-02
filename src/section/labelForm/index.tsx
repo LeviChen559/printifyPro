@@ -111,7 +111,7 @@ const LabelForm: FC<iProps> = (prop) => {
           <FormPropsTextFields
             id="item_code"
             label="item_code"
-            value={prop.itemCode}
+            value={prop.itemCode??""}
             required={true}
             type="text"
             placeholder="item_code"
@@ -132,7 +132,7 @@ const LabelForm: FC<iProps> = (prop) => {
           <FormPropsTextFields
             id="Customer_item_code"
             label="Customer_item_code"
-            value={prop.customerItemCode}
+            value={prop.customerItemCode??""}
             required={false}
             type="text"
             placeholder="customer_item_code"
@@ -157,7 +157,7 @@ const LabelForm: FC<iProps> = (prop) => {
           <FormPropsTextFields
             id="Lot_number"
             label="Lot_number"
-            value={prop.lotNumber}
+            value={prop.lotNumber??""}
             required={false}
             type="text"
             placeholder="lot_Number"
@@ -180,7 +180,7 @@ const LabelForm: FC<iProps> = (prop) => {
         <FormPropsTextFields
           id="product_name_en"
           label="Product Name (English)"
-          value={prop.productNameEN}
+          value={prop.productNameEN??""}
           required={true}
           type="text"
           background="#ffffff40"
@@ -201,7 +201,7 @@ const LabelForm: FC<iProps> = (prop) => {
         <FormPropsTextFields
           id="product_name_zh"
           label="Product Name (Chinese)"
-          value={prop.productNameZH}
+          value={prop.productNameZH??""}
           required={true}
           type="text"
           background="#ffffff40"
@@ -230,7 +230,7 @@ const LabelForm: FC<iProps> = (prop) => {
           <FormPropsTextFields
             id="Net_Weight"
             label="Net Weight"
-            value={prop.weight}
+            value={prop.weight??""}
             required={true}
             type="text"
             background="#ffffff40"
@@ -273,7 +273,7 @@ const LabelForm: FC<iProps> = (prop) => {
           <FormPropsTextFields
             id="case_quantity"
             label="Case Quantity"
-            value={prop.caseQuantity.toString()}
+            value={prop.caseQuantity.toString()??""}
             required={true}
             type="number"
             background="#ffffff40"
@@ -294,7 +294,7 @@ const LabelForm: FC<iProps> = (prop) => {
           <FormPropsTextFields
             id="case_unit"
             label="Case Unit"
-            value={prop.caseUnit}
+            value={prop.caseUnit??""}
             required={true}
             type="string"
             background="#ffffff40"
@@ -331,7 +331,7 @@ const LabelForm: FC<iProps> = (prop) => {
           <FormPropsTextFields
             id="storage"
             label="Storage"
-            value={prop.storage}
+            value={prop.storage??""}
             required={true}
             type="string"
             background="#ffffff40"
@@ -366,7 +366,7 @@ const LabelForm: FC<iProps> = (prop) => {
           <FormPropsTextFields
             id="shelf_life"
             label="Shelf Life"
-            value={prop.shelfLife}
+            value={prop.shelfLife??""}
             required={true}
             type="string"
             background="#ffffff40"
@@ -387,7 +387,7 @@ const LabelForm: FC<iProps> = (prop) => {
         <FormPropsTextFields
           id="case_gtin"
           label="Case GTIN"
-          value={prop.caseGtin}
+          value={prop.caseGtin??""}
           required={true}
           type="text"
           background="#ffffff40"
@@ -405,7 +405,7 @@ const LabelForm: FC<iProps> = (prop) => {
         <FormPropsTextFields
           id="ingredient"
           label="ingredient"
-          value={prop.ingredient}
+          value={prop.ingredient??""}
           required={true}
           type="text"
           rows={8}
@@ -425,7 +425,7 @@ const LabelForm: FC<iProps> = (prop) => {
         <FormPropsTextFields
           id="allergen"
           label="allergen"
-          value={prop.allergen}
+          value={prop.allergen??""}
           required={false}
           type="text"
           rows={2}
@@ -447,7 +447,7 @@ const LabelForm: FC<iProps> = (prop) => {
          <FormPropsTextFields
           id="barcode"
           label="barcode"
-          value={prop.barcode}
+          value={prop.barcode??""}
           required={false}
           type="text"
           background="#ffffff80"
@@ -469,7 +469,7 @@ const LabelForm: FC<iProps> = (prop) => {
         <FormPropsTextFields
           id="manufactured"
           label="Manufactured"
-          value={prop.manufactured}
+          value={prop.manufactured ??""}
           required={false}
           type="text"
           rows={2}

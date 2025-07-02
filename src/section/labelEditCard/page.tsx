@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useState, useRef, useEffect } from "react";
+import React, { FC, useState, useRef, useEffect, useReducer } from "react";
 import { Container, View, Print } from "./style";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { iLabelInfo, iLabelStyleInDataBase } from "@/type/labelType";
@@ -25,6 +25,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+import { reducer, handleUpdate, handleNumberUpdate } from "@/store/formStore";
 
 interface iProps {
   selectLabelInfo: iLabelInfo;
@@ -54,117 +55,44 @@ const LabelEditCard: FC<iProps> = (prop) => {
   const stylePannelRef = useRef<HTMLDivElement>(null);
   const [isLabelUpdating, setIsLabelUpdating] = useState<boolean>(false);
   const [isLabelDeleted, setIsLabelDeleted] = useState<boolean>(false);
-  const [logo, setLogo] = useState<string>(prop.selectLabelInfo.logo);
-  const [labelTemp, setLabelTemp] = useState<string>(
-    prop.selectLabelInfo.label_temp
-  );
-
-  const [itemCode, setItemCode] = useState<string>(
-    prop.selectLabelInfo.item_code
-  );
-  const [customerItemCode, setCustomerItemCode] = useState<string>(
-    prop.selectLabelInfo.customer_item_code
-  );
-  const [lotNumber, setLotNumber] = useState<string>(
-    prop.selectLabelInfo.lot_number
-  );
-  const [productNameEN, setProductNameEN] = useState<string>(
-    prop.selectLabelInfo.product_name_en
-  );
-  const [productNameENStyle, setProductNameENStyle] = useState<iTextStyle>({
+  const [labelState, dispatch] = useReducer(reducer, prop.selectLabelInfo);
+  const baseTextStyle: iTextStyle = {
     color: "#000000",
     fontStyle: "Normal",
+    fontFamily: "Arial",
+    fontWeight: 400,
+    rows: 1,
+    lineHeight: 1.2,
+    fontSize: 14,
+  };
+
+  const styleForBody: iTextStyle = {
+    ...baseTextStyle,
+    fontSize: 14,
+  };
+
+  const styleForHeader: iTextStyle = {
+    ...baseTextStyle,
     fontSize: 24,
-    fontFamily: "Arial",
     fontWeight: 700,
-    rows: 2,
-    lineHeight: 1.2,
-  });
-  const [productNameZH, setProductNameZH] = useState<string>(
-    prop.selectLabelInfo.product_name_zh
-  );
-  const [productNameZHStyle, setProductNameZHStyle] = useState<iTextStyle>({
-    color: "#000000",
-    fontStyle: "Normal",
-    fontSize: 24,
-    fontFamily: "Arial",
-    fontWeight: 700,
-    rows: 2,
-    lineHeight: 1.2,
-  });
+  };
 
-  const [weight, setWeight] = useState<string>(prop.selectLabelInfo.weight);
+  const [productNameENStyle, setProductNameENStyle] =
+    useState<iTextStyle>(styleForHeader);
+  const [productNameZHStyle, setProductNameZHStyle] =
+    useState<iTextStyle>(styleForHeader);
 
-  const [weightStyle, setWeightStyle] = useState<iTextStyle>({
-    color: "#000000",
-    fontStyle: "Normal",
-    fontSize: 14,
-    fontFamily: "Arial",
-    fontWeight: 400,
-    rows: 1,
-    lineHeight: 1.2,
-  });
-  const [caseQuantity, setCaseQuantity] = useState<number>(
-    prop.selectLabelInfo.case_quantity
-  );
-  const [caseUnit, setCaseUnit] = useState<string>(
-    prop.selectLabelInfo.case_unit
-  );
-  const [storage, setStorage] = useState<string>(prop.selectLabelInfo.storage);
-  const [storageStyle, setStorageStyle] = useState<iTextStyle>({
-    color: "#000000",
-    fontStyle: "Normal",
-    fontSize: 14,
-    fontFamily: "Arial",
-    fontWeight: 400,
-    rows: 1,
-    lineHeight: 1.2,
-  });
-  const [shelfLife, setShelfLife] = useState<string>(
-    prop.selectLabelInfo.shelf_life
-  );
-  const [caseGtin, setCaseGtin] = useState<string>(
-    prop.selectLabelInfo.case_gtin
-  );
-  const [ingredient, setIngredient] = useState<string>(
-    prop.selectLabelInfo.ingredient
-  );
-  const [allergen, setAllergen] = useState<string>(
-    prop.selectLabelInfo.allergen
-  );
-  const [allergenStyle, setAllergenStyle] = useState<iTextStyle>({
-    color: "#000000",
-    fontStyle: "Normal",
-    fontSize: 14,
-    fontFamily: "Arial",
-    fontWeight: 400,
-    rows: 1,
-    lineHeight: 1.2,
-  });
-  const [ingredientStyle, setIngredientStyle] = useState<iTextStyle>({
-    color: "#000000",
-    fontStyle: "Normal",
-    fontSize: 14,
-    fontFamily: "Arial",
-    fontWeight: 400,
-    rows: 4,
-    lineHeight: 1.2,
-  });
-  const [barcode, setBarcode] = useState<string>(prop.selectLabelInfo.barcode);
+  const [weightStyle, setWeightStyle] = useState<iTextStyle>(styleForBody);
 
-  const [manufactured, setManufactured] = useState<string>(
-    prop.selectLabelInfo.manufactured
-  );
+  const [storageStyle, setStorageStyle] = useState<iTextStyle>(styleForBody);
 
-  const [manufacturedStyle, setManufacturedStyle] = useState<iTextStyle>({
-    color: "#000000",
-    fontStyle: "Normal",
-    fontSize: 14,
-    fontFamily: "Arial",
-    fontWeight: 400,
-    rows: 1,
-    lineHeight: 1.2,
-  });
+  const [allergenStyle, setAllergenStyle] = useState<iTextStyle>(styleForBody);
+  const [ingredientStyle, setIngredientStyle] =
+    useState<iTextStyle>(styleForBody);
+
+  const [manufacturedStyle, setManufacturedStyle] =
+    useState<iTextStyle>(styleForBody);
+
   const [submitClicked, setSubmitClicked] = useState<boolean>(false);
 
   const [formError, setFormError] = useState<formState>({
@@ -175,23 +103,23 @@ const LabelEditCard: FC<iProps> = (prop) => {
   const [showBorder, setShowBorder] = useState<boolean>(true);
   const labelInput = {
     id: prop.selectLabelInfo.id,
-    logo: logo,
-    item_code: itemCode, // Add appropriate value
-    customer_item_code: customerItemCode,
-    lot_number: lotNumber, // Add appropriate value
-    product_name_en: productNameEN,
-    product_name_zh: productNameZH,
-    weight: weight,
-    case_quantity: caseQuantity,
-    case_unit: caseUnit,
-    storage: storage,
-    shelf_life: shelfLife,
-    case_gtin: caseGtin,
-    ingredient: ingredient,
-    manufactured: manufactured,
-    label_temp: labelTemp,
-    allergen: allergen,
-    barcode: barcode,
+    logo: labelState.logo,
+    item_code: labelState.item_code, // Add appropriate value
+    customer_item_code: labelState.customer_item_code,
+    lot_number: labelState.lot_number, // Add appropriate value
+    product_name_en: labelState.product_name_en,
+    product_name_zh: labelState.product_name_zh,
+    weight: labelState.weight,
+    case_quantity: labelState.case_quantity,
+    case_unit: labelState.case_unit,
+    storage: labelState.storage,
+    shelf_life: labelState.shelf_life,
+    case_gtin: labelState.case_gtin,
+    ingredient: labelState.ingredient,
+    manufactured: labelState.manufactured,
+    label_temp: labelState.label_temp,
+    allergen: labelState.allergen,
+    barcode: labelState.barcode,
   };
 
   useEffect(() => {
@@ -199,70 +127,74 @@ const LabelEditCard: FC<iProps> = (prop) => {
     if (!submitClicked) return;
     const validations = [
       {
-        field: itemCode,
+        field: labelState.item_code,
         message: "Item code is required",
         locale: "item_code",
       },
       {
-        field: productNameEN,
+        field: labelState.product_name_en,
         message: "Product Name (English) is required",
         locale: "product_name_en",
       },
       {
-        field: productNameZH,
+        field: labelState.product_name_zh,
         message: "Product Name (Chinese) is required",
         locale: "product_name_zh",
       },
-      { field: weight, message: "Net Weight is required", locale: "weight" },
       {
-        field: caseQuantity,
+        field: labelState.weight,
+        message: "Net Weight is required",
+        locale: "weight",
+      },
+      {
+        field: labelState.case_quantity,
         message: "Case Quantity is required",
         locale: "case_quantity",
       },
       {
-        field: caseUnit,
+        field: labelState.case_unit,
         message: "Case Unit is required",
         locale: "case_unit",
       },
       {
-        field: storage,
+        field: labelState.storage,
         message: "Storage Requirements is required",
         locale: "storage",
       },
       {
-        field: shelfLife,
+        field: labelState.shelf_life,
         message: "Shelf Life is required",
         locale: "shelf_life",
       },
       {
-        field: allergen,
+        field: labelState.allergen,
         message: "Allergen is required",
         locale: "Allergen",
       },
       {
-        field: ingredient,
+        field: labelState.ingredient,
         message: "Ingredient Info is required",
         locale: "ingredient",
       },
       {
-        field: manufactured,
+        field: labelState.manufactured,
         message: "Manufactured For is required",
         locale: "manufactured",
       },
       {
-        field: barcode,
+        field: labelState.barcode,
         message: "Barcode For is required",
         locale: "barcode",
         validate: (value: string) => value?.length === 12,
       },
       {
-        field: caseGtin,
+        field: labelState.case_gtin,
         message: "Case GTIN is required and must be 12 characters",
         locale: "case_gtin",
         validate: (value: string) => value?.length === 12,
       },
-       {
-        field: lotNumber,
+      {
+        field: labelState.lot_number,
         message: "Lot Number",
         locale: "lot_number",
         validate: (value: string) => value?.length > 0 || value === "",
@@ -288,124 +220,135 @@ const LabelEditCard: FC<iProps> = (prop) => {
       locale: "",
     });
   }, [
-    itemCode,
-    productNameEN,
-    productNameZH,
-    weight,
-    caseQuantity,
-    caseUnit,
-    storage,
-    shelfLife,
-    caseGtin,
-    ingredient,
-    manufactured,
+    labelState.item_code,
+    labelState.product_name_en,
+    labelState.product_name_zh,
+    labelState.weight,
+    labelState.case_quantity,
+    labelState.case_unit,
+    labelState.storage,
+    labelState.shelf_life,
+    labelState.case_gtin,
+    labelState.ingredient,
+    labelState.manufactured,
     submitClicked,
-    allergen,
-    barcode,
-    lotNumber,
+    labelState.allergen,
+    labelState.barcode,
+    labelState.lot_number,
   ]);
+
+  const handleItemCodeChange = handleUpdate(
+    "item_code",
+    dispatch,
+    labelState.item_code
+  );
+  const handleCustomerItemCodeChange = handleUpdate(
+    "customer_item_code",
+    dispatch,
+    labelState.customer_item_code
+  );
+  const handleProductNameENChange = handleUpdate(
+    "product_name_en",
+    dispatch,
+    labelState.product_name_en
+  );
+  const handleProductNameZHChange = handleUpdate(
+    "product_name_zh",
+    dispatch,
+    labelState.product_name_zh
+  );
+  const handleWeightChange = handleUpdate(
+    "weight",
+    dispatch,
+    labelState.weight
+  );
+  const handleCaseQuantityChange = handleNumberUpdate(
+    "case_quantity",
+    dispatch,
+    labelState.case_quantity
+  );
+  const handleCaseUnitChange = handleUpdate(
+    "case_unit",
+    dispatch,
+    labelState.case_unit
+  );
+  const handleStorageChange = handleUpdate(
+    "storage",
+    dispatch,
+    labelState.storage
+  );
+  const handleShelfLifeChange = handleUpdate(
+    "shelf_life",
+    dispatch,
+    labelState.shelf_life
+  );
+  const handleCaseGtinChange = handleUpdate(
+    "case_gtin",
+    dispatch,
+    labelState.case_gtin
+  );
+  const handleIngredientChange = handleUpdate(
+    "ingredient",
+    dispatch,
+    labelState.ingredient
+  );
+  const handleAllergenChange = handleUpdate(
+    "allergen",
+    dispatch,
+    labelState.allergen
+  );
+  const handleManufacturedChange = handleUpdate(
+    "manufactured",
+    dispatch,
+    labelState.manufactured
+  );
+  const handleBarcodeChange = handleUpdate(
+    "barcode",
+    dispatch,
+    labelState.barcode
+  );
+  const handleLogoChange = handleUpdate("logo", dispatch, labelState.logo);
+  const handleLabelTempChange = handleUpdate(
+    "label_temp",
+    dispatch,
+    labelState.label_temp
+  );
+  const handleLotNumberChange = handleUpdate(
+    "lot_number",
+    dispatch,
+    labelState.lot_number
+  );
 
   useEffect(() => {
     if (labelStyle?.data?.[0]) {
-      const {
-        product_name_en,
-        product_name_zh,
-        weight,
-        ingredient,
-        manufactured,
-        storage,
-        allergen,
-      } = labelStyle.data[0];
+      const fields = [
+        { key: "product_name_en", setter: setProductNameENStyle },
+        { key: "product_name_zh", setter: setProductNameZHStyle },
+        { key: "weight", setter: setWeightStyle },
+        { key: "ingredient", setter: setIngredientStyle },
+        { key: "manufactured", setter: setManufacturedStyle },
+        { key: "storage", setter: setStorageStyle },
+        { key: "allergen", setter: setAllergenStyle },
+      ];
 
-      // Safe JSON parsing function
-      const safeParse = (value: string | unknown) => {
-        // Check if the value is a string before attempting to parse it
+      const safeParse = (value: unknown) => {
         if (typeof value === "string") {
           try {
             return JSON.parse(value);
-          } catch (error) {
-            console.error("Invalid JSON:", value, error);
-            return value; // Return original value if parsing fails
+          } catch {
+            return value;
           }
         }
-        // If the value is not a string, just return it as is
         return value;
       };
 
-      const productNameEnObj = safeParse(product_name_en);
-      const productNameZhObj = safeParse(product_name_zh);
-      const weightObj = safeParse(weight);
-      const ingredientObj = safeParse(ingredient);
-      const manufacturedObj = safeParse(manufactured);
-      const storageObj = safeParse(storage);
-      const allergenObj = safeParse(allergen);
-
-      setProductNameENStyle((prevStyle) => ({
-        ...prevStyle,
-        color: productNameEnObj?.color,
-        fontStyle: productNameEnObj?.fontStyle,
-        fontSize: productNameEnObj?.fontSize,
-        fontFamily: productNameEnObj?.fontFamily,
-        fontWeight: productNameEnObj?.fontWeight,
-        rows: productNameEnObj?.rows,
-        lineHeight: productNameEnObj?.lineHeight,
-      }));
-      setProductNameZHStyle((prevStyle) => ({
-        ...prevStyle,
-        color: productNameZhObj?.color,
-        fontStyle: productNameZhObj?.fontStyle,
-        fontSize: productNameZhObj?.fontSize,
-        fontFamily: productNameZhObj?.fontFamily,
-        fontWeight: productNameZhObj?.fontWeight,
-        rows: productNameZhObj?.rows,
-        lineHeight: productNameZhObj?.lineHeight,
-      }));
-      setWeightStyle((prevStyle) => ({
-        ...prevStyle,
-        color: weightObj?.color,
-        fontStyle: weightObj?.fontStyle,
-        fontSize: weightObj?.fontSize,
-        fontFamily: weightObj?.fontFamily,
-        fontWeight: weightObj?.fontWeight,
-      }));
-      setIngredientStyle((prevStyle) => ({
-        ...prevStyle,
-        color: ingredientObj?.color,
-        fontStyle: ingredientObj?.fontStyle,
-        fontSize: ingredientObj?.fontSize,
-        fontFamily: ingredientObj?.fontFamily,
-        fontWeight: ingredientObj?.fontWeight,
-        rows: ingredientObj?.rows,
-        lineHeight: ingredientObj?.lineHeight,
-      }));
-      setManufacturedStyle((prevStyle) => ({
-        ...prevStyle,
-        color: manufacturedObj?.color,
-        fontStyle: manufacturedObj?.fontStyle,
-        fontSize: manufacturedObj?.fontSize,
-        fontFamily: manufacturedObj?.fontFamily,
-        fontWeight: manufacturedObj?.fontWeight,
-        rows: manufacturedObj?.rows,
-        lineHeight: manufacturedObj?.lineHeight,
-      }));
-      setStorageStyle((prevStyle) => ({
-        ...prevStyle,
-        color: storageObj?.color,
-        fontStyle: storageObj?.fontStyle,
-        fontSize: storageObj?.fontSize,
-        fontFamily: storageObj?.fontFamily,
-        fontWeight: storageObj?.fontWeight,
-      }));
-      setAllergenStyle((prevStyle) => ({
-        ...prevStyle,
-        color: allergenObj?.color,
-        fontStyle: allergenObj?.fontStyle,
-        fontSize: allergenObj?.fontSize,
-        fontFamily: allergenObj?.fontFamily,
-        fontWeight: allergenObj?.fontWeight,
-        rows: allergenObj?.rows,
-        lineHeight: allergenObj?.lineHeight,
-      }));
+      fields.forEach(({ key, setter }) => {
+        const styleObj = safeParse(labelStyle.data[0][key]);
+        setter((prevStyle: iTextStyle) => ({
+          ...prevStyle,
+          ...styleObj,
+        }));
+      });
     }
   }, [labelStyle]);
 
@@ -497,7 +440,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
           event: "delete label",
           username: prop.userName,
           role: prop.userRole,
-          label_code: itemCode,
+          label_code: labelState.item_code,
           created_at: new Date(),
         });
         setTimeout(() => {
@@ -517,94 +460,38 @@ const LabelEditCard: FC<iProps> = (prop) => {
     }
   };
 
+  const styleSetters: Partial<Record<iEditedMode, React.Dispatch<React.SetStateAction<iTextStyle>>>> = {
+    [iEditedMode.productNameEn]: setProductNameENStyle,
+    [iEditedMode.productNameZh]: setProductNameZHStyle,
+    [iEditedMode.weight]: setWeightStyle,
+    [iEditedMode.ingredient]: setIngredientStyle,
+    [iEditedMode.storage]: setStorageStyle,
+    [iEditedMode.manufactured]: setManufacturedStyle,
+    [iEditedMode.allergen]: setAllergenStyle,
+    // Add more if needed
+  };
+
+  const numberFields = [
+    iTextStyleMode.fontSize,
+    iTextStyleMode.fontWeight,
+    iTextStyleMode.rows,
+    iTextStyleMode.lineHeight,
+  ];
+
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     dataType: iEditedMode,
     styleType: iTextStyleMode
   ) => {
-    if (dataType === iEditedMode.productNameEn) {
-      const value =
-        styleType === iTextStyleMode.fontSize ||
-        styleType === iTextStyleMode.fontWeight ||
-        styleType === iTextStyleMode.rows ||
-        styleType === iTextStyleMode.lineHeight
-          ? Number(event.target.value) // Convert to number for fontSize or fontWeight
-          : event.target.value; // Keep as string for other properties
-      setProductNameENStyle((prevStyle) => ({
-        ...prevStyle,
-        [styleType]: value, // Dynamically update the style property based on styleType
-      }));
-    } else if (dataType === iEditedMode.productNameZh) {
-      const value =
-        styleType === iTextStyleMode.fontSize ||
-        styleType === iTextStyleMode.fontWeight ||
-        styleType === iTextStyleMode.rows ||
-        styleType === iTextStyleMode.lineHeight
-          ? Number(event.target.value) // Convert to number for fontSize or fontWeight
-          : event.target.value; // Keep as string for other properties
-
-      setProductNameZHStyle((prevStyle) => ({
-        ...prevStyle,
-        [styleType]: value, // Dynamically update the style property based on styleType
-      }));
-    } else if (dataType === iEditedMode.weight) {
-      const value =
-        styleType === iTextStyleMode.fontSize ||
-        styleType === iTextStyleMode.fontWeight
-          ? Number(event.target.value) // Convert to number for fontSize or fontWeight
-          : event.target.value; // Keep as string for other properties
-
-      setWeightStyle((prevStyle) => ({
-        ...prevStyle,
-        [styleType]: value, // Dynamically update the style property based on styleType
-      }));
-    } else if (dataType === iEditedMode.ingredient) {
-      const value =
-        styleType === iTextStyleMode.fontSize ||
-        styleType === iTextStyleMode.fontWeight ||
-        styleType === iTextStyleMode.rows ||
-        styleType === iTextStyleMode.lineHeight
-          ? Number(event.target.value) // Convert to number for fontSize or fontWeight
-          : event.target.value; // Keep as string for other properties
-      setIngredientStyle((prevStyle) => ({
-        ...prevStyle,
-        [styleType]: value, // Dynamically update the style property based on styleType
-      }));
-    } else if (dataType === iEditedMode.storage) {
-      const value =
-        styleType === iTextStyleMode.fontSize ||
-        styleType === iTextStyleMode.fontWeight
-          ? Number(event.target.value) // Convert to number for fontSize or fontWeight
-          : event.target.value; // Keep as string for other properties
-      setStorageStyle((prevStyle) => ({
-        ...prevStyle,
-        [styleType]: value, // Dynamically update the style property based on styleType
-      }));
-    } else if (dataType === iEditedMode.manufactured) {
-      const value =
-        styleType === iTextStyleMode.fontSize ||
-        styleType === iTextStyleMode.fontWeight ||
-        styleType === iTextStyleMode.rows ||
-        styleType === iTextStyleMode.lineHeight
-          ? Number(event.target.value) // Convert to number for fontSize or fontWeight
-          : event.target.value; // Keep as string for other properties
-      setManufacturedStyle((prevStyle) => ({
-        ...prevStyle,
-        [styleType]: value, // Dynamically update the style property based on styleType
-      }));
-    } else if (dataType === iEditedMode.allergen) {
-      const value =
-        styleType === iTextStyleMode.fontSize ||
-        styleType === iTextStyleMode.fontWeight ||
-        styleType === iTextStyleMode.rows ||
-        styleType === iTextStyleMode.lineHeight
-          ? Number(event.target.value) // Convert to number for fontSize or fontWeight
-          : event.target.value; // Keep as string for other properties
-      setAllergenStyle((prevStyle) => ({
-        ...prevStyle,
-        [styleType]: value, // Dynamically update the style property based on styleType
-      }));
-    }
+    const setter = styleSetters[dataType];
+    if (!setter) return;
+    const value = numberFields.includes(styleType)
+      ? Number(event.target.value)
+      : event.target.value;
+    setter((prevStyle) => ({
+      ...prevStyle,
+      [styleType]: value,
+    }));
   };
   //   const handleOutsideClick = (
   //     event: MouseEvent | TouchEvent,
@@ -729,41 +616,41 @@ const LabelEditCard: FC<iProps> = (prop) => {
           <CircularProgress />
         ) : (
           <LabelCard
-            type={labelTemp}
+            type={labelState.label_temp}
             ref={contentRef}
-            logo={logo}
-            itemCode={itemCode}
-            setItemCode={setItemCode}
-            customerItemCode={customerItemCode}
-            setCustomerItemCode={setCustomerItemCode}
-            lotNumber={lotNumber}
-            setLotNumber={setLotNumber}
-            setLogo={setLogo}
+            logo={labelState.logo}
+            itemCode={labelState.item_code}
+            setItemCode={handleItemCodeChange}
+            customerItemCode={labelState.customer_item_code}
+            setCustomerItemCode={handleCustomerItemCodeChange}
+            lotNumber={labelState.lot_number}
+            setLotNumber={handleLotNumberChange}
+            setLogo={handleLogoChange}
             labelInput={labelInput}
             showProductNameEN={true}
             showProductNameZH={true}
             isEditedMode={true}
-            setProductNameEN={setProductNameEN}
-            setProductNameZH={setProductNameZH}
-            productNameEN={productNameEN}
-            productNameZH={productNameZH}
-            setIngredient={setIngredient}
-            ingredient={ingredient}
-            allergen={allergen}
-            setAllergen={setAllergen}
+            setProductNameEN={handleProductNameENChange}
+            setProductNameZH={handleProductNameZHChange}
+            productNameEN={labelState.product_name_en}
+            productNameZH={labelState.product_name_zh}
+            setIngredient={handleIngredientChange}
+            ingredient={labelState.ingredient}
+            allergen={labelState.allergen}
+            setAllergen={handleAllergenChange}
             allergenStyle={allergenStyle}
-            setWeight={setWeight}
-            weight={weight}
-            caseQuantity={caseQuantity}
-            setCaseQuantity={setCaseQuantity}
-            caseUnit={caseUnit}
-            setCaseUnit={setCaseUnit}
-            storage={storage}
-            setStorage={setStorage}
-            barcode={barcode}
-            setBarcode={setBarcode}
-            setManufactured={setManufactured}
-            manufactured={manufactured}
+            setWeight={handleWeightChange}
+            weight={labelState.weight}
+            caseQuantity={labelState.case_quantity}
+            setCaseQuantity={handleCaseQuantityChange}
+            caseUnit={labelState.case_unit}
+            setCaseUnit={handleCaseUnitChange}
+            storage={labelState.storage}
+            setStorage={handleStorageChange}
+            barcode={labelState.barcode}
+            setBarcode={handleBarcodeChange}
+            setManufactured={handleManufacturedChange}
+            manufactured={labelState.manufactured}
             editMode={prop.editMode}
             setEditMode={prop.setEditMode}
             productNameENStyle={productNameENStyle}
@@ -781,40 +668,40 @@ const LabelEditCard: FC<iProps> = (prop) => {
         <LabelForm
           isEditedView={true}
           id={prop.selectLabelInfo.id}
-          logo={logo}
-          setLogo={setLogo}
-          itemCode={itemCode}
-          setItemCode={setItemCode}
-          customerItemCode={customerItemCode}
-          setCustomerItemCode={setCustomerItemCode}
-          lotNumber={lotNumber}
-          setLotNumber={setLotNumber}
-          productNameEN={productNameEN}
-          setProductNameEN={setProductNameEN}
-          productNameZH={productNameZH}
-          setProductNameZH={setProductNameZH}
-          ingredient={ingredient}
-          setIngredient={setIngredient}
-          weight={weight}
-          setWeight={setWeight}
-          caseQuantity={caseQuantity}
-          setCaseQuantity={setCaseQuantity}
-          caseUnit={caseUnit}
-          setCaseUnit={setCaseUnit}
-          caseGtin={caseGtin}
-          setCaseGtin={setCaseGtin}
-          manufactured={manufactured}
-          setManufactured={setManufactured}
-          storage={storage}
-          setStorage={setStorage}
-          barcode={barcode}
-          setBarcode={setBarcode}
-          shelfLife={shelfLife}
-          setShelfLife={setShelfLife}
-          labelTemp={labelTemp}
-          setLabelTemp={setLabelTemp}
-          allergen={allergen}
-          setAllergen={setAllergen}
+          logo={labelState.logo}
+          setLogo={handleLogoChange}
+          itemCode={labelState.item_code}
+          setItemCode={handleItemCodeChange}
+          customerItemCode={labelState.customer_item_code}
+          setCustomerItemCode={handleCustomerItemCodeChange}
+          lotNumber={labelState.lot_number}
+          setLotNumber={handleLotNumberChange}
+          productNameEN={labelState.product_name_en}
+          setProductNameEN={handleProductNameENChange}
+          productNameZH={labelState.product_name_zh}
+          setProductNameZH={handleProductNameZHChange}
+          ingredient={labelState.ingredient}
+          setIngredient={handleIngredientChange}
+          weight={labelState.weight}
+          setWeight={handleWeightChange}
+          caseQuantity={labelState.case_quantity}
+          setCaseQuantity={handleCaseQuantityChange}
+          caseUnit={labelState.case_unit}
+          setCaseUnit={handleCaseUnitChange}
+          caseGtin={labelState.case_gtin}
+          setCaseGtin={handleCaseGtinChange}
+          manufactured={labelState.manufactured}
+          setManufactured={handleManufacturedChange}
+          storage={labelState.storage}
+          setStorage={handleStorageChange}
+          barcode={labelState.barcode}
+          setBarcode={handleBarcodeChange}
+          shelfLife={labelState.shelf_life}
+          setShelfLife={handleShelfLifeChange}
+          labelTemp={labelState.label_temp}
+          setLabelTemp={handleLabelTempChange}
+          allergen={labelState.allergen}
+          setAllergen={handleAllergenChange}
           formError={formError}
           editMode={prop.editMode}
           setEditMode={prop.setEditMode}

@@ -66,6 +66,7 @@ interface iProp {
   logo: string;
   showBorder: boolean;
   showLotNumber?: boolean;
+  bestBefore?: string;
 }
 export type Ref = HTMLDivElement;
 
@@ -373,7 +374,6 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               style={lotNumberStyle}
               readonly={isEditedMode === false}
               width={prop.lotNumber ? autoWidth(prop.lotNumber) : 40}
-              minWidth={40}
               height={autoHeight(14)}
               showBorder={prop.showBorder}
               editMode={prop.editMode}
@@ -385,11 +385,11 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
         )}
         <EditableTextField
           name={iEditedMode.storage}
-          value={prop.storage}
+          value={prop.storage??""}
           onChange={prop.setStorage}
           style={storageStyle}
           readonly={isEditedMode === false}
-          width={autoWidth(prop.storage as string)}
+          width={prop.storage?autoWidth(prop.storage):40}
           height={autoHeight(14)}
           showBorder={prop.showBorder}
           editMode={prop.editMode}
@@ -402,16 +402,16 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
       <InfomationWrapper>
         <Col width={"50%"} gap={4}>
           <Row alignItems="center" width="100%">
-            <Typography variant="body2" width={200} fontWeight={700}>
+            <Typography variant="body2" width={"auto"} fontWeight={700}>
               Best Before :
             </Typography>
             <EditableTextField
               name={iEditedMode.bestBefore}
-              value={""}
-              onChange={prop.setStorage}
+              value={prop.bestBefore ?? ""}
+              // onChange={prop.setStorage}
               style={storageStyle}
               readonly={isEditedMode === false}
-              width={95}
+              width={prop.bestBefore?autoWidth(prop.bestBefore):40}
               height={autoHeight(14)}
               showBorder={prop.showBorder}
               editMode={prop.editMode}

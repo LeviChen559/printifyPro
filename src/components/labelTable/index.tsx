@@ -288,7 +288,7 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
                 >
                   {row.storage}
                 </TableCell>
-                <TableCell align="left" sx={tableCellStyle(110,undefined)}>{row.shelf_life} days</TableCell>
+                <TableCell align="left" sx={tableCellStyle(110,undefined)}>{row.shelf_life}</TableCell>
                 <TableCell align="left" sx={tableCellStyle(50,undefined)}>{row.case_gtin}</TableCell>
                 <TableCell align="left" sx={tableCellStyle(50,undefined)}>{row.manufactured}</TableCell>
                 <TableCell align="left" sx={tableCellStyle(50,undefined)}>{row.label_temp}</TableCell>

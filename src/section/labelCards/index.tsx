@@ -1,4 +1,4 @@
-import React, { forwardRef, Dispatch, SetStateAction } from "react";
+import React, { forwardRef, Dispatch, SetStateAction,useEffect } from "react";
 import LabelCard4_4_a from "@/section/labelCards/4_4_a";
 import LabelCard4_6_a from "@/section/labelCards/4_6_a";
 import LabelCard4_4_b from "@/section/labelCards/4_4_b";
@@ -60,9 +60,41 @@ interface iProps {
   showLotNumber?: boolean;
 }
 
-
 export type Ref = HTMLDivElement;
 const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
+const [bestBefore, setBestBefore] = React.useState<string>("");
+
+useEffect(() => {
+  const shelfLife = prop.labelInput.shelf_life;
+
+  const getShelfDays = (shelfLife: string): number | null => {
+    if (!shelfLife) return null;
+
+    if (shelfLife.includes("/")) {
+      const days = Number(shelfLife.split("/")[0].trim());
+      return isNaN(days) ? null : days;
+    }
+
+    if (shelfLife.toLowerCase().includes("days")) {
+      const num = parseInt(shelfLife.toLowerCase().replace("days", "").trim(), 10);
+      return isNaN(num) ? null : num;
+    }
+
+    return null;
+  };
+
+  const shelfDays = getShelfDays(shelfLife);
+  if (typeof shelfDays === "number") {
+    const today = new Date();
+    today.setDate(today.getDate() + shelfDays);
+    setBestBefore(today.toLocaleDateString());
+  } else {
+    setBestBefore("");
+  }
+}, [prop.labelInput.shelf_life]);
+
+
+
   return prop.type === "4x4_a" ? (
     <LabelCard4_4_a
       labelInfo={prop.labelInput}
@@ -106,6 +138,7 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       setAllergen={prop.setAllergen}
       showBorder={prop.showBorder}
       showLotNumber={prop.showLotNumber ?? true}
+      bestBefore={bestBefore}
     />
   ) : prop.type === "4x6_a" ? (
     <LabelCard4_6_a

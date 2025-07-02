@@ -122,7 +122,6 @@ const MyLabels = () => {
     }
   };
 
-  console.log("selectLabelInfo", selectLabelInfo);
 
   if (status === "loading") {
     return (
