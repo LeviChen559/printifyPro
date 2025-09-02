@@ -212,16 +212,16 @@ const AddNew = () => {
     fetcher
   );
   const lastItem = labelData && labelData[0];
-  const isUniqueItemCode =
-    labelData &&
-    labelData.some((item: iLabelInfo) => item.item_code !== itemCode);
+const isUniqueItemCode =
+  labelData &&
+  !labelData.some((item: iLabelInfo) => item.item_code === itemCode);
 
   const contentRef = useRef<HTMLDivElement>(null);
 
   const labelInput = {
     id: lastItem && lastItem.id + 1, // Add appropriate value
     logo: logo,
-    item_code: isUniqueItemCode && itemCode, // Add appropriate value
+    item_code: isUniqueItemCode ? itemCode : "0000", // Add appropriate value
     customer_item_code: customerItemCode,
     lot_number: lotNumber,
     product_name_en: productNameEN,

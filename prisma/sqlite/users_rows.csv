@@ -1,0 +1,4 @@
+id,email,name,password,role,created_at
+1,levi.cyj@gmail.com,Levi,$2a$10$cCnyQvBRZGly3lYpfyooeOc00cXZLgLtdQKNTXItgmYJnTwjvFlP.,admin,2024-10-26
+2,jason@gmail.com,Jason,$2a$10$wF5RUQtjdqPcP7WaVO7XJuZVieekOslUTSpGlEBPKk4a8SPW4cdw2,user,2024-10-31
+3,conan@gmail.com,Conan,$2a$10$wF5RUQtjdqPcP7WaVO7XJuZVieekOslUTSpGlEBPKk4a8SPW4cdw2,admin,2024-11-13

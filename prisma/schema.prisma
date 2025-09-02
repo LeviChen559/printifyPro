@@ -3,24 +3,23 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL_pgbouncer")
-  directUrl = env("POSTGRES_URL_NON_POOLING")
+  provider  = "sqlite"
+  url       = env("SQLITE_DATABASE_URL")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model activities {
-  id         Int      @id @unique @default(autoincrement()) @db.SmallInt
-  label_code String   @db.VarChar
-  event      String   @db.VarChar
-  created_at DateTime @default(now()) @db.Timestamptz(6)
-  username   String   @db.VarChar
-  role       String   @db.VarChar
+  id         Int      @id @unique @default(autoincrement())
+  label_code String   
+  event      String   
+  created_at DateTime @default(now()) 
+  username   String   
+  role       String   
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model mylabels {
-  id                 Int     @id @unique @default(autoincrement()) @db.SmallInt
+  id                 Int     @id @unique @default(autoincrement()) 
   logo               String
   item_code          String
   lot_number         String?
@@ -28,7 +27,7 @@ model mylabels {
   product_name_en    String
   product_name_zh    String
   weight             String
-  case_quantity      Int     @db.SmallInt
+  case_quantity      Int     
   case_unit          String
   storage            String
   shelf_life         String?
@@ -42,17 +41,17 @@ model mylabels {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model users {
-  id         Int        @id @unique @default(autoincrement()) @db.SmallInt
-  email      String     @db.VarChar
-  name       String     @db.VarChar
-  password   String     @db.VarChar
-  role       users_role
-  created_at DateTime   @db.Date
+  id         Int      @id @default(autoincrement())
+  email      String
+  name       String
+  password   String
+  role       String
+  created_at String
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model labelstyle {
-  id              Int  @id(map: "labelstyle_pkey1") @unique(map: "labelstyle_id_key1") @db.SmallInt
+  id              Int   @id @default(autoincrement()) @unique
   item_code       Json
   lot_number      Json
   product_name_en Json
