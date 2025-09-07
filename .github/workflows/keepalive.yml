@@ -11,4 +11,10 @@ jobs:
     steps:
       - name: Ping Next.js Keep-Alive Endpoint
         run: |
-          curl -s https://printify-pro-phi.vercel.app/api/keepalive
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://printify-pro-phi.vercel.app/api/keepalive)
+          if [ "$STATUS" -eq 200 ]; then
+            echo "✅ Keep-alive successful"
+          else
+            echo "❌ Keep-alive failed with status $STATUS"
+            exit 1
+          fi
