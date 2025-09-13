@@ -96,15 +96,26 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
     }
   }, [prop.labelInput.shelf_life]);
 
-  useEffect(() => {
-    if (!prop.lotNumber) {
-      const JulianDate = new Date();
-      JulianDate.setDate(JulianDate.getDate() + 1);
-      if (prop.setLotNumber) {
-        prop.setLotNumber(JulianDate.toISOString().slice(0, 10));
-      }
+useEffect(() => {
+  if (!prop.lotNumber) {
+    const date = new Date();
+    date.setDate(date.getDate() + 1); // tomorrow
+
+    // Compute day of the year
+    const start = new Date(date.getFullYear(), 0, 0);
+    const diff = date.getTime() - start.getTime();
+    const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+    // Format as YYDDD
+    const yy = String(date.getFullYear()).slice(-2);
+    const ddd = String(dayOfYear).padStart(3, '0');
+    const julian5 = yy + ddd;
+
+    if (prop.setLotNumber) {
+      prop.setLotNumber(julian5);
     }
-  }, [prop.lotNumber, prop.setLotNumber]);
+  }
+}, [prop.lotNumber, prop.setLotNumber]);
 
   return prop.type === "4x4_a" ? (
     <LabelCard4_4_a
