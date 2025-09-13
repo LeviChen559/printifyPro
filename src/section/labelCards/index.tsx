@@ -1,4 +1,4 @@
-import React, { forwardRef, Dispatch, SetStateAction,useEffect } from "react";
+import React, { forwardRef, Dispatch, SetStateAction, useEffect } from "react";
 import LabelCard4_4_a from "@/section/labelCards/4_4_a";
 import LabelCard4_6_a from "@/section/labelCards/4_6_a";
 import LabelCard4_4_b from "@/section/labelCards/4_4_b";
@@ -62,38 +62,49 @@ interface iProps {
 
 export type Ref = HTMLDivElement;
 const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
-const [bestBefore, setBestBefore] = React.useState<string>("");
+  const [bestBefore, setBestBefore] = React.useState<string>("");
 
-useEffect(() => {
-  const shelfLife = prop.labelInput.shelf_life;
+  useEffect(() => {
+    const shelfLife = prop.labelInput.shelf_life;
 
-  const getShelfDays = (shelfLife: string): number | null => {
-    if (!shelfLife) return null;
+    const getShelfDays = (shelfLife: string): number | null => {
+      if (!shelfLife) return null;
 
-    if (shelfLife.includes("/")) {
-      const days = Number(shelfLife.split("/")[0].trim());
-      return isNaN(days) ? null : days;
+      if (shelfLife.includes("/")) {
+        const days = Number(shelfLife.split("/")[0].trim());
+        return isNaN(days) ? null : days;
+      }
+
+      if (shelfLife.toLowerCase().includes("days")) {
+        const num = parseInt(
+          shelfLife.toLowerCase().replace("days", "").trim(),
+          10
+        );
+        return isNaN(num) ? null : num;
+      }
+
+      return null;
+    };
+
+    const shelfDays = getShelfDays(shelfLife);
+    if (typeof shelfDays === "number") {
+      const today = new Date();
+      today.setDate(today.getDate() + shelfDays);
+      setBestBefore(today.toLocaleDateString());
+    } else {
+      setBestBefore("");
     }
+  }, [prop.labelInput.shelf_life]);
 
-    if (shelfLife.toLowerCase().includes("days")) {
-      const num = parseInt(shelfLife.toLowerCase().replace("days", "").trim(), 10);
-      return isNaN(num) ? null : num;
+  useEffect(() => {
+    if (!prop.lotNumber) {
+      const JulianDate = new Date();
+      JulianDate.setDate(JulianDate.getDate() + 1);
+      if (prop.setLotNumber) {
+        prop.setLotNumber(JulianDate.toISOString().slice(0, 10));
+      }
     }
-
-    return null;
-  };
-
-  const shelfDays = getShelfDays(shelfLife);
-  if (typeof shelfDays === "number") {
-    const today = new Date();
-    today.setDate(today.getDate() + shelfDays);
-    setBestBefore(today.toLocaleDateString());
-  } else {
-    setBestBefore("");
-  }
-}, [prop.labelInput.shelf_life]);
-
-
+  }, [prop.lotNumber, prop.setLotNumber]);
 
   return prop.type === "4x4_a" ? (
     <LabelCard4_4_a

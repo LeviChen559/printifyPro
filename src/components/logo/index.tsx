@@ -18,7 +18,7 @@ interface iProps {
 const LabelLogo: FC<iProps> = (prop) => {
   return (
     <Container>
-      {prop.logo === "001" ? (
+      {prop.logo === "hons" ? (
         <Image
           src={HonsLogo}
           alt="Hons"
@@ -26,7 +26,7 @@ const LabelLogo: FC<iProps> = (prop) => {
           height={30}
           style={{ objectFit: "cover" }}
         />
-      ) : prop.logo === "002" ? (
+      ) : prop.logo === "sunningfoods" ? (
         <Image
           src={sunningfoods}
           alt="Sunning foods"
@@ -34,7 +34,7 @@ const LabelLogo: FC<iProps> = (prop) => {
           height={55}
           style={{ objectFit: "cover" }}
         />
-      ) : prop.logo === "003" ? (
+      ) : prop.logo === "shinsenna" ? (
         <Image
           src={shinsenna}
           alt="Shinsenna"
