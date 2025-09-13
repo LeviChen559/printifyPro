@@ -328,7 +328,7 @@ const LabelForm: FC<iProps> = (prop) => {
           /> */}
         </Box>
         <Box display={"flex"} flexDirection={"row"} flexWrap={"nowrap"} gap={1}>
-          <FormPropsTextFields
+          {/* <FormPropsTextFields
             id="storage"
             label="Storage"
             value={prop.storage??""}
@@ -348,8 +348,8 @@ const LabelForm: FC<iProps> = (prop) => {
             }
             onClick={() => prop.setEditMode(iEditedMode.storage)}
             sx={commonTextFieldStyles(iEditedMode.storage)}
-          />
-          {/* <DropdownMenu
+          /> */}
+          <DropdownMenu
             type="storage"
             value={prop.storage}
             onChange={prop.setStorage}
@@ -362,7 +362,7 @@ const LabelForm: FC<iProps> = (prop) => {
                 : ""
             }
             width="60%"
-          /> */}
+          />
           <FormPropsTextFields
             id="shelf_life"
             label="Shelf Life"
