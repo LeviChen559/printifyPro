@@ -262,7 +262,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
         </Col>
         <Col alignItems="flex-start" gap={4}>
           <Typography variant="body2" width={200} fontWeight={700}>
-            For All Ingredients:
+            Ingredients:
           </Typography>
           <EditableTextareaField
             name={iEditedMode.ingredient}

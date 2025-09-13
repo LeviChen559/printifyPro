@@ -37,7 +37,7 @@ const DROPDOWN_OPTIONS = {
   weight_unit: Object.values(WeightUnitType),
   case_unit: Object.values(CaseUnitType),
   storage: Object.values(StorageType),
-  logo: ["001", "002", "003", "004"],
+  logo: ["hons", "sunningfoods", "shinsenna", "viethuong"],
   labelSize: ["4x4_a", "4x4_b", "4x6_a"],
 } as const;
 
