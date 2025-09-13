@@ -180,7 +180,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
   return (
     <Container id="labelCard" ref={ref}>
       <Header>
-        <LabelLogo logo={prop.logo} />
+        <LabelLogo logo={prop.logo} isTable={false} />
         <div
           style={{
             display: "flex",

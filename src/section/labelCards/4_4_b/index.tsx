@@ -129,7 +129,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
     <Container id="labelCard" ref={ref}>
       <Header>
         <Col width={60} alignItems="center" gap={8}>
-          <LabelLogo logo={prop.logo} />
+          <LabelLogo logo={prop.logo} isTable={false}/>
           <EditableTextField
             name={iEditedMode.itemCode}
             value={prop.itemCode}
