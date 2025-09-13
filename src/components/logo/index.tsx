@@ -1,7 +1,4 @@
-// import RamenDiningIcon from "@mui/icons-material/RamenDining";
-// import EggAltIcon from "@mui/icons-material/EggAlt";
-// import AcUnitIcon from "@mui/icons-material/AcUnit";
-// import AgricultureIcon from "@mui/icons-material/Agriculture";
+
 import { FC } from "react";
 import Image from "next/image";
 import HonsLogo from "@/assets/honsLogo.webp";
@@ -16,41 +13,29 @@ interface iProps {
 }
 
 const LabelLogo: FC<iProps> = (prop) => {
+  const logos = {
+    hons: { src: HonsLogo, alt: "Hons", width: 260 / 3.5, height: 130 / 3.5 },
+    sunningfoods: {
+      src: sunningfoods,
+      alt: "Sunning foods",
+      width: 335/4,
+      height: 295/4,
+    },
+    shinsenna: { src: shinsenna, alt: "Shinsenna", width: 238/3, height: 296/3 },
+    viethuong: { src: viethuong, alt: "Viet Huong", width: 415/4, height: 158/4 },
+  };
+
+  const logoKey = (prop.logo in logos ? prop.logo : "viethuong") as keyof typeof logos;
+  const { src, alt, width, height } = logos[logoKey];
   return (
     <Container>
-      {prop.logo === "hons" ? (
-        <Image
-          src={HonsLogo}
-          alt="Hons"
-          width={60}
-          height={30}
-          style={{ objectFit: "cover" }}
-        />
-      ) : prop.logo === "sunningfoods" ? (
-        <Image
-          src={sunningfoods}
-          alt="Sunning foods"
-          width={60}
-          height={55}
-          style={{ objectFit: "cover" }}
-        />
-      ) : prop.logo === "shinsenna" ? (
-        <Image
-          src={shinsenna}
-          alt="Shinsenna"
-          width={45}
-          height={55}
-          style={{ objectFit: "cover" }}
-        />
-      ) : (
-        <Image
-          src={viethuong}
-          alt="Viet Huong"
-          width={60}
-          height={25}
-          style={{ objectFit: "cover" }}
-        />
-      )}
+      <Image
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        style={{ objectFit: "cover" }}
+      />
     </Container>
   );
 };
