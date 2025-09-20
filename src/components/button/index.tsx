@@ -11,6 +11,7 @@ interface iProps {
   formAction?: () => void;
   type?: "submit" | "reset" | "button";
   backgroundColor?: string;
+  hoverBackgroundColor?: string;
   justifyContent?:
     | "flex-start"
     | "center"
@@ -37,6 +38,7 @@ const index: FC<iProps> = (props) => {
         flexDirection: "row",
         justifyContent: props.justifyContent,
         gap:props.gap? props.gap : 4,
+        "&:hover": { backgroundColor: props.hoverBackgroundColor  ? props.hoverBackgroundColor : "#1976d2" },
       }}
       formAction={props.formAction}
       onClick={props.onClick}

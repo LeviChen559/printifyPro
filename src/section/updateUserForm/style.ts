@@ -11,3 +11,13 @@ export const Container = styled.div({
     borderRadius: 16,
     gap:16
 })
+
+export  const Header = styled.div({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    fontWeight: 700,
+    fontSize: 18,
+})

@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo } from "react";
+import React from "react";
 import { Container, MenuWrapper } from "./style";
 import { Button, Typography, Box } from "@mui/material";
 import Link from "next/link";
@@ -10,16 +10,17 @@ import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { colorTheme } from "@/theme";
 import packageInfo from "../../../package.json";
-import InactivityLogoutTimer from '@/utils/lib/autoLogout';
+import InactivityLogoutTimer from "@/utils/lib/autoLogout";
 
 const SideBar = () => {
-  const links = useMemo(
-    () => ["", "add-new", "mylabels", "roles", "setting"],
-    []
-  );
-
   const pathname = usePathname();
   const { data: userData } = useSession();
+  const links =
+    userData?.user.role === "admin"
+      ? ["Dashboard", "add-new", "mylabels", "admin"]
+      : userData?.user.role === "manager"
+      ? ["Dashboard", "add-new", "mylabels"]
+      : ["Dashboard", "mylabels"];
   const version = packageInfo.version;
   const color = (link: string) => {
     if (pathname === "/dashboard" && link === "") {
@@ -50,20 +51,14 @@ const SideBar = () => {
         }}
       >
         <LocalPrintshopIcon />
-        <Typography  fontFamily={kanit.style.fontFamily}>
+        <Typography fontFamily={kanit.style.fontFamily}>
           Printify Pro
         </Typography>
       </Box>
       <MenuWrapper>
         {links.map((link: string, index: number) => (
           <Link
-            href={
-              userData?.user.role === "user"
-                ? index === 2
-                  ? "/dashboard/" + link
-                  : ""
-                : "/dashboard/" + link
-            }
+            href={index === 0 ? "/dashboard" : "/dashboard/" + link}
             key={index}
           >
             <Typography
@@ -74,7 +69,7 @@ const SideBar = () => {
                 color: color(link),
               }}
             >
-              {index === 0 ? "Dashboard" : link}
+              {link}
             </Typography>
           </Link>
         ))}

@@ -266,7 +266,7 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
                     boxSizing: "border-box",
                   }}
                 >
-                  <LabelLogo logo={row.logo}  isTable/>
+                  <LabelLogo logo={row.logo}  size={"md"}/>
                 </TableCell>
                 <TableCell align="left" sx={tableCellStyle(125,undefined)}>
                   {row.product_name_en}

@@ -1,6 +1,6 @@
 "use client";
 import SideBar from "@/section/sideBar";
-import { Container, } from "@/app/style";
+import { Container } from "@/app/style";
 import { WorkPannel } from "@/app/dashboard/style";
 
 export default function RootLayout({
@@ -11,9 +11,8 @@ export default function RootLayout({
   return (
     <Container>
       <WorkPannel>
-      <SideBar />
-
-            {children}
+        <SideBar />
+        {children}
       </WorkPannel>
     </Container>
   );

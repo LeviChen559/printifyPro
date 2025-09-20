@@ -4,12 +4,15 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { FormHelperText } from "@mui/material";
+import LabelLogo from "../logo";
+
 type DropdownType =
   | "weight_unit"
   | "logo"
   | "labelSize"
   | "case_unit"
-  | "storage";
+  | "storage"
+  | "role";
 
 export enum CaseUnitType {
   "tray" = "tray",
@@ -38,6 +41,7 @@ const DROPDOWN_OPTIONS = {
   case_unit: Object.values(CaseUnitType),
   storage: Object.values(StorageType),
   logo: ["hons", "sunningfoods", "shinsenna", "viethuong"],
+  role: ["user", "admin", "manager"],
   labelSize: ["4x4_a", "4x4_b", "4x6_a"],
 } as const;
 
@@ -45,10 +49,11 @@ interface iProps {
   type: DropdownType;
   value: string;
   onChange: (value: string) => void;
+  placeholder: string;
   readOnly?: boolean;
   error?: boolean;
   helperText?: string;
-  width?: number|string;
+  width?: number | string;
   isOnLabelCard?: boolean;
   onEditMode?: () => void;
 }
@@ -91,9 +96,18 @@ const DropdownMenu: FC<iProps> = (prop) => {
           error={prop.error}
           sx={MuiInputBaseStyle}
           onClick={prop.onEditMode}
+          displayEmpty
+          renderValue={(selected) => {
+            if (!selected) {
+              return <span style={{ color: "#999" }}>{prop.placeholder}</span>;
+            }
+            return selected;
+          }}
         >
           {DROPDOWN_OPTIONS[prop.type].map((item: string) => (
-            <MenuItem value={item} key={item}>
+            <MenuItem value={item} key={item} sx={{ gap: 2 }}>
+              {prop.type === "logo" && <LabelLogo logo={item} size="sm" />}
+
               {item}
             </MenuItem>
           ))}

@@ -7,6 +7,7 @@ export interface iFormData {
     name: string;
     email: string;
     password: string;
+    role: string;
   }
   export interface iUser {
   
@@ -35,3 +36,8 @@ export interface iFormData {
     searchType: string;
   }
 
+  export const enum USERTYPE {
+     "user"= "user",
+     "manager"="manager",
+     "admin"="admin"
+  } 

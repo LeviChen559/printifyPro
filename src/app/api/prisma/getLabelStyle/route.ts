@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
+export const dynamic = "force-dynamic";
+import { NextRequest, NextResponse } from "next/server";
 import {prisma} from '@/utils/lib/prisma';
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
 
-    const url = new URL(request.url);
-    const id = url.searchParams.get("id");
+    const id = request.nextUrl.searchParams.get("id");
 
     // Check if the id is provided and is a valid number
     if (!id || isNaN(Number(id))) {
