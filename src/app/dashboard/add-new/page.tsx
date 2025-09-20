@@ -37,7 +37,7 @@ const AddNew = () => {
     locale: "",
   });
   const router = useRouter();
-  const [logo, setLogo] = useState<string>("001");
+  const [logo, setLogo] = useState<string>("hons");
   const [labelTemp, setLabelTemp] = useState<string>("4x4_a");
   const [itemCode, setItemCode] = useState<string>("");
   const [customerItemCode, setCustomerItemCode] = useState<string>("");
@@ -402,14 +402,14 @@ const AddNew = () => {
       </Container>
     );
   }
-  if (userData?.user.role !== "admin") {
+  if (userData?.user.role === "user") {
     setTimeout(() => {
       router.push("/dashboard/mylabels");
     }, 1000);
     return (
       <Container>
         <Typography>
-          No access - You need to be an admin to create labels!
+          No access - You need to be an admin or manager to create labels!
         </Typography>
       </Container>
     );

@@ -31,7 +31,7 @@ export const MenuWrapper =styled.div({
     justifyContent: "flex-start",
     height: "auto",
     width: "100%",
-    flex:"1 1 200px",
+    flex:"1 1 300px",
     paddingTop:16,
     fontFamily: "Arial, sans-serif",
     color: "#000000",

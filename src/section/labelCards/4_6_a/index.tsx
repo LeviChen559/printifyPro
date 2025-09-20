@@ -80,7 +80,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
   return (
     <Container id="labelCard" ref={ref} width={576}>
       <Header>
-        <LabelLogo logo={prop.logo} isTable={false}/>
+        <LabelLogo logo={prop.logo} size={"lg"}/>
         <EditableTextareaField
           name={iEditedMode.productNameEn}
           value={prop.productNameEN}

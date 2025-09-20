@@ -78,6 +78,7 @@ const LabelForm: FC<iProps> = (prop) => {
             type="labelSize"
             value={prop.labelTemp}
             onChange={prop.setLabelTemp}
+            placeholder="Select Label Size"
             error={
               prop.formError.error && prop.formError.locale === "labelSize"
             }
@@ -90,6 +91,7 @@ const LabelForm: FC<iProps> = (prop) => {
           />
           <DropdownMenu
             type="logo"
+            placeholder="Select a Logo"
             value={prop.logo}
             onChange={prop.setLogo}
             error={prop.formError.error && prop.formError.locale === "logo"}
@@ -351,6 +353,8 @@ const LabelForm: FC<iProps> = (prop) => {
           /> */}
           <DropdownMenu
             type="storage"
+            placeholder="Select Storage Type"
+
             value={prop.storage}
             onChange={prop.setStorage}
             error={
