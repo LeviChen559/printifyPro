@@ -1,14 +1,11 @@
-import { NextResponse } from "next/server";
+export const dynamic = "force-dynamic";
+import { NextRequest, NextResponse } from "next/server";
 import {  mylabels } from "@prisma/client";
 import {prisma} from '@/utils/lib/prisma';
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   try {
-    // Extract query parameters from the URL
-    const url = new URL(req.url);
-    // const searchType = url.searchParams.get("searchType") || "";
-    const searchValue = url.searchParams.get("searchValue") || "";
-    // Prepare a filter object for Prisma
+  const searchValue = req.nextUrl.searchParams.get("searchValue") || "";
   
     const searchableFields = [
       "product_name_en",

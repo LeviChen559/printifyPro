@@ -1,5 +1,6 @@
+export const dynamic = "force-dynamic"; // add this line at the top of the file
 import { NextResponse } from "next/server";
-
+import { NextRequest } from "next/server";
 
 import {prisma} from '@/utils/lib/prisma';
 
@@ -12,13 +13,9 @@ interface iActivities{
   created_at: Date | null;
 }
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   try {
-    // Extract query parameters from the URL
-    const url = new URL(req.url);
-    // const searchType = url.searchParams.get("searchType") || "";
-    const searchValue = url.searchParams.get("searchValue") || "";
-    // Prepare a filter object for Prisma
+   const searchValue = req.nextUrl.searchParams.get("searchValue") || "";
   
     const searchableFields = [
       "product_name_en",
