@@ -29,6 +29,8 @@ interface iProp {
   customerItemCode?: string;
   setCustomerItemCode?: Dispatch<SetStateAction<string>>;
   lotNumber?: string;
+  storage_1st?: string;
+  storage_2nd?: string;
   setLotNumber?: Dispatch<SetStateAction<string>>;
   setProductNameEN?: Dispatch<SetStateAction<string>>;
   setProductNameZH?: Dispatch<SetStateAction<string>>;
@@ -255,7 +257,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             }
           />
         </Col>
-        <Col alignItems="flex-start" gap={6}>
+        <Col alignItems="flex-start" gap={4}>
           <Typography variant="body2" width={200} fontWeight={700}>
             Ingredients:
           </Typography>
@@ -303,7 +305,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
         >
           Net Weight :
         </Typography>
-        <Row width="auto" gap={4}>
+        <Row width="auto" gap={2}>
           <EditableTextField
             name={iEditedMode.weight}
             value={prop.weight}
@@ -352,7 +354,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           />
         </Row>
         {prop.showLotNumber && (
-          <>
+          <Row width="auto">
             <Typography variant="body2" width="auto" noWrap fontWeight={700}>
               LOT :#
             </Typography>
@@ -371,17 +373,17 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
                 prop.setEditMode && prop.setEditMode(iEditedMode.lotNumber)
               }
             />
-          </>
+          </Row>
         )}
       </Row>
       <Row height="auto">
         <EditableTextField
           name={iEditedMode.storage}
-          value={prop.storage ?? ""}
-          onChange={prop.setStorage}
+          value={prop.storage_1st ?? ""}
+          // onChange={prop.setStorage_1st}
           style={storageStyle}
           readonly={isEditedMode === false}
-          width={prop.storage ? autoWidth(prop.storage, "storage") : 40}
+          width={prop.storage_1st ? autoWidth(prop.storage_1st, "storage") : 40}
           height={autoHeight(14)}
           showBorder={prop.showBorder}
           editMode={prop.editMode}
@@ -407,13 +409,14 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             prop.setEditMode && prop.setEditMode(iEditedMode.bestBefore)
           }
         />
-        <EditableTextField
+        { 
+          prop.storage_2nd&&<><EditableTextField
           name={iEditedMode.storage}
-          value={prop.storage ?? ""}
-          onChange={prop.setStorage}
+          value={prop.storage_2nd ?? ""}
+          // onChange={prop.setStorage_2nd}
           style={storageStyle}
           readonly={isEditedMode === false}
-          width={prop.storage ? autoWidth(prop.storage, "storage") : 40}
+          width={prop.storage_2nd ? autoWidth(prop.storage_2nd, "storage") : 40}
           height={autoHeight(14)}
           showBorder={prop.showBorder}
           editMode={prop.editMode}
@@ -438,7 +441,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           onEditMode={() =>
             prop.setEditMode && prop.setEditMode(iEditedMode.bestBefore)
           }
-        />
+        /></>}
       </Row>
       <InfomationWrapper>
         <Col width={"50%"} gap={4}>
