@@ -1,16 +1,25 @@
-import {  users } from '@prisma/client';
-import {  NextResponse } from 'next/server';
-import {prisma} from '@/utils/lib/prisma';
+import { users } from '@prisma/client';
+import { NextResponse } from 'next/server';
+import { prisma } from '@/utils/lib/prisma';
 
+// 🔥 Prevent Next.js from statically caching this API
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
     // Fetch all users from the database
-    const users: users[] = await prisma.users.findMany(); // Make sure you use the correct model name
-    console.log("Fetched users:", users);
+    const usersData: users[] = await prisma.users.findMany();
+    console.log("Fetched users:", usersData);
 
-    // Send the user data as JSON response
-    return NextResponse.json(users, { status: 200 });
+    // Send the user data as JSON response with no caching
+    return NextResponse.json(usersData, {
+      status: 200,
+      headers: {
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        "Pragma": "no-cache",
+        "Expires": "0",
+      },
+    });
   } catch (error: unknown) {
     console.error("Database error:", error);
     if (error instanceof Error) {
