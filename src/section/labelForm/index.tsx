@@ -361,11 +361,11 @@ const LabelForm: FC<iProps> = (prop) => {
             onClick={() => prop.setEditMode(iEditedMode.storage)}
             sx={commonTextFieldStyles(iEditedMode.storage)}
           /> */}
-          {/* <DropdownMenu
+          <DropdownMenu
             type="storage"
             placeholder="Select Storage Type"
-            value={prop.storage}
-            onChange={prop.setStorage}
+            value={prop.storage_1st}
+            onChange={prop.setStorage_1st}
             error={
               prop.formError.error && prop.formError.locale === "storage"
             }
@@ -375,20 +375,8 @@ const LabelForm: FC<iProps> = (prop) => {
                 : ""
             }
             width="60%"
-          /> */}
-          <FormPropsTextFields
-            disabled
-            id="storage"
-            label="Storage"
-            value={"Freezer"}
-            required={true}
-            type="string"
-            background="#ffffff40"
-            placeholder="Storage"
-            onChange={() => {}}
-            startIcon={null}
-            sx={commonTextFieldStyles(iEditedMode.shelfLife)}
           />
+          
           <FormPropsTextFields
             id="shelf_life_1st"
             label="Shelf Life 1st"
@@ -438,11 +426,11 @@ const LabelForm: FC<iProps> = (prop) => {
             onClick={() => prop.setEditMode(iEditedMode.storage)}
             sx={commonTextFieldStyles(iEditedMode.storage)}
           /> */}
-          {/* <DropdownMenu
+          <DropdownMenu
             type="storage"
             placeholder="Select Storage Type"
-            value={prop.storage}
-            onChange={prop.setStorage}
+            value={prop.storage_2nd}
+            onChange={prop.setStorage_2nd}
             error={
               prop.formError.error && prop.formError.locale === "storage"
             }
@@ -452,25 +440,12 @@ const LabelForm: FC<iProps> = (prop) => {
                 : ""
             }
             width="60%"
-          /> */}
-          <FormPropsTextFields
-            disabled
-            id="storage"
-            label="Storage"
-            value={prop.storage_2nd ?? ""}
-            required={true}
-            type="string"
-            background="#ffffff40"
-            placeholder="Storage"
-            onChange={(e) => prop.setStorage_2nd(e.target.value)}
-            startIcon={null}
-            sx={commonTextFieldStyles(iEditedMode.shelfLife)}
           />
           <FormPropsTextFields
             id="shelf_life 2nd"
             label="Shelf Life 2nd"
             value={prop.shelfLife_2nd ? prop.shelfLife_2nd?.toString() : ""}
-            required={true}
+            required={false}
             type="string"
             background="#ffffff40"
             placeholder="Shelf Life"

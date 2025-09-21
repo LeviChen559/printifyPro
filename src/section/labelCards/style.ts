@@ -25,7 +25,7 @@ export const Container = styled.div<iProps>((props) => ({
   backgroundColor: "#ffffff",
   boxShadow: "0px 4px 4px 0px #bcbcbc",
   border: "1px solid #bcbcbc80",
-  gap: 4,
+  gap: 2,
   position: "relative",
   overflow: "hidden",
   
@@ -49,7 +49,7 @@ export const InfomationWrapper = styled.div({
   height: "auto",
   justifyContent: "space-between",
   alignItems: "flex-start",
-  gap: 4,
+  gap: 2,
 });
 export const InfomationColumn = styled.div<iProps>(
   {
