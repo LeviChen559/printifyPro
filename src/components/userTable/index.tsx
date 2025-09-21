@@ -7,7 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { Button, Container } from "@mui/material";
 import SkeletonTable from "@/components/skeletonTable";
 import { fetcher } from "@/utils/lib/fetcher";
@@ -32,13 +32,18 @@ interface iProps {
   // selectItem: (selectLabelInfo: iUser) => void;
 }
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
-const UserTable: FC<iProps> = ({ setDataUpdate, handleUserUpdate, updateUserId,setUpdateUserId }) => {
+const UserTable: FC<iProps> = ({
+  setDataUpdate,
+  handleUserUpdate,
+  updateUserId,
+  setUpdateUserId,
+}) => {
   // const router = useRouter();
   const [checked, setChecked] = useState<{ id: number; checked: boolean }>({
     id: -1,
     checked: false,
   });
-  const { data: userData, error: userError } = useSWR(
+  const { data: usersData, error: userError } = useSWR(
     "/api/prisma/getUsers",
     fetcher
   );
@@ -56,6 +61,7 @@ const UserTable: FC<iProps> = ({ setDataUpdate, handleUserUpdate, updateUserId,s
       if (res.status === 200) {
         setTimeout(() => {
           setDataUpdate(true);
+          mutate("/api/prisma/getUsers");
           setChecked({ id: -1, checked: false });
           window.location.reload();
         }, 1000);
@@ -73,7 +79,7 @@ const UserTable: FC<iProps> = ({ setDataUpdate, handleUserUpdate, updateUserId,s
   if (userError)
     return <Container>Failed to load: {userError.message}</Container>;
 
-  if (!userData)
+  if (!usersData)
     return (
       <Container>
         <SkeletonTable columnCount={5} />
@@ -116,8 +122,8 @@ const UserTable: FC<iProps> = ({ setDataUpdate, handleUserUpdate, updateUserId,s
           </TableRow>
         </TableHead>
         <TableBody>
-          {userData ? (
-            userData.map((row: iUser) => (
+          {usersData ? (
+            usersData.map((row: iUser) => (
               <TableRow
                 key={row.id}
                 sx={{
