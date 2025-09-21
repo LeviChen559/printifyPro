@@ -9,7 +9,7 @@ import { iUpdateFormData, USERTYPE } from "@/app/type";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import bcrypt from "bcryptjs";
-import useSWR,{ mutate } from "swr";
+import useSWR, { mutate } from "swr";
 import { useRouter } from "next/navigation";
 import UserTable, { iUser } from "@/components/userTable";
 import Typography from "@mui/material/Typography";
@@ -72,6 +72,7 @@ const AdminDashboard = () => {
       if (res.status === 201) {
         // Update the session with the latest data
         setDataUpdate(true);
+        mutate("/api/prisma/getUsers");
         setTimeout(() => {
           setDataUpdate(false);
           setFormData({ email: "", password: "", name: "", role: "" });
@@ -250,7 +251,7 @@ const AdminDashboard = () => {
           updateUserId={updateUserId}
           setUpdateUserId={setUpdateUserId}
         />
-        {updateUserId===null  ? (
+        {updateUserId === null ? (
           <UserUpdateForm
             type="add"
             formData={formData}
