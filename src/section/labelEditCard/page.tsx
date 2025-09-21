@@ -112,8 +112,10 @@ const LabelEditCard: FC<iProps> = (prop) => {
     weight: labelState.weight,
     case_quantity: labelState.case_quantity,
     case_unit: labelState.case_unit,
-    storage: labelState.storage,
-    shelf_life: labelState.shelf_life,
+    storage_1st: labelState.storage_1st,
+    storage_2nd: labelState.storage_2nd,
+    shelf_life_1st: labelState.shelf_life_1st,
+    shelf_life_2nd: labelState.shelf_life_2nd,
     case_gtin: labelState.case_gtin,
     ingredient: labelState.ingredient,
     manufactured: labelState.manufactured,
@@ -157,14 +159,24 @@ const LabelEditCard: FC<iProps> = (prop) => {
         locale: "case_unit",
       },
       {
-        field: labelState.storage,
-        message: "Storage Requirements is required",
-        locale: "storage",
+        field: labelState.storage_1st,
+        message: "Storage Requirements 1st is required",
+        locale: "storage_1st",
       },
       {
-        field: labelState.shelf_life,
+        field: labelState.storage_2nd,
+        message: "Storage Requirements 2nd is required",
+        locale: "storage_2nd",
+      },
+      {
+        field: labelState.shelf_life_1st,
         message: "Shelf Life is required",
         locale: "shelf_life",
+      },
+      {
+        field: labelState.shelf_life_2nd,
+        message: "Shelf Life 2nd is required",
+        locale: "shelf_life_2nd",
       },
       {
         field: labelState.allergen,
@@ -226,8 +238,10 @@ const LabelEditCard: FC<iProps> = (prop) => {
     labelState.weight,
     labelState.case_quantity,
     labelState.case_unit,
-    labelState.storage,
-    labelState.shelf_life,
+    labelState.storage_1st,
+    labelState.storage_2nd,
+    labelState.shelf_life_1st,
+    labelState.shelf_life_2nd,
     labelState.case_gtin,
     labelState.ingredient,
     labelState.manufactured,
@@ -272,16 +286,26 @@ const LabelEditCard: FC<iProps> = (prop) => {
     dispatch,
     labelState.case_unit
   );
-  const handleStorageChange = handleUpdate(
-    "storage",
+  const handleStorage1stChange = handleUpdate(
+    "storage_1st",
     dispatch,
-    labelState.storage
+    labelState.storage_1st
   );
-  const handleShelfLifeChange = handleUpdate(
-    "shelf_life",
+  const handleStorage2ndChange = handleUpdate(
+    "storage_2nd",
     dispatch,
-    labelState.shelf_life
+    labelState.storage_2nd
   );
+  const handleShelfLife1stChange = handleNumberUpdate(
+    "shelf_life_1st",
+    dispatch,
+    labelState.shelf_life_1st
+  );
+  const handleShelfLife2ndChange = handleNumberUpdate(
+    "shelf_life_2nd",
+    dispatch,
+    labelState.shelf_life_2nd
+  );  
   const handleCaseGtinChange = handleUpdate(
     "case_gtin",
     dispatch,
@@ -645,8 +669,10 @@ const LabelEditCard: FC<iProps> = (prop) => {
             setCaseQuantity={handleCaseQuantityChange}
             caseUnit={labelState.case_unit}
             setCaseUnit={handleCaseUnitChange}
-            storage={labelState.storage}
-            setStorage={handleStorageChange}
+            storage_1st={labelState.storage_1st}
+            setStorage_1st={handleStorage1stChange}
+            storage_2nd={labelState.storage_2nd}
+            setStorage_2nd={handleStorage2ndChange}
             barcode={labelState.barcode}
             setBarcode={handleBarcodeChange}
             setManufactured={handleManufacturedChange}
@@ -692,12 +718,16 @@ const LabelEditCard: FC<iProps> = (prop) => {
           setCaseGtin={handleCaseGtinChange}
           manufactured={labelState.manufactured}
           setManufactured={handleManufacturedChange}
-          storage={labelState.storage}
-          setStorage={handleStorageChange}
+          storage_1st={labelState.storage_1st}
+          setStorage_1st={handleStorage1stChange}
+          storage_2nd={labelState.storage_2nd}
+          setStorage_2nd={handleStorage2ndChange}
           barcode={labelState.barcode}
           setBarcode={handleBarcodeChange}
-          shelfLife={labelState.shelf_life}
-          setShelfLife={handleShelfLifeChange}
+          shelfLife_1st={labelState.shelf_life_1st}
+          setShelfLife_1st={handleShelfLife1stChange}
+          shelfLife_2nd={labelState.shelf_life_2nd}
+          setShelfLife_2nd={handleShelfLife2ndChange}
           labelTemp={labelState.label_temp}
           setLabelTemp={handleLabelTempChange}
           allergen={labelState.allergen}

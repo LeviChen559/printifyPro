@@ -38,7 +38,7 @@ const AddNew = () => {
   });
   const router = useRouter();
   const [logo, setLogo] = useState<string>("hons");
-  const [labelTemp, setLabelTemp] = useState<string>("4x4_a");
+  const [labelTemp, setLabelTemp] = useState<string>("sm_a");
   const [itemCode, setItemCode] = useState<string>("");
   const [customerItemCode, setCustomerItemCode] = useState<string>("");
   const [lotNumber, setLotNumber] = useState<string>("");
@@ -48,8 +48,10 @@ const AddNew = () => {
   const [allergen, setAllergen] = useState<string>("");
   const [caseQuantity, setCaseQuantity] = useState<number>(0);
   const [caseUnit, setCaseUnit] = useState<string>("tray");
-  const [storage, setStorage] = useState<string>("Freezer");
-  const [shelfLife, setShelfLife] = useState<string>("");
+  const [storage_1st, setStorage_1st] = useState<string>("Freezer");
+  const [storage_2nd, setStorage_2nd] = useState<string>("Cooler");
+  const [shelfLife_1st, setShelfLife_1st] = useState<number>(0);
+  const [shelfLife_2nd, setShelfLife_2nd] = useState<number>(0);
   const [caseGtin, setCaseGtin] = useState<string>("000000000000");
   const [barcode, setBarcode] = useState<string>("111111111111");
   const [ingredient, setIngredient] = useState<string>("");
@@ -73,10 +75,10 @@ const AddNew = () => {
         setIngredient(parsedData.ingredient || "");
         setWeight(parsedData.weight || "");
         setManufactured(parsedData.manufactured || "");
-        setStorage(parsedData.storage || "");
         setCaseQuantity(parsedData.case_quantity || "");
         setCaseUnit(parsedData.case_unit || "");
-        setShelfLife(parsedData.shelf_life || "");
+        setShelfLife_1st(parsedData.shelf_life_1st || "");
+        setShelfLife_2nd(parsedData.shelf_life_2nd || "");
         setAllergen(parsedData.allergen || "");
         setLogo(parsedData.logo || "");
       } catch (error) {
@@ -92,7 +94,7 @@ const AddNew = () => {
     fontWeight: 700,
     fontStyle: "Normal",
     fontFamily: "Arial",
-    rows:2
+    rows: 2,
   };
   const defaultTextStyle = {
     color: "#000000",
@@ -101,20 +103,29 @@ const AddNew = () => {
     fontStyle: "Normal",
     fontFamily: "Arial",
   };
-  
+
   const [productNameENStyle, setProductNameENStyle] =
-    useState<iTextStyle>( defaultHeaderStyle);
+    useState<iTextStyle>(defaultHeaderStyle);
   const [productNameZHStyle, setProductNameZHStyle] =
     useState<iTextStyle>(defaultHeaderStyle);
-  const [ingredientStyle, setingredientStyle] =
-    useState<iTextStyle>({...defaultTextStyle,rows:4});
+  const [ingredientStyle, setingredientStyle] = useState<iTextStyle>({
+    ...defaultTextStyle,
+    rows: 4,
+  });
   const [manufacturedStyle, setManufacturedStyle] =
     useState<iTextStyle>(defaultTextStyle);
-  const [weightStyle, setWeightStyle] = useState<iTextStyle>({...defaultTextStyle,rows:1});
-  const [allergenStyle, setAllergenStyle] =
-    useState<iTextStyle>({...defaultTextStyle,rows:1});
-  const [storageStyle, setStorageStyle] =
-    useState<iTextStyle>({...defaultTextStyle,rows:1});
+  const [weightStyle, setWeightStyle] = useState<iTextStyle>({
+    ...defaultTextStyle,
+    rows: 1,
+  });
+  const [allergenStyle, setAllergenStyle] = useState<iTextStyle>({
+    ...defaultTextStyle,
+    rows: 1,
+  });
+  const [storageStyle, setStorageStyle] = useState<iTextStyle>({
+    ...defaultTextStyle,
+    rows: 1,
+  });
 
   useEffect(() => {
     // List of fields to check
@@ -147,12 +158,22 @@ const AddNew = () => {
         locale: "case_unit",
       },
       {
-        field: storage,
+        field: storage_1st,
         message: "Storage Requirements is required",
         locale: "storage",
       },
       {
-        field: shelfLife,
+        field: shelfLife_1st,
+        message: "Shelf Life is required",
+        locale: "shelf_life",
+      },
+      {
+        field: storage_2nd,
+        message: "Storage Requirements is required",
+        locale: "storage",
+      },
+      {
+        field: shelfLife_2nd,
         message: "Shelf Life is required",
         locale: "shelf_life",
       },
@@ -199,8 +220,10 @@ const AddNew = () => {
     weight,
     caseQuantity,
     caseUnit,
-    storage,
-    shelfLife,
+    storage_1st,
+    shelfLife_1st,
+    storage_2nd,
+    shelfLife_2nd,
     caseGtin,
     ingredient,
     manufactured,
@@ -229,8 +252,10 @@ const AddNew = () => {
     weight: weight,
     case_quantity: caseQuantity,
     case_unit: caseUnit,
-    storage: storage,
-    shelf_life: shelfLife,
+    storage_1st: storage_1st,
+    shelf_life_1st: shelfLife_1st,
+    storage_2nd: storage_2nd,
+    shelf_life_2nd: shelfLife_2nd,
     case_gtin: caseGtin,
     ingredient: ingredient,
     manufactured: manufactured,
@@ -247,14 +272,14 @@ const AddNew = () => {
     product_name_en: productNameENStyle,
     product_name_zh: productNameZHStyle,
     weight: weightStyle,
-    allergen:allergenStyle,
+    allergen: allergenStyle,
     case_quantity: defaultTextStyle,
     case_unit: defaultTextStyle,
     storage: defaultTextStyle,
     shelf_life: defaultTextStyle,
     case_gtin: defaultTextStyle,
     ingredient: ingredientStyle,
-    manufactured:manufacturedStyle,
+    manufactured: manufacturedStyle,
   };
 
   useEffect(() => {
@@ -304,8 +329,8 @@ const AddNew = () => {
     if (dataType === iEditedMode.productNameEn) {
       const value =
         styleType === iTextStyleMode.fontSize ||
-        styleType === iTextStyleMode.fontWeight||
-        styleType === iTextStyleMode.fontStyle 
+        styleType === iTextStyleMode.fontWeight ||
+        styleType === iTextStyleMode.fontStyle
           ? Number(event.target.value) // Convert to number for fontSize or fontWeight
           : event.target.value; // Keep as string for other properties
 
@@ -382,7 +407,6 @@ const AddNew = () => {
     }
   };
 
-
   if (!labelData) {
     return (
       <Container>
@@ -432,7 +456,7 @@ const AddNew = () => {
           handleChange={handleChange}
           allergenStyle={allergenStyle}
         />
-         <FormControl>
+        <FormControl>
           <FormLabel id="demo-row-radio-buttons-group-label">Mode</FormLabel>
           <RadioGroup
             row
@@ -474,13 +498,15 @@ const AddNew = () => {
           allergen={allergen}
           setAllergen={setAllergen}
           setManufactured={setManufactured}
-          setStorage={setStorage}
+          setStorage_1st={setStorage_1st}
+          setStorage_2nd={setStorage_2nd}
           manufactured={manufactured}
           caseQuantity={caseQuantity}
           setCaseQuantity={setCaseQuantity}
           caseUnit={caseUnit}
           setCaseUnit={setCaseUnit}
-          storage={storage}
+          storage_1st={storage_1st}
+          storage_2nd={storage_2nd}
           barcode={barcode}
           setBarcode={setBarcode}
           defaultLabelStyle={defaultLabelStyle}
@@ -542,10 +568,14 @@ const AddNew = () => {
           setBarcode={setBarcode}
           manufactured={manufactured}
           setManufactured={setManufactured}
-          storage={storage}
-          setStorage={setStorage}
-          shelfLife={shelfLife}
-          setShelfLife={setShelfLife}
+          storage_1st={storage_1st}
+          setStorage_1st={setStorage_1st}
+          storage_2nd={storage_2nd}
+          setStorage_2nd={setStorage_2nd}
+          shelfLife_1st={shelfLife_1st}
+          setShelfLife_1st={setShelfLife_1st}
+          shelfLife_2nd={shelfLife_2nd}
+          setShelfLife_2nd={setShelfLife_2nd}
           formError={formError}
           createNewLabel={createNewLabel}
           setLabelTemp={setLabelTemp}

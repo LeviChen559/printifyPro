@@ -103,7 +103,7 @@ const LabelPrintCard: FC<iProps> = (prop) => {
           weight={prop.selectLabelInfo.weight}
           manufactured={prop.selectLabelInfo.manufactured}
           allergen={prop.selectLabelInfo.allergen}
-          storage={prop.selectLabelInfo.storage}
+          // storage={prop.selectLabelInfo.storage}
           itemCode={prop.selectLabelInfo.item_code}
           barcode={prop.selectLabelInfo.barcode}
           productNameENStyle={ productNameENStyle }

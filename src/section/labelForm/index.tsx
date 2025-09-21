@@ -40,10 +40,16 @@ interface iProps {
   setCaseGtin: Dispatch<SetStateAction<string>>;
   manufactured: string;
   setManufactured: Dispatch<SetStateAction<string>>;
-  storage: string;
-  setStorage: Dispatch<SetStateAction<string>>;
-  shelfLife: string;
-  setShelfLife: Dispatch<SetStateAction<string>>;
+  storage_1st: string;
+  setStorage_1st: Dispatch<SetStateAction<string>>;
+  storage_2nd: string;
+  setStorage_2nd: Dispatch<SetStateAction<string>>;
+  // weightUnit: string;
+  // setWeightUnit: Dispatch<SetStateAction<string>>;
+  shelfLife_1st: number;
+  setShelfLife_1st: Dispatch<SetStateAction<number>>;
+  shelfLife_2nd: number;
+  setShelfLife_2nd: Dispatch<SetStateAction<number>>;
   isEditedView: boolean;
   labelTemp: string;
   setLabelTemp: Dispatch<SetStateAction<string>>;
@@ -65,7 +71,7 @@ const LabelForm: FC<iProps> = (prop) => {
   };
 
   return (
-    <Form onSubmit={prop.isEditedView ? prop.updateLabel : prop.createNewLabel} >
+    <Form onSubmit={prop.isEditedView ? prop.updateLabel : prop.createNewLabel}>
       <Column height="85%">
         <Box
           display={"flex"}
@@ -113,7 +119,7 @@ const LabelForm: FC<iProps> = (prop) => {
           <FormPropsTextFields
             id="item_code"
             label="item_code"
-            value={prop.itemCode??""}
+            value={prop.itemCode ?? ""}
             required={true}
             type="text"
             placeholder="item_code"
@@ -134,7 +140,7 @@ const LabelForm: FC<iProps> = (prop) => {
           <FormPropsTextFields
             id="Customer_item_code"
             label="Customer_item_code"
-            value={prop.customerItemCode??""}
+            value={prop.customerItemCode ?? ""}
             required={false}
             type="text"
             placeholder="customer_item_code"
@@ -159,7 +165,7 @@ const LabelForm: FC<iProps> = (prop) => {
           <FormPropsTextFields
             id="Lot_number"
             label="Lot_number"
-            value={prop.lotNumber??""}
+            value={prop.lotNumber ?? ""}
             required={false}
             type="text"
             placeholder="lot_Number"
@@ -176,13 +182,12 @@ const LabelForm: FC<iProps> = (prop) => {
             }
             onClick={() => prop.setEditMode(iEditedMode.lotNumber)}
             sx={commonTextFieldStyles(iEditedMode.lotNumber)}
-
           />
         </Box>
         <FormPropsTextFields
           id="product_name_en"
           label="Product Name (English)"
-          value={prop.productNameEN??""}
+          value={prop.productNameEN ?? ""}
           required={true}
           type="text"
           background="#ffffff40"
@@ -203,7 +208,7 @@ const LabelForm: FC<iProps> = (prop) => {
         <FormPropsTextFields
           id="product_name_zh"
           label="Product Name (Chinese)"
-          value={prop.productNameZH??""}
+          value={prop.productNameZH ?? ""}
           required={true}
           type="text"
           background="#ffffff40"
@@ -220,7 +225,6 @@ const LabelForm: FC<iProps> = (prop) => {
               : ""
           }
           sx={commonTextFieldStyles(iEditedMode.productNameZh)}
-
         />
         <Box
           display={"flex"}
@@ -232,7 +236,7 @@ const LabelForm: FC<iProps> = (prop) => {
           <FormPropsTextFields
             id="Net_Weight"
             label="Net Weight"
-            value={prop.weight??""}
+            value={prop.weight ?? ""}
             required={true}
             type="text"
             background="#ffffff40"
@@ -275,7 +279,7 @@ const LabelForm: FC<iProps> = (prop) => {
           <FormPropsTextFields
             id="case_quantity"
             label="Case Quantity"
-            value={prop.caseQuantity.toString()??""}
+            value={prop.caseQuantity.toString() ?? ""}
             required={true}
             type="number"
             background="#ffffff40"
@@ -296,7 +300,7 @@ const LabelForm: FC<iProps> = (prop) => {
           <FormPropsTextFields
             id="case_unit"
             label="Case Unit"
-            value={prop.caseUnit??""}
+            value={prop.caseUnit ?? ""}
             required={true}
             type="string"
             background="#ffffff40"
@@ -329,7 +333,13 @@ const LabelForm: FC<iProps> = (prop) => {
             width="60%"
           /> */}
         </Box>
-        <Box display={"flex"} flexDirection={"row"} flexWrap={"nowrap"} gap={1}>
+        <Box
+          display={"flex"}
+          flexDirection={"row"}
+          flexWrap={"nowrap"}
+          gap={1}
+          alignItems={"center"}
+        >
           {/* <FormPropsTextFields
             id="storage"
             label="Storage"
@@ -351,10 +361,9 @@ const LabelForm: FC<iProps> = (prop) => {
             onClick={() => prop.setEditMode(iEditedMode.storage)}
             sx={commonTextFieldStyles(iEditedMode.storage)}
           /> */}
-          <DropdownMenu
+          {/* <DropdownMenu
             type="storage"
             placeholder="Select Storage Type"
-
             value={prop.storage}
             onChange={prop.setStorage}
             error={
@@ -366,16 +375,106 @@ const LabelForm: FC<iProps> = (prop) => {
                 : ""
             }
             width="60%"
+          /> */}
+          <FormPropsTextFields
+            disabled
+            id="storage"
+            label="Storage"
+            value={"Freezer"}
+            required={true}
+            type="string"
+            background="#ffffff40"
+            placeholder="Storage"
+            onChange={() => {}}
+            startIcon={null}
+            sx={commonTextFieldStyles(iEditedMode.shelfLife)}
           />
           <FormPropsTextFields
-            id="shelf_life"
-            label="Shelf Life"
-            value={prop.shelfLife??""}
+            id="shelf_life_1st"
+            label="Shelf Life 1st"
+            value={prop.shelfLife_1st.toString() ?? ""}
+            required={true}
+            type="string"
+            background="#ffffff40"
+            placeholder="Shelf Life 1st"
+            onChange={(e) => prop.setShelfLife_1st(Number(e.target.value))}
+            startIcon={null}
+            error={
+              prop.formError.error && prop.formError.locale === "shelf_life"
+            }
+            helperText={
+              prop.formError.error && prop.formError.locale === "shelf_life"
+                ? prop.formError.message
+                : ""
+            }
+            sx={commonTextFieldStyles(iEditedMode.shelfLife)}
+          />
+        </Box>
+        <Box
+          display={"flex"}
+          flexDirection={"row"}
+          flexWrap={"nowrap"}
+          gap={1}
+          alignItems={"center"}
+        >
+          {/* <FormPropsTextFields
+            id="storage"
+            label="Storage"
+            value={prop.storage??""}
+            required={true}
+            type="string"
+            background="#ffffff40"
+            placeholder="Freezer/Coooler"
+            onChange={(e) => prop.setStorage(e.target.value)}
+            startIcon={null}
+            error={
+              prop.formError.error && prop.formError.locale === "case_unit"
+            }
+            helperText={
+              prop.formError.error && prop.formError.locale === "case_unit"
+                ? prop.formError.message
+                : ""
+            }
+            onClick={() => prop.setEditMode(iEditedMode.storage)}
+            sx={commonTextFieldStyles(iEditedMode.storage)}
+          /> */}
+          {/* <DropdownMenu
+            type="storage"
+            placeholder="Select Storage Type"
+            value={prop.storage}
+            onChange={prop.setStorage}
+            error={
+              prop.formError.error && prop.formError.locale === "storage"
+            }
+            helperText={
+              prop.formError.error && prop.formError.locale === "storage"
+                ? prop.formError.message
+                : ""
+            }
+            width="60%"
+          /> */}
+          <FormPropsTextFields
+            disabled
+            id="storage"
+            label="Storage"
+            value={prop.storage_2nd ?? ""}
+            required={true}
+            type="string"
+            background="#ffffff40"
+            placeholder="Storage"
+            onChange={(e) => prop.setStorage_2nd(e.target.value)}
+            startIcon={null}
+            sx={commonTextFieldStyles(iEditedMode.shelfLife)}
+          />
+          <FormPropsTextFields
+            id="shelf_life 2nd"
+            label="Shelf Life 2nd"
+            value={prop.shelfLife_2nd.toString()  ?? ""}
             required={true}
             type="string"
             background="#ffffff40"
             placeholder="Shelf Life"
-            onChange={(e) => prop.setShelfLife(e.target.value)}
+            onChange={(e) => prop.setShelfLife_2nd(Number(e.target.value))}
             startIcon={null}
             error={
               prop.formError.error && prop.formError.locale === "shelf_life"
@@ -391,7 +490,7 @@ const LabelForm: FC<iProps> = (prop) => {
         <FormPropsTextFields
           id="case_gtin"
           label="Case GTIN"
-          value={prop.caseGtin??""}
+          value={prop.caseGtin ?? ""}
           required={true}
           type="text"
           background="#ffffff40"
@@ -409,7 +508,7 @@ const LabelForm: FC<iProps> = (prop) => {
         <FormPropsTextFields
           id="ingredient"
           label="ingredient"
-          value={prop.ingredient??""}
+          value={prop.ingredient ?? ""}
           required={true}
           type="text"
           rows={8}
@@ -424,12 +523,17 @@ const LabelForm: FC<iProps> = (prop) => {
               ? prop.formError.message
               : ""
           }
-          sx={{ width: "100%", padding: 0,background:prop.editMode === iEditedMode.ingredient ? "pink" : "#ffffff40" }}
+          sx={{
+            width: "100%",
+            padding: 0,
+            background:
+              prop.editMode === iEditedMode.ingredient ? "pink" : "#ffffff40",
+          }}
         />
         <FormPropsTextFields
           id="allergen"
           label="allergen"
-          value={prop.allergen??""}
+          value={prop.allergen ?? ""}
           required={false}
           type="text"
           rows={2}
@@ -437,21 +541,24 @@ const LabelForm: FC<iProps> = (prop) => {
           placeholder="allergen"
           onChange={(e) => prop.setAllergen(e.target.value)}
           startIcon={null}
-          error={
-            prop.formError.error && prop.formError.locale === "allergen"
-          }
+          error={prop.formError.error && prop.formError.locale === "allergen"}
           helperText={
             prop.formError.error && prop.formError.locale === "allergen"
               ? prop.formError.message
               : ""
           }
           onClick={() => prop.setEditMode(iEditedMode.allergen)}
-          sx={{ width: "100%", padding: 0,background:prop.editMode === iEditedMode.allergen ? "pink" : "#ffffff40" }}
+          sx={{
+            width: "100%",
+            padding: 0,
+            background:
+              prop.editMode === iEditedMode.allergen ? "pink" : "#ffffff40",
+          }}
         />
-         <FormPropsTextFields
+        <FormPropsTextFields
           id="barcode"
           label="barcode"
-          value={prop.barcode??""}
+          value={prop.barcode ?? ""}
           required={false}
           type="text"
           background="#ffffff80"
@@ -459,10 +566,7 @@ const LabelForm: FC<iProps> = (prop) => {
           onChange={(e) => prop.setBarcode(e.target.value)}
           startIcon={null}
           onClick={() => prop.setEditMode(iEditedMode.barcode)}
-
-          error={
-            prop.formError.error && prop.formError.locale === "barcode"
-          }
+          error={prop.formError.error && prop.formError.locale === "barcode"}
           helperText={
             prop.formError.error && prop.formError.locale === "barcode"
               ? prop.formError.message
@@ -473,7 +577,7 @@ const LabelForm: FC<iProps> = (prop) => {
         <FormPropsTextFields
           id="manufactured"
           label="Manufactured"
-          value={prop.manufactured ??""}
+          value={prop.manufactured ?? ""}
           required={false}
           type="text"
           rows={2}
@@ -490,7 +594,12 @@ const LabelForm: FC<iProps> = (prop) => {
               : ""
           }
           onClick={() => prop.setEditMode(iEditedMode.manufactured)}
-          sx={{ width: "100%", padding: 0,background:prop.editMode === iEditedMode.manufactured ? "pink" : "#ffffff40" }}
+          sx={{
+            width: "100%",
+            padding: 0,
+            background:
+              prop.editMode === iEditedMode.manufactured ? "pink" : "#ffffff40",
+          }}
         />
       </Column>
       <Column
@@ -500,7 +609,7 @@ const LabelForm: FC<iProps> = (prop) => {
         padding="4px 0"
       >
         {prop.isEditedView ? (
-          <Button btnText="Update Label" type="submit"  />
+          <Button btnText="Update Label" type="submit" />
         ) : (
           <Button btnText="Create Label" type="submit" />
         )}

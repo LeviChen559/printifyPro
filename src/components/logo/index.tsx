@@ -26,9 +26,9 @@ const LabelLogo: FC<iProps> = (prop) => {
       src: sunningfoods,
       alt: "Sunning foods",
       width:
-        prop.size === "sm" ? 335 / 10 : prop.size === "md" ? 335 / 5 : 335 / 3.5,
+        prop.size === "sm" ? 335 / 10 : prop.size === "md" ? 335 / 5 : 335 / 4,
       height:
-        prop.size === "sm" ? 295 / 10 : prop.size === "md" ? 295 / 5 : 295 / 3.5,
+        prop.size === "sm" ? 295 / 10 : prop.size === "md" ? 295 / 5 : 295 / 4,
     },
     shinsenna: {
       src: shinsenna,

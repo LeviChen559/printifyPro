@@ -42,7 +42,7 @@ const DROPDOWN_OPTIONS = {
   storage: Object.values(StorageType),
   logo: ["hons", "sunningfoods", "shinsenna", "viethuong"],
   role: ["user", "admin", "manager"],
-  labelSize: ["4x4_a", "4x4_b", "4x6_a"],
+  labelSize: ["sm_a", "sm_b", "lg_a", "lg_b"],
 } as const;
 
 interface iProps {

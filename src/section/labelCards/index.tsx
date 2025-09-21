@@ -1,5 +1,5 @@
 import React, { forwardRef, Dispatch, SetStateAction, useEffect } from "react";
-import LabelCard4_4_a from "@/section/labelCards/4_4_a";
+import LabelCard_sm_a from "@/section/labelCards/sm_a";
 import LabelCard4_6_a from "@/section/labelCards/4_6_a";
 import LabelCard4_4_b from "@/section/labelCards/4_4_b";
 import {
@@ -39,8 +39,10 @@ interface iProps {
   setCaseUnit?: Dispatch<SetStateAction<string>>;
   manufactured?: string;
   setWeightUnit?: Dispatch<SetStateAction<string>>;
-  storage?: string;
-  setStorage?: Dispatch<SetStateAction<string>>;
+  storage_1st?: string;
+  setStorage_1st?: Dispatch<SetStateAction<string>>;
+  storage_2nd?: string;
+  setStorage_2nd?: Dispatch<SetStateAction<string>>;
   weightUnit?: string;
   editMode: iEditedMode;
   setEditMode?: Dispatch<SetStateAction<iEditedMode>>;
@@ -65,8 +67,9 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
   const [bestBefore, setBestBefore] = React.useState<string>("");
 
   useEffect(() => {
-    const shelfLife = prop.labelInput.shelf_life;
-
+    const shelfLife_1st = prop.labelInput.shelf_life_1st;
+    const shelfLife_2nd = prop.labelInput.shelf_life_2nd;
+    const shelfLife = shelfLife_1st ? `${shelfLife_1st} days` : shelfLife_2nd ? `${shelfLife_2nd} days` : "";
     const getShelfDays = (shelfLife: string): number | null => {
       if (!shelfLife) return null;
 
@@ -94,7 +97,7 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
     } else {
       setBestBefore("");
     }
-  }, [prop.labelInput.shelf_life]);
+  }, [prop.labelInput.shelf_life_1st, prop.labelInput.shelf_life_2nd]);
 
 useEffect(() => {
   if (!prop.lotNumber) {
@@ -117,8 +120,8 @@ useEffect(() => {
   }
 }, [prop.lotNumber, prop.setLotNumber]);
 
-  return prop.type === "4x4_a" ? (
-    <LabelCard4_4_a
+  return prop.type === "sm_a" ? (
+    <LabelCard_sm_a
       labelInfo={prop.labelInput}
       itemCode={prop.itemCode}
       customerItemCode={prop.customerItemCode}
@@ -139,8 +142,10 @@ useEffect(() => {
       setCaseQuantity={prop.setCaseQuantity}
       caseUnit={prop.caseUnit}
       setCaseUnit={prop.setCaseUnit}
-      storage={prop.storage}
-      setStorage={prop.setStorage}
+      // storage_1st={prop.storage_1st}
+      // setStorage_1st={prop.setStorage_1st}
+      // storage_2nd={prop.storage_2nd}
+      // setStorage_2nd={prop.setStorage_2nd}
       manufactured={prop.manufactured}
       barcode={prop.barcode}
       setBarcode={prop.setBarcode}
@@ -182,8 +187,8 @@ useEffect(() => {
       setCaseQuantity={prop.setCaseQuantity}
       caseUnit={prop.caseUnit}
       setCaseUnit={prop.setCaseUnit}
-      storage={prop.storage}
-      setStorage={prop.setStorage}
+      // storage={prop.storage}
+      // setStorage={prop.setStorage}
       manufactured={prop.manufactured}
       barcode={prop.barcode}
       setBarcode={prop.setBarcode}
@@ -226,8 +231,8 @@ useEffect(() => {
       setCaseQuantity={prop.setCaseQuantity}
       caseUnit={prop.caseUnit}
       setCaseUnit={prop.setCaseUnit}
-      storage={prop.storage}
-      setStorage={prop.setStorage}
+      // storage={prop.storage}
+      // setStorage={prop.setStorage}
       manufactured={prop.manufactured}
       barcode={prop.barcode}
       setBarcode={prop.setBarcode}

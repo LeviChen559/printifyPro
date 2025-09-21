@@ -28,8 +28,10 @@ export async function POST(req: NextRequest) {
         weight: data.labelInput.weight,
         case_quantity: data.labelInput.case_quantity,
         case_unit: data.labelInput.case_unit,
-        storage: data.labelInput.storage,
-        shelf_life: data.labelInput.shelf_life,
+        storage_1st: data.labelInput.storage_1st,
+        shelf_life_1st: data.labelInput.shelf_life_1st,
+        storage_2nd: data.labelInput.storage_2nd,
+        shelf_life_2nd: data.labelInput.shelf_life_2nd,
         case_gtin: data.labelInput.case_gtin,
         ingredient: data.labelInput.ingredient,
         manufactured: data.labelInput.manufactured,
@@ -41,7 +43,7 @@ export async function POST(req: NextRequest) {
     });
     const newLabelStyle:labelstyle = await prisma.labelstyle.create({
       data: {
-        id: newLabel.id,
+        id: Number(newLabel.id),
         item_code: data.defaultLabelStyle.item_code,
         product_name_en: data.defaultLabelStyle.product_name_en,
         product_name_zh: data.defaultLabelStyle.product_name_zh,
