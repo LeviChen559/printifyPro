@@ -279,7 +279,7 @@ const LabelForm: FC<iProps> = (prop) => {
           <FormPropsTextFields
             id="case_quantity"
             label="Case Quantity"
-            value={prop.caseQuantity.toString() ?? ""}
+            value={prop.caseQuantity?.toString() ?? ""}
             required={true}
             type="number"
             background="#ffffff40"
@@ -392,7 +392,7 @@ const LabelForm: FC<iProps> = (prop) => {
           <FormPropsTextFields
             id="shelf_life_1st"
             label="Shelf Life 1st"
-            value={prop.shelfLife_1st.toString() ?? ""}
+            value={prop.shelfLife_1st?.toString() ?? ""}
             required={true}
             type="string"
             background="#ffffff40"
@@ -469,7 +469,7 @@ const LabelForm: FC<iProps> = (prop) => {
           <FormPropsTextFields
             id="shelf_life 2nd"
             label="Shelf Life 2nd"
-            value={prop.shelfLife_2nd.toString()  ?? ""}
+            value={prop.shelfLife_2nd?.toString()  ?? ""}
             required={true}
             type="string"
             background="#ffffff40"
