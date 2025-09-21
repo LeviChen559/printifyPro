@@ -220,10 +220,16 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
               Case
             </TableCell>
             <TableCell align="left" sx={tableCellStyle(50, undefined)}>
-              Storage
+              Storage_1st
             </TableCell>
             <TableCell align="left" sx={tableCellStyle(110, undefined)}>
-              Shelf Life
+              Shelf Life 1st
+            </TableCell>
+            <TableCell align="left" sx={tableCellStyle(50, undefined)}>
+              Storage_2nd
+            </TableCell>
+            <TableCell align="left" sx={tableCellStyle(110, undefined)}>
+              Shelf Life 2nd
             </TableCell>
             <TableCell align="left" sx={tableCellStyle(75, undefined)}>
               Case Gtin
@@ -286,9 +292,22 @@ const BarCodeInfoTable: FC<iTable> = (prop) => {
                     padding: 1,
                   }}
                 >
-                  {row.storage}
+                  {row.storage_1st}
                 </TableCell>
-                <TableCell align="left" sx={tableCellStyle(110,undefined)}>{row.shelf_life}</TableCell>
+                <TableCell align="left" sx={tableCellStyle(110,undefined)}>{row.shelf_life_1st}</TableCell>
+                   <TableCell
+                  align="left"
+                  sx={{
+                    width: "50px",
+                    whiteSpace: "balance",
+                    textWrap: "balance",
+                    wordBreak: "break-word",
+                    padding: 1,
+                  }}
+                >
+                  {row.storage_2nd}
+                </TableCell>
+                <TableCell align="left" sx={tableCellStyle(110,undefined)}>{row.shelf_life_2nd}</TableCell>
                 <TableCell align="left" sx={tableCellStyle(50,undefined)}>{row.case_gtin}</TableCell>
                 <TableCell align="left" sx={tableCellStyle(50,undefined)}>{row.manufactured}</TableCell>
                 <TableCell align="left" sx={tableCellStyle(50,undefined)}>{row.label_temp}</TableCell>

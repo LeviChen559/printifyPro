@@ -17,6 +17,6 @@ export const autoWidth = (text: string | number,type?:string) => {
 };
 
 export const autoHeight = (fontSize: number) => {
-  const lineHeight = 1.5; // Line height multiplier
+  const lineHeight = 1.4; // Line height multiplier
   return `${fontSize * lineHeight}px`;
 };

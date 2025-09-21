@@ -97,8 +97,10 @@ export  enum iEditedMode {
     weight: string;
     case_quantity: number;
     case_unit: string;
-    storage: string;
-    shelf_life: string;
+    storage_1st: string;
+    storage_2nd: string;
+    shelf_life_1st: number;
+    shelf_life_2nd: number;
     case_gtin: string;
     ingredient: string;
     manufactured: string;

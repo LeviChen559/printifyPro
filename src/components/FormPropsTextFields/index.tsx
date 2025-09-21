@@ -19,12 +19,14 @@ interface iProps {
   autoComplete?: string;
   background?:string;
   helperText?: string;
+  disabled?: boolean;
 }
 
 const FormPropsTextFields: FC<iProps> = (prop) => {
   return (
     <Box sx={{width:"100%"}}>
     <TextField
+      disabled={prop.disabled? true : false}
       required={prop.required}
       id={prop.id}
       error={prop.error}

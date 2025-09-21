@@ -14,8 +14,8 @@ interface iProps {
 }
 
 export const Container = styled.div<iProps>((props) => ({
-  width: props.width ?? 384,
-  height: props.height ?? 384,
+  width: props.width ?? 360,
+  height: props.height ?? 312,
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
@@ -25,7 +25,7 @@ export const Container = styled.div<iProps>((props) => ({
   backgroundColor: "#ffffff",
   boxShadow: "0px 4px 4px 0px #bcbcbc",
   border: "1px solid #bcbcbc80",
-  gap: 6,
+  gap: 4,
   position: "relative",
   overflow: "hidden",
   
@@ -75,7 +75,7 @@ export const Ingredients = styled.div<iProps>((props) => ({
   display: "flex",
   flexDirection: props.flexDirection ?? "row",
   justifyContent: "flex-start",
-  alignItems: "flex-start",
+  alignItems: "center",
   gap: props.gap ?? 12,
 }));
 
