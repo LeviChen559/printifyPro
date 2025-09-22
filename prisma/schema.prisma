@@ -62,7 +62,7 @@ model mylabels {
   storage_1st        String?
   shelf_life_1st     Int?    @db.SmallInt
   storage_2nd        String?
-  shelf_life_2nd     String?
+  shelf_life_2nd     Int?    @db.SmallInt
   case_gtin          String?
   ingredient         String?
   allergen           String?
