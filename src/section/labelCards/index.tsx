@@ -106,35 +106,34 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
     }
   }, [prop.labelInput.shelf_life_1st, prop.labelInput.shelf_life_2nd]);
   console.log("lotNumberType", prop.lotNumberType, prop.lotNumber);
-useEffect(() => {
-  if (!prop.setLotNumber) return;
+  useEffect(() => {
+    if (!prop.setLotNumber) return;
 
-  
- if (prop.lotNumberType === "manual") {
-    // clear once when switching from auto → manual
-    if (!prop.lotNumber) {
-      prop.setLotNumber("");
+    if (prop.lotNumberType === "manual") {
+      // clear once when switching from auto → manual
+      if (!prop.lotNumber) {
+        prop.setLotNumber("");
+      }
+      return;
     }
-    return;
-  }
 
-  if (!prop.lotNumber && prop.lotNumberType === "auto") {
-    const date = new Date();
-    date.setDate(date.getDate() + 1); // tomorrow
+    if (!prop.lotNumber && prop.lotNumberType === "auto") {
+      const date = new Date();
+      date.setDate(date.getDate() + 1); // tomorrow
 
-    // Compute day of the year (cleaner version)
-    const start = new Date(date.getFullYear(), 0, 1);
-    const diff = date.getTime() - start.getTime();
-    const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
+      // Compute day of the year (cleaner version)
+      const start = new Date(date.getFullYear(), 0, 1);
+      const diff = date.getTime() - start.getTime();
+      const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
 
-    // Format as YYDDD
-    const yy = String(date.getFullYear()).slice(-2);
-    const ddd = String(dayOfYear).padStart(3, "0");
-    const julian5 = yy + ddd;
+      // Format as YYDDD
+      const yy = String(date.getFullYear()).slice(-2);
+      const ddd = String(dayOfYear).padStart(3, "0");
+      const julian5 = yy + ddd;
 
-    prop.setLotNumber(julian5);
-  }
-}, [ prop.lotNumberType]);
+      prop.setLotNumber(julian5);
+    }
+  }, [prop.lotNumberType,prop]);
 
   return prop.type === "sm_a" ? (
     <LabelCard_sm_a
@@ -159,9 +158,6 @@ useEffect(() => {
       caseUnit={prop.caseUnit}
       setCaseUnit={prop.setCaseUnit}
       storage_1st={prop.storage_1st}
-      // setStorage_1st={prop.setStorage_1st}
-      // storage_2nd={prop.storage_2nd}
-      // setStorage_2nd={prop.setStorage_2nd}
       manufactured={prop.manufactured}
       barcode={prop.barcode}
       setBarcode={prop.setBarcode}

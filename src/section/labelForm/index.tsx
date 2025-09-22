@@ -72,7 +72,6 @@ const LabelForm: FC<iProps> = (prop) => {
     };
   };
 
-
   return (
     <Form onSubmit={prop.isEditedView ? prop.updateLabel : prop.createNewLabel}>
       <Column height="85%">
@@ -166,10 +165,12 @@ const LabelForm: FC<iProps> = (prop) => {
             sx={commonTextFieldStyles(iEditedMode.customerCode)}
           />
         </Box>
-        <Box sx={{ display: "flex", flexDirection: "row", gap: 1, width: "100%" }}>
+        <Box
+          sx={{ display: "flex", flexDirection: "row", gap: 1, width: "100%" }}
+        >
           <DropdownMenu
             type="lot_number"
-            placeholder="Select Lot Number Type"
+            placeholder="Select a Lot Number Type"
             value={prop.lotNumberType}
             onChange={prop.setLotNumberType}
             error={
