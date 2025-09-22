@@ -1,7 +1,8 @@
 import React, { forwardRef, Dispatch, SetStateAction, useEffect } from "react";
 import LabelCard_sm_a from "@/section/labelCards/sm_a";
+import LabelCard_sm_b from "@/section/labelCards/sm_b";
 import LabelCard4_6_a from "@/section/labelCards/4_6_a";
-import LabelCard4_4_b from "@/section/labelCards/4_4_b";
+
 import {
   iLabelInfo,
   iTextStyle,
@@ -210,7 +211,7 @@ useEffect(() => {
       showLotNumber={prop.showLotNumber ?? true}
     />
   ) : (
-    <LabelCard4_4_b
+   <LabelCard_sm_b
       labelInfo={prop.labelInput}
       itemCode={prop.itemCode}
       customerItemCode={prop.customerItemCode}
@@ -231,16 +232,18 @@ useEffect(() => {
       setCaseQuantity={prop.setCaseQuantity}
       caseUnit={prop.caseUnit}
       setCaseUnit={prop.setCaseUnit}
-      // storage={prop.storage}
-      // setStorage={prop.setStorage}
+      storage_1st={prop.storage_1st}
+      // setStorage_1st={prop.setStorage_1st}
+      // storage_2nd={prop.storage_2nd}
+      // setStorage_2nd={prop.setStorage_2nd}
       manufactured={prop.manufactured}
       barcode={prop.barcode}
       setBarcode={prop.setBarcode}
       defaultLabelStyle={prop.defaultLabelStyle}
+      defaultText={prop.defaultText}
       productNameENStyle={prop.productNameENStyle}
       productNameZHStyle={prop.productNameZHStyle}
       allergenStyle={prop.allergenStyle}
-      defaultText={prop.defaultText}
       ingredientStyle={prop.ingredientStyle}
       manufacturedStyle={prop.manufacturedStyle}
       storageStyle={prop.storageStyle}
@@ -252,6 +255,7 @@ useEffect(() => {
       setAllergen={prop.setAllergen}
       showBorder={prop.showBorder}
       showLotNumber={prop.showLotNumber ?? true}
+      bestBefore={bestBefore}
     />
   );
 });
