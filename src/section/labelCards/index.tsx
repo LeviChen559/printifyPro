@@ -18,7 +18,9 @@ interface iProps {
   customerItemCode?: string;
   setCustomerItemCode?: Dispatch<SetStateAction<string>>;
   lotNumber?: string;
+  lotNumberType?: string;
   setLotNumber?: Dispatch<SetStateAction<string>>;
+  setLotNumberType?: Dispatch<SetStateAction<string>>;
   showProductNameZH?: boolean;
   showProductNameEN?: boolean;
   isEditedMode?: boolean;
@@ -70,7 +72,11 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
   useEffect(() => {
     const shelfLife_1st = prop.labelInput.shelf_life_1st;
     const shelfLife_2nd = prop.labelInput.shelf_life_2nd;
-    const shelfLife = shelfLife_1st ? `${shelfLife_1st} days` : shelfLife_2nd ? `${shelfLife_2nd} days` : "";
+    const shelfLife = shelfLife_1st
+      ? `${shelfLife_1st} days`
+      : shelfLife_2nd
+      ? `${shelfLife_2nd} days`
+      : "";
     const getShelfDays = (shelfLife: string): number | null => {
       if (!shelfLife) return null;
 
@@ -99,27 +105,36 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       setBestBefore("");
     }
   }, [prop.labelInput.shelf_life_1st, prop.labelInput.shelf_life_2nd]);
-
+  console.log("lotNumberType", prop.lotNumberType, prop.lotNumber);
 useEffect(() => {
-  if (!prop.lotNumber) {
+  if (!prop.setLotNumber) return;
+
+  
+ if (prop.lotNumberType === "manual") {
+    // clear once when switching from auto → manual
+    if (!prop.lotNumber) {
+      prop.setLotNumber("");
+    }
+    return;
+  }
+
+  if (!prop.lotNumber && prop.lotNumberType === "auto") {
     const date = new Date();
     date.setDate(date.getDate() + 1); // tomorrow
 
-    // Compute day of the year
-    const start = new Date(date.getFullYear(), 0, 0);
+    // Compute day of the year (cleaner version)
+    const start = new Date(date.getFullYear(), 0, 1);
     const diff = date.getTime() - start.getTime();
-    const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
 
     // Format as YYDDD
     const yy = String(date.getFullYear()).slice(-2);
-    const ddd = String(dayOfYear).padStart(3, '0');
+    const ddd = String(dayOfYear).padStart(3, "0");
     const julian5 = yy + ddd;
 
-    if (prop.setLotNumber) {
-      prop.setLotNumber(julian5);
-    }
+    prop.setLotNumber(julian5);
   }
-}, [prop.lotNumber, prop.setLotNumber]);
+}, [ prop.lotNumberType]);
 
   return prop.type === "sm_a" ? (
     <LabelCard_sm_a
@@ -211,7 +226,7 @@ useEffect(() => {
       showLotNumber={prop.showLotNumber ?? true}
     />
   ) : (
-   <LabelCard_sm_b
+    <LabelCard_sm_b
       labelInfo={prop.labelInput}
       itemCode={prop.itemCode}
       customerItemCode={prop.customerItemCode}

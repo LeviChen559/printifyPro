@@ -479,13 +479,13 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           <Barcode
             value={prop.labelInfo.barcode.substring(0, 11) ?? "111111111111"}
             width={1.4}
-            height={25}
+            height={20}
             fontSize={14}
             format="UPC"
             background={
               prop.editMode === iEditedMode.barcode ? "#000000" : "#ffffff"
             }
-            marginTop={-4}
+            marginBottom={10}
           />
         </InfomationColumn>
       </InfomationWrapper>

@@ -12,7 +12,8 @@ type DropdownType =
   | "labelSize"
   | "case_unit"
   | "storage"
-  | "role";
+  | "role"
+  | "lot_number";
 
 export enum CaseUnitType {
   "tray" = "tray",
@@ -32,8 +33,6 @@ export enum WeightUnitType {
 export enum StorageType {
   "Freezer" = "Freezer",
   "Cooler" = "Cooler",
-  "Freezer/Cooler" = "Freezer/Cooler",
-  "Normal" = "Normal",
 }
 
 const DROPDOWN_OPTIONS = {
@@ -43,6 +42,7 @@ const DROPDOWN_OPTIONS = {
   logo: ["hons", "sunningfoods", "shinsenna", "viethuong"],
   role: ["user", "admin", "manager"],
   labelSize: ["sm_a", "sm_b", "lg_a", "lg_b"],
+  lot_number: ["auto", "manual"],
 } as const;
 
 interface iProps {

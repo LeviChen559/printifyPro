@@ -18,7 +18,9 @@ interface iProps {
   customerItemCode: string;
   setCustomerItemCode: Dispatch<SetStateAction<string>>;
   lotNumber: string;
+  lotNumberType: string;
   setLotNumber: Dispatch<SetStateAction<string>>;
+  setLotNumberType: Dispatch<SetStateAction<string>>;
   formError: {
     error: boolean;
     locale: string;
@@ -69,6 +71,7 @@ const LabelForm: FC<iProps> = (prop) => {
       background: mode === prop.editMode ? "pink" : "#ffffff40",
     };
   };
+
 
   return (
     <Form onSubmit={prop.isEditedView ? prop.updateLabel : prop.createNewLabel}>
@@ -161,6 +164,23 @@ const LabelForm: FC<iProps> = (prop) => {
             }
             onClick={() => prop.setEditMode(iEditedMode.customerCode)}
             sx={commonTextFieldStyles(iEditedMode.customerCode)}
+          />
+        </Box>
+        <Box sx={{ display: "flex", flexDirection: "row", gap: 1, width: "100%" }}>
+          <DropdownMenu
+            type="lot_number"
+            placeholder="Select Lot Number Type"
+            value={prop.lotNumberType}
+            onChange={prop.setLotNumberType}
+            error={
+              prop.formError.error && prop.formError.locale === "lot_number"
+            }
+            helperText={
+              prop.formError.error && prop.formError.locale === "lot_number"
+                ? prop.formError.message
+                : ""
+            }
+            width="50%"
           />
           <FormPropsTextFields
             id="Lot_number"
@@ -366,9 +386,7 @@ const LabelForm: FC<iProps> = (prop) => {
             placeholder="Select Storage Type"
             value={prop.storage_1st}
             onChange={prop.setStorage_1st}
-            error={
-              prop.formError.error && prop.formError.locale === "storage"
-            }
+            error={prop.formError.error && prop.formError.locale === "storage"}
             helperText={
               prop.formError.error && prop.formError.locale === "storage"
                 ? prop.formError.message
@@ -376,7 +394,7 @@ const LabelForm: FC<iProps> = (prop) => {
             }
             width="60%"
           />
-          
+
           <FormPropsTextFields
             id="shelf_life_1st"
             label="Shelf Life 1st"
@@ -431,9 +449,7 @@ const LabelForm: FC<iProps> = (prop) => {
             placeholder="Select Storage Type"
             value={prop.storage_2nd}
             onChange={prop.setStorage_2nd}
-            error={
-              prop.formError.error && prop.formError.locale === "storage"
-            }
+            error={prop.formError.error && prop.formError.locale === "storage"}
             helperText={
               prop.formError.error && prop.formError.locale === "storage"
                 ? prop.formError.message

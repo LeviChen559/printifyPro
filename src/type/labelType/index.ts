@@ -92,6 +92,7 @@ export  enum iEditedMode {
     item_code: string;
     customer_item_code: string;
     lot_number: string;
+    lot_number_type: string;
     product_name_en: string;
     product_name_zh: string;
     weight: string;
