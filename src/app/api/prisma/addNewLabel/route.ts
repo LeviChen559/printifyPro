@@ -23,6 +23,9 @@ export async function POST(req: NextRequest) {
       data: {
         id: data.labelInput.id,
         item_code: data.labelInput.item_code,
+        customer_item_code: data.labelInput.customer_item_code,
+        lot_number: data.labelInput.lot_number,
+        lot_number_type: data.labelInput.lot_number_type,
         product_name_en: data.labelInput.product_name_en,
         product_name_zh: data.labelInput.product_name_zh,
         weight: data.labelInput.weight,

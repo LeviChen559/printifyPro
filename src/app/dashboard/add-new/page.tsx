@@ -42,6 +42,7 @@ const AddNew = () => {
   const [itemCode, setItemCode] = useState<string>("");
   const [customerItemCode, setCustomerItemCode] = useState<string>("");
   const [lotNumber, setLotNumber] = useState<string>("");
+  const [lotNumberType, setLotNumberType] = useState<string>("auto");
   const [productNameEN, setProductNameEN] = useState<string>("");
   const [productNameZH, setProductNameZH] = useState<string>("");
   const [weight, setWeight] = useState<string>("");
@@ -247,6 +248,7 @@ const AddNew = () => {
     item_code: isUniqueItemCode && itemCode, // Add appropriate value
     customer_item_code: customerItemCode,
     lot_number: lotNumber,
+    lot_number_type: lotNumberType,
     product_name_en: productNameEN,
     product_name_zh: productNameZH,
     weight: weight,
@@ -486,6 +488,8 @@ const AddNew = () => {
           setCustomerItemCode={setCustomerItemCode}
           lotNumber={lotNumber}
           setLotNumber={setLotNumber}
+          lotNumberType={lotNumberType}
+          setLotNumberType={setLotNumberType}
           setItemCode={setItemCode}
           setProductNameEN={setProductNameEN}
           setProductNameZH={setProductNameZH}
@@ -549,6 +553,8 @@ const AddNew = () => {
           setCustomerItemCode={setCustomerItemCode}
           lotNumber={lotNumber}
           setLotNumber={setLotNumber}
+          lotNumberType={lotNumberType}
+          setLotNumberType={setLotNumberType}
           setItemCode={setItemCode}
           productNameEN={productNameEN}
           setProductNameEN={setProductNameEN}

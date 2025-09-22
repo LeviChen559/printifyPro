@@ -47,8 +47,8 @@ interface iProp {
   setCaseQuantity?: Dispatch<SetStateAction<number>>;
   manufactured?: string;
   setWeightUnit?: Dispatch<SetStateAction<string>>;
-  storage?: string;
-  setStorage?: Dispatch<SetStateAction<string>>;
+  storage_1st?: string;
+  setStorage_1st?: Dispatch<SetStateAction<string>>;
   weightUnit?: string;
   barcode?: string;
   setBarcode?: Dispatch<SetStateAction<string>>;
@@ -375,11 +375,11 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
       <Row height="auto">
         <EditableTextField
           name={iEditedMode.storage}
-          value={prop.storage ?? ""}
-          onChange={prop.setStorage}
+          value={prop.storage_1st ?? ""}
+          onChange={prop.setStorage_1st}
           style={storageStyle}
           readonly={isEditedMode === false}
-          width={prop.storage ? autoWidth(prop.storage, "storage") : 40}
+          width={prop.storage_1st ? autoWidth(prop.storage_1st, "storage") : 40}
           height={autoHeight(14)}
           showBorder={prop.showBorder}
           editMode={prop.editMode}
@@ -442,7 +442,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           <Barcode
             value={prop.labelInfo.barcode.substring(0, 11) ?? "111111111111"}
             width={1.4}
-            height={25}
+            height={20}
             fontSize={14}
             format="UPC"
             background={

@@ -43,6 +43,11 @@ export async function PATCH(req: NextRequest) {
         ...(labelInfo.label_temp && { label_temp: labelInfo.label_temp }),
         ...(labelInfo.logo && { logo: labelInfo.logo }),
         ...(labelInfo.lot_number && { lot_number: labelInfo.lot_number }),
+        ...(labelInfo.lot_number_type && { lot_number_type: labelInfo.lot_number_type }),
+        ...(labelInfo.allergen && { allergen: labelInfo.allergen }),
+        ...(labelInfo.manufactured && { manufactured: labelInfo.manufactured }),
+        ...(labelInfo.user_id && { user_id: labelInfo.user_id }),
+        ...(labelInfo.item_code && { item_code: labelInfo.item_code }),
         ...(labelInfo.customer_item_code && { customer_item_code: labelInfo.customer_item_code }),
       };
     

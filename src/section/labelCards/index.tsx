@@ -1,7 +1,8 @@
 import React, { forwardRef, Dispatch, SetStateAction, useEffect } from "react";
 import LabelCard_sm_a from "@/section/labelCards/sm_a";
+import LabelCard_sm_b from "@/section/labelCards/sm_b";
 import LabelCard4_6_a from "@/section/labelCards/4_6_a";
-import LabelCard4_4_b from "@/section/labelCards/4_4_b";
+
 import {
   iLabelInfo,
   iTextStyle,
@@ -17,7 +18,9 @@ interface iProps {
   customerItemCode?: string;
   setCustomerItemCode?: Dispatch<SetStateAction<string>>;
   lotNumber?: string;
+  lotNumberType?: string;
   setLotNumber?: Dispatch<SetStateAction<string>>;
+  setLotNumberType?: Dispatch<SetStateAction<string>>;
   showProductNameZH?: boolean;
   showProductNameEN?: boolean;
   isEditedMode?: boolean;
@@ -69,7 +72,11 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
   useEffect(() => {
     const shelfLife_1st = prop.labelInput.shelf_life_1st;
     const shelfLife_2nd = prop.labelInput.shelf_life_2nd;
-    const shelfLife = shelfLife_1st ? `${shelfLife_1st} days` : shelfLife_2nd ? `${shelfLife_2nd} days` : "";
+    const shelfLife = shelfLife_1st
+      ? `${shelfLife_1st} days`
+      : shelfLife_2nd
+      ? `${shelfLife_2nd} days`
+      : "";
     const getShelfDays = (shelfLife: string): number | null => {
       if (!shelfLife) return null;
 
@@ -98,27 +105,35 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       setBestBefore("");
     }
   }, [prop.labelInput.shelf_life_1st, prop.labelInput.shelf_life_2nd]);
+  console.log("lotNumberType", prop.lotNumberType, prop.lotNumber);
+  useEffect(() => {
+    if (!prop.setLotNumber) return;
 
-useEffect(() => {
-  if (!prop.lotNumber) {
-    const date = new Date();
-    date.setDate(date.getDate() + 1); // tomorrow
+    if (prop.lotNumberType === "manual") {
+      // clear once when switching from auto → manual
+      if (!prop.lotNumber) {
+        prop.setLotNumber("");
+      }
+      return;
+    }
 
-    // Compute day of the year
-    const start = new Date(date.getFullYear(), 0, 0);
-    const diff = date.getTime() - start.getTime();
-    const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+    if (!prop.lotNumber && prop.lotNumberType === "auto") {
+      const date = new Date();
+      date.setDate(date.getDate() + 1); // tomorrow
 
-    // Format as YYDDD
-    const yy = String(date.getFullYear()).slice(-2);
-    const ddd = String(dayOfYear).padStart(3, '0');
-    const julian5 = yy + ddd;
+      // Compute day of the year (cleaner version)
+      const start = new Date(date.getFullYear(), 0, 1);
+      const diff = date.getTime() - start.getTime();
+      const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
 
-    if (prop.setLotNumber) {
+      // Format as YYDDD
+      const yy = String(date.getFullYear()).slice(-2);
+      const ddd = String(dayOfYear).padStart(3, "0");
+      const julian5 = yy + ddd;
+
       prop.setLotNumber(julian5);
     }
-  }
-}, [prop.lotNumber, prop.setLotNumber]);
+  }, [prop.lotNumberType,prop]);
 
   return prop.type === "sm_a" ? (
     <LabelCard_sm_a
@@ -143,9 +158,6 @@ useEffect(() => {
       caseUnit={prop.caseUnit}
       setCaseUnit={prop.setCaseUnit}
       storage_1st={prop.storage_1st}
-      // setStorage_1st={prop.setStorage_1st}
-      // storage_2nd={prop.storage_2nd}
-      // setStorage_2nd={prop.setStorage_2nd}
       manufactured={prop.manufactured}
       barcode={prop.barcode}
       setBarcode={prop.setBarcode}
@@ -210,7 +222,7 @@ useEffect(() => {
       showLotNumber={prop.showLotNumber ?? true}
     />
   ) : (
-    <LabelCard4_4_b
+    <LabelCard_sm_b
       labelInfo={prop.labelInput}
       itemCode={prop.itemCode}
       customerItemCode={prop.customerItemCode}
@@ -231,16 +243,18 @@ useEffect(() => {
       setCaseQuantity={prop.setCaseQuantity}
       caseUnit={prop.caseUnit}
       setCaseUnit={prop.setCaseUnit}
-      // storage={prop.storage}
-      // setStorage={prop.setStorage}
+      storage_1st={prop.storage_1st}
+      // setStorage_1st={prop.setStorage_1st}
+      // storage_2nd={prop.storage_2nd}
+      // setStorage_2nd={prop.setStorage_2nd}
       manufactured={prop.manufactured}
       barcode={prop.barcode}
       setBarcode={prop.setBarcode}
       defaultLabelStyle={prop.defaultLabelStyle}
+      defaultText={prop.defaultText}
       productNameENStyle={prop.productNameENStyle}
       productNameZHStyle={prop.productNameZHStyle}
       allergenStyle={prop.allergenStyle}
-      defaultText={prop.defaultText}
       ingredientStyle={prop.ingredientStyle}
       manufacturedStyle={prop.manufacturedStyle}
       storageStyle={prop.storageStyle}
@@ -252,6 +266,7 @@ useEffect(() => {
       setAllergen={prop.setAllergen}
       showBorder={prop.showBorder}
       showLotNumber={prop.showLotNumber ?? true}
+      bestBefore={bestBefore}
     />
   );
 });

@@ -14,13 +14,13 @@ interface iProps {
 }
 
 export const Container = styled.div<iProps>((props) => ({
-  width: props.width ?? 360,
-  height: props.height ?? 312,
+  width: props.width ?? 384,
+  height: props.height ?? 360,
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "flex-start",
-  padding: 8,
+  padding: 12,
   borderRadius: 4,
   backgroundColor: "#ffffff",
   boxShadow: "0px 4px 4px 0px #bcbcbc",

@@ -56,6 +56,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
   const [isLabelUpdating, setIsLabelUpdating] = useState<boolean>(false);
   const [isLabelDeleted, setIsLabelDeleted] = useState<boolean>(false);
   const [labelState, dispatch] = useReducer(reducer, prop.selectLabelInfo);
+  console.log("labelState", labelState);
   const baseTextStyle: iTextStyle = {
     color: "#000000",
     fontStyle: "Normal",
@@ -107,6 +108,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
     item_code: labelState.item_code, // Add appropriate value
     customer_item_code: labelState.customer_item_code,
     lot_number: labelState.lot_number, // Add appropriate value
+    lot_number_type: labelState.lot_number_type,
     product_name_en: labelState.product_name_en,
     product_name_zh: labelState.product_name_zh,
     weight: labelState.weight,
@@ -207,7 +209,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
       },
       {
         field: labelState.lot_number,
-        message: "Lot Number",
+        message: "Lot Number is required",
         locale: "lot_number",
         validate: (value: string) => value?.length > 0 || value === "",
       },
@@ -249,7 +251,10 @@ const LabelEditCard: FC<iProps> = (prop) => {
     labelState.allergen,
     labelState.barcode,
     labelState.lot_number,
+    labelState.lot_number_type,
   ]);
+
+  
 
   const handleItemCodeChange = handleUpdate(
     "item_code",
@@ -342,6 +347,12 @@ const LabelEditCard: FC<iProps> = (prop) => {
     dispatch,
     labelState.lot_number
   );
+  const handleLotNumberTypeChange = handleUpdate(
+    "lot_number_type",
+    dispatch,
+    labelState.lot_number_type
+  );
+
 
   useEffect(() => {
     if (labelStyle?.data?.[0]) {
@@ -647,8 +658,10 @@ const LabelEditCard: FC<iProps> = (prop) => {
             setItemCode={handleItemCodeChange}
             customerItemCode={labelState.customer_item_code}
             setCustomerItemCode={handleCustomerItemCodeChange}
-            lotNumber={labelState.lot_number}
-            setLotNumber={handleLotNumberChange}
+             lotNumber={labelState.lot_number}
+          lotNumberType={labelState.lot_number_type}
+          setLotNumberType={handleLotNumberTypeChange}
+          setLotNumber={handleLotNumberChange}
             setLogo={handleLogoChange}
             labelInput={labelInput}
             showProductNameEN={true}
@@ -701,6 +714,8 @@ const LabelEditCard: FC<iProps> = (prop) => {
           customerItemCode={labelState.customer_item_code}
           setCustomerItemCode={handleCustomerItemCodeChange}
           lotNumber={labelState.lot_number}
+          lotNumberType={labelState.lot_number_type}
+          setLotNumberType={handleLotNumberTypeChange}
           setLotNumber={handleLotNumberChange}
           productNameEN={labelState.product_name_en}
           setProductNameEN={handleProductNameENChange}
