@@ -1,4 +1,4 @@
-import React, { FC, FormEvent, Dispatch, SetStateAction } from "react";
+import React, { FC, FormEvent, Dispatch, SetStateAction,useEffect } from "react";
 import FormPropsTextFields from "@/components/FormPropsTextFields";
 import { Column, Form } from "./style";
 import Button from "@/components/button";
@@ -63,6 +63,7 @@ interface iProps {
   setEditMode: Dispatch<SetStateAction<iEditedMode>>;
 }
 const LabelForm: FC<iProps> = (prop) => {
+  const prevLotNumberTypeRef = React.useRef<string>("");
   const commonTextFieldStyles = (mode: iEditedMode) => {
     return {
       width: "100%",
@@ -71,6 +72,20 @@ const LabelForm: FC<iProps> = (prop) => {
       background: mode === prop.editMode ? "pink" : "#ffffff40",
     };
   };
+
+useEffect(() => {
+  if (prevLotNumberTypeRef.current !== prop.lotNumberType) {
+    if (prop.lotNumber !== "") {
+      prop.setLotNumber(""); // reset only if non-empty
+    }
+    prevLotNumberTypeRef.current = prop.lotNumberType;
+  }
+}, [prop.lotNumberType, prop.lotNumber]);
+  console.log(
+    "render form",
+    prevLotNumberTypeRef.current !== prop.lotNumberType,
+    prop.lotNumber
+  );
 
   return (
     <Form onSubmit={prop.isEditedView ? prop.updateLabel : prop.createNewLabel}>
@@ -191,7 +206,9 @@ const LabelForm: FC<iProps> = (prop) => {
             type="text"
             placeholder="lot_Number"
             background="#ffffff40"
-            onChange={(e) => prop.setLotNumber(e.target.value.toString())}
+            onChange={(e) => {
+              prop.setLotNumber(e.target.value.toString());
+            }}
             startIcon={null}
             error={
               prop.formError.error && prop.formError.locale === "Lot_number"

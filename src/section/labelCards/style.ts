@@ -11,6 +11,7 @@ interface iProps {
   background?: string;
   paddingTop?: number;
   flexDirection?: "row" | "column";
+  isEditedMode?: boolean;
 }
 
 export const Container = styled.div<iProps>((props) => ({
@@ -28,7 +29,21 @@ export const Container = styled.div<iProps>((props) => ({
   gap: 2,
   position: "relative",
   overflow: "hidden",
-  
+  boxSizing: "border-box",
+}));
+export const ContainerBorder = styled.div<iProps>((props) => ({
+  width: "100%",
+  height: "100%",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "flex-start",
+  borderRadius: 4,
+  backgroundColor: "#ffffff",
+  border: props.isEditedMode ? "1px solid #bcbcbc80" : "none",
+  gap: 2,
+  position: "relative",
+  overflow: "hidden",
 }));
 
 export const Header = styled.div({

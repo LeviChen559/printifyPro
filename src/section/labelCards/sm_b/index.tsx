@@ -7,6 +7,7 @@ import {
   Ingredients,
   Row,
   Col,
+  ContainerBorder,
 } from "../style";
 import { iLabelInfo } from "@/type/labelType";
 import { Typography } from "@mui/material";
@@ -179,6 +180,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
 
   return (
     <Container id="labelCard" ref={ref}>
+      <ContainerBorder isEditedMode={prop.showBorder}>
       <Header>
         <Col width="auto" justifyContent="flex-start" height="auto" gap={6}>
           <EditableTextField
@@ -448,10 +450,11 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
             background={
               prop.editMode === iEditedMode.barcode ? "#000000" : "#ffffff"
             }
-            marginTop={-4}
+            marginTop={-6}
           />
         </InfomationColumn>
       </InfomationWrapper>
+      </ContainerBorder>
     </Container>
   );
 });
