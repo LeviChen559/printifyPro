@@ -48,9 +48,9 @@ model labelstyle {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model mylabels {
-  id                 Int     @id(map: "mylabels2_pkey") @unique @default(autoincrement()) @db.SmallInt
+  id                 Int     @id(map: "mylabels2_pkey") @unique @db.SmallInt
   logo               String?
-  item_code          Int?    @db.SmallInt
+  item_code          String? @db.VarChar
   lot_number_type    String?
   lot_number         String?
   label_temp         String?

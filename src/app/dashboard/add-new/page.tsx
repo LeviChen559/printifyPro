@@ -299,7 +299,8 @@ const AddNew = () => {
         labelInput,
         defaultLabelStyle,
       });
-      console.log("response", response.data);
+      console.log("response", response);
+
       console.log("lableInput", labelInput);
       // Directly access the data property from Axios response
       if (response.data.success) {

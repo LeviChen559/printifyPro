@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     // Fetch data from the mylabels table using Prisma
     const newLabel: mylabels = await prisma.mylabels.create({
       data: {
-        id: data.labelInput.id,
+        id: Number(data.labelInput.id),
         item_code: data.labelInput.item_code,
         customer_item_code: data.labelInput.customer_item_code,
         lot_number: data.labelInput.lot_number,
@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
     console.error("Error creating label_label:", error);
     return NextResponse.json({
       success: false,
-      message: "Error fetching labels",
+      message: (error as Error).message,
     });
   }
 }

@@ -25,10 +25,10 @@ export async function DELETE(req: NextRequest) {
         return NextResponse.json({ success: false, error: "Label not found" }, { status: 404 });
       }
  
+      const deletedLabelStyle = await prisma.labelstyle.delete({
+        where: { id: labelId },
+      });
         const deletedLabel = await prisma.mylabels.delete({
-            where: { id: labelId },
-          });
-          const deletedLabelStyle = await prisma.labelstyle.delete({
             where: { id: labelId },
           });
     

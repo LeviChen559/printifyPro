@@ -455,13 +455,16 @@ const LabelEditCard: FC<iProps> = (prop) => {
       setIsLabelUpdating(false);
     }
   };
-  const deleteLabel = async (labelId: number) => {
-    try {
-      const res = await axios.delete("/api/prisma/deleteLabel", {
-        data: { id: labelId },
-      });
-      if (res.data.success) {
-        setIsLabelDeleted(true);
+const deleteLabel = async (labelId: number) => {
+  try {
+    const res = await axios.delete("/api/prisma/deleteLabel", {
+      data: { id: labelId },
+    });
+
+    if (res.data.success) {
+      setIsLabelDeleted(true);
+
+      try {
         await axios.post("/api/prisma/addNewActive", {
           event: "delete label",
           username: prop.userName,
@@ -469,22 +472,25 @@ const LabelEditCard: FC<iProps> = (prop) => {
           label_code: labelState.item_code,
           created_at: new Date(),
         });
-        setTimeout(() => {
-          setIsLabelDeleted(false);
-          prop.setShowCard(() => ({
-            labelActionCard: false,
-            labelPrintCard: false,
-            labelEditCard: false,
-            labelDuplicateCard: false,
-            isLabelUpdated: true,
-          }));
-          router.push("/dashboard/mylabels");
-        }, 3000);
+      } catch (logError) {
+        console.error("Error logging delete event:", logError);
       }
-    } catch (error) {
-      console.error("Error deleting label:", error);
+
+      setTimeout(() => {
+        setIsLabelDeleted(false);
+        prop.setShowCard({
+          labelActionCard: false,
+          labelPrintCard: false,
+          labelEditCard: false,
+          isLabelUpdated: true,
+        });
+        router.push("/dashboard/mylabels");
+      }, 3000);
     }
-  };
+  } catch (error) {
+    console.error("Error deleting label:", error);
+  }
+};
 
   const styleSetters: Partial<
     Record<iEditedMode, React.Dispatch<React.SetStateAction<iTextStyle>>>
