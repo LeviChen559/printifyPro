@@ -56,7 +56,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
   const [isLabelUpdating, setIsLabelUpdating] = useState<boolean>(false);
   const [isLabelDeleted, setIsLabelDeleted] = useState<boolean>(false);
   const [labelState, dispatch] = useReducer(reducer, prop.selectLabelInfo);
-  console.log("labelState", labelState);
+
   const baseTextStyle: iTextStyle = {
     color: "#000000",
     fontStyle: "Normal",
@@ -82,20 +82,14 @@ const LabelEditCard: FC<iProps> = (prop) => {
     useState<iTextStyle>(styleForHeader);
   const [productNameZHStyle, setProductNameZHStyle] =
     useState<iTextStyle>(styleForHeader);
-
   const [weightStyle, setWeightStyle] = useState<iTextStyle>(styleForBody);
-
   const [storageStyle, setStorageStyle] = useState<iTextStyle>(styleForBody);
-
   const [allergenStyle, setAllergenStyle] = useState<iTextStyle>(styleForBody);
   const [ingredientStyle, setIngredientStyle] =
     useState<iTextStyle>(styleForBody);
-
   const [manufacturedStyle, setManufacturedStyle] =
     useState<iTextStyle>(styleForBody);
-
   const [submitClicked, setSubmitClicked] = useState<boolean>(false);
-
   const [formError, setFormError] = useState<formState>({
     error: false,
     message: "",
@@ -254,8 +248,6 @@ const LabelEditCard: FC<iProps> = (prop) => {
     labelState.lot_number_type,
   ]);
 
-  
-
   const handleItemCodeChange = handleUpdate(
     "item_code",
     dispatch,
@@ -310,7 +302,7 @@ const LabelEditCard: FC<iProps> = (prop) => {
     "shelf_life_2nd",
     dispatch,
     labelState.shelf_life_2nd
-  );  
+  );
   const handleCaseGtinChange = handleUpdate(
     "case_gtin",
     dispatch,
@@ -352,7 +344,6 @@ const LabelEditCard: FC<iProps> = (prop) => {
     dispatch,
     labelState.lot_number_type
   );
-
 
   useEffect(() => {
     if (labelStyle?.data?.[0]) {
@@ -495,7 +486,9 @@ const LabelEditCard: FC<iProps> = (prop) => {
     }
   };
 
-  const styleSetters: Partial<Record<iEditedMode, React.Dispatch<React.SetStateAction<iTextStyle>>>> = {
+  const styleSetters: Partial<
+    Record<iEditedMode, React.Dispatch<React.SetStateAction<iTextStyle>>>
+  > = {
     [iEditedMode.productNameEn]: setProductNameENStyle,
     [iEditedMode.productNameZh]: setProductNameZHStyle,
     [iEditedMode.weight]: setWeightStyle,
@@ -528,23 +521,6 @@ const LabelEditCard: FC<iProps> = (prop) => {
       [styleType]: value,
     }));
   };
-  //   const handleOutsideClick = (
-  //     event: MouseEvent | TouchEvent,
-  //     refs: React.RefObject<HTMLElement>[], // Accept an array of refs
-  //     editMode: iEditedMode,
-  //     setEditMode: (editMode: iEditedMode) => void,
-  // ): void => {
-  //     console.log("Checking outside click");
-
-  //     const isInsideAnyRef = refs.some(ref => ref.current?.contains(event.target as Node));
-
-  //     if (isInsideAnyRef) {
-  //         console.log("Click inside");
-  //     } else {
-  //         console.log("Click outside");
-  //         setEditMode(iEditedMode.empty);
-  //     }
-  // };
 
   useEffect(() => {
     if (!contentRef.current || !stylePannelRef.current) return; // ✅ Prevent running if refs are not ready
@@ -658,10 +634,10 @@ const LabelEditCard: FC<iProps> = (prop) => {
             setItemCode={handleItemCodeChange}
             customerItemCode={labelState.customer_item_code}
             setCustomerItemCode={handleCustomerItemCodeChange}
-             lotNumber={labelState.lot_number}
-          lotNumberType={labelState.lot_number_type}
-          setLotNumberType={handleLotNumberTypeChange}
-          setLotNumber={handleLotNumberChange}
+            lotNumber={labelState.lot_number}
+            lotNumberType={labelState.lot_number_type}
+            setLotNumberType={handleLotNumberTypeChange}
+            setLotNumber={handleLotNumberChange}
             setLogo={handleLogoChange}
             labelInput={labelInput}
             showProductNameEN={true}

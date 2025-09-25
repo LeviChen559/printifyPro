@@ -69,6 +69,7 @@ export type Ref = HTMLDivElement;
 const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
   const [bestBefore, setBestBefore] = React.useState<string>("");
 
+
   useEffect(() => {
     const shelfLife_1st = prop.labelInput.shelf_life_1st;
     const shelfLife_2nd = prop.labelInput.shelf_life_2nd;
@@ -105,17 +106,9 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       setBestBefore("");
     }
   }, [prop.labelInput.shelf_life_1st, prop.labelInput.shelf_life_2nd]);
-  console.log("lotNumberType", prop.lotNumberType, prop.lotNumber);
+
   useEffect(() => {
     if (!prop.setLotNumber) return;
-
-    if (prop.lotNumberType === "manual") {
-      // clear once when switching from auto → manual
-      if (!prop.lotNumber) {
-        prop.setLotNumber("");
-      }
-      return;
-    }
 
     if (!prop.lotNumber && prop.lotNumberType === "auto") {
       const date = new Date();
@@ -178,6 +171,7 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       showBorder={prop.showBorder}
       showLotNumber={prop.showLotNumber ?? true}
       bestBefore={bestBefore}
+
     />
   ) : prop.type === "4x6_a" ? (
     <LabelCard4_6_a
