@@ -424,10 +424,10 @@ useEffect(() => {
             onChange={(e) => prop.setShelfLife_1st(Number(e.target.value))}
             startIcon={null}
             error={
-              prop.formError.error && prop.formError.locale === "shelf_life"
+              prop.formError.error && prop.formError.locale === "shelf_life_1st"
             }
             helperText={
-              prop.formError.error && prop.formError.locale === "shelf_life"
+              prop.formError.error && prop.formError.locale === "shelf_life_1st"
                 ? prop.formError.message
                 : ""
             }
@@ -486,10 +486,10 @@ useEffect(() => {
             onChange={(e) => prop.setShelfLife_2nd(Number(e.target.value))}
             startIcon={null}
             error={
-              prop.formError.error && prop.formError.locale === "shelf_life"
+              prop.formError.error && prop.formError.locale === "shelf_life_2nd"
             }
             helperText={
-              prop.formError.error && prop.formError.locale === "shelf_life"
+              prop.formError.error && prop.formError.locale === "shelf_life_2nd"
                 ? prop.formError.message
                 : ""
             }
