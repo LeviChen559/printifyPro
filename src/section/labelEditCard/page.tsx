@@ -160,19 +160,9 @@ const LabelEditCard: FC<iProps> = (prop) => {
         locale: "storage_1st",
       },
       {
-        field: labelState.storage_2nd,
-        message: "Storage Requirements 2nd is required",
-        locale: "storage_2nd",
-      },
-      {
         field: labelState.shelf_life_1st,
         message: "Shelf Life is required",
         locale: "shelf_life",
-      },
-      {
-        field: labelState.shelf_life_2nd,
-        message: "Shelf Life 2nd is required",
-        locale: "shelf_life_2nd",
       },
       {
         field: labelState.allergen,
