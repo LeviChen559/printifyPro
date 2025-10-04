@@ -2,7 +2,8 @@ name: Keep Database Alive
 
 on:
   schedule:
-    - cron: '0 0 */3 * *' # Every 3 days at 00:00 UTC
+    - cron: '0 0 */6 * *' # Every 6 days at 00:00 UTC
+    - cron: '0 12 */3 * *' # Every 3 days at 12:00 UTC (additional safety)
   workflow_dispatch: # Optional manual trigger
 
 jobs:
