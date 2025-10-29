@@ -33,6 +33,7 @@ export enum WeightUnitType {
 export enum StorageType {
   "Freezer" = "Freezer",
   "Cooler" = "Cooler",
+  "None" = "None",
 }
 
 const DROPDOWN_OPTIONS = {

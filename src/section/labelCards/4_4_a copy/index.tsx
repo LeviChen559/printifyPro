@@ -50,8 +50,6 @@ interface iProp {
   storage?: string;
   setStorage?: Dispatch<SetStateAction<string>>;
   weightUnit?: string;
-  barcode?: string;
-  setBarcode?: Dispatch<SetStateAction<string>>;
   editMode: iEditedMode;
   setEditMode?: (value: iEditedMode) => void;
   productNameENStyle?: iTextStyle;
@@ -438,17 +436,17 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
           width={"50%"}
           zIndex={0}
           onClick={() =>
-            prop.setEditMode && prop.setEditMode(iEditedMode.barcode)
+            prop.setEditMode && prop.setEditMode(iEditedMode.caseGtin)
           }
         >
           <Barcode
-            value={prop.labelInfo.barcode.substring(0, 11) ?? "111111111111"}
+            value={prop.labelInfo.case_gtin.substring(0, 11) ?? "111111111111"}
             width={1.4}
             height={35}
             fontSize={14}
             format="UPC"
             background={
-              prop.editMode === iEditedMode.barcode ? "#000000" : "#ffffff"
+              prop.editMode === iEditedMode.caseGtin ? "#000000" : "#ffffff"
             }
             marginTop={-4}
           />

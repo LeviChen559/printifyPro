@@ -45,8 +45,6 @@ interface iProp {
   setStorage?: Dispatch<SetStateAction<string>>;
   allergen?: string;
   setAllergen?: Dispatch<SetStateAction<string>>;
-  barcode?: string;
-  setBarcode?: Dispatch<SetStateAction<string>>;
   editMode: iEditedMode;
   setEditMode?: (value: iEditedMode) => void;
   productNameENStyle?: iTextStyle;
@@ -258,18 +256,18 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
         <InfomationColumn
           flex={1}
           onClick={() =>
-            prop.setEditMode && prop.setEditMode(iEditedMode.barcode)
+            prop.setEditMode && prop.setEditMode(iEditedMode.caseGtin)
           }
         >
           {/* <Typography variant="body2">BEST BY : {formattedDate}</Typography> */}
           <Barcode
-            value={prop.labelInfo.barcode.substring(0, 11) ?? "111111111111"}
+            value={prop.labelInfo.case_gtin.substring(0, 11) ?? "111111111111"}
             width={2}
             height={58}
             fontSize={14}
             format="UPC"
             background={
-              prop.editMode === iEditedMode.barcode ? "#eeeeee" : "#ffffff"
+              prop.editMode === iEditedMode.caseGtin ? "#eeeeee" : "#ffffff"
             }
             marginTop={-4}
           />

@@ -11,6 +11,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { iTextStyle,iEditedMode } from "@/type/labelType";
 import useSWR from "swr";
 import { fetcher } from "@/utils/lib/fetcher";
+import DropdownMenu from "@/components/dropdownMenu";
 
 
 interface iProps {
@@ -32,7 +33,7 @@ const LabelPrintCard: FC<iProps> = (prop) => {
   const [showLotNumber, setshowLotNumber] = useState<boolean>(true);
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
-
+  const [displayStorage,setDisplayStorage]=useState<string>(prop.selectLabelInfo.storage_1st||""); 
   const { data: labelStyle ,error} = useSWR(
     `/api/prisma/getLabelStyle?id=${prop.selectLabelInfo.id}`,
     fetcher
@@ -54,6 +55,9 @@ const LabelPrintCard: FC<iProps> = (prop) => {
   const ingredientStyle = parseIfNeeded(labelStyle?.data[0]?.ingredient);
   const manufacturedStyle = parseIfNeeded(labelStyle?.data[0]?.manufactured);
   const allergenStyle = parseIfNeeded(labelStyle?.data[0]?.allergen);
+
+  console.log("prop.selectLabelInfo", prop.selectLabelInfo);
+  console.log("displayStorage", displayStorage);
   const defaultLabelStyle = labelStyle?.data[0]; // No need to parse the full object
   if (error) return <div>Error loading label style.</div>;
   if (!labelStyle || !Array.isArray(labelStyle.data)|| !labelStyle.data.length)
@@ -105,7 +109,8 @@ const LabelPrintCard: FC<iProps> = (prop) => {
           allergen={prop.selectLabelInfo.allergen}
           // storage={prop.selectLabelInfo.storage}
           itemCode={prop.selectLabelInfo.item_code}
-          barcode={prop.selectLabelInfo.barcode}
+          storage_1st={prop.selectLabelInfo.storage_1st}
+          storage_2nd={prop.selectLabelInfo.storage_2nd}
           productNameENStyle={ productNameENStyle }
           productNameZHStyle={ productNameZHStyle }
           ingredientStyle={ ingredientStyle }
@@ -115,6 +120,8 @@ const LabelPrintCard: FC<iProps> = (prop) => {
           showBorder={false}
           defaultText={prop.defaultText}
           editMode={iEditedMode.empty}
+          displayStorage={displayStorage}
+          isPrintedView={true}
         />
       </View>
       <Print>
@@ -161,6 +168,15 @@ const LabelPrintCard: FC<iProps> = (prop) => {
             label="Manufactured For:"
             sx={{ height: 18 }}
           /> */}
+            <DropdownMenu
+            type="storage"
+            value={displayStorage}
+            onChange={(value) => setDisplayStorage(value)}
+            placeholder=""
+            readOnly={false}
+            width={150}
+     
+          /> 
           <FormControlLabel
             control={<Checkbox defaultChecked />}
             label="LOT #:"

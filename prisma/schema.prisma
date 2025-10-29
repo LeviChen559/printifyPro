@@ -30,7 +30,7 @@ model users {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model labelstyle {
-  id              Int  @id(map: "labelstyle_pkey1") @unique(map: "labelstyle_id_key1") @db.SmallInt
+  id              Int  @id(map: "labelstyle_pkey1") @unique(map: "labelstyle_id_key1") @default(autoincrement()) @db.SmallInt
   item_code       Json
   lot_number      Json
   product_name_en Json
@@ -48,27 +48,26 @@ model labelstyle {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model mylabels {
-  id                 Int     @id(map: "mylabels2_pkey") @unique @db.SmallInt
-  logo               String?
+  id                 Int     @id @unique @default(autoincrement()) @db.SmallInt
+  logo               String? @db.VarChar
   item_code          String? @db.VarChar
-  lot_number_type    String?
-  lot_number         String?
-  label_temp         String?
-  product_name_en    String?
-  product_name_zh    String?
-  weight             String?
+  lot_number_input   String? @db.VarChar
+  lot_number         String? @db.VarChar
+  label_temp         String? @db.VarChar
+  product_name_en    String? @db.VarChar
+  product_name_zh    String? @db.VarChar
+  weight             String? @db.VarChar
   case_quantity      Int?    @db.SmallInt
-  case_unit          String?
-  storage_1st        String?
+  case_unit          String? @db.VarChar
+  storage_1st        String? @db.VarChar
   shelf_life_1st     Int?    @db.SmallInt
-  storage_2nd        String?
+  storage_2nd        String? @db.VarChar
   shelf_life_2nd     Int?    @db.SmallInt
-  case_gtin          String?
-  ingredient         String?
-  allergen           String?
-  manufactured       String?
-  barcode            String? @db.VarChar
-  customer_item_code String?
+  case_gtin          String? @db.VarChar
+  ingredient         String? @db.VarChar
+  allergen           String? @db.VarChar
+  manufactured       String? @db.VarChar
+  customer_item_code String? @db.VarChar
 }
 
 enum mylabels_case_unit {

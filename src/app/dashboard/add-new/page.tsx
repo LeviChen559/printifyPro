@@ -54,7 +54,6 @@ const AddNew = () => {
   const [shelfLife_1st, setShelfLife_1st] = useState<number>(0);
   const [shelfLife_2nd, setShelfLife_2nd] = useState<number>(0);
   const [caseGtin, setCaseGtin] = useState<string>("000000000000");
-  const [barcode, setBarcode] = useState<string>("111111111111");
   const [ingredient, setIngredient] = useState<string>("");
   const [manufactured, setManufactured] = useState<string>("");
   const [sendAnewLabel, setSendAnewLabel] = useState<boolean>(false);
@@ -243,7 +242,7 @@ const AddNew = () => {
   const contentRef = useRef<HTMLDivElement>(null);
 
   const labelInput = {
-    id: lastItem && lastItem.id + 1, // Add appropriate value
+    // id: lastItem && lastItem.id + 1, // Add appropriate value
     logo: logo,
     item_code: isUniqueItemCode && itemCode, // Add appropriate value
     customer_item_code: customerItemCode,
@@ -263,7 +262,6 @@ const AddNew = () => {
     manufactured: manufactured,
     label_temp: labelTemp,
     allergen: allergen,
-    barcode: barcode,
   };
 
   const defaultLabelStyle = {
@@ -512,8 +510,6 @@ const AddNew = () => {
           setCaseUnit={setCaseUnit}
           storage_1st={storage_1st}
           storage_2nd={storage_2nd}
-          barcode={barcode}
-          setBarcode={setBarcode}
           defaultLabelStyle={defaultLabelStyle}
           productNameENStyle={productNameENStyle}
           productNameZHStyle={productNameZHStyle}
@@ -571,8 +567,6 @@ const AddNew = () => {
           setCaseUnit={setCaseUnit}
           caseGtin={caseGtin}
           setCaseGtin={setCaseGtin}
-          barcode={barcode}
-          setBarcode={setBarcode}
           manufactured={manufactured}
           setManufactured={setManufactured}
           storage_1st={storage_1st}
