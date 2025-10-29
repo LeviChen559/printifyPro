@@ -242,7 +242,7 @@ const AddNew = () => {
   const contentRef = useRef<HTMLDivElement>(null);
 
   const labelInput = {
-    // id: lastItem && lastItem.id + 1, // Add appropriate value
+    id: lastItem && lastItem.id + 1, // Add appropriate value
     logo: logo,
     item_code: isUniqueItemCode && itemCode, // Add appropriate value
     customer_item_code: customerItemCode,

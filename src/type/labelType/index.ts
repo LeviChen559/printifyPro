@@ -86,7 +86,7 @@ export  enum iEditedMode {
   }
 
   export interface iLabelInfo {
-    // id: number;
+    id: number;
     logo: string;
     item_code: string;
     customer_item_code: string;
