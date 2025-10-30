@@ -72,6 +72,7 @@ const AddNew = () => {
         // Set state from parsed data with default values in case any field is missing
         setProductNameEN(parsedData.product_name_en || "");
         setProductNameZH(parsedData.product_name_zh || "");
+        setLotNumberType(parsedData.lot_number_type || "auto");
         setIngredient(parsedData.ingredient || "");
         setWeight(parsedData.weight || "");
         setManufactured(parsedData.manufactured || "");
