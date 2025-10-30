@@ -499,8 +499,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
                   }
                 />
               </>
-            ) : (
-          
+            ) : (       
               <>
                 <EditableTextField
                   name={iEditedMode.storage}

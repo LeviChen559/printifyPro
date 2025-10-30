@@ -51,7 +51,7 @@ const AddNew = () => {
   const [caseUnit, setCaseUnit] = useState<string>("tray");
   const [storage_1st, setStorage_1st] = useState<string>("Freezer");
   const [storage_2nd, setStorage_2nd] = useState<string>("Cooler");
-  const [shelfLife_1st, setShelfLife_1st] = useState<number>(0);
+  const [shelfLife_1st, setShelfLife_1st] = useState<number>(30);
   const [shelfLife_2nd, setShelfLife_2nd] = useState<number>(0);
   const [caseGtin, setCaseGtin] = useState<string>("000000000000");
   const [ingredient, setIngredient] = useState<string>("");
@@ -525,6 +525,7 @@ const AddNew = () => {
           setLogo={setLogo}
           ref={contentRef}
           showBorder={showBorder}
+          isPrintedView={false}
         />
       </PreviewContainer>
       <EditContainer>
