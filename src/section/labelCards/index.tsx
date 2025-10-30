@@ -50,8 +50,6 @@ interface iProps {
   editMode: iEditedMode;
   setEditMode?: Dispatch<SetStateAction<iEditedMode>>;
   logo: string;
-  barcode: string;
-  setBarcode?: Dispatch<SetStateAction<string>>;
   setLogo?: Dispatch<SetStateAction<string>>;
   productNameENStyle?: iTextStyle;
   productNameZHStyle?: iTextStyle;
@@ -63,21 +61,24 @@ interface iProps {
   defaultLabelStyle: iLabelStyle;
   showBorder: boolean;
   showLotNumber?: boolean;
+  displayStorage?:string
+  isPrintedView?: boolean;
+  
 }
 
 export type Ref = HTMLDivElement;
 const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
   const [bestBefore, setBestBefore] = React.useState<string>("");
-
-
+  const [bestBefore2, setBestBefore2] = React.useState<string>("");
+  console.log("isPrintedView", prop.isPrintedView);
   useEffect(() => {
     const shelfLife_1st = prop.labelInput.shelf_life_1st;
     const shelfLife_2nd = prop.labelInput.shelf_life_2nd;
-    const shelfLife = shelfLife_1st
+    const shelfLife1 = shelfLife_1st
       ? `${shelfLife_1st} days`
-      : shelfLife_2nd
-      ? `${shelfLife_2nd} days`
       : "";
+    const shelfLife2 = shelfLife_2nd ? `${shelfLife_2nd} days` : "";
+
     const getShelfDays = (shelfLife: string): number | null => {
       if (!shelfLife) return null;
 
@@ -97,13 +98,20 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       return null;
     };
 
-    const shelfDays = getShelfDays(shelfLife);
-    if (typeof shelfDays === "number") {
+    const shelfDays1 = getShelfDays(shelfLife1);
+    const shelfDays2 = getShelfDays(shelfLife2);
+    if (typeof shelfDays1 === "number") {
       const today = new Date();
-      today.setDate(today.getDate() + shelfDays);
+      today.setDate(today.getDate() + shelfDays1);
       setBestBefore(today.toLocaleDateString());
+    }
+    if (typeof shelfDays2 === "number") {
+      const today = new Date();
+      today.setDate(today.getDate() + shelfDays2);
+      setBestBefore2(today.toLocaleDateString());
     } else {
       setBestBefore("");
+      setBestBefore2("");
     }
   }, [prop.labelInput.shelf_life_1st, prop.labelInput.shelf_life_2nd]);
 
@@ -151,9 +159,8 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       caseUnit={prop.caseUnit}
       setCaseUnit={prop.setCaseUnit}
       storage_1st={prop.storage_1st}
+      storage_2nd={prop.storage_2nd}
       manufactured={prop.manufactured}
-      barcode={prop.barcode}
-      setBarcode={prop.setBarcode}
       defaultLabelStyle={prop.defaultLabelStyle}
       defaultText={prop.defaultText}
       productNameENStyle={prop.productNameENStyle}
@@ -171,7 +178,9 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       showBorder={prop.showBorder}
       showLotNumber={prop.showLotNumber ?? true}
       bestBefore={bestBefore}
-
+      bestBefore2={bestBefore2}
+      displayStorage={prop.displayStorage}
+      isPrintedView={prop.isPrintedView}
     />
   ) : prop.type === "4x6_a" ? (
     <LabelCard4_6_a
@@ -196,8 +205,6 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       // storage={prop.storage}
       // setStorage={prop.setStorage}
       manufactured={prop.manufactured}
-      barcode={prop.barcode}
-      setBarcode={prop.setBarcode}
       defaultLabelStyle={prop.defaultLabelStyle}
       defaultText={prop.defaultText}
       productNameENStyle={prop.productNameENStyle}
@@ -238,12 +245,10 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       caseUnit={prop.caseUnit}
       setCaseUnit={prop.setCaseUnit}
       storage_1st={prop.storage_1st}
+      storage_2nd={prop.storage_2nd}
       // setStorage_1st={prop.setStorage_1st}
-      // storage_2nd={prop.storage_2nd}
       // setStorage_2nd={prop.setStorage_2nd}
       manufactured={prop.manufactured}
-      barcode={prop.barcode}
-      setBarcode={prop.setBarcode}
       defaultLabelStyle={prop.defaultLabelStyle}
       defaultText={prop.defaultText}
       productNameENStyle={prop.productNameENStyle}
@@ -261,6 +266,7 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
       showBorder={prop.showBorder}
       showLotNumber={prop.showLotNumber ?? true}
       bestBefore={bestBefore}
+      bestBefore2={bestBefore2}
     />
   );
 });

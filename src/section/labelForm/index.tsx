@@ -1,4 +1,10 @@
-import React, { FC, FormEvent, Dispatch, SetStateAction,useEffect } from "react";
+import React, {
+  FC,
+  FormEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+} from "react";
 import FormPropsTextFields from "@/components/FormPropsTextFields";
 import { Column, Form } from "./style";
 import Button from "@/components/button";
@@ -57,8 +63,6 @@ interface iProps {
   setLabelTemp: Dispatch<SetStateAction<string>>;
   allergen: string;
   setAllergen: Dispatch<SetStateAction<string>>;
-  barcode: string;
-  setBarcode: Dispatch<SetStateAction<string>>;
   editMode: iEditedMode;
   setEditMode: Dispatch<SetStateAction<iEditedMode>>;
 }
@@ -73,14 +77,14 @@ const LabelForm: FC<iProps> = (prop) => {
     };
   };
 
-useEffect(() => {
-  if (prevLotNumberTypeRef.current !== prop.lotNumberType) {
-    if (prop.lotNumber !== "") {
-      prop.setLotNumber(""); // reset only if non-empty
+  useEffect(() => {
+    if (prevLotNumberTypeRef.current !== prop.lotNumberType) {
+      if (prop.lotNumber !== "") {
+        prop.setLotNumber(""); // reset only if non-empty
+      }
+      prevLotNumberTypeRef.current = prop.lotNumberType;
     }
-    prevLotNumberTypeRef.current = prop.lotNumberType;
-  }
-}, [prop.lotNumberType, prop.lotNumber]);
+  }, [prop.lotNumberType, prop.lotNumber]);
   console.log(
     "render form",
     prevLotNumberTypeRef.current !== prop.lotNumberType,
@@ -410,9 +414,8 @@ useEffect(() => {
                 ? prop.formError.message
                 : ""
             }
-            width="60%"
+           width="100%"
           />
-
           <FormPropsTextFields
             id="shelf_life_1st"
             label="Shelf Life 1st"
@@ -473,7 +476,7 @@ useEffect(() => {
                 ? prop.formError.message
                 : ""
             }
-            width="60%"
+            width="100%"
           />
           <FormPropsTextFields
             id="shelf_life 2nd"
@@ -563,25 +566,6 @@ useEffect(() => {
             background:
               prop.editMode === iEditedMode.allergen ? "pink" : "#ffffff40",
           }}
-        />
-        <FormPropsTextFields
-          id="barcode"
-          label="barcode"
-          value={prop.barcode ?? ""}
-          required={false}
-          type="text"
-          background="#ffffff80"
-          placeholder="barcode"
-          onChange={(e) => prop.setBarcode(e.target.value)}
-          startIcon={null}
-          onClick={() => prop.setEditMode(iEditedMode.barcode)}
-          error={prop.formError.error && prop.formError.locale === "barcode"}
-          helperText={
-            prop.formError.error && prop.formError.locale === "barcode"
-              ? prop.formError.message
-              : ""
-          }
-          sx={commonTextFieldStyles(iEditedMode.barcode)}
         />
         <FormPropsTextFields
           id="manufactured"

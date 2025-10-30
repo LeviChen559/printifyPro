@@ -117,7 +117,6 @@ const LabelEditCard: FC<iProps> = (prop) => {
     manufactured: labelState.manufactured,
     label_temp: labelState.label_temp,
     allergen: labelState.allergen,
-    barcode: labelState.barcode,
   };
 
   useEffect(() => {
@@ -180,12 +179,6 @@ const LabelEditCard: FC<iProps> = (prop) => {
         locale: "manufactured",
       },
       {
-        field: labelState.barcode,
-        message: "Barcode For is required",
-        locale: "barcode",
-        validate: (value: string) => value?.length === 12,
-      },
-      {
         field: labelState.case_gtin,
         message: "Case GTIN is required and must be 12 characters",
         locale: "case_gtin",
@@ -233,7 +226,6 @@ const LabelEditCard: FC<iProps> = (prop) => {
     labelState.manufactured,
     submitClicked,
     labelState.allergen,
-    labelState.barcode,
     labelState.lot_number,
     labelState.lot_number_type,
   ]);
@@ -312,11 +304,6 @@ const LabelEditCard: FC<iProps> = (prop) => {
     "manufactured",
     dispatch,
     labelState.manufactured
-  );
-  const handleBarcodeChange = handleUpdate(
-    "barcode",
-    dispatch,
-    labelState.barcode
   );
   const handleLogoChange = handleUpdate("logo", dispatch, labelState.logo);
   const handleLabelTempChange = handleUpdate(
@@ -658,8 +645,6 @@ const deleteLabel = async (labelId: number) => {
             setStorage_1st={handleStorage1stChange}
             storage_2nd={labelState.storage_2nd}
             setStorage_2nd={handleStorage2ndChange}
-            barcode={labelState.barcode}
-            setBarcode={handleBarcodeChange}
             setManufactured={handleManufacturedChange}
             manufactured={labelState.manufactured}
             editMode={prop.editMode}
@@ -672,6 +657,7 @@ const deleteLabel = async (labelId: number) => {
             storageStyle={storageStyle}
             defaultLabelStyle={labelStyle.data[0] as iLabelStyle}
             showBorder={showBorder}
+            isPrintedView={false}
           />
         )}
       </View>
@@ -709,8 +695,6 @@ const deleteLabel = async (labelId: number) => {
           setStorage_1st={handleStorage1stChange}
           storage_2nd={labelState.storage_2nd}
           setStorage_2nd={handleStorage2ndChange}
-          barcode={labelState.barcode}
-          setBarcode={handleBarcodeChange}
           shelfLife_1st={labelState.shelf_life_1st}
           setShelfLife_1st={handleShelfLife1stChange}
           shelfLife_2nd={labelState.shelf_life_2nd}
