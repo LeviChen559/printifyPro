@@ -30,7 +30,7 @@ model users {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model labelstyle {
-  id              Int  @id(map: "labelstyle_pkey1") @unique(map: "labelstyle_id_key1") @default(autoincrement()) @db.SmallInt
+  id              Int  @id(map: "labelstyle_pkey1") @unique(map: "labelstyle_id_key1") @db.SmallInt
   item_code       Json
   lot_number      Json
   product_name_en Json
@@ -51,7 +51,7 @@ model mylabels {
   id                 Int     @id @unique @default(autoincrement()) @db.SmallInt
   logo               String? @db.VarChar
   item_code          String? @db.VarChar
-  lot_number_input   String? @db.VarChar
+  lot_number_type    String? @db.VarChar
   lot_number         String? @db.VarChar
   label_temp         String? @db.VarChar
   product_name_en    String? @db.VarChar

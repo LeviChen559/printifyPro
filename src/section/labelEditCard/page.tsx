@@ -45,8 +45,10 @@ interface iProps {
 }
 
 const LabelEditCard: FC<iProps> = (prop) => {
+
+  const labelStyleId = Number(prop.selectLabelInfo?.id);
   const { data: labelStyle, error } = useSWR(
-    `/api/prisma/getLabelStyle?id=${prop.selectLabelInfo.id}`,
+    `/api/prisma/getLabelStyle?id=${labelStyleId}`,
     fetcher
   );
 

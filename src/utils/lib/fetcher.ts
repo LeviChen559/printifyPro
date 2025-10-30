@@ -1,14 +1,24 @@
+export const fetcher = async (url: string) => {
+  const res = await fetch(url);
+  const text = await res.text();
+  let body;
+  try {
+    body = text ? JSON.parse(text) : null;
+  } catch {
+    body = text;
+  }
 
+  if (!res.ok) {
+    // include status and server message to help debugging
+    const serverMessage =
+    
+      body && typeof body === "object" && "message" in body
+        ? (body as any).message
+        : body;
+    throw new Error(`${res.status} ${res.statusText}: ${JSON.stringify(serverMessage)}`);
+  }
 
-
-
-export const fetcher = (url: string) =>
-    fetch(url).then((res) => {
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return res.json();
-    });
-
+  return body;
+};
 
     

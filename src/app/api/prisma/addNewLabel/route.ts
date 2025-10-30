@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
         item_code: data.labelInput.item_code,
         customer_item_code: data.labelInput.customer_item_code,
         lot_number: data.labelInput.lot_number,
-        // lot_number_type: data.labelInput.lot_number_type,
+        lot_number_type: data.labelInput.lot_number_type,
         product_name_en: data.labelInput.product_name_en,
         product_name_zh: data.labelInput.product_name_zh,
         weight: data.labelInput.weight,
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
     });
     const newLabelStyle: labelstyle = await prisma.labelstyle.create({
       data: {
-        // id: Number(newLabel.id),
+        id: Number(newLabel.id),
         item_code: data.defaultLabelStyle.item_code,
         product_name_en: data.defaultLabelStyle.product_name_en,
         product_name_zh: data.defaultLabelStyle.product_name_zh,

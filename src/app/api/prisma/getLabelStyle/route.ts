@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
           success: false,
           message: `No labels found with id: ${labelId}`,
         },
-        { status: 404 } // Not found
+        { status: 200 } // Not found
       );
     }
     return NextResponse.json({ success: true, data: labels }, { status: 200 });
