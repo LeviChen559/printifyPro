@@ -573,8 +573,8 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
               prop.setEditMode && prop.setEditMode(iEditedMode.caseGtin)
             }
           >
-            <Barcode
-              value={prop.labelInfo.case_gtin.substring(0, 11) ?? "111111111111"}
+            {prop.labelInfo.case_gtin!=="00000000000" && <Barcode
+              value={prop.labelInfo.case_gtin.substring(0, 10) || "00000000000"}
               width={1.4}
               height={20}
               fontSize={14}
@@ -583,7 +583,7 @@ const LabelCard = forwardRef<Ref, iProp>((prop, ref) => {
                 prop.editMode === iEditedMode.caseGtin ? "#000000" : "#ffffff"
               }
               marginTop={-6}
-            />
+            />}
           </InfomationColumn>
         </InfomationWrapper>
       </ContainerBorder>

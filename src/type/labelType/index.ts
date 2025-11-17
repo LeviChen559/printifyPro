@@ -108,7 +108,7 @@ export  enum iEditedMode {
     allergen: string;
   }
   export interface iLabelInfoStyle {
-    // id: number;
+    id: number;
     item_code: string;
     custom_item_code: string;
     lot_number: string;

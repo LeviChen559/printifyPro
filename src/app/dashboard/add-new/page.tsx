@@ -53,12 +53,11 @@ const AddNew = () => {
   const [storage_2nd, setStorage_2nd] = useState<string>("Cooler");
   const [shelfLife_1st, setShelfLife_1st] = useState<number>(30);
   const [shelfLife_2nd, setShelfLife_2nd] = useState<number>(0);
-  const [caseGtin, setCaseGtin] = useState<string>("000000000000");
+  const [caseGtin, setCaseGtin] = useState<string>("00000000000");
   const [ingredient, setIngredient] = useState<string>("");
   const [manufactured, setManufactured] = useState<string>("");
   const [sendAnewLabel, setSendAnewLabel] = useState<boolean>(false);
   const [editMode, setEditMode] = useState<iEditedMode>(iEditedMode.empty);
-  const [submitClicked, setSubmitClicked] = useState<boolean>(false);
   const [showBorder, setShowBorder] = useState<boolean>(true);
 
   const searchParams = useSearchParams();
@@ -90,47 +89,63 @@ const AddNew = () => {
   }, [duplicatedLabel]);
 
   const defaultHeaderStyle = {
+    rows: 1,
     color: "#000000",
-    fontSize: 16,
-    fontWeight: 700,
+    fontSize: 30,
     fontStyle: "Normal",
     fontFamily: "Arial",
-    rows: 2,
+    fontWeight: 700,
+    lineHeight: 1.2,
   };
   const defaultTextStyle = {
+    rows: 1,
     color: "#000000",
     fontSize: 14,
-    fontWeight: 400,
     fontStyle: "Normal",
     fontFamily: "Arial",
+    fontWeight: 400,
+    lineHeight: 1.2,
+  };
+  const defaultStyle = {
+    item_code: defaultTextStyle,
+    customer_item_code: defaultTextStyle,
+    lot_number: defaultTextStyle,
+    product_name_en: defaultHeaderStyle,
+    product_name_zh: defaultHeaderStyle,
+    weight: defaultTextStyle,
+    allergen: defaultTextStyle,
+    case_quantity: defaultTextStyle,
+    case_unit: defaultTextStyle,
+    storage: defaultTextStyle,
+    shelf_life: defaultTextStyle,
+    case_gtin: defaultTextStyle,
+    ingredient: { ...defaultTextStyle, rows: 8 },
+    manufactured: defaultTextStyle,
   };
 
-  const [productNameENStyle, setProductNameENStyle] =
-    useState<iTextStyle>(defaultHeaderStyle);
-  const [productNameZHStyle, setProductNameZHStyle] =
-    useState<iTextStyle>(defaultHeaderStyle);
-  const [ingredientStyle, setingredientStyle] = useState<iTextStyle>({
-    ...defaultTextStyle,
-    rows: 4,
-  });
-  const [manufacturedStyle, setManufacturedStyle] =
-    useState<iTextStyle>(defaultTextStyle);
-  const [weightStyle, setWeightStyle] = useState<iTextStyle>({
-    ...defaultTextStyle,
-    rows: 1,
-  });
-  const [allergenStyle, setAllergenStyle] = useState<iTextStyle>({
-    ...defaultTextStyle,
-    rows: 1,
-  });
-  const [storageStyle, setStorageStyle] = useState<iTextStyle>({
-    ...defaultTextStyle,
-    rows: 1,
-  });
+  const [productNameENStyle, setProductNameENStyle] = useState<iTextStyle>(
+    defaultStyle.product_name_en
+  );
+  const [productNameZHStyle, setProductNameZHStyle] = useState<iTextStyle>(
+    defaultStyle.product_name_zh
+  );
+  const [ingredientStyle, setingredientStyle] = useState<iTextStyle>(
+    defaultStyle.ingredient
+  );
+  const [manufacturedStyle, setManufacturedStyle] = useState<iTextStyle>(
+    defaultStyle.manufactured
+  );
+  const [weightStyle, setWeightStyle] = useState<iTextStyle>(
+    defaultStyle.weight
+  );
+  const [allergenStyle, setAllergenStyle] = useState<iTextStyle>(
+    defaultStyle.allergen
+  );
+  const [storageStyle, setStorageStyle] = useState<iTextStyle>(
+    defaultStyle.storage
+  );
 
-  useEffect(() => {
-    // List of fields to check
-    if (!submitClicked) return;
+  const validateForm = () => {
     const validations = [
       {
         field: itemCode,
@@ -147,89 +162,112 @@ const AddNew = () => {
         message: "Product Name (Chinese) is required",
         locale: "product_name_zh",
       },
-      { field: weight, message: "Net Weight is required", locale: "weight" },
+      {
+        field: weight,
+        message: "Weight is required",
+        locale: "weight",
+      },
       {
         field: caseQuantity,
-        message: "Case Quantity is required",
+        message: "Case quantity is required",
         locale: "case_quantity",
+        validate: (value: number) => !isNaN(value) && value > 0,
       },
       {
         field: caseUnit,
-        message: "Case Unit is required",
+        message: "Case unit is required",
         locale: "case_unit",
       },
       {
         field: storage_1st,
-        message: "Storage Requirements is required",
-        locale: "storage",
-      },
-      {
-        field: shelfLife_1st,
-        message: "Shelf Life is required",
-        locale: "shelf_life",
+        message: "Storage (1st line) is required",
+        locale: "storage_1st",
       },
       {
         field: storage_2nd,
-        message: "Storage Requirements is required",
-        locale: "storage",
+        message: "Storage (2nd line) is required",
+        locale: "storage_2nd",
       },
       {
-        field: shelfLife_2nd,
-        message: "Shelf Life is required",
-        locale: "shelf_life",
-      },
-      {
-        field: ingredient,
-        message: "Ingredient Info is required",
-        locale: "ingredient",
-      },
-      {
-        field: manufactured,
-        message: "Manufactured For is required",
-        locale: "manufactured",
+        field: shelfLife_1st,
+        message: "Shelf life (1st line) is required",
+        locale: "shelf_life_1st",
+        validate: (value: number) => !isNaN(value) && value > 0,
       },
       {
         field: caseGtin,
-        message: "Case GTIN is required and must be 12 characters",
+        message: "Case GTIN must be 11 characters or empty",
         locale: "case_gtin",
-        validate: (value: string) => value?.length === 12,
+        validate: (value: string) => value.length === 11 || value === "",
+      },
+      {
+        field: ingredient,
+        message: "Ingredient is required",
+        locale: "ingredient",
+      },
+      {
+        field: allergen,
+        message: "Allergen information is required",
+        locale: "allergen",
+      },
+      {
+        field: manufactured,
+        message: "Manufactured location is required",
+        locale: "manufactured",
+      },
+      {
+        field: logo,
+        message: "Logo is required",
+        locale: "logo",
+      },
+      {
+        field: labelTemp,
+        message: "Label temperature is required",
+        locale: "label_temp",
+      },
+      {
+        field: lotNumber,
+        message: "Lot number is required",
+        locale: "lot_number",
+      },
+      {
+        field: lotNumberType,
+        message: "Lot number type is required",
+        locale: "lot_number_type",
       },
     ];
 
-    // Loop through each validation rule
-    for (const { field, message, locale, validate } of validations) {
-      if (!field || (validate && !validate(field))) {
+    type ValidationRule = {
+      field: string | number;
+      message: string;
+      locale: string;
+      validate?: (value: string | number) => boolean;
+    };
+
+    for (const {
+      field,
+      message,
+      locale,
+      validate,
+    } of validations as ValidationRule[]) {
+      const isInvalid =
+        field === "" ||
+        field === null ||
+        field === undefined ||
+        (validate && !validate(field));
+
+      if (isInvalid) {
         setFormError({
           error: true,
           message,
           locale,
         });
-        return; // stop here if validation fails
+        return false;
       }
     }
-
-    // If no errors were found, clear formError
-    setFormError({
-      error: false,
-      message: "",
-      locale: "",
-    });
-  }, [
-    itemCode,
-    productNameEN,
-    productNameZH,
-    weight,
-    caseQuantity,
-    caseUnit,
-    storage_1st,
-    shelfLife_1st,
-    storage_2nd,
-    shelfLife_2nd,
-    caseGtin,
-    ingredient,
-    manufactured,
-    submitClicked,
-  ]);
+    setFormError({ error: false, message: "", locale: "" });
+    return true;
+  };
 
   const { data: labelData, error: labelError } = useSWR(
     "/api/prisma/getMyLabels",
@@ -291,16 +329,18 @@ const AddNew = () => {
 
   const createNewLabel = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSubmitClicked(true);
-    if (formError.error) return;
+    console.log("Creating new label with input:", labelInput,validateForm(),formError);
+    // run validation immediately
+    if (!validateForm()) {
+      return;
+    }
+
+    // Stop if there is a validation error
     try {
       const response = await axios.post("/api/prisma/addNewLabel", {
         labelInput,
         defaultLabelStyle,
       });
-      console.log("response", response);
-
-      console.log("lableInput", labelInput);
       // Directly access the data property from Axios response
       if (response.data.success) {
         await axios.post("/api/prisma/addNewActive", {

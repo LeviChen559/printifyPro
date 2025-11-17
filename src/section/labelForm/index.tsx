@@ -44,8 +44,8 @@ interface iProps {
   setCaseQuantity: Dispatch<SetStateAction<number>>;
   caseUnit: string;
   setCaseUnit: Dispatch<SetStateAction<string>>;
-  caseGtin: string;
-  setCaseGtin: Dispatch<SetStateAction<string>>;
+  caseGtin: string ;
+  setCaseGtin: Dispatch<SetStateAction<string >>;
   manufactured: string;
   setManufactured: Dispatch<SetStateAction<string>>;
   storage_1st: string;
@@ -502,8 +502,8 @@ const LabelForm: FC<iProps> = (prop) => {
         <FormPropsTextFields
           id="case_gtin"
           label="Case GTIN"
-          value={prop.caseGtin ?? ""}
-          required={true}
+          value={prop.caseGtin ?? "00000000000"}
+          required={false}
           type="text"
           background="#ffffff40"
           placeholder="Case GTIN"
@@ -525,7 +525,7 @@ const LabelForm: FC<iProps> = (prop) => {
           type="text"
           rows={8}
           background="#ffffff80"
-          placeholder="Case GTIN"
+          placeholder="Ingredients"
           onChange={(e) => prop.setIngredient(e.target.value)}
           onClick={() => prop.setEditMode(iEditedMode.ingredient)}
           startIcon={null}
