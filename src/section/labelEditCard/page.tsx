@@ -45,7 +45,6 @@ interface iProps {
 }
 
 const LabelEditCard: FC<iProps> = (prop) => {
-
   const labelStyleId = Number(prop.selectLabelInfo?.id);
   const { data: labelStyle, error } = useSWR(
     `/api/prisma/getLabelStyle?id=${labelStyleId}`,
@@ -91,7 +90,6 @@ const LabelEditCard: FC<iProps> = (prop) => {
     useState<iTextStyle>(styleForBody);
   const [manufacturedStyle, setManufacturedStyle] =
     useState<iTextStyle>(styleForBody);
-  const [submitClicked, setSubmitClicked] = useState<boolean>(false);
   const [formError, setFormError] = useState<formState>({
     error: false,
     message: "",
@@ -121,116 +119,122 @@ const LabelEditCard: FC<iProps> = (prop) => {
     allergen: labelState.allergen,
   };
 
-  useEffect(() => {
-    // List of fields to check
-    if (!submitClicked) return;
-    const validations = [
-      {
-        field: labelState.item_code,
-        message: "Item code is required",
-        locale: "item_code",
-      },
-      {
-        field: labelState.product_name_en,
-        message: "Product Name (English) is required",
-        locale: "product_name_en",
-      },
-      {
-        field: labelState.product_name_zh,
-        message: "Product Name (Chinese) is required",
-        locale: "product_name_zh",
-      },
-      {
-        field: labelState.weight,
-        message: "Net Weight is required",
-        locale: "weight",
-      },
-      {
-        field: labelState.case_quantity,
-        message: "Case Quantity is required",
-        locale: "case_quantity",
-      },
-      {
-        field: labelState.case_unit,
-        message: "Case Unit is required",
-        locale: "case_unit",
-      },
-      {
-        field: labelState.storage_1st,
-        message: "Storage Requirements 1st is required",
-        locale: "storage_1st",
-      },
-      {
-        field: labelState.shelf_life_1st,
-        message: "Shelf Life is required",
-        locale: "shelf_life",
-      },
-      {
-        field: labelState.allergen,
-        message: "Allergen is required",
-        locale: "Allergen",
-      },
-      {
-        field: labelState.ingredient,
-        message: "Ingredient Info is required",
-        locale: "ingredient",
-      },
-      {
-        field: labelState.manufactured,
-        message: "Manufactured For is required",
-        locale: "manufactured",
-      },
-      {
-        field: labelState.case_gtin,
-        message: "Case GTIN is required and must be 12 characters",
-        locale: "case_gtin",
-        validate: (value: string) => value?.length === 12,
-      },
-      {
-        field: labelState.lot_number,
-        message: "Lot Number is required",
-        locale: "lot_number",
-        validate: (value: string) => value?.length > 0 || value === "",
-      },
-    ];
+const validateForm = () => {
+  const validations = [
+    {
+      field: labelState.item_code,
+      message: "Item code is required",
+      locale: "item_code",
+    },
+    {
+      field: labelState.product_name_en,
+      message: "Product Name (English) is required",
+      locale: "product_name_en",
+    },
+    {
+      field: labelState.product_name_zh,
+      message: "Product Name (Chinese) is required",
+      locale: "product_name_zh",
+    },
+    {
+      field: labelState.weight,
+      message: "Weight is required",
+      locale: "weight",
+    },
+    {
+      field: labelState.case_quantity,
+      message: "Case quantity is required",
+      locale: "case_quantity",
+      validate: (value: number) => !isNaN(value) && value > 0,
+    },
+    {
+      field: labelState.case_unit,
+      message: "Case unit is required",
+      locale: "case_unit",
+    },
+    {
+      field: labelState.storage_1st,
+      message: "Storage (1st line) is required",
+      locale: "storage_1st",
+    },
+    {
+      field: labelState.storage_2nd,
+      message: "Storage (2nd line) is required",
+      locale: "storage_2nd",
+    },
+    {
+      field: labelState.shelf_life_1st,
+      message: "Shelf life (1st line) is required",
+      locale: "shelf_life_1st",
+      validate: (value: number) => !isNaN(value) && value > 0,
+    },
+    {
+      field: labelState.case_gtin,
+      message: "Case GTIN must be 11 characters or empty",
+      locale: "case_gtin",
+      validate: (value: string) => value.length === 11 || value === "",
+    },
+    {
+      field: labelState.ingredient,
+      message: "Ingredient is required",
+      locale: "ingredient",
+    },
+    {
+      field: labelState.allergen,
+      message: "Allergen information is required",
+      locale: "allergen",
+    },
+    {
+      field: labelState.manufactured,
+      message: "Manufactured location is required",
+      locale: "manufactured",
+    },
+    {
+      field: labelState.logo,
+      message: "Logo is required",
+      locale: "logo",
+    },
+    {
+      field: labelState.label_temp,
+      message: "Label temperature is required",
+      locale: "label_temp",
+    },
+    {
+      field: labelState.lot_number,
+      message: "Lot number is required",
+      locale: "lot_number",
+    },
+    {
+      field: labelState.lot_number_type,
+      message: "Lot number type is required",
+      locale: "lot_number_type",
+    },
+  ];
 
-    // Loop through each validation rule
-    for (const { field, message, locale, validate } of validations) {
-      if (!field || (validate && !validate(field))) {
-        setFormError({
-          error: true,
-          message,
-          locale,
-        });
-        return; // stop here if validation fails
-      }
-    }
+  type ValidationRule = {
+  field: string | number;
+  message: string;
+  locale: string;
+  validate?: (value: string | number) => boolean;
+};
 
-    // If no errors were found, clear formError
+for (const { field, message, locale, validate } of validations as ValidationRule[]) {
+  const isInvalid =
+    field === "" || field === null || field === undefined ||
+    (validate && !validate(field));
+
+  if (isInvalid) {
     setFormError({
-      error: false,
-      message: "",
-      locale: "",
+      error: true,
+      message,
+      locale,
     });
-  }, [
-    labelState.item_code,
-    labelState.product_name_en,
-    labelState.product_name_zh,
-    labelState.weight,
-    labelState.case_quantity,
-    labelState.case_unit,
-    labelState.storage_1st,
-    labelState.storage_2nd,
-    labelState.shelf_life_1st,
-    labelState.shelf_life_2nd,
-    labelState.case_gtin,
-    labelState.ingredient,
-    labelState.manufactured,
-    submitClicked,
-    labelState.allergen,
-    labelState.lot_number,
-    labelState.lot_number_type,
-  ]);
+    return false;
+  }
+}
+  setFormError({ error: false, message: "", locale: "" });
+  return true;
+};
 
   const handleItemCodeChange = handleUpdate(
     "item_code",
@@ -382,8 +386,15 @@ const LabelEditCard: FC<iProps> = (prop) => {
     labelInfo: iLabelInfo,
     labelStyle: iLabelStyleInDataBase
   ) => {
-    setSubmitClicked(true);
+
+    // run validation immediately
+    if (!validateForm()) {
+      setIsLabelUpdating(false);
+      return;
+    }
+
     setIsLabelUpdating(true);
+    // Stop if there is a validation error
     try {
       const res = await axios.patch("/api/prisma/updateLabel", {
         labelInfo,
@@ -434,42 +445,42 @@ const LabelEditCard: FC<iProps> = (prop) => {
       setIsLabelUpdating(false);
     }
   };
-const deleteLabel = async (labelId: number) => {
-  try {
-    const res = await axios.delete("/api/prisma/deleteLabel", {
-      data: { id: labelId },
-    });
+  const deleteLabel = async (labelId: number) => {
+    try {
+      const res = await axios.delete("/api/prisma/deleteLabel", {
+        data: { id: labelId },
+      });
 
-    if (res.data.success) {
-      setIsLabelDeleted(true);
+      if (res.data.success) {
+        setIsLabelDeleted(true);
 
-      try {
-        await axios.post("/api/prisma/addNewActive", {
-          event: "delete label",
-          username: prop.userName,
-          role: prop.userRole,
-          label_code: labelState.item_code,
-          created_at: new Date(),
-        });
-      } catch (logError) {
-        console.error("Error logging delete event:", logError);
+        try {
+          await axios.post("/api/prisma/addNewActive", {
+            event: "delete label",
+            username: prop.userName,
+            role: prop.userRole,
+            label_code: labelState.item_code,
+            created_at: new Date(),
+          });
+        } catch (logError) {
+          console.error("Error logging delete event:", logError);
+        }
+
+        setTimeout(() => {
+          setIsLabelDeleted(false);
+          prop.setShowCard({
+            labelActionCard: false,
+            labelPrintCard: false,
+            labelEditCard: false,
+            isLabelUpdated: true,
+          });
+          router.push("/dashboard/mylabels");
+        }, 3000);
       }
-
-      setTimeout(() => {
-        setIsLabelDeleted(false);
-        prop.setShowCard({
-          labelActionCard: false,
-          labelPrintCard: false,
-          labelEditCard: false,
-          isLabelUpdated: true,
-        });
-        router.push("/dashboard/mylabels");
-      }, 3000);
+    } catch (error) {
+      console.error("Error deleting label:", error);
     }
-  } catch (error) {
-    console.error("Error deleting label:", error);
-  }
-};
+  };
 
   const styleSetters: Partial<
     Record<iEditedMode, React.Dispatch<React.SetStateAction<iTextStyle>>>
