@@ -1,7 +1,7 @@
 import React, { forwardRef, Dispatch, SetStateAction, useEffect } from "react";
 import LabelCard_sm_a from "@/section/labelCards/sm_a";
 import LabelCard_sm_b from "@/section/labelCards/sm_b";
-import LabelCard4_6_a from "@/section/labelCards/4_6_a";
+import LabelCard_lg_a from "@/section/labelCards/lg_a";
 
 import {
   iLabelInfo,
@@ -61,9 +61,8 @@ interface iProps {
   defaultLabelStyle: iLabelStyle;
   showBorder: boolean;
   showLotNumber?: boolean;
-  displayStorage?:string
+  displayStorage?: string;
   isPrintedView?: boolean;
-  
 }
 
 export type Ref = HTMLDivElement;
@@ -71,55 +70,56 @@ const LabelCard = forwardRef<Ref, iProps>((prop, ref) => {
   const [bestBefore, setBestBefore] = React.useState<string>("");
   const [bestBefore2, setBestBefore2] = React.useState<string>("");
 
-useEffect(() => {
-  const sf1 = prop.labelInput.shelf_life_1st;
-  const sf2 = prop.labelInput.shelf_life_2nd;
-  console.log("raw shelf life inputs:", { sf1, sf2 });
+  useEffect(() => {
+    const sf1 = prop.labelInput.shelf_life_1st;
+    const sf2 = prop.labelInput.shelf_life_2nd;
+    console.log("raw shelf life inputs:", { sf1, sf2 });
 
-  const shelfLife1 = sf1 !== null && sf1 !== undefined ? `${sf1} days` : "";
-  const shelfLife2 = sf2 !== null && sf2 !== undefined ? `${sf2} days` : "";
+    const shelfLife1 = sf1 !== null && sf1 !== undefined ? `${sf1} days` : "";
+    const shelfLife2 = sf2 !== null && sf2 !== undefined ? `${sf2} days` : "";
 
-  const getShelfDays = (shelfLife: string): number | null => {
-    if (!shelfLife) return null;
-    if (shelfLife.includes("/")) {
-      const days = Number(shelfLife.split("/")[0].trim());
-      return Number.isFinite(days) ? days : null;
+    const getShelfDays = (shelfLife: string): number | null => {
+      if (!shelfLife) return null;
+      if (shelfLife.includes("/")) {
+        const days = Number(shelfLife.split("/")[0].trim());
+        return Number.isFinite(days) ? days : null;
+      }
+      if (shelfLife.toLowerCase().includes("days")) {
+        const num = parseInt(
+          shelfLife.toLowerCase().replace("days", "").trim(),
+          10
+        );
+        return Number.isFinite(num) ? num : null;
+      }
+      return null;
+    };
+
+    const shelfDays1 = getShelfDays(shelfLife1);
+    const shelfDays2 = getShelfDays(shelfLife2);
+    console.log("parsed shelfDays:", { shelfDays1, shelfDays2 });
+
+    if (typeof shelfDays1 === "number") {
+      const d = new Date();
+      d.setDate(d.getDate() + shelfDays1);
+      const dateStr = d.toLocaleDateString();
+      console.log("setting bestBefore ->", dateStr);
+      setBestBefore(dateStr);
+    } else {
+      console.log("clearing bestBefore");
+      setBestBefore("");
     }
-    if (shelfLife.toLowerCase().includes("days")) {
-      const num = parseInt(shelfLife.toLowerCase().replace("days", "").trim(), 10);
-      return Number.isFinite(num) ? num : null;
+
+    if (typeof shelfDays2 === "number") {
+      const d2 = new Date();
+      d2.setDate(d2.getDate() + shelfDays2);
+      const dateStr2 = d2.toLocaleDateString();
+      console.log("setting bestBefore2 ->", dateStr2);
+      setBestBefore2(dateStr2);
+    } else {
+      console.log("clearing bestBefore2");
+      setBestBefore2("");
     }
-    return null;
-  };
-
-  const shelfDays1 = getShelfDays(shelfLife1);
-  const shelfDays2 = getShelfDays(shelfLife2);
-  console.log("parsed shelfDays:", { shelfDays1, shelfDays2 });
-
-  if (typeof shelfDays1 === "number") {
-    const d = new Date();
-    d.setDate(d.getDate() + shelfDays1);
-    const dateStr = d.toLocaleDateString();
-    console.log("setting bestBefore ->", dateStr);
-    setBestBefore(dateStr);
-  } else {
-    console.log("clearing bestBefore");
-    setBestBefore("");
-  }
-
-  if (typeof shelfDays2 === "number") {
-    const d2 = new Date();
-    d2.setDate(d2.getDate() + shelfDays2);
-    const dateStr2 = d2.toLocaleDateString();
-    console.log("setting bestBefore2 ->", dateStr2);
-    setBestBefore2(dateStr2);
-  } else {
-    console.log("clearing bestBefore2");
-    setBestBefore2("");
-  }
-}, [prop.labelInput.shelf_life_1st, prop.labelInput.shelf_life_2nd]);
-
-
+  }, [prop.labelInput.shelf_life_1st, prop.labelInput.shelf_life_2nd]);
 
   useEffect(() => {
     if (!prop.setLotNumber) return;
@@ -140,8 +140,7 @@ useEffect(() => {
 
       prop.setLotNumber(julian5);
     }
-  }, [prop.lotNumberType,prop]);
-
+  }, [prop.lotNumberType, prop]);
 
   return prop.type === "sm_a" ? (
     <LabelCard_sm_a
@@ -189,10 +188,12 @@ useEffect(() => {
       displayStorage={prop.displayStorage}
       isPrintedView={prop.isPrintedView}
     />
-  ) : prop.type === "4x6_a" ? (
-    <LabelCard4_6_a
-      labelInfo={prop.labelInput}
+  ) : prop.type === "lg_a" ? (
+    <LabelCard_lg_a
+        labelInfo={prop.labelInput}
       itemCode={prop.itemCode}
+      customerItemCode={prop.customerItemCode}
+      setCustomerItemCode={prop.setCustomerItemCode}
       lotNumber={prop.lotNumber}
       setLotNumber={prop.setLotNumber}
       setItemCode={prop.setItemCode}
@@ -209,8 +210,8 @@ useEffect(() => {
       setCaseQuantity={prop.setCaseQuantity}
       caseUnit={prop.caseUnit}
       setCaseUnit={prop.setCaseUnit}
-      // storage={prop.storage}
-      // setStorage={prop.setStorage}
+      storage_1st={prop.storage_1st}
+      storage_2nd={prop.storage_2nd}
       manufactured={prop.manufactured}
       defaultLabelStyle={prop.defaultLabelStyle}
       defaultText={prop.defaultText}
@@ -228,6 +229,10 @@ useEffect(() => {
       setAllergen={prop.setAllergen}
       showBorder={prop.showBorder}
       showLotNumber={prop.showLotNumber ?? true}
+      bestBefore={bestBefore}
+      bestBefore2={bestBefore2}
+      displayStorage={prop.displayStorage}
+      isPrintedView={prop.isPrintedView}
     />
   ) : (
     <LabelCard_sm_b
