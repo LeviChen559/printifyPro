@@ -16,6 +16,7 @@ interface EditableTextFieldProps {
   onEditMode?: () => void;
   textAlign?: "left" | "center" | "right";
   minWidth?: string | number;
+  fontSize?: string | number;
 }
 
 const EditableTextField: React.FC<EditableTextFieldProps> = ({
@@ -31,6 +32,7 @@ const EditableTextField: React.FC<EditableTextFieldProps> = ({
   onEditMode,
   textAlign = "center",
   minWidth,
+  fontSize
 }) => {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -72,6 +74,7 @@ const EditableTextField: React.FC<EditableTextFieldProps> = ({
         padding: showBorder ? "0px" : "1px",
         outline: "none",
         minWidth: minWidth,
+        fontSize:fontSize
       }}
       value={value?.toString() ?? ""}
       onChange={handleChange}

@@ -4,7 +4,7 @@ interface iProps {
   flex?: number;
   width?: string | number;
   justifyContent?: string;
-  height?: string;
+  height?: string | number;
   alignItems?: string;
   gap?: number;
   zIndex?: number;
